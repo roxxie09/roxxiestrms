@@ -276,8 +276,8 @@ a.card-text:hover {
 }
 .card {
     width: fit-content; /* Allow the card to adjust to its content */
-    padding: 10px; /* Add some padding for better spacing */
+    padding: 15px; /* Add some padding for better spacing */
     height: auto; /* Height adjusts automatically */
     margin: 0 auto; /* Center the card if needed */
-    max-width: 20rem; /* or any value that works for you */
+    max-width: 25rem; /* or any value that works for you */
 }
