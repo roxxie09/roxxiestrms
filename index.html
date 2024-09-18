@@ -11,14 +11,18 @@
     <link rel="stylesheet" type="text/css" href="css/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <style>
+      .navbar-brand img {
+        height: 30px; /* Adjust as needed */
+      }
+      .ml-auto {
+        margin-left: auto; /* Ensure the logo is pushed to the right */
+      }
+    </style>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg bg-black">
       <div class="container-fluid">
-        <a class="navbar-brand" href="https://Roxiestreams.xyz/"><img class="logo" src="imgs/roxxie.jpg" height="30" alt="Logo" /></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item"><a class="nav-link" href="/request">Request</a></li>
@@ -40,6 +44,7 @@
             <li class="nav-item"><a class="nav-link" href="/auth/register?returnPath=">Register</a></li>
           </ul>
         </div>
+        <a class="navbar-brand ml-auto" href="https://Roxiestreams.xyz/"><img src="imgs/roxxie.jpg" alt="Logo" /></a>
       </div>
     </nav>
     <div class="container container-fluid pt-2 text-white">
