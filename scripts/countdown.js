@@ -14,12 +14,16 @@ var x = setInterval(function() {
     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    // Display the result in the countdown element
-    document.getElementById("countdown").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+    // Update the countdown timer display
+    document.getElementById("countdown-timer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
 
-    // If the countdown is over, display a message
+    // If the countdown is over, display "LIVE"
     if (distance < 0) {
         clearInterval(x);
-        document.getElementById("countdown").innerHTML = "Event Started";
+        var countdownElement = document.getElementById("countdown");
+        countdownElement.innerHTML = "LIVE";
+        countdownElement.style.color = "red"; // Change font color to red
+        countdownElement.style.fontWeight = "bold"; // Optional: make it bold
+        document.getElementById("countdown-timer").innerHTML = ""; // Clear the timer display
     }
 }, 1000);
