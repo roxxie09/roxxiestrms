@@ -14,9 +14,10 @@
     <style>
         .navbar-brand {
             color: pink; /* Pink text for the name */
-            font-size: 1.5rem; /* Adjust font size as needed */
+            font-size: 1.3rem; /* Reduced font size */
             text-decoration: none; /* No underline by default */
-            margin-top: 5px; /* Move title higher */
+            margin-top: -3px; /* Move title higher */
+            font-family: 'Roboto', sans-serif;
         }
         .navbar-brand:hover {
             text-decoration: underline; /* Underline on hover */
@@ -44,18 +45,6 @@
                     <li class="nav-item"><a class="nav-link" href="/vods">VODs</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://ppv.zone/">Mirror list</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://discord.gg/2BSP97x2">Discord</a></li>
-                </ul>
-                <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">English</a>
-                        <ul class="dropdown-menu dropdown-menu-lg-end">
-                            <li><a class="dropdown-item" href="#" onclick="document.cookie = 'fs_locale=en; expires=Mon, 18 Jan 2038 12:00:00 UTC; path=/';location.reload();">English</a></li>
-                            <li><a class="dropdown-item" href="#" onclick="document.cookie = 'fs_locale=de; expires=Mon, 18 Jan 2038 12:00:00 UTC; path=/';location.reload();">Deutsch</a></li>
-                            <li><a class="dropdown-item" href="#" onclick="document.cookie = 'fs_locale=es; expires=Mon, 18 Jan 2038 12:00:00 UTC; path=/';location.reload();">Español</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item"><a class="nav-link" href="/auth/login?returnPath=">Login</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/auth/register?returnPath=">Register</a></li>
                 </ul>
             </div>
         </div>
