@@ -274,3 +274,9 @@ a.card-text:hover {
         padding:1px!important;
     }
 }
+.card {
+    width: auto; /* Allow the card to adjust based on content */
+    min-width: 18rem; /* Minimum width to ensure it fits "Milan" */
+    max-width: 22rem; /* Set a maximum width if needed */
+    height: auto; /* Allow height to adjust automatically */
+}
