@@ -274,3 +274,19 @@ a.card-text:hover {
         padding:1px!important;
     }
 }
+.card {
+    width: auto; /* Let the width adjust based on content */
+    max-width: 22rem; /* Set a maximum width if needed */
+    height: auto; /* Allow height to adjust automatically */
+}
+
+
+.card-img-top {
+    width: 100%; /* Ensure the image covers the card width */
+    height: 160px; /* Set a fixed height for consistency */
+    object-fit: cover; /* Maintain aspect ratio */
+}
+
+.card-body {
+    padding: 1rem; /* Adjust padding as needed */
+}
