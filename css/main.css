@@ -274,11 +274,3 @@ a.card-text:hover {
         padding:1px!important;
     }
 }
-.card {
-    width: fit-content; /* Allow the card to adjust to its content */
-    padding: 15px; /* Increase padding for better spacing */
-    height: auto; /* Height adjusts automatically */
-    margin: 0 auto; /* Center the card if needed */
-    max-width: 25rem; /* Increase max-width as needed */
-}
-
