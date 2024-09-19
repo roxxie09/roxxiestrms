@@ -32,11 +32,12 @@
         }
         .content-container {
             display: flex; /* Use flexbox for layout */
-            justify-content: space-between; /* Space between main content and chat */
+            justify-content: flex-start; /* Align to the start */
             margin-top: 20px; /* Space above the content */
         }
         .main-content {
             flex: 1; /* Main content takes remaining space */
+            max-width: calc(100% - 400px); /* Adjust max width based on chat */
             margin-right: 20px; /* Space between main content and chat */
         }
         .chat-container {
