@@ -50,18 +50,77 @@
     </nav>
     <div class="container container-fluid pt-2 text-white">
         <div class="mt-5">
-            <h2 class="m-0" style="font-family: 'Kanit', sans-serif; font-weight: bold;">Your Content Here</h2>
-            <p>Add any additional content or sections as needed.</p>
+            <h2 class="m-0" style="font-family: 'Kanit', sans-serif; font-weight: bold;">Bug Reports & Suggestions</h2>
+            <div class="mt-5 my-5">
+                <div class="col-11 justify-content-left">
+                    <form method="post" id="requestevent">
+                        <div class="mb-3 row">
+                            <label for="type" class="col-sm-2 col-form-label">Type</label>
+                            <div class="col-sm-10">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="type" id="bugreport" value="bugreport" checked="" onclick="updateLabels()">
+                                    <label class="form-check-label" for="bugreport">
+                                        Bug Report
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="type" id="suggestion" value="suggestion" onclick="updateLabels()">
+                                    <label class="form-check-label" for="suggestion">
+                                        Suggestion
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="eventname" class="col-sm-2 col-form-label" id="titleLabel">Title of the Issue*</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="eventname" name="eventname" placeholder="Example: Unable to access stream">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="eventchannel" class="col-sm-2 col-form-label" id="summaryLabel">Summary of the Information</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="eventchannel" name="eventchannel" placeholder="Example: Brief description of the issue">
+                            </div>
+                        </div>
+                        <div class="mb-3 row" id="severityRow">
+                            <label for="severity" class="col-sm-2 col-form-label">How severe is it?</label>
+                            <div class="col-sm-10">
+                                <select class="form-select" id="severity" name="severity">
+                                    <option value="minor">Minor</option>
+                                    <option value="normal">Normal</option>
+                                    <option value="major">Major</option>
+                                    <option value="critical">Critical</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-primary" id="sendrequest">Send request</button>
+                        </div>
+                        <input type="hidden" id="started_already" name="started_already" value="0">
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-<footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-    <ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
-        <li class="nav-item"><a href="/changelog" class="nav-link px-2 text-body-secondary">Changelog</a></li>
-        <li class="nav-item"><a href="https://discord.gg/2BSP97x2" class="nav-link px-2 text-body-secondary">Discord</a></li>
-        <li class="nav-item"><a href="/donate" class="nav-link px-2 text-body-secondary">Donate</a></li>
-    </ul>
-    <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
-</footer>
+    <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
+        <ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
+            <li class="nav-item"><a href="/changelog" class="nav-link px-2 text-body-secondary">Changelog</a></li>
+            <li class="nav-item"><a href="https://discord.gg/2BSP97x2" class="nav-link px-2 text-body-secondary">Discord</a></li>
+            <li class="nav-item"><a href="/donate" class="nav-link px-2 text-body-secondary">Donate</a></li>
+        </ul>
+        <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
+    </footer>
     <script src="js/bootstrap.bundle.min.js"></script>
+    <script>
+        function updateLabels() {
+            const isSuggestion = document.getElementById('suggestion').checked;
+            document.getElementById('titleLabel').textContent = isSuggestion ? 'Title of the Suggestion*' : 'Title of the Issue*';
+            document.getElementById('summaryLabel').textContent = isSuggestion ? 'Summary of the Suggestion' : 'Summary of the Information';
+            document.getElementById('eventname').placeholder = isSuggestion ? 'Example: Suggestion for a new feature' : 'Example: Unable to access stream';
+            document.getElementById('eventchannel').placeholder = isSuggestion ? 'Example: Brief description of the suggestion' : 'Example: Brief description of the issue';
+            document.getElementById('severityRow').style.display = isSuggestion ? 'none' : 'flex'; // Hide severity row if suggestion is selected
+        }
+    </script>
 </body>
 </html>
