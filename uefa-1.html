@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="utf-8">
@@ -13,42 +13,41 @@
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <style>
         .navbar-brand {
-            color: pink; /* Pink text for the name */
-            font-size: 1.3rem; /* Reduced font size */
-            text-decoration: none; /* No underline by default */
-            margin-top: -3px; /* Move title higher */
+            color: pink;
+            font-size: 1.3rem;
+            text-decoration: none;
+            margin-top: -3px;
             font-family: 'Kanit', sans-serif;
             font-weight: bold;
         }
         .navbar-brand:hover {
-            text-decoration: underline; /* Underline on hover */
+            text-decoration: underline;
         }
         .navbar-nav {
-            margin-left: 0; /* Reduced margin for closer alignment */
+            margin-left: 0;
         }
         .navbar-nav .nav-link {
-            padding-left: 5px; /* Adjusted padding for closer spacing */
-            padding-right: 5px; /* Adjusted padding for closer spacing */
+            padding-left: 5px;
+            padding-right: 5px;
         }
         .content-container {
-            display: flex; /* Use flexbox for layout */
-            justify-content: flex-start; /* Align to the start */
-            margin-top: 20px; /* Space above the content */
+            display: flex;
+            margin-top: 20px;
+            padding: 0 20px; /* Add padding for space */
         }
         .main-content {
-            flex: 1; /* Main content takes remaining space */
-            max-width: calc(100% - 400px); /* Adjust max width based on chat */
-            margin-right: 20px; /* Space between main content and chat */
+            flex: 1;
+            margin-right: 40px; /* Increased margin for separation */
         }
         .chat-container {
-            width: 350px; /* Set a fixed width for the chat */
-            height: 600px; /* Set a fixed height for the chat */
-            margin-left: 200px; /* Move chat further to the right */
+            width: 350px;
+            height: 600px;
+            margin-left: 40px; /* Adjust this value to move the chat further */
         }
         iframe {
-            width: 100%; /* Full width of chat container */
-            height: 100%; /* Full height of chat container */
-            border: none; /* Remove border */
+            width: 100%;
+            height: 100%;
+            border: none;
         }
     </style>
 </head>
