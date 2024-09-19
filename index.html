@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="utf-8">
@@ -30,9 +30,27 @@
             padding-left: 5px; /* Adjusted padding for closer spacing */
             padding-right: 5px; /* Adjusted padding for closer spacing */
         }
+        .content-container {
+            display: flex; /* Use flexbox for layout */
+            justify-content: space-between; /* Space between main content and chat */
+            margin-top: 20px; /* Space above the content */
+        }
+        .main-content {
+            flex: 1; /* Main content takes remaining space */
+            margin-right: 20px; /* Space between main content and chat */
+        }
+        .chat-container {
+            width: 350px; /* Set a fixed width for the chat */
+            height: 600px; /* Set a fixed height for the chat */
+            margin-left: 20px; /* Move chat further to the right */
+        }
+        iframe {
+            width: 100%; /* Full width of chat container */
+            height: 100%; /* Full height of chat container */
+            border: none; /* Remove border */
+        }
     </style>
 </head>
-<script src="scripts/countdown.js"></script>
 <body>
     <nav class="navbar navbar-expand-lg bg-black">
         <div class="container-fluid">
@@ -50,59 +68,26 @@
         </div>
     </nav>
     <div class="container container-fluid pt-2 text-white">
-<div class="alert alert-warning alert-dismissible mt-5" role="alert">
-    <h4 class="alert-heading"><strong>Hey welcome! This is my first ever website</strong></h4>
-    If you encounter any problems or have any suggestions, <a href="/suggestions" class="alert-link">Click Here</a>. I'd be more than happy to fix and add!.
-    <hr>
-    <strong>Roxxie</strong>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-        <div class="alert alert-danger alert-dismissible mt-2" role="alert">
-            We now have a discord server. Enjoy! <a href="https://discord.gg/2BSP97x2" class="alert-link">DISCORD</a>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        <div class="mt-5">
-            <h2 class="m-0" style="font-family: 'Kanit', sans-serif; font-weight: bold;">9/18 Events</h2>
-            <div id="upcoming-stream-cards" class="mx-4 d-flex py-3 flex-wrap">
-                <!-- Static Upcoming Stream Card -->
-<div class="px-2 py-2">
-    <a href="/uefa-1" class="item-card">
-        <div class="card bg-black text-white" style="width: 19rem;">
-            <img src="/imgs/NYJ_Home_Horizontal.png" class="card-img-top cover" width="285px" height="160px" alt="New York Jets vs New England Patriots" loading="lazy">
-            <div class="card-body">
-                <h5 class="card-title"><strong>New York Jets vs New England Patriots</h5>
-                <p class="card-text">
-                    <span id="countdown">Starts in: </span><span id="countdown-timer"></span>
-                </p>
+        <div class="content-container">
+            <div class="main-content">
+                <div class="mt-5">
+                    <h2 class="m-0" style="font-family: 'Kanit', sans-serif; font-weight: bold;">Your Content Here</h2>
+                    <p>Add any additional content or sections as needed.</p>
+                </div>
             </div>
-        </div>
-    </a>
-</div>
-<div class="px-2 py-2">
-    <a href="/boca-vs-river" class="item-card">
-        <div class="card bg-black text-white" style="width: 19rem;">
-            <img src="/imgs/NYJ_Home_Horizontal.png" class="card-img-top cover" width="285px" height="160px" alt="Boca Juniors vs River Plate" loading="lazy">
-            <div class="card-body">
-                <h5 class="card-title"><strong>Boca Juniors vs River Plate</strong></h5>
-                <p class="card-text">
-                    <span id="countdown-boca">Starts in: </span><span id="countdown-timer-boca"></span>
-                </p>
-            </div>
-        </div>
-    </a>
-</div>
-                <!-- More static cards can be added here -->
+            <div class="chat-container">
+                <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.xyz" allow="autoplay; encrypted-media" title="YouTube Live Chat"></iframe>
             </div>
         </div>
     </div>
-<footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-    <ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
-        <li class="nav-item"><a href="/changelog" class="nav-link px-2 text-body-secondary">Changelog</a></li>
-        <li class="nav-item"><a href="https://discord.gg/2BSP97x2" class="nav-link px-2 text-body-secondary">Discord</a></li>
-        <li class="nav-item"><a href="/donate" class="nav-link px-2 text-body-secondary">Donate</a></li>
-    </ul>
-    <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
-</footer>
+    <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
+        <ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
+            <li class="nav-item"><a href="/changelog" class="nav-link px-2 text-body-secondary">Changelog</a></li>
+            <li class="nav-item"><a href="https://discord.gg/2BSP97x2" class="nav-link px-2 text-body-secondary">Discord</a></li>
+            <li class="nav-item"><a href="/donate" class="nav-link px-2 text-body-secondary">Donate</a></li>
+        </ul>
+        <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
+    </footer>
     <script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
