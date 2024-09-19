@@ -32,19 +32,6 @@
         }
     </style>
 </head>
-<script>
-    document.getElementById('requestevent').onsubmit = function(event) {
-        const lastSubmit = localStorage.getItem('lastSubmit');
-        const now = Date.now();
-
-        if (lastSubmit && (now - lastSubmit < 300000)) { // 5 minutes in milliseconds
-            event.preventDefault(); // Prevent form submission
-            alert('You can only submit the form once every 5 minutes. Please wait before submitting again.');
-        } else {
-            localStorage.setItem('lastSubmit', now); // Update the last submit time
-        }
-    };
-</script>
 <body>
     <nav class="navbar navbar-expand-lg bg-black">
         <div class="container-fluid">
