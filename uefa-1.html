@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="utf-8">
@@ -31,18 +31,19 @@
             padding-right: 5px;
         }
         .content-container {
-            display: flex;
             margin-top: 20px;
-            padding: 0 20px; /* Add padding for space */
+            display: block; /* Use block instead of flex */
         }
         .main-content {
-            flex: 1;
-            margin-right: 40px; /* Increased margin for separation */
+            margin-right: 20px;
+            float: left; /* Allow it to float */
+            width: calc(100% - 370px); /* Adjust based on chat width */
         }
         .chat-container {
             width: 350px;
             height: 600px;
-            margin-left: 40px; /* Adjust this value to move the chat further */
+            margin-left: 20px; /* Add left margin for spacing */
+            float: right; /* Float it to the right */
         }
         iframe {
             width: 100%;
