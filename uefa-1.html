@@ -11,7 +11,6 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link href="/css/player&buttons.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"></script>
     <style>
         .navbar-brand {
             color: pink;
@@ -82,8 +81,8 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
             <div class="streamchanger">
-                <button class="streambutton" onclick="showIframe('https://player.twitch.tv/?channel=adapt&parent=roxiestreams.xyz')">Stream 1</button>
-                <button class="streambutton" onclick="showPlayer('clappr', 'https://bcovlive-a.akamaihd.net/r2d2c4ca5bf57456fb1d16255c1a535c8/eu-west-1/6058004203001/playlist.m3u8')">Stream 2</button>
+                <button class="streambutton" onclick="showIframe('https://roxiestreams.xyz/raw/raw?id=ESPN')">Stream 1</button>
+                <button class="streambutton" onclick="showIframe('https://roxiestreams.xyz/raw/raw?id=ESPN2')">Stream 2</button>
             </div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.xyz"></iframe>
@@ -132,9 +131,9 @@
             document.getElementById('playerContainer').innerHTML = `<iframe src="${url}" style="width: 100%; height: 100%; border: none;"></iframe>`;
         }
 
-        // Automatically load the iframe link on page load
+        // Automatically load the iframe link for Stream 1 on page load
         window.onload = function() {
-            showIframe('https://player.twitch.tv/?channel=adapt&parent=roxiestreams.xyz'); // Load the iframe automatically
+            showIframe('https://roxiestreams.xyz/raw/raw?id=ESPN'); // Load the iframe automatically
         };
     </script>
 
