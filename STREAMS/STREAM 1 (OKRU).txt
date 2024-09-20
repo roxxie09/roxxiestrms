@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
-    <link href="/css/player&buttons.css" rel="stylesheet">
+    <link href="/css/buttons.css" rel="stylesheet">
     <style>
         .navbar-brand {
             color: pink;
@@ -102,7 +102,6 @@
         var clapprPlayer;
 
         function showPlayer(playerType, stream) {
-            // Destroy iframe if it exists
             document.getElementById('playerContainer').innerHTML = '';
 
             if (playerType === "clappr") {
