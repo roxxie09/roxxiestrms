@@ -1,22 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400&display=swap');
 
 .streambutton {
-    height: 35px; /* Increased height for a more rectangular shape */
-    font-family: 'Kanit', sans-serif; /* Set font to Kanit */
+    height: 35px;
+    font-family: 'Kanit', sans-serif;
     font-feature-settings: 'liga' 1;
     letter-spacing: 1px;
-    font-size: 1rem; /* Font size */
-    border-radius: 8px; /* Less rounded corners for a rectangular look */
-    border: 1px solid #e0e0e0; /* Light gray border */
-    background-color: transparent; /* Transparent background */
-    color: #e0e0e0; /* Light gray text */
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    background-color: transparent;
+    color: #e0e0e0;
     margin-right: 5px;
     cursor: pointer;
     transition: background-color 0.5s, color 0.5s, border-color 0.5s;
 }
 
 .streambutton:hover {
-    background-color: rgba(255, 105, 180, 0.3); /* Subtle pinkish background on hover */
-    color: white; /* Change text color to white on hover */
-    border-color: #ff69b4; /* Match border color to hover background */
+    background-color: rgba(255, 105, 180, 0.3);
+    color: white;
+    border-color: #ff69b4;
 }
