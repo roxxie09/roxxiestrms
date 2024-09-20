@@ -1,3 +1,4 @@
+Yes it works here it is I changed some stuff can you add WWE Smackdown /wwe https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTv_8a43eMQYFXVorN51mQX58aSk6owI9xig&s
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
@@ -31,7 +32,7 @@
         }
     </style>
 </head>
-<script src="scripts/countdownn.js"></script>
+<script src="scripts/countdown.js"></script>
 <body>
     <nav class="navbar navbar-expand-lg bg-black">
         <div class="container-fluid">
@@ -64,14 +65,45 @@
             <h2 class="m-0" style="font-family: 'Kanit', sans-serif; font-weight: bold;">9/18 Events</h2>
             <div id="upcoming-stream-cards" class="mx-4 d-flex py-3 flex-wrap">
                 <!-- Static Upcoming Stream Card -->
-<div class="px-2 py-2">
+<!-- Existing Event Card: New York Jets vs New England Patriots -->
+<div class="px-2 py-2" data-time="September 20, 2024 17:00:00 GMT-0800">
     <a href="/uefa-1" class="item-card">
         <div class="card bg-black text-white" style="width: 19rem;">
-            <img src="/imgs/NYJ_Home_Horizontal.png" class="card-img-top cover" width="285px" height="160px" alt="New York Jets vs New England Patriots" loading="lazy">
+            <img src="https://static.clubs.nfl.com/image/private/t_editorial_landscape_12_desktop/patriots/ogszxenaud7vf9nmgf6g" class="card-img-top cover" width="285px" height="160px" alt="New York Jets vs New England Patriots" loading="lazy">
             <div class="card-body">
-                <h5 class="card-title"><strong>New York Jets vs New England Patriots</h5>
+                <h5 class="card-title"><strong>New York Jets vs New England Patriots</strong></h5>
                 <p class="card-text">
-                    <span id="countdown">Starts in: </span><span id="countdown-timer"></span>
+                    <span id="countdown-1">Starts in: </span><span class="countdown-timer" id="countdown-timer-1"></span>
+                </p>
+            </div>
+        </div>
+    </a>
+</div>
+
+<!-- Existing Event Card: Boca Juniors vs River Plate -->
+<div class="px-2 py-2" data-time="September 20, 2024 18:00:00 GMT-0800">
+    <a href="/uefa-2" class="item-card">
+        <div class="card bg-black text-white" style="width: 19rem;">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGz1a5rXOqkJd9lrn7lIFuoXPKfQrahZvIfA&s" class="card-img-top cover" width="285px" height="160px" alt="Boca Juniors vs River Plate" loading="lazy">
+            <div class="card-body">
+                <h5 class="card-title"><strong>Boca Juniors vs River Plate</strong></h5>
+                <p class="card-text">
+                    <span id="countdown-2">Starts in: </span><span class="countdown-timer" id="countdown-timer-2"></span>
+                </p>
+            </div>
+        </div>
+    </a>
+</div>
+
+<!-- New Event Card: WWE Smackdown -->
+<div class="px-2 py-2" data-time="September 20, 2024 19:00:00 GMT-0800">
+    <a href="/wwe" class="item-card">
+        <div class="card bg-black text-white" style="width: 19rem;">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTv_8a43eMQYFXVorN51mQX58aSk6owI9xig&s" class="card-img-top cover" width="285px" height="160px" alt="WWE Smackdown" loading="lazy">
+            <div class="card-body">
+                <h5 class="card-title"><strong>WWE Smackdown</strong></h5>
+                <p class="card-text">
+                    <span id="countdown-3">Starts in: </span><span class="countdown-timer" id="countdown-timer-3"></span>
                 </p>
             </div>
         </div>
