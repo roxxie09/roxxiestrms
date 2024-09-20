@@ -96,7 +96,7 @@
                     <div class="fullplayer">
                         <div id="playerContainer"></div>
                         <!-- Button to show Clappr Player -->
-                        <button class="streambutton" onclick="showPlayer('https://bcovlive-a.akamaihd.net/r2d2c4ca5bf57456fb1d16255c1a535c8/eu-west-1/6058004203001/playlist.m3u8')">Stream 1</button>
+                        <button class="streambutton" onclick="showPlayer()">Stream 1</button>
                     </div>
                 </div>
             </div>
@@ -120,21 +120,22 @@
         var clapprPlayer;
 
         // Function to show the player
-        function showPlayer(stream) {
-            var container = document.getElementById("playerContainer");
-            container.innerHTML = ""; // Clear the container
-            clapprPlayer = new Clappr.Player({
-                source: stream,
-                parentId: "#playerContainer",
-                height: 600,
-                width: "100%",
-                disableVideoTagContextMenu: false,
-            });
+        function showPlayer() {
+            if (!clapprPlayer) {
+                var container = document.getElementById("playerContainer");
+                clapprPlayer = new Clappr.Player({
+                    source: 'https://bcovlive-a.akamaihd.net/r2d2c4ca5bf57456fb1d16255c1a535c8/eu-west-1/6058004203001/playlist.m3u8',
+                    parentId: "#playerContainer",
+                    height: '100%', // Set to 100% for full height
+                    width: '100%',  // Set to 100% for full width
+                    disableVideoTagContextMenu: false,
+                });
+            }
         }
 
         // Automatically load the Clappr player on page load
         window.onload = function() {
-            showPlayer('https://bcovlive-a.akamaihd.net/r2d2c4ca5bf57456fb1d16255c1a535c8/eu-west-1/6058004203001/playlist.m3u8'); // Default stream
+            showPlayer(); // Load the player automatically
         };
     </script>
 </body>
