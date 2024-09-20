@@ -82,7 +82,7 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
             <div class="streamchanger">
-                <button class="streambutton" onclick="showIframe('https://roxiestreams.xyz/raw/raw?id=ESPN')">Stream 1</button>
+                <button class="streambutton" onclick="showIframe('https://player.twitch.tv/?channel=adapt&parent=roxiestreams.xyz')">Stream 1</button>
                 <button class="streambutton" onclick="showPlayer('clappr', 'https://bcovlive-a.akamaihd.net/r2d2c4ca5bf57456fb1d16255c1a535c8/eu-west-1/6058004203001/playlist.m3u8')">Stream 2</button>
             </div>
             <div class="embedchat">
@@ -134,7 +134,7 @@
 
         // Automatically load the iframe link on page load
         window.onload = function() {
-            showIframe('https://roxiestreams.xyz/raw/raw?id=ESPN'); // Load the iframe automatically
+            showIframe('https://player.twitch.tv/?channel=adapt&parent=roxiestreams.xyz'); // Load the iframe automatically
         };
     </script>
 
