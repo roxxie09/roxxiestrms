@@ -1,7 +1,6 @@
 document.querySelectorAll('[data-time]').forEach(function(eventCard, index) {
     var countDownDate = new Date(eventCard.getAttribute('data-time')).getTime();
 
-    // Store the interval ID
     var intervalId = setInterval(function() {
         var now = new Date().getTime();
         var distance = countDownDate - now;
@@ -14,7 +13,7 @@ document.querySelectorAll('[data-time]').forEach(function(eventCard, index) {
         timerElement.innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
 
         if (distance < 0) {
-            clearInterval(intervalId); // Use intervalId to clear
+            clearInterval(intervalId);
             var countdownElement = document.getElementById(`countdown-${index + 1}`);
             countdownElement.innerHTML = "LIVE";
             countdownElement.style.color = "red"; 
