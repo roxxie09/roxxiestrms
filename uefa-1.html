@@ -13,42 +13,40 @@
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <style>
         .navbar-brand {
-            color: pink;
-            font-size: 1.3rem;
-            text-decoration: none;
-            margin-top: -3px;
+            color: pink; /* Pink text for the name */
+            font-size: 1.3rem; /* Reduced font size */
+            text-decoration: none; /* No underline by default */
+            margin-top: -3px; /* Move title higher */
             font-family: 'Kanit', sans-serif;
             font-weight: bold;
         }
         .navbar-brand:hover {
-            text-decoration: underline;
+            text-decoration: underline; /* Underline on hover */
         }
         .navbar-nav {
-            margin-left: 0;
+            margin-left: 0; /* Reduced margin for closer alignment */
         }
         .navbar-nav .nav-link {
-            padding-left: 5px;
-            padding-right: 5px;
+            padding-left: 5px; /* Adjusted padding for closer spacing */
+            padding-right: 5px; /* Adjusted padding for closer spacing */
         }
         .content-container {
-            margin-top: 20px;
-            display: block; /* Use block instead of flex */
+            display: flex; /* Use flexbox for layout */
+            justify-content: space-between; /* Space between main content and chat */
+            margin-top: 20px; /* Space above the content */
         }
         .main-content {
-            margin-right: 20px;
-            float: left; /* Allow it to float */
-            width: calc(100% - 370px); /* Adjust based on chat width */
+            flex: 1; /* Main content takes remaining space */
+            margin-right: 20px; /* Space between main content and chat */
         }
         .chat-container {
-            width: 350px;
-            height: 600px;
-            margin-left: 20px; /* Add left margin for spacing */
-            float: right; /* Float it to the right */
+            width: 350px; /* Set a fixed width for the chat */
+            height: 600px; /* Set a fixed height for the chat */
         }
         iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
+            width: 100%; /* Full width of chat container */
+            height: 100%; /* Full height of chat container */
+            border: none; /* Remove border */
         }
     </style>
 </head>
@@ -77,7 +75,7 @@
                 </div>
             </div>
             <div class="chat-container">
-                <iframe width="100%" height="100%" src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.xyz"></iframe>
+                <iframe width="100%" height="100%" src="https://www.youtube.com/live_chat?v=iXVkrL8Q1gY&amp;embed_domain=roxiestreams.xyz"></iframe>
             </div>
         </div>
     </div>
