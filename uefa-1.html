@@ -12,6 +12,8 @@
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link href="/css/player&buttons.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@clappr/playback-levels@latest/dist/playback-levels.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ewwink/clappr-quality-selector-plugin@latest/quality-selector.js"></script>
     <style>
         /* Existing styles... */
         .navbar-brand {
@@ -84,7 +86,6 @@
             <div id="playerContainer"></div>
             <div class="streamchanger">
                 <button class="streambutton" onclick="showPlayer('clappr', 'https://bcovlive-a.akamaihd.net/r2d2c4ca5bf57456fb1d16255c1a535c8/eu-west-1/6058004203001/playlist.m3u8')">Stream 1</button>
-                <button class="streambutton" onclick="showPlayer('clappr', 'https://goozp.flkof9jk8ujjjs.shop/playlist/25874/goozr.dmnkfui8jjd3h2.shop/caxi.m3u8')">Stream 2</button>
             </div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.xyz"></iframe>
@@ -117,6 +118,8 @@
                     height: '100%',
                     width: '100%',
                     autoPlay: true, // Automatically play
+                    plugins: [Clappr.PlaybackLevels, QualitySelector], // Add the QualitySelector plugin
+
                 });
             }
         }
