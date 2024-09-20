@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="utf-8">
@@ -8,66 +8,30 @@
     <meta name="keywords" content="Roxiestreams, ppv, boxing, dazn, f1, ufc, nba, for, stream, online, free, mrgamingstreams, f1, tv, nfl">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" type="text/css" href="css/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
     <script src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"></script>
     <style>
-        .content-container {
-            display: flex; 
-            justify-content: space-between; 
-            margin-top: 0; 
-        }
-        .main-content {
-            flex: 1; 
-            margin-right: 20px; 
-        }
-        .chat-container {
-            width: 350px; 
-            height: 600px; 
-        }
-        iframe {
-            width: 100%; 
-            border: none; 
-        }
-        .twitch-stream {
-            height: 600px; 
-            margin-top: -4px; 
-        }
         .fullplayer {
             display: flex;
             justify-content: center;
-            gap: 1em;
+            position: relative; /* For positioning button */
             height: 80vh;
-            max-height: 550px;
-            position: relative; /* Added for positioning */
         }
-        .player {
-            flex-basis: 900px;
-            display: flex;
-            flex-direction: column;
-            gap: .2em;
+        #playerContainer {
+            width: 100%; /* Full width of parent */
+            height: 100%; /* Full height of parent */
         }
         .streambutton {
             position: absolute; /* Absolute positioning */
-            top: 10px; /* Distance from the top */
-            left: 10px; /* Distance from the left */
+            top: 10px; /* Adjust as needed */
+            left: 10px; /* Adjust as needed */
             height: 36px;
-            font-family: Inter, sans-serif;
-            font-feature-settings: 'liga' 1, 'calt' 1;
-            letter-spacing: 1px;
-            font-size: .9rem;
-            border-radius: 15px;
-            border-color: #286ea7;
-            background-image: linear-gradient(to bottom,#000000, rgb(31, 44, 75));
+            background-color: #286ea7;
             color: white;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-        }
-        .streambutton:hover {
-            background-image: linear-gradient(to bottom,#000000, rgb(36, 80, 38));
-            color: #85ce96;
-            border-color: #28A745;
+            padding: 5px 10px;
         }
     </style>
 </head>
@@ -78,57 +42,31 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="/changelog">Changelog</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://discord.gg/2BSP97x2">Discord</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/donate">Donate</a></li>
-                </ul>
-            </div>
         </div>
     </nav>
-    
-    <div class="container container-fluid pt-2 text-white">
-        <div class="content-container">
-            <div class="main-content">
-                <div class="mt-1">
-                    <!-- Clappr Player Container -->
-                    <div class="fullplayer">
-                        <div id="playerContainer"></div>
-                        <!-- Button to show Clappr Player -->
-                        <button class="streambutton" onclick="showPlayer()">Stream 1</button>
-                    </div>
-                </div>
-            </div>
-            <div class="chat-container">
-                <iframe width="100%" height="100%" src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.xyz"></iframe>
-            </div>
+
+    <div class="container pt-2 text-white">
+        <div class="fullplayer">
+            <div id="playerContainer"></div>
+            <button class="streambutton" onclick="showPlayer()">Stream 1</button>
         </div>
     </div>
-    
+
     <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-        <ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
-            <li class="nav-item"><a href="/changelog" class="nav-link px-2 text-body-secondary">Changelog</a></li>
-            <li class="nav-item"><a href="https://discord.gg/2BSP97x2" class="nav-link px-2 text-body-secondary">Discord</a></li>
-            <li class="nav-item"><a href="/donate" class="nav-link px-2 text-body-secondary">Donate</a></li>
-        </ul>
         <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
     </footer>
-    
-    <script src="js/bootstrap.bundle.min.js"></script>
+
     <script>
         var clapprPlayer;
 
-        // Function to show the player
         function showPlayer() {
             if (!clapprPlayer) {
-                var container = document.getElementById("playerContainer");
                 clapprPlayer = new Clappr.Player({
                     source: 'https://bcovlive-a.akamaihd.net/r2d2c4ca5bf57456fb1d16255c1a535c8/eu-west-1/6058004203001/playlist.m3u8',
                     parentId: "#playerContainer",
-                    height: '100%', // Set to 100% for full height
-                    width: '100%',  // Set to 100% for full width
-                    disableVideoTagContextMenu: false,
+                    height: '100%',
+                    width: '100%',
+                    autoPlay: true, // Automatically play
                 });
             }
         }
