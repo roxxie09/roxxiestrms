@@ -27,13 +27,13 @@
             padding-left: 5px; /* Adjusted padding for closer spacing */
             padding-right: 5px; /* Adjusted padding for closer spacing */
         }
-.fullplayer {
-    display: flex;
-    justify-content: center;
-    position: relative;
-    height: 80vh;
-    margin-top: 50px; /* Adjust this value as needed */
-}
+        .fullplayer {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            height: 80vh;
+            margin-top: 50px; /* Adjust this value as needed */
+        }
         #playerContainer {
             width: 100%; /* Full width of parent */
             height: 100%; /* Full height of parent */
@@ -72,7 +72,7 @@
     <div class="container container-fluid pt-2 text-white">
         <div class="fullplayer">
             <div id="playerContainer"></div>
-            <button class="streambutton" onclick="showPlayer()">Stream 1</button>
+            <button class="streambutton" onclick="showPlayer('clappr', 'https://bcovlive-a.akamaihd.net/r2d2c4ca5bf57456fb1d16255c1a535c8/eu-west-1/6058004203001/playlist.m3u8')">Stream 1</button>
         </div>
     </div>
 
@@ -88,10 +88,15 @@
     <script>
         var clapprPlayer;
 
-        function showPlayer() {
-            if (!clapprPlayer) {
+        function showPlayer(playerType, stream) {
+            if (playerType === "clappr") {
+                if (clapprPlayer) {
+                    clapprPlayer.destroy(); // Destroy existing player if it exists
+                }
+
+                // Create a new Clappr player
                 clapprPlayer = new Clappr.Player({
-                    source: 'https://bcovlive-a.akamaihd.net/r2d2c4ca5bf57456fb1d16255c1a535c8/eu-west-1/6058004203001/playlist.m3u8',
+                    source: stream,
                     parentId: "#playerContainer",
                     height: '100%',
                     width: '100%',
@@ -102,7 +107,7 @@
 
         // Automatically load the Clappr player on page load
         window.onload = function() {
-            showPlayer(); // Load the player automatically
+            showPlayer('clappr', 'https://bcovlive-a.akamaihd.net/r2d2c4ca5bf57456fb1d16255c1a535c8/eu-west-1/6058004203001/playlist.m3u8'); // Load the player automatically
         };
     </script>
 
