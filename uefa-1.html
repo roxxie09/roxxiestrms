@@ -50,6 +50,10 @@
         .twitch-stream {
             height: 600px; /* Match the height of the YouTube chat */
             margin-top: -4px; /* Move it up higher */
+            margin-left: -10px; /* Move the player more to the left */
+            transform: scale(1.1); /* Scale up the iframe */
+            transform-origin: bottom left; /* Scale from the bottom left */
+            overflow: hidden; /* Prevent overflow */
         }
     </style>
 </head>
