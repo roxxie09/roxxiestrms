@@ -1,0 +1,20 @@
+.streambutton {
+    height: 36px;
+    font-family: Inter, sans-serif;
+    font-feature-settings: 'liga' 1, 'calt' 1;
+    letter-spacing: 1px;
+    font-size: .9rem;
+    border-radius: 15px;
+    border: 1px solid #286ea7; /* Added border */
+    background-image: linear-gradient(to bottom, #000000, rgb(31, 44, 75));
+    color: white;
+    margin-right: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.streambutton:hover {
+    background-image: linear-gradient(to bottom, #000000, rgb(36, 80, 38));
+    color: #85ce96;
+    border-color: #28A745;
+}

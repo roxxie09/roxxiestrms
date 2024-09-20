@@ -10,58 +10,55 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link href="/css/player&buttons.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"></script>
     <style>
+        /* Existing styles... */
         .navbar-brand {
-            color: pink; /* Pink text for the name */
-            font-size: 1.3rem; /* Reduced font size */
-            text-decoration: none; /* No underline by default */
-            margin-top: -3px; /* Move title higher */
+            color: pink;
+            font-size: 1.3rem;
+            text-decoration: none;
+            margin-top: -3px;
             font-family: 'Kanit', sans-serif;
             font-weight: bold;
         }
         .navbar-brand:hover {
-            text-decoration: underline; /* Underline on hover */
+            text-decoration: underline;
         }
         .navbar-nav .nav-link {
-            padding-left: 5px; /* Adjusted padding for closer spacing */
-            padding-right: 5px; /* Adjusted padding for closer spacing */
+            padding-left: 5px;
+            padding-right: 5px;
         }
         .fullplayer {
-            display: flex; /* Use flexbox for side-by-side layout */
+            display: flex;
             justify-content: center;
             position: relative;
             height: 80vh;
-            margin-top: 50px; /* Adjust this value as needed */
+            margin-top: 50px;
         }
         #playerContainer {
-            width: 100%; /* Width for the player */
-            height: 100%; /* Full height of parent */
+            width: 100%;
+            height: 100%;
         }
         .embedchat {
-            width: 30%; /* Width for the chat */
-            height: 100%; /* Full height of parent */
+            width: 30%;
+            height: 100%;
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Align iframe to the top */
-            margin-left: 10px; /* Space between player and chat */
+            align-items: flex-start;
+            margin-left: 10px;
         }
         .embedchat iframe {
-            width: 100%; /* Full width of chat */
-            height: 100%; /* Full height of chat */
-            border: none; /* Remove iframe border */
-        }
-        .streambutton {
-            position: absolute; /* Absolute positioning */
-            top: -40px; /* Move it above the player */
-            left: 10px; /* Keep it 10px from the left */
-            height: 36px;
-            background-color: #286ea7;
-            color: white;
+            width: 100%;
+            height: 100%;
             border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            padding: 5px 10px;
+        }
+        .streamchanger {
+            position: absolute;
+            top: -40px;
+            left: 10px;
+            display: flex;
+            gap: 10px; /* Space between buttons */
         }
     </style>
 </head>
@@ -85,7 +82,10 @@
     <div class="container container-fluid pt-2 text-white">
         <div class="fullplayer">
             <div id="playerContainer"></div>
-            <button class="streambutton" onclick="showPlayer('clappr', 'https://bcovlive-a.akamaihd.net/r2d2c4ca5bf57456fb1d16255c1a535c8/eu-west-1/6058004203001/playlist.m3u8')">Stream 1</button>
+            <div class="streamchanger">
+                <button class="streambutton" onclick="showPlayer('clappr', 'https://bcovlive-a.akamaihd.net/r2d2c4ca5bf57456fb1d16255c1a535c8/eu-west-1/6058004203001/playlist.m3u8')">Stream 1</button>
+                <button class="streambutton" onclick="showPlayer('clappr', 'https://goozp.flkof9jk8ujjjs.shop/playlist/25874/goozr.dmnkfui8jjd3h2.shop/caxi.m3u8')">Stream 2</button>
+            </div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.xyz"></iframe>
             </div>
