@@ -8,7 +8,7 @@
     font-size: .9rem;
     border-radius: 15px;
     border: 1px solid #ff69b4; /* Pink border */
-    background-image: linear-gradient(to bottom, #000000, rgba(31, 44, 75, 0.8)); /* Dark with a hint of black */
+    background-color: transparent; /* Transparent background */
     color: #ff69b4; /* Pink text */
     margin-right: 5px;
     cursor: pointer;
