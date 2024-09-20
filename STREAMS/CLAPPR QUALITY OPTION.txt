@@ -1,0 +1,5 @@
+ADD
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@clappr/playback-levels@latest/dist/playback-levels.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ewwink/clappr-quality-selector-plugin@latest/quality-selector.js"></script>
+THEN
+                    plugins: [Clappr.PlaybackLevels, QualitySelector], // Add the QualitySelector plugin
