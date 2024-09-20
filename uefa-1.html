@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="utf-8">
@@ -9,11 +9,23 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
     <script src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"></script>
     <style>
-        body {
-            background-color: #121212; /* Set your desired background color */
-            color: white; /* Text color */
+        .navbar-brand {
+            color: pink; /* Pink text for the name */
+            font-size: 1.3rem; /* Reduced font size */
+            text-decoration: none; /* No underline by default */
+            margin-top: -3px; /* Move title higher */
+            font-family: 'Kanit', sans-serif;
+            font-weight: bold;
+        }
+        .navbar-brand:hover {
+            text-decoration: underline; /* Underline on hover */
+        }
+        .navbar-nav .nav-link {
+            padding-left: 5px; /* Adjusted padding for closer spacing */
+            padding-right: 5px; /* Adjusted padding for closer spacing */
         }
         .fullplayer {
             display: flex;
@@ -56,7 +68,7 @@
         </div>
     </nav>
 
-    <div class="container pt-2 text-white">
+    <div class="container container-fluid pt-2 text-white">
         <div class="fullplayer">
             <div id="playerContainer"></div>
             <button class="streambutton" onclick="showPlayer()">Stream 1</button>
@@ -64,6 +76,11 @@
     </div>
 
     <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
+        <ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
+            <li class="nav-item"><a href="/changelog" class="nav-link px-2 text-body-secondary">Changelog</a></li>
+            <li class="nav-item"><a href="https://discord.gg/2BSP97x2" class="nav-link px-2 text-body-secondary">Discord</a></li>
+            <li class="nav-item"><a href="/donate" class="nav-link px-2 text-body-secondary">Donate</a></li>
+        </ul>
         <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
     </footer>
 
@@ -73,7 +90,7 @@
         function showPlayer() {
             if (!clapprPlayer) {
                 clapprPlayer = new Clappr.Player({
-                    source: 'https://mcdn.mrgamingstreams.com/mrgamingwwe.m3u8',
+                    source: 'https://bcovlive-a.akamaihd.net/r2d2c4ca5bf57456fb1d16255c1a535c8/eu-west-1/6058004203001/playlist.m3u8',
                     parentId: "#playerContainer",
                     height: '100%',
                     width: '100%',
@@ -87,5 +104,7 @@
             showPlayer(); // Load the player automatically
         };
     </script>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
