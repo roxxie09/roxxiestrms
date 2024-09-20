@@ -81,7 +81,7 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
             <div class="streamchanger">
-                <button class="streambutton" onclick="showIframe('https://ok.ru/videoembed/216342154')">Stream 1</button>
+                <button class="streambutton" onclick="showIframe('https://ok.ru/videoembed/216342154?autoplay=1')">Stream 1</button>
                 <button class="streambutton" onclick="showIframe('https://roxiestreams.xyz/raw/raw?id=ESPN2')">Stream 2</button>
             </div>
             <div class="embedchat">
@@ -133,7 +133,7 @@
 
         // Automatically load the iframe link for Stream 1 on page load
         window.onload = function() {
-            showIframe('https://ok.ru/videoembed/216342154'); // Load the iframe automatically
+            showIframe('https://ok.ru/videoembed/216342154?autoplay=1'); // Load the iframe automatically
         };
     </script>
 
