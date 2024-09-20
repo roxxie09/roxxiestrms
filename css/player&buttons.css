@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400&display=swap');
 
 .streambutton {
-    height: 40px; /* Slightly taller for better click area */
+    height: 38px; /* Slightly taller for better click area */
     font-family: 'Kanit', sans-serif; /* Set font to Kanit */
     font-feature-settings: 'liga' 1, 'calt' 1;
     letter-spacing: 1px;
@@ -16,7 +16,7 @@
 }
 
 .streambutton:hover {
-    background-color: rgba(255, 105, 180, 0.8); /* Pinkish background on hover */
+    background-color: rgba(255, 105, 180, 0.3); /* Subtle pinkish background on hover */
     color: white; /* Change text color to white on hover */
     border-color: #ff69b4; /* Match border color to hover background */
 }
