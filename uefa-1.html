@@ -33,7 +33,7 @@
         .content-container {
             display: flex; /* Use flexbox for layout */
             justify-content: space-between; /* Space between main content and chat */
-            margin-top: 10px; /* Reduced space above the content */
+            margin-top: 0; /* Reduced space above the content */
         }
         .main-content {
             flex: 1; /* Main content takes remaining space */
@@ -49,6 +49,7 @@
         }
         .twitch-stream {
             height: 600px; /* Match the height of the YouTube chat */
+            margin-top: -4px; /* Move it up higher */
         }
     </style>
 </head>
@@ -71,7 +72,7 @@
     <div class="container container-fluid pt-2 text-white">
         <div class="content-container">
             <div class="main-content">
-                <div class="mt-3"> <!-- Reduced margin-top -->
+                <div class="mt-1"> <!-- Further reduced margin-top -->
                     <iframe class="twitch-stream" src="https://player.twitch.tv/?channel=adapt&parent=roxiestreams.xyz&autoplay=false" height="600" width="100%" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>
                 </div>
             </div>
