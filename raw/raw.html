@@ -33,20 +33,18 @@
 <div id="jwplayerDiv" class="jwplayer" style="width:100%;height:100%;"></div>
 
 <script type="text/javascript" defer>
-    fetch('path2.json')
+    fetch('/raw/mpd.json')
         .then(response => response.json())
         .then(data => {
             const urlParams = new URLSearchParams(window.location.search);
             const channelId = urlParams.get('id');
 
-            // Check if the requested channel ID exists in the JSON data
             if (data.hasOwnProperty(channelId)) {
                 const channelData = data[channelId].drm_info;
                 const drmK1 = channelData.k1;
                 const drmK2 = channelData.k2;
                 const url = channelData.url;
 
-                // Setup JWPlayer with the extracted data
                 jwplayer("jwplayerDiv").setup({
                     autostart: true,
                     volume: 100,
@@ -54,7 +52,7 @@
                     pipIcon: "disabled",
                     title: "RoxieStreams.xyz",
                     logo: {
-                        file: "https://files.catbox.moe/4fa2ec.png",
+                        file: "",
                         hide: false,
                         position: "top-right"
                     },
