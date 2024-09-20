@@ -8,15 +8,17 @@
     <meta name="keywords" content="Roxiestreams, ppv, boxing, dazn, f1, ufc, nba, for, stream, online, free, mrgamingstreams, f1, tv, nfl">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" type="text/css" href="css/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"></script>
     <style>
+        body {
+            background-color: #121212; /* Set your desired background color */
+            color: white; /* Text color */
+        }
         .fullplayer {
             display: flex;
             justify-content: center;
-            position: relative; /* For positioning button */
+            position: relative;
             height: 80vh;
         }
         #playerContainer {
@@ -53,8 +55,6 @@
             </div>
         </div>
     </nav>
-        </div>
-    </nav>
 
     <div class="container pt-2 text-white">
         <div class="fullplayer">
@@ -64,13 +64,7 @@
     </div>
 
     <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-        <ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
-            <li class="nav-item"><a href="/changelog" class="nav-link px-2 text-body-secondary">Changelog</a></li>
-            <li class="nav-item"><a href="https://discord.gg/2BSP97x2" class="nav-link px-2 text-body-secondary">Discord</a></li>
-            <li class="nav-item"><a href="/donate" class="nav-link px-2 text-body-secondary">Donate</a></li>
-        </ul>
         <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
-    <script src="js/bootstrap.bundle.min.js"></script>
     </footer>
 
     <script>
@@ -79,7 +73,7 @@
         function showPlayer() {
             if (!clapprPlayer) {
                 clapprPlayer = new Clappr.Player({
-                    source: 'https://bcovlive-a.akamaihd.net/r2d2c4ca5bf57456fb1d16255c1a535c8/eu-west-1/6058004203001/playlist.m3u8',
+                    source: 'https://mcdn.mrgamingstreams.com/mrgamingwwe.m3u8',
                     parentId: "#playerContainer",
                     height: '100%',
                     width: '100%',
