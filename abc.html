@@ -1,122 +1,80 @@
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta name="robots" content="noindex, nofollow" />
-    <meta name="referrer" content="no-referrer" />
-    <style type="text/css">
+    <meta name="robots" content="noindex,nofollow">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <style>
         body {
             margin: 0;
-            padding: 0;
+        }
+
+        .jwplayer {
+            position: absolute !important;
+        }
+
+        .jwplayer.jw-flag-aspect-mode {
+            min-height: 100%;
+            max-height: 100%;
+        }
+
+        .jw-logo-container {
+            position: absolute;
+            top: 2%;
+            right: 55%;
         }
     </style>
-    <script src="//ssl.p.jwpcdn.com/player/v/8.26.0/jwplayer.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/console-ban@4.1.0/dist/console-ban.min.js"></script>
-  <script>
-    // default options
-    ConsoleBan.init()
-    // custom options
-    ConsoleBan.init({
-      redirect: '/'
-    })
-  </script>
-    <script>
-        // Disable right-click
-        document.addEventListener('contextmenu', function (e) {
-            e.preventDefault();
-        });
-
-        // Disable access to developer tools
-        document.addEventListener('keydown', function (e) {
-            if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) ||
-                (e.ctrlKey && e.shiftKey && e.key === 'J')) {
-                e.preventDefault();
-            }
-        });
-    document.addEventListener('keydown', function (e) {
-        if (e.ctrlKey && e.key === 'u') {
-            e.preventDefault();
-        }
-    });
-    </script>
-    <script>
-        jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
-    </script>
 </head>
+
 <body>
-    <script type="text/javascript">
-        function getParameterByName(name) {
-            name = name.replace(/[\[]/, "\[").replace(/[\]]/, "\]");
-            var regex = new RegExp("[\?&]" + name + "=([^&#]*)"),
-                results = regex.exec(location.search);
-            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-        }
+<script src="https://content.jwplatform.com/libraries/IDzF9Zmk.js"></script>
 
-        var get = getParameterByName('get');
-        var key = getParameterByName('key');
-        var key2 = getParameterByName('key2');
-        var getIMG = getParameterByName('img');
-    </script>
-    <div id="player"></div>
-    <script type="text/javascript">
-        var playerInstance = jwplayer("player");
+<div id="jwplayerDiv" class="jwplayer" style="width:100%;height:100%;"></div>
 
-        playerInstance.setup({
-	"playlist": [
-		{
-			"sources": [
-				null,
-				{
-					"default": false,
-					"type": "hls",
-					"file": "https://dfwlive-v1-c2p2-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(WPBF-2970.dfw.1080)/index.m3u8",
-					"drm": {
-						"clearkey": {
-							"keyId": "44ede2336eae9710a2d0091c30c276aa",
-							"key": "b75e092a35cdb0126a70432d0278f27d"
-						}
-					},
-					"label": "1"
-				},
-				{
-					"default": true,
-					"type": "hls",
-					"file": "https://dfwlive-v1-c2p2-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(WPBF-2970.dfw.1080)/index.m3u8",
-					"drm": {
-						"widevine": {},
-						"playready": {}
-					},
-					"label": "2"
-				}
-			]
-		}
-	],
-            width: "100%",
-            height: "100%",
-            aspectratio: "16:9",
-            autostart: false,
-            cast: {},
-            sharing: {}
+<script type="text/javascript" defer>
+    fetch('path2.json')
+        .then(response => response.json())
+        .then(data => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const channelId = urlParams.get('id');
+
+            // Check if the requested channel ID exists in the JSON data
+            if (data.hasOwnProperty(channelId)) {
+                const channelData = data[channelId].drm_info;
+                const drmK1 = channelData.k1;
+                const drmK2 = channelData.k2;
+                const url = channelData.url;
+
+                // Setup JWPlayer with the extracted data
+                jwplayer("jwplayerDiv").setup({
+                    autostart: true,
+                    volume: 100,
+                    mute: false,
+                    pipIcon: "disabled",
+                    title: "RoxieStreams.xyz",
+                    logo: {
+                        file: "https://files.catbox.moe/4fa2ec.png",
+                        hide: false,
+                        position: "top-right"
+                    },
+                    file: url,
+                    drm: {
+                        clearkey: {
+                            keyId: drmK1,
+                            key: drmK2
+                        }
+                    }
+                });
+            } else {
+                document.body.innerHTML = "<h2 class='access-denied'>Channel not found</h2>";
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching JSON:', error);
+            document.body.innerHTML = "<h2 class='access-denied'>Error fetching channel data</h2>";
         });
-    </script>
-<script>
-  window.user.key = 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoyNDkyNDcsInBhc3MiOjEzMjYsInZpZGVvIjoyNDk1Niwic2Vzc2lvbiI6MTh9.lPf96fa3CYxvK4vqoeotF911JK3O1AERx-la0HbCv8k';
 </script>
-<noscript>
-    <meta http-equiv="refresh" content="0;url=https:/roxiestreams.xyz">
-</noscript>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var isJavaScriptEnabled = true;
 
-        try {
-            var testElement = document.createElement('div');
-        } catch (e) {
-            isJavaScriptEnabled = false;
-        }
-
-        if (!isJavaScriptEnabled) {
-            window.location.href = 'https://roxiestreams.xyz';
-        }
-    });
-</script>
 </body>
 </html>
