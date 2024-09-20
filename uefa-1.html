@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="utf-8">
@@ -28,15 +28,28 @@
             padding-right: 5px; /* Adjusted padding for closer spacing */
         }
         .fullplayer {
-            display: flex;
+            display: flex; /* Use flexbox for side-by-side layout */
             justify-content: center;
             position: relative;
             height: 80vh;
             margin-top: 50px; /* Adjust this value as needed */
         }
         #playerContainer {
-            width: 100%; /* Full width of parent */
+            width: 70%; /* Width for the player */
             height: 100%; /* Full height of parent */
+        }
+        .embedchat {
+            width: 30%; /* Width for the chat */
+            height: 100%; /* Full height of parent */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align iframe to the top */
+            margin-left: 10px; /* Space between player and chat */
+        }
+        .embedchat iframe {
+            width: 100%; /* Full width of chat */
+            height: 100%; /* Full height of chat */
+            border: none; /* Remove iframe border */
         }
         .streambutton {
             position: absolute; /* Absolute positioning */
@@ -73,6 +86,9 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
             <button class="streambutton" onclick="showPlayer('clappr', 'https://bcovlive-a.akamaihd.net/r2d2c4ca5bf57456fb1d16255c1a535c8/eu-west-1/6058004203001/playlist.m3u8')">Stream 1</button>
+            <div class="embedchat">
+                <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.xyz"></iframe>
+            </div>
         </div>
     </div>
 
