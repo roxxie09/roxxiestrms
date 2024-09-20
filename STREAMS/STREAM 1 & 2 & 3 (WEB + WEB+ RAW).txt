@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
-    <link href="/css/player&buttons.css" rel="stylesheet">
+    <link href="/css/buttons.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"></script>
     <style>
         .navbar-brand {
@@ -123,12 +123,10 @@
         }
 
         function showIframe(url) {
-            // Destroy Clappr player if it exists
             if (clapprPlayer) {
                 clapprPlayer.destroy();
                 clapprPlayer = null;
             }
-            // Change the content of the playerContainer to an iframe
             document.getElementById('playerContainer').innerHTML = `<iframe src="${url}" style="width: 100%; height: 100%; border: none;"></iframe>`;
         }
 
