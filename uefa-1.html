@@ -45,8 +45,10 @@
         }
         iframe {
             width: 100%; /* Full width of chat container */
-            height: 100%; /* Full height of chat container */
             border: none; /* Remove border */
+        }
+        .twitch-stream {
+            height: 600px; /* Match the height of the YouTube chat */
         }
     </style>
 </head>
@@ -70,8 +72,7 @@
         <div class="content-container">
             <div class="main-content">
                 <div class="mt-5">
-                    <h2 class="m-0" style="font-family: 'Kanit', sans-serif; font-weight: bold;">Watch Live Twitch Stream</h2>
-                    <iframe src="https://player.twitch.tv/?channel=adapt&parent=roxiestreams.xyz&autoplay=false" height="600" width="100%" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>
+                    <iframe class="twitch-stream" src="https://player.twitch.tv/?channel=adapt&parent=roxiestreams.xyz&autoplay=false" height="600" width="100%" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>
                 </div>
             </div>
             <div class="chat-container">
