@@ -7,16 +7,16 @@
     letter-spacing: 1px;
     font-size: .9rem;
     border-radius: 15px;
-    border: 1px solid #ff69b4; /* Pink border */
+    border: 1px solid #e0e0e0; /* Light gray border to match text */
     background-color: transparent; /* Transparent background */
-    color: #ff69b4; /* Pink text */
+    color: #e0e0e0; /* Light gray text to match the page */
     margin-right: 5px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
 .streambutton:hover {
-    background-color: #28A745; /* Green on hover */
-    color: white; /* Change text color to white */
+    background-color: rgba(36, 80, 38, 0.8); /* Semi-transparent green on hover */
+    color: white; /* Change text color to white on hover */
     border-color: #28A745; /* Match border color to hover background */
 }
