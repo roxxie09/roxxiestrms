@@ -34,12 +34,40 @@
             height: 600px; 
             margin-top: -4px; 
         }
+        .fullplayer {
+            display: flex;
+            justify-content: center;
+            gap: 1em;
+            height: 80vh;
+            max-height: 550px;
+            position: relative; /* Added for positioning */
+        }
+        .player {
+            flex-basis: 900px;
+            display: flex;
+            flex-direction: column;
+            gap: .2em;
+        }
         .streambutton {
-            padding: 10px 20px; 
-            background-color: pink; 
-            border: none; 
-            cursor: pointer; 
-            font-size: 16px; 
+            position: absolute; /* Absolute positioning */
+            top: 10px; /* Distance from the top */
+            left: 10px; /* Distance from the left */
+            height: 36px;
+            font-family: Inter, sans-serif;
+            font-feature-settings: 'liga' 1, 'calt' 1;
+            letter-spacing: 1px;
+            font-size: .9rem;
+            border-radius: 15px;
+            border-color: #286ea7;
+            background-image: linear-gradient(to bottom,#000000, rgb(31, 44, 75));
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+        .streambutton:hover {
+            background-image: linear-gradient(to bottom,#000000, rgb(36, 80, 38));
+            color: #85ce96;
+            border-color: #28A745;
         }
     </style>
 </head>
@@ -65,9 +93,11 @@
             <div class="main-content">
                 <div class="mt-1">
                     <!-- Clappr Player Container -->
-                    <div id="playerContainer"></div>
-                    <!-- Button to show Clappr Player -->
-                    <button class="streambutton" onclick="showPlayer('https://bcovlive-a.akamaihd.net/r2d2c4ca5bf57456fb1d16255c1a535c8/eu-west-1/6058004203001/playlist.m3u8')">Start Stream</button>
+                    <div class="fullplayer">
+                        <div id="playerContainer"></div>
+                        <!-- Button to show Clappr Player -->
+                        <button class="streambutton" onclick="showPlayer('https://bcovlive-a.akamaihd.net/r2d2c4ca5bf57456fb1d16255c1a535c8/eu-west-1/6058004203001/playlist.m3u8')">Stream 1</button>
+                    </div>
                 </div>
             </div>
             <div class="chat-container">
@@ -89,6 +119,7 @@
     <script>
         var clapprPlayer;
 
+        // Function to show the player
         function showPlayer(stream) {
             var container = document.getElementById("playerContainer");
             container.innerHTML = ""; // Clear the container
@@ -100,6 +131,11 @@
                 disableVideoTagContextMenu: false,
             });
         }
+
+        // Automatically load the Clappr player on page load
+        window.onload = function() {
+            showPlayer('https://mcdn.mrgamingstreams.com/mrgamingwwe.m3u8'); // Default stream
+        };
     </script>
 </body>
 </html>
