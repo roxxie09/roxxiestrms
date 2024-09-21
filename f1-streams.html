@@ -135,7 +135,33 @@
             showIframe('https://player.twitch.tv/?channel=farouz_dz&parent=roxiestreams.xyz');
         };
     </script>
+    <script>
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
 
+        document.addEventListener('keydown', function (e) {
+            if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) ||
+                (e.ctrlKey && e.shiftKey && e.key === 'J')) {
+                e.preventDefault();
+            }
+        });
+    </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var isJavaScriptEnabled = true;
+
+        try {
+            var testElement = document.createElement('div');
+        } catch (e) {
+            isJavaScriptEnabled = false;
+        }
+
+        if (!isJavaScriptEnabled) {
+            window.location.href = 'https://roxiestreams.xyz';
+        }
+    });
+</script>
     <script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
