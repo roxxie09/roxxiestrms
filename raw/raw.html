@@ -33,8 +33,17 @@
 <div id="jwplayerDiv" class="jwplayer" style="width:100%;height:100%;"></div>
 
 <script type="text/javascript" defer>
-    fetch('/raw/mpd.json')
-        .then(response => response.json())
+    // Replace 'your_secure_token' with the actual token
+    const token = 'your_secure_token'; // Ensure this token is secure
+
+    // Fetch the JSON data with the token
+    fetch(`/raw/mpd.json?token=${token}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
             const urlParams = new URLSearchParams(window.location.search);
             const channelId = urlParams.get('id');
