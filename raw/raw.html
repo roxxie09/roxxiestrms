@@ -33,53 +33,52 @@
 <div id="jwplayerDiv" class="jwplayer" style="width:100%;height:100%;"></div>
 
 <script type="text/javascript" defer>
-    // Use the actual token from your token.txt file
-const secret = 'your_secure_token'; // Use the actual secret value here
+    const z = 'your_secure_token';
 
-fetch(`/raw/mpd.json?secret=${secret}`)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const channelId = urlParams.get('id');
+    fetch(`/raw/mpd.json?z=${z}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const channelId = urlParams.get('id');
 
-        if (data.hasOwnProperty(channelId)) {
-            const channelData = data[channelId].drm_info;
-            const drmK1 = channelData.k1;
-            const drmK2 = channelData.k2;
-            const url = channelData.url;
+            if (data.hasOwnProperty(channelId)) {
+                const channelData = data[channelId].drm_info;
+                const drmK1 = channelData.k1;
+                const drmK2 = channelData.k2;
+                const url = channelData.url;
 
-            jwplayer("jwplayerDiv").setup({
-                autostart: true,
-                volume: 100,
-                mute: false,
-                pipIcon: "disabled",
-                title: "RoxieStreams.xyz",
-                logo: {
-                    file: "",
-                    hide: false,
-                    position: "top-right"
-                },
-                file: url,
-                drm: {
-                    clearkey: {
-                        keyId: drmK1,
-                        key: drmK2
+                jwplayer("jwplayerDiv").setup({
+                    autostart: true,
+                    volume: 100,
+                    mute: false,
+                    pipIcon: "disabled",
+                    title: "RoxieStreams.xyz",
+                    logo: {
+                        file: "",
+                        hide: false,
+                        position: "top-right"
+                    },
+                    file: url,
+                    drm: {
+                        clearkey: {
+                            keyId: drmK1,
+                            key: drmK2
+                        }
                     }
-                }
-            });
-        } else {
-            document.body.innerHTML = "<h2 class='access-denied'>Channel not found</h2>";
-        }
-    })
-    .catch(error => {
-        console.error('Error fetching JSON:', error);
-        document.body.innerHTML = "<h2 class='access-denied'>Error fetching channel data</h2>";
-    });
+                });
+            } else {
+                document.body.innerHTML = "<h2 class='access-denied'>Channel not found</h2>";
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching JSON:', error);
+            document.body.innerHTML = "<h2 class='access-denied'>Error fetching channel data</h2>";
+        });
 </script>
 
 </body>
