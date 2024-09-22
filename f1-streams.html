@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link href="/css/buttons.css" rel="stylesheet">
 <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
-    <script src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clappr-ima-plugin@latest/dist/clappr-ima-plugin.min.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -111,21 +111,27 @@
     <script>
         var clapprPlayer;
 
-        function showPlayer(playerType, stream) {
-            if (playerType === "clappr") {
-                if (clapprPlayer) {
-                    clapprPlayer.destroy();
-                }
-
-                clapprPlayer = new Clappr.Player({
-                    source: stream,
-                    parentId: "#playerContainer",
-                    height: '100%',
-                    width: '100%',
-                    autoPlay: true,
-                });
-            }
+function showPlayer(playerType, stream) {
+    if (playerType === "clappr") {
+        if (clapprPlayer) {
+            clapprPlayer.destroy();
         }
+
+        // Initialize the player with the VAST plugin
+        clapprPlayer = new Clappr.Player({
+            source: stream,
+            parentId: "#playerContainer",
+            height: '100%',
+            width: '100%',
+            autoPlay: true,
+            plugins: [ClapprImaPlugin],  // Add the VAST plugin here
+            imaPlugin: {
+                // Specify the VAST tag URL here
+                adTagUrl: 'https://experiencedturn.com/d/mJFnz.dTGHNKvNZzGuUg/qezmo9_uWZUUzlukDPbTRUY1/NvznkaxmNLjrggtjN/TOUN3tOhT/ET2gOSQy'
+            }
+        });
+    }
+}
 
         window.onload = function() {
             showPlayer('clappr', 'https://bcovlive-a.akamaihd.net/r2d2c4ca5bf57456fb1d16255c1a535c8/eu-west-1/6058004203001/playlist.m3u8');
