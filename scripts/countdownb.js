@@ -1,5 +1,6 @@
 document.querySelectorAll('[data-time]').forEach(function(eventCard, index) {
     var countDownDate = new Date(eventCard.getAttribute('data-time')).getTime();
+    var endTime = new Date(eventCard.getAttribute('data-end-time')).getTime();
 
     var intervalId = setInterval(function() {
         var now = new Date().getTime();
@@ -19,6 +20,12 @@ document.querySelectorAll('[data-time]').forEach(function(eventCard, index) {
             countdownElement.style.color = "red"; 
             countdownElement.style.fontWeight = "bold"; 
             timerElement.innerHTML = ""; 
+        }
+
+        // Check if the event has ended
+        if (now > endTime) {
+            clearInterval(intervalId);
+            eventCard.remove(); // Remove the event card
         }
     }, 1000);
 });
