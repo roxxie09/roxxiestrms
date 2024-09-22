@@ -6,12 +6,21 @@
     <title>Roxiestreams - Watch Live Sports, F1, UFC, NFL, TV</title>
     <meta name="description" content="Free PPV UFC, TV, NBA, NFL, and F1 streams">
     <meta name="keywords" content="Roxiestreams, ppv, boxing, dazn, f1, ufc, nba, for, stream, online, free, mrgamingstreams, f1, tv, nfl">
-<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link href="/css/buttons.css" rel="stylesheet">
+<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-EQ3BHVQGMN');
+</script>
     <style>
         .navbar-brand {
             color: pink;
@@ -82,8 +91,7 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
             <div class="streamchanger">
-                <button class="streambutton" onclick="showIframe('https://player.twitch.tv/?channel=farouz_dz&parent=roxiestreams.xyz')">Stream 1</button>
-                <button class="streambutton" onclick="showIframe('https://roxiestreams.xyz/raw/raw?id=ESPN2')">Stream 2</button>
+                <button class="streambutton" onclick="showPlayer('clappr', 'https://bcovlive-a.akamaihd.net/r2d2c4ca5bf57456fb1d16255c1a535c8/eu-west-1/6058004203001/playlist.m3u8')">Stream 1</button>
             </div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.xyz"></iframe>
@@ -104,15 +112,11 @@
         var clapprPlayer;
 
         function showPlayer(playerType, stream) {
-            // Destroy iframe if it exists
-            document.getElementById('playerContainer').innerHTML = '';
-
             if (playerType === "clappr") {
                 if (clapprPlayer) {
                     clapprPlayer.destroy();
                 }
 
-                // Create a new Clappr player
                 clapprPlayer = new Clappr.Player({
                     source: stream,
                     parentId: "#playerContainer",
@@ -123,16 +127,8 @@
             }
         }
 
-        function showIframe(url) {
-            if (clapprPlayer) {
-                clapprPlayer.destroy();
-                clapprPlayer = null;
-            }
-            document.getElementById('playerContainer').innerHTML = `<iframe src="${url}" style="width: 100%; height: 100%; border: none;"></iframe>`;
-        }
-
         window.onload = function() {
-            showIframe('https://player.twitch.tv/?channel=farouz_dz&parent=roxiestreams.xyz');
+            showPlayer('clappr', 'https://bcovlive-a.akamaihd.net/r2d2c4ca5bf57456fb1d16255c1a535c8/eu-west-1/6058004203001/playlist.m3u8');
         };
     </script>
     <script>
