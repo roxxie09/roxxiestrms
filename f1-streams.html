@@ -9,6 +9,7 @@
 <script>
     let devtoolsOpen = false;
 
+    // Check for devtools opening
     const element = new Image();
     Object.defineProperty(element, 'id', {
         get: function() {
@@ -18,20 +19,19 @@
     });
 
     setInterval(function() {
-        // Reset devtoolsOpen to false
         devtoolsOpen = false;
-        console.log(element); // Optional logging
-
-        // Check if devtools are open based on previous logic
+        console.log(element); // This line can be removed if not needed
         if (devtoolsOpen) {
             window.location.href = "https://roxiestreams.xyz"; // Redirect to homepage
         }
+    }, 1000);
 
-        // Additional check for window dimensions
+    // Additional check for window size
+    window.addEventListener('resize', function() {
         if (window.outerWidth - window.innerWidth > 100 || window.outerHeight - window.innerHeight > 100) {
             window.location.href = "https://roxiestreams.xyz"; // Redirect to homepage
         }
-    }, 1000);
+    });
 </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -173,6 +173,7 @@
             }
         });
     </script>
+    <script src="/scripts/browser.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
