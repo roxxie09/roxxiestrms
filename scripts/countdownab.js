@@ -25,7 +25,7 @@ document.querySelectorAll('[data-time]').forEach(function(eventCard, index) {
         // Check if the event has ended
         if (now > endTime) {
             clearInterval(intervalId);
-            eventCard.remove(); // Remove the event card
+            eventCard.parentElement.parentElement.remove(); // Remove the entire section
         }
     }, 1000);
 });
