@@ -6,33 +6,7 @@
     <title>Roxiestreams - Watch Live Sports, F1, UFC, NFL, TV</title>
     <meta name="description" content="Free PPV UFC, TV, NBA, NFL, and F1 streams">
     <meta name="keywords" content="Roxiestreams, ppv, boxing, dazn, f1, ufc, nba, for, stream, online, free, mrgamingstreams, f1, tv, nfl">
-<script>
-    let devtoolsOpen = false;
-
-    // Check for devtools opening
-    const element = new Image();
-    Object.defineProperty(element, 'id', {
-        get: function() {
-            devtoolsOpen = true;
-            window.location.href = "https://roxiestreams.xyz"; // Redirect to homepage
-        }
-    });
-
-    setInterval(function() {
-        devtoolsOpen = false;
-        console.log(element); // This line can be removed if not needed
-        if (devtoolsOpen) {
-            window.location.href = "https://roxiestreams.xyz"; // Redirect to homepage
-        }
-    }, 1000);
-
-    // Additional check for window size
-    window.addEventListener('resize', function() {
-        if (window.outerWidth - window.innerWidth > 100 || window.outerHeight - window.innerHeight > 100) {
-            window.location.href = "https://roxiestreams.xyz"; // Redirect to homepage
-        }
-    });
-</script>
+<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
@@ -173,7 +147,6 @@
             }
         });
     </script>
-    <script src="/scripts/broswer.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
