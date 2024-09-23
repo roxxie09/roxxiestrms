@@ -2,7 +2,7 @@
 body {
     font-family: 'Kanit', sans-serif;
     --bs-bg-opacity: 1;
-    background-color: rgb(14, 14, 14); /* overriding static style attribute for body tag */
+    background-color: rgb(14, 14, 14);
 }
 h2,.card-title,.card-text {
     color:#e0e0e0;
