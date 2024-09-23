@@ -1,0 +1,121 @@
+{
+    "AE": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c7p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(AandEHD-1382.dfw.1080)/index.m3u8",
+      "k1": "000788d4f064933b7c1304069155468a",
+      "k2": "80516601a229189b1e3100dcece9ad9d"
+    }
+  },
+     "AMC":{
+      "drm_info":{
+         "url":"https://dfwlive-v1-c1p2-sponsored.akamaized.net/Content/HLS.cps/Live/channel(AMCHD-4730.dfw.1080)/index.m3u8",
+        "k1": "16fb5a8c4f25e1caa8ba1acbad8cd765",
+		"k2": "a8e92474308b4c756ae73b16e15599c7"
+      }
+   },
+     "AXS": {
+    "drm_info": {
+      "url": "//dfwlive-v1-c4p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(AXSTV-4209.dfw.1080)/index.m3u8",
+      "k1": "74418be7fb1b6a1d3c583ac41007a1a3",
+      "k2": "15b9caed04a5864bc5fb6d0217dee640"
+    }
+  },
+  "DISNEY_CHANNEL": {
+    "drm_info": {
+      "url": "//dfwlive-v1-c1p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(DISeHD-8398.dfw.720)/index.m3u8",
+      "k1": "7b1fa29b06148f5eec3445b7c4dda240",
+      "k2": "64dbe9278141b60a6b68adbf0a207ef2"
+    }
+  },
+  "DISNEY_XD": {
+    "drm_info": {
+      "url": "//dfwlive-v1-c7p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(DXDHD-8397.dfw.720)/index.m3u8",
+      "k1": "0a7afd1f1a7511e0db30d1d968a00700",
+      "k2": "fffa4d3643ea01f7ccaf72f94fb0e168"
+    }
+  },
+  "ESPN": {
+    "drm_info": {
+      "url": "//dfwlive-v1-c1p2-sponsored.akamaized.net/Content/HLS.cps/Live/channel(ESPNHD-1964.dfw.720)/index.m3u8",
+      "k1": "4e0b81686112c4f0882fb7fec4d3e594",
+      "k2": "97a1a6b0712358db6d2a4f4aa87ce755"
+    }
+  },
+  "ESPN2": {
+    "drm_info": {
+      "url": "//dfwlive-v1-c1p6-sponsored.akamaized.net/Content/HLS.cps/Live/channel(ESPN2HD-1965.dfw.720)/index.m3u8",
+      "k1": "0bf6fd4ab6b479aa16433a956321c23c",
+      "k2": "119cb163699a60f91dc0c05694522dfe"
+    }
+  },
+    "ESPNU":{
+      "drm_info":{
+         "url":"https://dfwlive-v1-c2p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(ESPNUHD-2355.dfw.720)/index.m3u8",
+         "k1": "1f8f4aceaffa0e41691acae94586955b",
+		 "k2": "0c54239cc17d9fff50cf3fbf8ffc03d4"
+      }
+   },
+    "EUROSPORT_1_ES":{
+      "drm_info":{
+                "url": "https://cache1.zapitv.com/live/eds_c2/eurosport_1_hd/dash_live_enc/eurosport_1_hd.mpd",
+                "k1": "237be8ca9383755e9f5784dd23f545eb",
+                "k2": "15a723773c3b3cbce295c0aed0bc71c3"
+          }
+            },
+            "EUROSPORT_2_ES":{
+      "drm_info":{
+                "url": "https://cache2.zapitv.com/live/eds_c2/eurosport_2_hd/dash_live_enc/eurosport_2_hd.mpd",
+                "k1": "15382879a9bcfa6f1a04a86d5b4324e9",
+                "k2": "664241133368ab039dc1fb15206ba54b"
+                }
+     },
+  "FOX": {
+    "drm_info": {
+      "url": "//dfwlive-v1-c2p2-sponsored.akamaized.net/Content/HLS.cps/Live/channel(WFLX-2971.dfw.1080)/index.m3u8",
+      "k1": "2b5182d6c00c385d7533695b56fb4799",
+      "k2": "e17383864a909f35a93db6c0fad53d51"
+    }
+  },
+    "RALLY_TV":{
+      "drm_info":{
+         "url":"https://dazn.jdx3.org/https://dcf-ak-livedazn.akamaized.net/dash/dazn-linear-039/stream.mpd",
+         "k1":"82f8e2a17dac44c0a18f660479349c59",
+         "k2":"1b144f73e6fefe91cd05f850e2b589d0"
+      }
+   },
+    "RALLY_TV_2":{
+      "drm_info":{
+         "url":"https://wrc-rallytv-a.akamaized.net/Content/channel/6a5d6131-aedf-f38a-651c-18273b6fe260/DASH/master.mpd",
+         "k1": "1109e82e9696324bb1b1dc292cfe6dda",
+		 "k2": "b1d692fd6818ca81a50440d658b9e939"
+      }
+   },
+     "TBS":{
+      "drm_info":{
+         "url":"https://dfwlive-v1-c1p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(TBSHD-8254.dfw.1080)/index.m3u8",
+         "k1": "183181fe63a66c2a90b770973cd4c443",
+		 "k2": "324915169fd24da05d6c3a23c613e9e0"
+      }
+   },
+     "TNT":{
+      "drm_info":{
+         "url":"https://dfwlive-v1-c4p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(TNTHD-1966.dfw.1080)/index.m3u8",
+         "k1": "4bc178a57f48ada9ed3ea653a89fdd72",
+		 "k2": "d8df2a39f26b2ebfdae0ec4e37ceb937"
+      }
+   },
+    "WWE":{
+      "drm_info":{
+         "url":"https://live-streaming-rsm.azureedge.net/wwehd/wwehd_cenc.isml/.mpd",
+         "k1": "40d4210e476340e091d5433d45fdd8f1",
+		 "k2": "090459185a95c99e6bae332d689e6fbe"
+      }
+   },
+   "NHL_NET":{
+      "drm_info":{
+         "url":"https://dfwlive-v1-c1p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(NHLHD-8230.dfw.720)/index.m3u8",
+         "k1": "607decd7288868d5dcfe6c4ef9c12be9",
+		 "k2": "ae07fe96a829fbee61613b2f053454ef"
+      }
+   }
+}

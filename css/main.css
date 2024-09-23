@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 body {
     font-family: 'Kanit', sans-serif;
     --bs-bg-opacity: 1;
@@ -274,3 +275,51 @@ a.card-text:hover {
         padding:1px!important;
     }
 }
+=======
+body {
+    font-family: 'Kanit', sans-serif;
+    --bs-bg-opacity: 1;
+    background-color: rgb(14, 14, 14); /* overriding static style attribute for body tag */
+}
+h2,.card-title,.card-text {
+    color:#e0e0e0;
+}
+.nav-item {
+    font-weight: 300;
+}
+
+a.item-card {
+    text-decoration: none;
+}
+
+a.card-text {
+    text-decoration: none;
+}
+
+a.item-card:hover h5 {
+    text-decoration: underline;
+}
+
+a.card-text:hover {
+    text-decoration: underline;
+}
+
+.cover {
+    object-fit: cover;
+}
+
+.flowvod {
+    width: 50vw !important;
+}
+
+.modal-open .container-fluid, .modal-open  .container {
+    backdrop-filter: blur(5px) grayscale(90%);
+    -webkit-filter: blur(5px) grayscale(90%);
+}
+.bg-darker {
+    background-color: #121212!important;
+}
+
+.card-header-tabs .nav-link.active {
+    border-bottom-color: #00000000!important;
+>>>>>>> 5abea60f8c5fe20faefb8efd059987d45cd8ca9c
