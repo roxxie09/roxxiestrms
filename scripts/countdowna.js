@@ -6,12 +6,14 @@ document.querySelectorAll('[data-time]').forEach(function(eventCard, index) {
         var now = new Date().getTime();
         var distance = countDownDate - now;
 
+        // Calculate days, hours, minutes, and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
         var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
         var timerElement = document.getElementById(`countdown-timer-${index + 1}`);
-        timerElement.innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+        timerElement.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
 
         if (distance < 0) {
             clearInterval(intervalId);
