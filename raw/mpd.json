@@ -13,6 +13,17 @@
 		"k2": "a8e92474308b4c756ae73b16e15599c7"
       }
    },
+     "OPTUS": {
+    "drm_info": {
+      "url": "https://linear-a.fastly.optusvideo.tv/v7/OptusSport3/xbtss/drm/avc/dash/plain/manifest.mpd",
+      "k1": "f6b2c1aa0db912dbbcd5d0dc12821e10",
+      "k2": "f6b2c1aa0db912dbbcd5d0dc12821e10",
+      "k3": "ea0621118ecd46ff982ca4af8c2a9837",
+      "k4": "3146695d2eed75d4b1e8005adeb2ebc6",
+      "k5": "e0ba997f552144ff8fbbd0be9519921f",
+      "k6": "00535b6c71648f0a1de3506a37483f3b"
+    }
+  },
      "AXS": {
     "drm_info": {
       "url": "//dfwlive-v1-c4p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(AXSTV-4209.dfw.1080)/index.m3u8",
