@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400&display=swap');
 
 .streambutton {
-    height: 25px;
+    height: 35px;
     font-family: 'Kanit', sans-serif;
     font-feature-settings: 'liga' 1;
     letter-spacing: 1px;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     border-radius: 8px;
     border: 1px solid #e0e0e0;
     background-color: transparent;
