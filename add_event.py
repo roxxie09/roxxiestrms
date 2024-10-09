@@ -30,26 +30,30 @@ def create_event_html(title, start_time, end_time, url, image_url):
 '''
 
 # Function to insert the new event into index.html
-def add_event_to_html(event_html, event_time):
+def add_event_to_html(event_html, start_time):
     with open('index.html', 'r') as file:
         content = file.readlines()
 
-    # Find where to insert new events
-    event_insert_index = None
+    # Extract existing events and their times
     events = []
+    event_insert_index = None
 
-    # Parse existing event times
     for i, line in enumerate(content):
         if 'data-time' in line:
             time_str = line.split('data-time="')[1].split('"')[0]
             events.append((datetime.strptime(time_str, '%B %d, %Y %H:%M:%S GMT%z'), line))
-        
-        # Find the insert position
+
+        # Identify where to insert the new events (after the "Upcoming Events" section)
         if event_insert_index is None and 'Upcoming Events' in line:
             event_insert_index = i + 2  # Insert after the header
 
+    # Check for duplicates
+    new_event_time = datetime.strptime(start_time, '%B %d, %Y %H:%M:%S GMT%z')
+    if any(new_event_time == event_time for event_time, _ in events):
+        print("Event already exists. No duplicates allowed.")
+        return
+
     # Append the new event
-    new_event_time = datetime.strptime(event_time, '%B %d, %Y %H:%M:%S GMT%z')
     events.append((new_event_time, event_html))
 
     # Sort events by time
