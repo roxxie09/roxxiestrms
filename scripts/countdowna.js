@@ -1,8 +1,7 @@
-document.querySelectorAll('[data-time]').forEach(function(eventCard) {
+document.querySelectorAll('[data-time]').forEach(function(eventCard, index) {
     var countDownDate = new Date(eventCard.getAttribute('data-time')).getTime();
     var endTime = new Date(eventCard.getAttribute('data-end-time')).getTime();
-    var timerElement = eventCard.querySelector('.countdown-timer');
-    
+
     var intervalId = setInterval(function() {
         var now = new Date().getTime();
         var distance = countDownDate - now;
@@ -13,13 +12,15 @@ document.querySelectorAll('[data-time]').forEach(function(eventCard) {
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
+        var timerElement = document.getElementById(`countdown-timer-${index + 1}`);
         timerElement.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
 
         if (distance < 0) {
             clearInterval(intervalId);
-            eventCard.querySelector('.countdown-label').innerHTML = "LIVE";
-            timerElement.style.color = "red"; 
-            timerElement.style.fontWeight = "bold"; 
+            var countdownElement = document.getElementById(`countdown-${index + 1}`);
+            countdownElement.innerHTML = "LIVE";
+            countdownElement.style.color = "red"; 
+            countdownElement.style.fontWeight = "bold"; 
             timerElement.innerHTML = ""; 
         }
 
