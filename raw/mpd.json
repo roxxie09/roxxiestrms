@@ -6,7 +6,7 @@
       "k2": "80516601a229189b1e3100dcece9ad9d"
     }
   },
-     "ABC_WEST": {
+     "ABCWEST": {
     "drm_info": {
       "url": "https://dfwlive-v1-c7p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(KMGH-3091.dfw.720)/index.m3u8",
       "k1": "6b27d8a874e46613426ad29fd9a16fc8",
@@ -32,6 +32,34 @@
       "url": "//dfwlive-v1-c4p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(AXSTV-4209.dfw.1080)/index.m3u8",
       "k1": "74418be7fb1b6a1d3c583ac41007a1a3",
       "k2": "15b9caed04a5864bc5fb6d0217dee640"
+    }
+  },
+     "BALLYFLORIDA": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c2p1-sponsored.akamaized.net/Content/HLS.cps/Live/channel(FSFLOM-1000274.dfw.720)/index.m3u8",
+      "k1": "d4fa5c049577ea1e5e8789cf456f1159",
+      "k2": "2228df2b85c5abf32f785ee2c03dc6d1"
+    }
+  },
+     "BALLYMIDWEST": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c2p1-sponsored.akamaized.net/Content/HLS.cps/Live/channel(FSFLOM-1000274.dfw.720)/index.m3u8",
+      "k1": "d4fa5c049577ea1e5e8789cf456f1159",
+      "k2": "2228df2b85c5abf32f785ee2c03dc6d1"
+    }
+  },
+     "BALLYSUN": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c2p1-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(FSSNOM-1000284.dfw.720)/index.m3u8",
+      "k1": "8637024d6140831e693a83a577f56986",
+      "k2": "82ca9f4fb4aec489ac752ac42db271af"
+    }
+  },
+     "BALLYWISCONSIN": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c2p1-sponsored.cf.dtvcdn.com/Content/HLS.cps/Live/channel(FSWIOM-1000286.dfw.720)/index.m3u8",
+      "k1": "0a283f2d30ad2ce56b5f9c727375ccd9",
+      "k2": "7d22a4bdc94a8a0ddc052c074e92ff75"
     }
   },
   "DISNEY_CHANNEL": {
