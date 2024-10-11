@@ -1,29 +1,32 @@
 {
-    "AE": {
+    "A&E": {
     "drm_info": {
       "url": "https://dfwlive-v1-c7p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(AandEHD-1382.dfw.1080)/index.m3u8",
       "k1": "000788d4f064933b7c1304069155468a",
       "k2": "80516601a229189b1e3100dcece9ad9d"
     }
   },
+     "ABC_WEST": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c7p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(KMGH-3091.dfw.720)/index.m3u8",
+      "k1": "6b27d8a874e46613426ad29fd9a16fc8",
+      "k2": "206a76e65ba56dc2cc08b09973f130ac"
+    }
+  },
+     "ALTITUDE_SPORTS": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c2p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(ALTalt-5682.dfw.1080)/index.m3u8",
+      "k1": "43aeb875089ca820a84088f28ed97915",
+      "k2": "0275dbf2881bcd937672dd5fe55b3b4c"
+    }
+  },
      "AMC":{
       "drm_info":{
          "url":"https://dfwlive-v1-c1p2-sponsored.akamaized.net/Content/HLS.cps/Live/channel(AMCHD-4730.dfw.1080)/index.m3u8",
         "k1": "16fb5a8c4f25e1caa8ba1acbad8cd765",
-		"k2": "a8e92474308b4c756ae73b16e15599c7"
+	"k2": "a8e92474308b4c756ae73b16e15599c7"
       }
    },
-     "OPTUS": {
-    "drm_info": {
-      "url": "https://linear-a.fastly.optusvideo.tv/v7/OptusSport3/xbtss/drm/avc/dash/plain/manifest.mpd",
-      "k1": "f6b2c1aa0db912dbbcd5d0dc12821e10",
-      "k2": "f6b2c1aa0db912dbbcd5d0dc12821e10",
-      "k3": "ea0621118ecd46ff982ca4af8c2a9837",
-      "k4": "3146695d2eed75d4b1e8005adeb2ebc6",
-      "k5": "e0ba997f552144ff8fbbd0be9519921f",
-      "k6": "00535b6c71648f0a1de3506a37483f3b"
-    }
-  },
      "AXS": {
     "drm_info": {
       "url": "//dfwlive-v1-c4p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(AXSTV-4209.dfw.1080)/index.m3u8",
