@@ -62,11 +62,25 @@
       "k2": "b4427fccb6aad2b299009711e1849058"
     }
   },
+     "BALLYSOCAL": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c2p1-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(FSPTOM-1000280.dfw.720)/index.m3u8",
+      "k1": "feacc43d2e87dd441dbe8ddf503858aa",
+      "k2": "fd56da42980523780703669d79572f5c"
+    }
+  },
      "BALLYSUN": {
     "drm_info": {
       "url": "https://dfwlive-v1-c2p1-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(FSSNOM-1000284.dfw.720)/index.m3u8",
       "k1": "8637024d6140831e693a83a577f56986",
       "k2": "82ca9f4fb4aec489ac752ac42db271af"
+    }
+  },
+     "BALLYSOUTHEAST": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c2p1-sponsored.akamaized.net/Content/HLS.cps/Live/channel(FSSWOM-1000283.dfw.720)/index.m3u8",
+      "k1": "a385bca6a23670928eb9781cb22675bc",
+      "k2": "8ae13020c2f8d39eb56912da917ad5db"
     }
   },
      "BALLYWISCONSIN": {
