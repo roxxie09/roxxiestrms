@@ -55,6 +55,13 @@
       "k2": "779cc04bb99c443af0c7b35d5e45ba45"
     }
   },
+     "BALLYOKLAHOMA": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c2p1-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(FSS4HD-1000175.dfw.720)/index.m3u8",
+      "k1": "b305b8039c484535f368f1ef4e43df1e",
+      "k2": "b4427fccb6aad2b299009711e1849058"
+    }
+  },
      "BALLYSUN": {
     "drm_info": {
       "url": "https://dfwlive-v1-c2p1-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(FSSNOM-1000284.dfw.720)/index.m3u8",
