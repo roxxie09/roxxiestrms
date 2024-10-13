@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link href="/css/buttons.css" rel="stylesheet">
+<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
 <script>
@@ -78,8 +79,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="/changelog">Changelog</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://discord.gg/2BSP97x2">Discord</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Discord</a></li>
                 </ul>
             </div>
         </div>
@@ -89,18 +89,17 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
             <div class="streamchanger">
-                <button class="streambutton" onclick="showPlayer('clappr', 'https://usher.ttvnw.net/api/channel/hls/agent00.m3u8?acmb=eyJBcHBWZXJzaW9uIjoiN2MxMGZmMDEtOWI0ZS00MTRhLWI1MDYtOTBjNWI0NTI3NGFjIn0%3D&allow_source=true&browser_family=opera&browser_version=113.0&cdm=wv&fast_bread=true&os_name=Windows&os_version=NT%2010.0&p=5453529&platform=web&play_session_id=148cf737c82be84ccad52244c6d84838&player_backend=mediaplayer&player_version=1.33.0-rc.5&playlist_include_framerate=true&reassignments_supported=true&sig=1c6b0343a95451063281d9838f999b706677f7b6&supported_codecs=av1,h264&token=%7B%22adblock%22%3Afalse%2C%22authorization%22%3A%7B%22forbidden%22%3Afalse%2C%22reason%22%3A%22%22%7D%2C%22blackout_enabled%22%3Afalse%2C%22channel%22%3A%22agent00%22%2C%22channel_id%22%3A90222258%2C%22chansub%22%3A%7B%22restricted_bitrates%22%3A%5B%5D%2C%22view_until%22%3A1924905600%7D%2C%22ci_gb%22%3Afalse%2C%22geoblock_reason%22%3A%22%22%2C%22device_id%22%3A%22dPyz058kExUiyWUbg8ANsllCmsnofNYR%22%2C%22expires%22%3A1728250624%2C%22extended_history_allowed%22%3Afalse%2C%22game%22%3A%22%22%2C%22hide_ads%22%3Afalse%2C%22https_required%22%3Atrue%2C%22mature%22%3Afalse%2C%22partner%22%3Afalse%2C%22platform%22%3A%22web%22%2C%22player_type%22%3A%22site%22%2C%22private%22%3A%7B%22allowed_to_view%22%3Atrue%7D%2C%22privileged%22%3Afalse%2C%22role%22%3A%22%22%2C%22server_ads%22%3Atrue%2C%22show_ads%22%3Atrue%2C%22subscriber%22%3Afalse%2C%22turbo%22%3Afalse%2C%22user_id%22%3A577501716%2C%22user_ip%22%3A%22149.50.212.204%22%2C%22version%22%3A2%7D&transcode_mode=cbr_v1')">Stream 1</button>
+                <button class="streambutton" onclick="showPlayer('clappr', 'https://cdn2.roxiestreams.pro/nflredzone.m3u8')">Stream 1</button>
             </div>
             <div class="embedchat">
-                <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.xyz"></iframe>
+                <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.pro"></iframe>
             </div>
         </div>
     </div>
 
     <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
         <ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
-            <li class="nav-item"><a href="/changelog" class="nav-link px-2 text-body-secondary">Changelog</a></li>
-            <li class="nav-item"><a href="https://discord.gg/2BSP97x2" class="nav-link px-2 text-body-secondary">Discord</a></li>
+            <li class="nav-item"><a href="https://discord.gg/JhkVmejRmn" class="nav-link px-2 text-body-secondary">Discord</a></li>
         </ul>
         <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
     </footer>
@@ -125,8 +124,20 @@
         }
 
         window.onload = function() {
-            showPlayer('clappr', 'https://usher.ttvnw.net/api/channel/hls/agent00.m3u8?acmb=eyJBcHBWZXJzaW9uIjoiN2MxMGZmMDEtOWI0ZS00MTRhLWI1MDYtOTBjNWI0NTI3NGFjIn0%3D&allow_source=true&browser_family=opera&browser_version=113.0&cdm=wv&fast_bread=true&os_name=Windows&os_version=NT%2010.0&p=5453529&platform=web&play_session_id=148cf737c82be84ccad52244c6d84838&player_backend=mediaplayer&player_version=1.33.0-rc.5&playlist_include_framerate=true&reassignments_supported=true&sig=1c6b0343a95451063281d9838f999b706677f7b6&supported_codecs=av1,h264&token=%7B%22adblock%22%3Afalse%2C%22authorization%22%3A%7B%22forbidden%22%3Afalse%2C%22reason%22%3A%22%22%7D%2C%22blackout_enabled%22%3Afalse%2C%22channel%22%3A%22agent00%22%2C%22channel_id%22%3A90222258%2C%22chansub%22%3A%7B%22restricted_bitrates%22%3A%5B%5D%2C%22view_until%22%3A1924905600%7D%2C%22ci_gb%22%3Afalse%2C%22geoblock_reason%22%3A%22%22%2C%22device_id%22%3A%22dPyz058kExUiyWUbg8ANsllCmsnofNYR%22%2C%22expires%22%3A1728250624%2C%22extended_history_allowed%22%3Afalse%2C%22game%22%3A%22%22%2C%22hide_ads%22%3Afalse%2C%22https_required%22%3Atrue%2C%22mature%22%3Afalse%2C%22partner%22%3Afalse%2C%22platform%22%3A%22web%22%2C%22player_type%22%3A%22site%22%2C%22private%22%3A%7B%22allowed_to_view%22%3Atrue%7D%2C%22privileged%22%3Afalse%2C%22role%22%3A%22%22%2C%22server_ads%22%3Atrue%2C%22show_ads%22%3Atrue%2C%22subscriber%22%3Afalse%2C%22turbo%22%3Afalse%2C%22user_id%22%3A577501716%2C%22user_ip%22%3A%22149.50.212.204%22%2C%22version%22%3A2%7D&transcode_mode=cbr_v1');
+            showPlayer('clappr', 'https://cdn2.roxiestreams.pro/nflredzone.m3u8');
         };
+    </script>
+    <script>
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) ||
+                (e.ctrlKey && e.shiftKey && e.key === 'J')) {
+                e.preventDefault();
+            }
+        });
     </script>
     <script src="js/bootstrap.bundle.min.js"></script>
 </body>
