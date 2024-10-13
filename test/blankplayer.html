@@ -13,7 +13,7 @@
     <link href="/css/buttons.css" rel="stylesheet">
     <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"></script>
-    <script sync src="/scripts/jwplayer.js"></script>
+    <script src="https://cdn.jwplayer.com/libraries/YOUR_JWPLAYER_KEY.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -153,7 +153,7 @@
         }
 
         window.onload = function() {
-            showPlayer('clappr', streamUrl);
+            showPlayer('clappr', streamUrl); // Autoplay Clappr on load
         };
     </script>
     <script>
