@@ -73,7 +73,7 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-black">
         <div class="container-fluid">
-            <a class="navbar-brand" href="https://Roxiestreams.pro/">RoxieStreams</a>
+            <a class="navbar-brand" href="https://Roxiestreams.pro/">RoxxieStreams</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -118,10 +118,6 @@
                     jwPlayerInstance.remove();
                 }
 
-                if (clapprPlayer) {
-                    clapprPlayer.destroy();
-                }
-
                 clapprPlayer = new Clappr.Player({
                     source: currentStreamUrl,
                     parentId: "#playerContainer",
@@ -151,6 +147,7 @@
         }
 
         function switchPlayer() {
+            // If switching players, ensure to refresh the current stream
             if (currentPlayer === 'clappr') {
                 showPlayer('jwplayer');
             } else {
