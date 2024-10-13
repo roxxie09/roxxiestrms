@@ -110,9 +110,11 @@
         var clapprPlayer;
         var jwPlayerInstance;
         var currentPlayer = 'clappr'; // Track which player is currently being used
-        var streamUrl = 'https://cdn2.roxiestreams.pro/nfl.m3u8';
+        var currentStreamUrl = 'https://cdn2.roxiestreams.pro/nfl.m3u8'; // Default stream
 
         function showPlayer(playerType, stream) {
+            currentStreamUrl = stream; // Update the current stream URL
+
             if (playerType === "clappr") {
                 if (jwPlayerInstance) {
                     jwPlayerInstance.remove();
@@ -147,14 +149,14 @@
 
         function switchPlayer() {
             if (currentPlayer === 'clappr') {
-                showPlayer('jwplayer', streamUrl);
+                showPlayer('jwplayer', currentStreamUrl); // Use the current stream when switching
             } else {
-                showPlayer('clappr', streamUrl);
+                showPlayer('clappr', currentStreamUrl); // Use the current stream when switching
             }
         }
 
         window.onload = function() {
-            showPlayer('clappr', streamUrl);
+            showPlayer('clappr', currentStreamUrl);
         };
     </script>
     <script>
