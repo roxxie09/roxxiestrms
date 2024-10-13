@@ -89,8 +89,8 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
             <div class="streamchanger">
-                <button class="streambutton" onclick="showPlayer('clappr', 'https://cdn2.roxiestreams.pro/nfl.m3u8')">Stream 1</button>
-                <button class="streambutton" onclick="showPlayer('clappr', 'https://cdn2.roxiestreams.pro/nfl10.m3u8')">Stream 2</button>
+                <button class="streambutton" onclick="setStream('https://cdn2.roxiestreams.pro/nfl.m3u8')">Stream 1</button>
+                <button class="streambutton" onclick="setStream('https://cdn2.roxiestreams.pro/nfl10.m3u8')">Stream 2</button>
                 <button class="streambutton" onclick="switchPlayer()">Switch Players</button>
             </div>
             <div class="embedchat">
@@ -109,12 +109,10 @@
     <script>
         var clapprPlayer;
         var jwPlayerInstance;
-        var currentPlayer = 'clappr'; // Track which player is currently being used
+        var currentPlayer = 'clappr';
         var currentStreamUrl = 'https://cdn2.roxiestreams.pro/nfl.m3u8'; // Default stream
 
-        function showPlayer(playerType, stream) {
-            currentStreamUrl = stream; // Update the current stream URL
-
+        function showPlayer(playerType) {
             if (playerType === "clappr") {
                 if (jwPlayerInstance) {
                     jwPlayerInstance.remove();
@@ -125,7 +123,7 @@
                 }
 
                 clapprPlayer = new Clappr.Player({
-                    source: stream,
+                    source: currentStreamUrl,
                     parentId: "#playerContainer",
                     height: '100%',
                     width: '100%',
@@ -138,7 +136,7 @@
                 }
 
                 jwPlayerInstance = jwplayer("playerContainer").setup({
-                    file: stream,
+                    file: currentStreamUrl,
                     width: "100%",
                     height: "100%",
                     autostart: true,
@@ -147,16 +145,21 @@
             }
         }
 
+        function setStream(stream) {
+            currentStreamUrl = stream; // Update the current stream URL
+            showPlayer(currentPlayer); // Refresh the current player with the new stream
+        }
+
         function switchPlayer() {
             if (currentPlayer === 'clappr') {
-                showPlayer('jwplayer', currentStreamUrl); // Use the current stream when switching
+                showPlayer('jwplayer');
             } else {
-                showPlayer('clappr', currentStreamUrl); // Use the current stream when switching
+                showPlayer('clappr');
             }
         }
 
         window.onload = function() {
-            showPlayer('clappr', currentStreamUrl);
+            showPlayer('clappr'); // Load Clappr player on startup
         };
     </script>
     <script>
