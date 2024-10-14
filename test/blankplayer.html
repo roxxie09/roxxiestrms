@@ -89,10 +89,9 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
             <div class="streamchanger">
-                <button class="streambutton" onclick="showPlayer('clappr', 'https://cdn2.roxiestreams.pro/nfl.m3u8')">Stream 1 (Clappr)</button>
-                <button class="streambutton" onclick="showPlayer('clappr', 'https://cdn2.roxiestreams.pro/nfl10.m3u8')">Stream 2 (Clappr)</button>
-                <button class="streambutton" onclick="showPlayer('jwplayer', 'https://cdn2.roxiestreams.pro/nfl.m3u8')">Stream 1 (JWPlayer)</button>
-                <button class="streambutton" onclick="showPlayer('jwplayer', 'https://cdn2.roxiestreams.pro/nfl10.m3u8')">Stream 2 (JWPlayer)</button>
+                <button class="streambutton" onclick="changeStream('https://cdn2.roxiestreams.pro/nfl.m3u8')">Stream 1</button>
+                <button class="streambutton" onclick="changeStream('https://cdn2.roxiestreams.pro/nfl10.m3u8')">Stream 2</button>
+                <button id="togglePlayerButton" onclick="togglePlayer()">Change Player</button>
             </div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.xyz"></iframe>
@@ -110,13 +109,15 @@
     <script>
         var clapprPlayer;
         var jwplayerInstance;
+        var currentPlayer = 'clappr'; // Track current player
+        var currentStream = 'https://cdn2.roxiestreams.pro/nfl.m3u8'; // Default stream
 
-        function showPlayer(playerType, stream) {
+        function showPlayer(playerType) {
             if (clapprPlayer) {
                 clapprPlayer.destroy();
                 clapprPlayer = null; // Clear reference
             }
-            
+
             if (jwplayerInstance) {
                 jwplayerInstance.remove(); // Remove JWPlayer instance
                 jwplayerInstance = null; // Clear reference
@@ -124,26 +125,42 @@
 
             if (playerType === "clappr") {
                 clapprPlayer = new Clappr.Player({
-                    source: stream,
+                    source: currentStream,
                     parentId: "#playerContainer",
                     height: '100%',
                     width: '100%',
                     autoPlay: true,
                 });
                 
+                currentPlayer = 'clappr';
+                
             } else if (playerType === "jwplayer") {
                 jwplayer("playerContainer").setup({
-                    file: stream,
+                    file: currentStream,
                     width: "100%",
                     height: "100%",
                     autostart: true
                 });
                 jwplayerInstance = jwplayer("playerContainer");
+                currentPlayer = 'jwplayer';
             }
         }
 
+        function togglePlayer() {
+            if (currentPlayer === 'clappr') {
+                showPlayer('jwplayer');
+            } else {
+                showPlayer('clappr');
+            }
+        }
+
+        function changeStream(stream) {
+            currentStream = stream; // Update current stream
+            showPlayer(currentPlayer); // Show the current player with updated stream
+        }
+
         window.onload = function() {
-            showPlayer('clappr', 'https://cdn2.roxiestreams.pro/nfl.m3u8');
+            showPlayer('clappr'); // Load default player on page load
         };
     </script>
 
