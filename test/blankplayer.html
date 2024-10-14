@@ -13,13 +13,13 @@
     <link href="/css/buttons.css" rel="stylesheet">
     <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"></script>
-    <script src="/scripts/jwplayer.js"></script>
+    <script src="https://cdn.jwplayer.com/libraries/your-jwplayer-key.js"></script> <!-- Add your JWPlayer key here -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-EQ3BHVQGMN');
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EQ3BHVQGMN');
     </script>
     <style>
         .navbar-brand {
@@ -73,13 +73,13 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-black">
         <div class="container-fluid">
-            <a class="navbar-brand" href="https://Roxiestreams.pro/">RoxxieStreams</a>
+            <a class="navbar-brand" href="https://Roxiestreams.xyz/">RoxieStreams</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="https://discord.gg/2BSP97x2">Discord</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Discord</a></li>
                 </ul>
             </div>
         </div>
@@ -89,76 +89,64 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
             <div class="streamchanger">
-                <button class="streambutton" onclick="setStream('https://cdn2.roxiestreams.pro/nfl.m3u8')">Stream 1</button>
-                <button class="streambutton" onclick="setStream('https://cdn2.roxiestreams.pro/nfl10.m3u8')">Stream 2</button>
-                <button class="streambutton" onclick="switchPlayer()">Switch Players</button>
+                <button class="streambutton" onclick="showPlayer('clappr', 'https://cdn2.roxiestreams.pro/nfl.m3u8')">Stream 1 (Clappr)</button>
+                <button class="streambutton" onclick="showPlayer('clappr', 'https://cdn2.roxiestreams.pro/nfl10.m3u8')">Stream 2 (Clappr)</button>
+                <button class="streambutton" onclick="showPlayer('jwplayer', 'https://cdn2.roxiestreams.pro/nfl.m3u8')">Stream 1 (JWPlayer)</button>
+                <button class="streambutton" onclick="showPlayer('jwplayer', 'https://cdn2.roxiestreams.pro/nfl10.m3u8')">Stream 2 (JWPlayer)</button>
             </div>
             <div class="embedchat">
-                <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.pro"></iframe>
+                <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.xyz"></iframe>
             </div>
         </div>
     </div>
 
     <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
         <ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
-            <li class="nav-item"><a href="https://discord.gg/2BSP97x2" class="nav-link px-2 text-body-secondary">Discord</a></li>
+            <li class="nav-item"><a href="https://discord.gg/JhkVmejRmn" class="nav-link px-2 text-body-secondary">Discord</a></li>
         </ul>
         <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
     </footer>
 
     <script>
         var clapprPlayer;
-        var jwPlayerInstance;
-        var currentPlayer = 'clappr';
-        var currentStreamUrl = 'https://cdn2.roxiestreams.pro/nfl.m3u8'; // Default stream
+        var jwplayerInstance;
 
-        function showPlayer(playerType) {
+        function showPlayer(playerType, stream) {
+            if (clapprPlayer) {
+                clapprPlayer.destroy();
+                clapprPlayer = null; // Clear reference
+            }
+            
+            if (jwplayerInstance) {
+                jwplayerInstance.remove(); // Remove JWPlayer instance
+                jwplayerInstance = null; // Clear reference
+            }
+
             if (playerType === "clappr") {
-                if (jwPlayerInstance) {
-                    jwPlayerInstance.remove();
-                }
-
                 clapprPlayer = new Clappr.Player({
-                    source: currentStreamUrl,
+                    source: stream,
                     parentId: "#playerContainer",
                     height: '100%',
                     width: '100%',
                     autoPlay: true,
                 });
-                currentPlayer = 'clappr';
+                
             } else if (playerType === "jwplayer") {
-                if (clapprPlayer) {
-                    clapprPlayer.destroy();
-                }
-
-                jwPlayerInstance = jwplayer("playerContainer").setup({
-                    file: currentStreamUrl,
+                jwplayer("playerContainer").setup({
+                    file: stream,
                     width: "100%",
                     height: "100%",
-                    autostart: true,
+                    autostart: true
                 });
-                currentPlayer = 'jwplayer';
-            }
-        }
-
-        function setStream(stream) {
-            currentStreamUrl = stream; // Update the current stream URL
-            showPlayer(currentPlayer); // Refresh the current player with the new stream
-        }
-
-        function switchPlayer() {
-            // If switching players, ensure to refresh the current stream
-            if (currentPlayer === 'clappr') {
-                showPlayer('jwplayer');
-            } else {
-                showPlayer('clappr');
+                jwplayerInstance = jwplayer("playerContainer");
             }
         }
 
         window.onload = function() {
-            showPlayer('clappr'); // Load Clappr player on startup
+            showPlayer('clappr', 'https://cdn2.roxiestreams.pro/nfl.m3u8');
         };
     </script>
+
     <script>
         document.addEventListener('contextmenu', function (e) {
             e.preventDefault();
@@ -171,6 +159,7 @@
             }
         });
     </script>
+
     <script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
