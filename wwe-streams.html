@@ -72,7 +72,7 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-black">
         <div class="container-fluid">
-            <a class="navbar-brand" href="https://roxiestreams.pro/">RoxieStreams</a>
+            <a class="navbar-brand" href="https://Roxiestreams.pro/">RoxieStreams</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -88,7 +88,10 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
             <div class="streamchanger">
-                <button class="streambutton" onclick="showPlayer('clappr', 'https://v1.roxiestreams.pro/aew.m3u8')">Stream 1</button>
+                <button class="streambutton" onclick="showPlayer('clappr', 'https://cdn2.roxiestreams.pro/wwe.m3u8')">Stream 1</button>
+                <button class="streambutton" onclick="showPlayer('clappr', 'https://cdn2.roxiestreams.pro/wwe2.m3u8')">Stream 2</button>
+
+                <button class="streambutton" onclick="showIframe('https://player.twitch.tv/?channel=pinguloko1&parent=roxiestreams.pro')">Stream 2</button>
             </div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.pro"></iframe>
@@ -133,7 +136,7 @@
         }
 
         window.onload = function() {
-            showPlayer('clappr', 'https://v1.roxiestreams.pro/aew.m3u8');
+            showPlayer('clappr', 'M3U8');
         };
     </script>
     <script>
