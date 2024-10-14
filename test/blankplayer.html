@@ -3,180 +3,38 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Roxiestreams - Watch Live Sports, F1, UFC, NFL, TV</title>
-    <meta name="description" content="Free PPV UFC, TV, NBA, NFL, and F1 streams">
-    <meta name="keywords" content="Roxiestreams, ppv, boxing, dazn, f1, ufc, nba, for, stream, online, free, mrgamingstreams, f1, tv, nfl">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-    <link href="/css/buttons.css" rel="stylesheet">
-    <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
-    <script src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"></script>
-    <script src="/scripts/jwplayer.js"></script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-EQ3BHVQGMN');
-    </script>
+    <title>Live Stream</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jwplayer.com/libraries/your_jwplayer_key.js"></script> <!-- Replace with your JWPlayer key -->
     <style>
-        .navbar-brand {
-            color: pink;
-            font-size: 1.3rem;
-            text-decoration: none;
-            margin-top: -3px;
-            font-family: 'Kanit', sans-serif;
-            font-weight: bold;
-        }
-        .navbar-brand:hover {
-            text-decoration: underline;
-        }
-        .navbar-nav .nav-link {
-            padding-left: 5px;
-            padding-right: 5px;
-        }
-        .fullplayer {
-            display: flex;
-            justify-content: center;
-            position: relative;
-            height: 80vh;
-            margin-top: 50px;
+        body {
+            background-color: black;
+            color: white;
         }
         #playerContainer {
             width: 100%;
-            height: 100%;
-        }
-        .embedchat {
-            width: 30%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            margin-left: 10px;
-        }
-        .embedchat iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        .streamchanger {
-            position: absolute;
-            top: -40px;
-            left: 10px;
-            display: flex;
-            gap: 10px;
+            height: 80vh; /* Adjust height as needed */
+            margin-top: 50px;
         }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-black">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="https://Roxiestreams.xyz/">RoxieStreams</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Discord</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container container-fluid pt-2 text-white">
-        <div class="fullplayer">
-            <div id="playerContainer"></div>
-            <div class="streamchanger">
-                <button class="streambutton" onclick="changeStream('https://cdn2.roxiestreams.pro/fsp.m3u8')">Stream 1</button>
-                <button class="streambutton" onclick="changeStream('https://cdn2.roxiestreams.pro/fs1.m3u8')">Stream 2</button>
-                <button class="streambutton" id="togglePlayerButton" onclick="togglePlayer()">Change Player</button>
-            </div>
-            <div class="embedchat">
-                <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.xyz"></iframe>
-            </div>
-        </div>
+    <div class="container">
+        <h1 class="text-center">Watch Live Sports</h1>
+        <div id="playerContainer"></div>
     </div>
 
-    <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-        <ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
-            <li class="nav-item"><a href="https://discord.gg/JhkVmejRmn" class="nav-link px-2 text-body-secondary">Discord</a></li>
-        </ul>
-        <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
-    </footer>
-
     <script>
-        var clapprPlayer;
-        var jwplayerInstance;
-        var currentPlayer = 'clappr'; // Track current player
-        var currentStream = 'https://cdn2.roxiestreams.pro/fsp.m3u8'; // Default stream
-
-        function showPlayer(playerType) {
-            if (clapprPlayer) {
-                clapprPlayer.destroy();
-                clapprPlayer = null; // Clear reference
-            }
-
-            if (jwplayerInstance) {
-                jwplayerInstance.remove(); // Remove JWPlayer instance
-                jwplayerInstance = null; // Clear reference
-            }
-
-            if (playerType === "clappr") {
-                clapprPlayer = new Clappr.Player({
-                    source: currentStream,
-                    parentId: "#playerContainer",
-                    height: '100%',
-                    width: '100%',
-                    autoPlay: true,
-                });
-                
-                currentPlayer = 'clappr';
-                
-            } else if (playerType === "jwplayer") {
-                jwplayer("playerContainer").setup({
-                    file: currentStream,
-                    width: "100%",
-                    height: "100%",
-                    autostart: true
-                });
-                jwplayerInstance = jwplayer("playerContainer");
-                currentPlayer = 'jwplayer';
-            }
-        }
-
-        function togglePlayer() {
-            if (currentPlayer === 'clappr') {
-                showPlayer('jwplayer');
-            } else {
-                showPlayer('clappr');
-            }
-        }
-
-        function changeStream(stream) {
-            currentStream = stream; // Update current stream
-            showPlayer(currentPlayer); // Show the current player with updated stream
-        }
-
-        window.onload = function() {
-            showPlayer('clappr'); // Load default player on page load
-        };
-    </script>
-
-    <script>
-        document.addEventListener('contextmenu', function (e) {
-            e.preventDefault();
-        });
-
-        document.addEventListener('keydown', function (e) {
-            if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) ||
-                (e.ctrlKey && e.shiftKey && e.key === 'J')) {
-                e.preventDefault();
-            }
+        // JWPlayer setup
+        jwplayer("playerContainer").setup({
+            file: "https://cdn2.roxiestreams.pro/fs1.m3u8",
+            width: "100%",
+            height: "100%",
+            autostart: true,
+            title: "Live Stream"
         });
     </script>
 
-    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
