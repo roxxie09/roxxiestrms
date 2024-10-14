@@ -89,8 +89,8 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
             <div class="streamchanger">
-                <button class="streambutton" onclick="changeStream('https://cdn2.roxiestreams.pro/nfl.m3u8')">Stream 1</button>
-                <button class="streambutton" onclick="changeStream('https://cdn2.roxiestreams.pro/nfl10.m3u8')">Stream 2</button>
+                <button class="streambutton" onclick="changeStream('https://cdn2.roxiestreams.pro/fsp.m3u8')">Stream 1</button>
+                <button class="streambutton" onclick="changeStream('https://cdn2.roxiestreams.pro/fs1.m3u8')">Stream 2</button>
                 <button class="streambutton" id="togglePlayerButton" onclick="togglePlayer()">Change Player</button>
             </div>
             <div class="embedchat">
@@ -110,7 +110,7 @@
         var clapprPlayer;
         var jwplayerInstance;
         var currentPlayer = 'clappr'; // Track current player
-        var currentStream = 'https://cdn2.roxiestreams.pro/nfl.m3u8'; // Default stream
+        var currentStream = 'https://cdn2.roxiestreams.pro/fsp.m3u8'; // Default stream
 
         function showPlayer(playerType) {
             if (clapprPlayer) {
