@@ -72,7 +72,7 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-black">
         <div class="container-fluid">
-            <a class="navbar-brand" href="https://Roxiestreams.pro/">RoxieStreams</a>
+            <a class="navbar-brand" href="https://roxiestreams.pro/">RoxieStreams</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -152,6 +152,6 @@
         });
     </script>
     <script src="js/bootstrap.bundle.min.js"></script>
-   <script src="scripts/test.js"></script>
+<iframe data-aa="2358765" src="//acceptable.a-ads.com/2358765" style="border:0px; padding:0; width:100%; height:100%; overflow:hidden; background-color: transparent;"></iframe>
 </body>
 </html>
