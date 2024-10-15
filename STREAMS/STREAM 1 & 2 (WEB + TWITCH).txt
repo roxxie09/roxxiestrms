@@ -72,7 +72,7 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-black">
         <div class="container-fluid">
-            <a class="navbar-brand" href="https://Roxiestreams.xyz/">RoxieStreams</a>
+            <a class="navbar-brand" href="https://roxiestreams.pro/">RoxieStreams</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -89,10 +89,10 @@
             <div id="playerContainer"></div>
             <div class="streamchanger">
                 <button class="streambutton" onclick="showPlayer('clappr', 'M3U8')">Stream 1</button>
-                <button class="streambutton" onclick="showIframe('https://player.twitch.tv/?channel=adapt&parent=roxiestreams.xyz')">Stream 2</button>
+                <button class="streambutton" onclick="showIframe('https://player.twitch.tv/?channel=adapt&parent=roxiestreams.pro')">Stream 2</button>
             </div>
             <div class="embedchat">
-                <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.xyz"></iframe>
+                <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.pro"></iframe>
             </div>
         </div>
     </div>
@@ -150,5 +150,6 @@
         });
     </script>
     <script src="js/bootstrap.bundle.min.js"></script>
+<iframe data-aa="2358765" src="//acceptable.a-ads.com/2358765" style="border:0px; padding:0; width:100%; height:100%; overflow:hidden; background-color: transparent;"></iframe>
 </body>
 </html>
