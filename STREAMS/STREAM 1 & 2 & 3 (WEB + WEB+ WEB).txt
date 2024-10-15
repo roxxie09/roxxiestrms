@@ -11,9 +11,9 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link href="/css/buttons.css" rel="stylesheet">
+    <link rel="shortcut icon" type="x-icon" href="imgs/iconn.png">
 <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"></script>
-    <link rel="shortcut icon" type="x-icon" href="imgs/iconn.png">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
