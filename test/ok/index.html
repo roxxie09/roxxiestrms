@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html class="page-stream-tester">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>JW Developer - Stream Tester</title>
+    <meta name="description" content="Tools and resources for developers using JW Player’s HTML5 video player, video platform, and Android & iOS SDKs." />
+    <meta name="google-site-verification" content="ke-K2lvR7rSTzOGVR7pIDw0dUKhTzsCScFN753TjgXs" />
+    <meta property="og:title" content="JW Developer - Stream Tester">
+    <meta property="og:description" content="Tools and resources for developers using JW Player’s HTML5 video player, video platform, and Android & iOS SDKs.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="//developer.jwplayer.com/img/sharing-icon.png">
+    <meta property="og:url" content="//developer.jwplayer.com/stream-tester/">
+    <meta property="og:site_name" content="JW Developer">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@jwplayer">
+    <meta name="twitter:creator" content="@jwplayer">
+    <meta name="twitter:title" content="JW Developer - Stream Tester">
+    <meta name="twitter:description" content="Tools and resources for developers using JW Player’s HTML5 video player, video platform, and Android & iOS SDKs.">
+    <meta name="twitter:image" content="//developer.jwplayer.com/img/sharing-icon.png">
+    <link rel="canonical" href="//www.jwplayer.com" />
+    <link rel="shortcut icon" href="../assets/icons/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="css/tools.min.css">
+    
+      <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-MBF9PW"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+      <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-MBF9PW');</script>
+    
+  </head>
+  <body>
+
+<div class="jwdeveloper-header">
+  <div class="header-inner">
+    <div class="logo">
+      <a href="https://www.jwplayer.com">
+        <svg viewBox="0 0 374.98 133.48" xmlns="http://www.w3.org/2000/svg"><path d="M143.66 75.49c0 4.91-1.21 7-4.91 7a11.67 11.67 0 0 1-6.92-2.49v7.32a14.91 14.91 0 0 0 7.52 2c7.51 0 11.72-3.91 11.72-12.93v-23h-7.41zm43.6 1.5l-6.01-23.75h-5.82l-6.21 23.75-5.72-23.75h-7.51l9.22 35.38h6.81l6.22-23.35 6.21 23.35h6.72l9.22-35.38h-7.32zM219 53.14h-13v35.38h4.51V74.39H219c7.12 0 11.83-3.61 11.83-10.63s-4.7-10.62-11.83-10.62zm0 17.34h-8.42V57.25H219c4.72 0 7.32 2.5 7.42 6.71.01 3.91-2.59 6.52-7.42 6.52zm52-17.24l-12.27 31.27h-16.84V53.24h-4.51v35.38h24.35l4-10.62h14.54l4.11 10.62H289l-13.83-35.38zM267.25 74l5.81-15.14L278.77 74zm33.98-4.02L291 53.24h-4.91l12.73 20.75v14.63h4.51V73.99l12.93-20.75h-4.81zm18.74 18.64h22.45v-4.11h-18.04V72.48h16.44v-4.01h-16.44V57.25h18.04v-4.01h-22.45zm44.49-15.33c5.61-.81 9-4 9-9.93 0-6.61-4.61-10.22-11.73-10.22h-12.91v35.38h4.53V73.49h6.31l10.13 14.93H375zm-11.11-3.51V57.15h8.32c4.71 0 7.42 2.4 7.42 6.31s-2.71 6.32-7.42 6.32z"></path><path d="M125.9.41a4.56 4.56 0 0 0-6 2.21c-1.1 2.3-29 69.66-29 69.66-.9 2.11-1.5 1.91-1.5-.3 0 0 .1-23.45.2-42.8.1-10.52-5.11-16.44-12.43-17.64a14 14 0 0 0-9.62 2.11 20.63 20.63 0 0 0-6.82 8.11c-2.2 4.31-15.83 44-15.83 44-.71 2.1-1.41 2-1.41-.2 0 0-.4-17.14-.8-21.15-.6-6.22-2-16.34-10-16.84-7.52-.5-10.93 8.82-12.83 14.53-1.31 3.81-7.52 24.36-7.52 24.36l-.9 2.1c-.3 1.11-.8 1.11-1.11 0l-.5-1.9a62.57 62.57 0 0 0-1.9-6 8.6 8.6 0 0 0-1.5-3 3.75 3.75 0 0 0-4-1A3.71 3.71 0 0 0 0 59.75a21.8 21.8 0 0 0 .3 3.61C.82 67 3.43 81.2 5 84.31s5 4.71 8.22 3c3-1.61 4.41-5.31 5.61-8.22 1.53-3.71 9.23-25 9.23-25 .8-2.1 1.4-2 1.3.2 0 0-.4 20.85-.4 30.27 0 3.51.3 9.92 1.3 13.33a10.86 10.86 0 0 0 3.74 5.87 9.27 9.27 0 0 0 6.41 1.8 8.63 8.63 0 0 0 3.21-1.1 13.84 13.84 0 0 0 3.61-3.21 58.32 58.32 0 0 0 5.71-9.62c3.71-7.32 13.34-30 13.34-30 .9-2.11 1.5-1.91 1.5.3 0 0-1.2 38.09-1.2 52.62a29.71 29.71 0 0 0 2 10.63 12.8 12.8 0 0 0 6.62 7.31 11.54 11.54 0 0 0 10.42-.6 16.65 16.65 0 0 0 5.81-6 66.8 66.8 0 0 0 4.92-10.53c2.9-7.51 5.31-15.13 7.71-22.85S126.8 12.14 128.1 5.93a7.49 7.49 0 0 0 .2-2.11 4.53 4.53 0 0 0-2.4-3.41z" fill="#ec0041"></path></svg>
+      </a>
+    </div>
+    <a href="/player-event-inspector" class="header-item">Web Player Event Inspector</a>
+    <a href="/stream-tester" class="header-item">Stream Tester</a>
+    <a href="/ad-tester" class="header-item">Ad Tester</a>
+    <a href="https://beta-developer.jwplayer.com/jwplayer/docs" class="header-item">Read the Docs</a>
+  </div>
+</div>
+
+<div class="site-body">
+  <div class="page">
+      <div class="site-body">
+    <div class="page">
+      <div class="ds-page ds-page--fixed tools">
+      <div class="ds-row">
+        <div class="tools-header">
+          <h1>Stream Tester</h1>
+          <h3 style="margin: 0px;">Test media and DRM functionality in the JWP web player</h3>
+        </div>
+      </div>
+      <div id="stream-tester" class="jw-tool stream-tester">
+        <div class="ds-row">
+          <div class="ds-col">
+            <div class="tool-settings">
+              <div class="configuration">
+                <div class="tab">
+                  <button class="tablinks active" name="tab-button" id="custom-tab">Custom</button>
+                  <button class="tablinks" name="tab-button" id="jwplatform-tab">JW Platform</button>
+                  <button class="tablinks" name="tab-button" id="standalone-tab">Standalone Studio DRM</button>
+                </div> 
+                <hr>
+                <div id="jwplatform" class="tabcontent">
+                  <div class="warning-panel">
+                    <table>
+                      <tbody>
+                        <td><img src=imgs/warning.svg class="filter-orange"></td>
+                        <td>If testing Studio DRM protected content from JW Platform, use parameters from a DRM-enabled Property below. The Studio DRM entitlement is required for access.</td>
+                      </tbody>
+                    </table>
+                  </div>
+                  <h4>Media ID</h4>
+                  <input id="media-id-input" class="ds-textinput" type="text" placeholder="Enter your Media ID here" autocomplete="off">
+                  <p>This can be found on the <a href="https://dashboard.jwplayer.com/p/km7aLiM9/media" target="_blank" rel="noopener">Media Library page</a> in the JW Dashboard</p>
+                  <h4>API Secret</h4>
+                  <input id="api-secret-input" class="ds-textinput" type="text" placeholder="Enter the API Secret of your property here" autocomplete="off">
+                  <p>This can be found in the <a href="https://dashboard.jwplayer.com/account/api-credentials" target="_blank" rel="noopener">API Credentials page</a> of the JW Dashboard</p>
+                  <h4>Policy ID (required for DRM playback)</h4>
+                  <input id="policy-id-input" class="ds-textinput" type="text" placeholder="Enter your DRM Policy ID here" autocomplete="off">
+                  <p>This can be found in the <a href="https://dashboard.jwplayer.com/account/properties" target="_blank" rel="noopener">Content Protection section</a> of the Properties page in the JW Dashboard</p>
+                </div>
+                <div id="standalone-drm" class="tabcontent">
+                    <h4>HLS Stream URL</h4>
+                    <input id="hls-stream-input-standalone" class="ds-textinput" type="text" placeholder="Enter an optional HLS Stream URL" autocomplete="off">
+                    <h4>DASH Stream URL</h4>
+                    <input id="mpd-stream-input-standalone" class="ds-textinput" type="text" placeholder="Enter an optional DASH Stream URL" autocomplete="off">
+                    <p>At least one stream URL option is required</p>
+                    <h4>Studio DRM Token</h4>
+                    <input id="token-input" class="ds-textinput" type="text" placeholder="Enter the Studio DRM Token here" autocomplete="off">
+                    <p><a href="https://docs.jwplayer.com/platform/reference/studio-drm-token-api-v2#generate-a-studio-drm-token" target="_blank" rel="noopener">Learn how to generate a Studio DRM Token here</a></p>
+                    <p>The JWP Studio DRM entitlement is required to test Studio DRM Standalone</p>
+                    <div class="warning-panel">
+                      <table>
+                        <tbody>
+                          <td><img src=imgs/warning.svg class="filter-orange"></td>
+                          <td> By default, Studio DRM Tokens expire with a TTL set to 30 seconds. <a href="https://docs.jwplayer.com/platform/reference/studio-drm-token-api-v2#studio-drm-token-structure" target="_blank" rel="noopener">Learn more here</a></td>
+                        </tbody>
+                      </table>
+                    </div>
+                </div>
+                <div id="custom" class="tabcontent" style="display: block;">
+                  <h4>HLS Stream URL</h4>
+                  <input id="hls-stream-input" class="ds-textinput" type="text" placeholder="Enter an optional HLS Stream URL" value="https://content.jwplatform.com/manifests/yp34SRmf.m3u8" autocomplete="off">
+                  <h4>DASH Stream URL</h4>
+                  <input id="mpd-stream-input" class="ds-textinput" type="text" placeholder="Enter an optional MPD Stream URL" autocomplete="off">
+                  <p>At least one stream URL option is required</p>
+                  <div id="drm" class="configuration">
+                    <!-- DRM Toggle button -->
+                    <table id="custom-drm-label">
+                      <tbody>
+                        <tr>
+                          <td><h4 id="drm-toggle-label">DRM</h4></td>
+                          <td>
+                            <label class="switch">
+                              <div id="toggle-switch">
+                                <input name="drm-toggle" id="drm-toggle" type="checkbox" style="opacity: 0;" autocomplete="off">
+                                <span class="slider round">
+                                  <span class="on">ON</span>
+                                  <span class="off">OFF</span>
+                                </span>
+                              </div>
+                            </label>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <p>Test your third party DRM protected content in the JWP web player</p>
+                    <div id="drm-custom-header" class="drm-item">
+                      <label class="switch">
+                        <input name="drm-custom-header-toggle" type="checkbox" autocomplete="off">
+                        Add Custom Header
+                      </label>
+                      <div name='drm-item-custom-data' class="drm-item-options">
+                        <label>
+                          Header Key:
+                          <input id="drm-custom-header-key" type="text" autocomplete="off">
+                        </label>
+                        <label>
+                          Header Value:
+                          <input id="drm-custom-header-value" type="text" autocomplete="off">
+                        </label>
+                      </div>
+                    </div>
+                    <div id="drm-custom-license-url" class="drm-item">
+                      <label class="switch">
+                        <input name="drm-custom-license-url-toggle" type="checkbox" value="custom-license-url" autocomplete="off">
+                        Use Custom License Server URLs
+                      </label>
+                      <div name='drm-item-custom-license-url' class="drm-item-options">
+                        <label>
+                          Widevine License Server URL:
+                          <input id="drm-widevine-license-url" type="text" autocomplete="off">
+                        </label>
+                        <label>
+                          PlayReady License Server URL:
+                          <input id="drm-playready-license-url" type="text" autocomplete="off">
+                        </label>
+                        <label>
+                          FairPlay Certificate URL:
+                          <input id="drm-fairplay-certificate-url" type="text" autocomplete="off">
+                        </label>
+                        <label>
+                          FairPlay Process SPC URL:
+                          <input id="drm-fairplay-process-spc-url" type="text" autocomplete="off">
+                        </label>
+                      </div>
+                    </div>
+                    <div id="drm-clearkey" class="drm-item">
+                      <label class="switch">
+                        <input name="drm-clearkey-toggle" type="checkbox" value="clearkey" autocomplete="off">
+                        Use Clearkey
+                      </label>
+                      <div class="drm-item-options">
+                        <label>
+                          ClearKey Key:
+                          <input id="drm-clearkey-key" type="text" autocomplete="off">
+                        </label>
+                        <label>
+                          ClearKey Key ID:
+                          <input id="drm-clearkey-key-id" type="text" autocomplete="off">
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="config-buttons">
+                <div class="test-stream">
+                  <button class="ds-button--primary" type="button" name="button">Test Stream</button>
+                </div>
+                <div class="copy-config">
+                  <button class="ds-button--primary" type="button" name="config-button">Copy Config</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ds-col" id="player-preview">
+            <div class="player-preview">TEST PLAYER</div>
+            <div id="stream-tester-player-https"></div>
+            <p>
+              The JWP Stream Tester supports testing & debugging secure HTTPS streams with JW Player only. HTTP streams may cause the Stream Tester to fail.
+            </p>
+            <p>
+              Widevine and PlayReady use DASH streams and FairPlay uses HLS streams. If both streams are provided the player will select the appropriate stream. If only one stream is provided, and the browser does not support the stream/DRM combination, the player will error. <a href="https://docs.jwplayer.com/platform/reference/studio-drm-standalone-getting-started#compatibility" style="color: black; text-decoration: underline;" target="_blank" rel="noopener">Learn more about platform compatibility here.</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+</div>
+
+<script src="js/jquery.min.js"></script>
+        
+<script src="js/tools.min.js"></script>
+        
+<script src="js/showdown.min.js"></script>
+    </body>
+</html>
