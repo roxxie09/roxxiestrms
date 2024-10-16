@@ -90,6 +90,32 @@
       "k2": "7d22a4bdc94a8a0ddc052c074e92ff75"
     }
   },
+     "BEINSPORTSXTRAN": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c1p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(BIG10HD-5610.dfw.720)/index.m3u8"
+    }
+  },
+     "BIGNETWORK": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c1p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(BIG10HD-5610.dfw.720)/index.m3u8",
+      "k1": "5de316c965eedf8ade798d317a6df14e",
+      "k2": "d63f778dfcccfc95b07c0d283b647a4d"
+    }
+  },
+     "BRAVO": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c1p3-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(BRVOHD-1323.dfw.1080)/index.m3u8",
+      "k1": "3462e7ff485581ef42c69c026ad52079",
+      "k2": "05f8c6d33c664622f421d47d3af66c2a"
+    }
+  },
+     "CARTOONNETWORK": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c4p3-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(CNeHD-8255.dfw.1080)/index.m3u8",
+      "k1": "34aa795935da0dde5007eff8a0bbabb1",
+      "k2": "c77c6a65a9ad66fa5b940c53c9f27ea9"
+    }
+  },
   "DISNEY_CHANNEL": {
     "drm_info": {
       "url": "//dfwlive-v1-c1p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(DISeHD-8398.dfw.720)/index.m3u8",
