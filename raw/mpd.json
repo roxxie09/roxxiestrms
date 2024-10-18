@@ -102,6 +102,13 @@
       "k2": "d63f778dfcccfc95b07c0d283b647a4d"
     }
   },
+     "BOXINGTV": {
+    "drm_info": {
+      "url": "https://dcj-ak-livedazn.akamaized.net/dash/dazn-linear-509/stream.mpd",
+      "k1": "cfb5e2b73bef4f3c878f25ab86a7451f",
+      "k2": "0d6712bf2a84edcc93d001a9613f6fec"
+    }
+  },
      "BRAVO": {
     "drm_info": {
       "url": "https://dfwlive-v1-c1p3-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(BRVOHD-1323.dfw.1080)/index.m3u8",
@@ -114,6 +121,69 @@
       "url": "https://dfwlive-v1-c4p3-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(CNeHD-8255.dfw.1080)/index.m3u8",
       "k1": "34aa795935da0dde5007eff8a0bbabb1",
       "k2": "c77c6a65a9ad66fa5b940c53c9f27ea9"
+    }
+  },
+     "CBSSN": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c2p3-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(CBSSNHD-5613.dfw.1080)/index.m3u8",
+      "k1": "70496b9f632529d3253b5bc408de7ef6",
+      "k2": "c9e3eb897a6427292641ca000b2e214e"
+    }
+  },
+     "CNBC": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c1p2-sponsored.akamaized.net/Content/HLS.cps/Live/channel(CNBCHD-1328.dfw.1080)/index.m3u8",
+      "k1": "657103623ee2cf60d37a033b95b37b56",
+      "k2": "0e152f7af9a1048e5d0ac6c9bbfa1938"
+    }
+  },
+     "COMEDYCENTRAL": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c1p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(COMHD-3035.dfw.1080)/index.m3u8",
+      "k1": "027859ee89778c8e1593b827968bf336",
+      "k2": "0e152f7af9a1048e5d0ac6c9bbfa1938"
+    }
+  },
+  "DAZNCOMBAT": {
+    "drm_info": {
+      "url": "https://dcj-ak-livedazn.akamaized.net/dash/dazn-linear-502/stream.mpd",
+      "k1": "1061be12d303247426ec25e8369b2647",
+      "k2": "bd622b0e610295de3b0bccb850ccaaaa"
+    }
+  },
+  "DAZNES": {
+    "drm_info": {
+      "url": "https://ottb.live.cf.ww.aiv-cdn.net/dub-nitro/live/clients/dash/enc/bmnelo5c7a/out/v1/3ce2cdc4589f46189322bd3717c77957/cenc.mpd",
+      "k1": "44dd9cd370b08a868ead115fe84ecfde",
+      "k2": "bff19ab0a51cf14e848389b152913fd0"
+    }
+  },
+  "DAZNF1": {
+    "drm_info": {
+      "url": "https://live.ll.ww.aiv-cdn.net/OTTB/dub-nitro/live/clients/dash/enc/cqbcvgkb83/out/v1/4dbe05ecfb1540448d82d68eeebfbb1c/cenc.mpd",
+      "k1": "1061be12d303247426ec25e8369b2647",
+      "k2": "bd622b0e610295de3b0bccb850ccaaaa"
+    }
+  },
+  "DAZNFAST": {
+    "drm_info": {
+      "url": "https://dcj-ak-livedazn.akamaized.net/dash/dazn-linear-504/stream.mpd",
+      "k1": "1061be12d303247426ec25e8369b2647",
+      "k2": "bd622b0e610295de3b0bccb850ccaaaa"
+    }
+  },
+  "DAZNLALIGA2": {
+    "drm_info": {
+      "url": "https://live.ll.ww.aiv-cdn.net/OTTB/dub-nitro/live/clients/dash/enc/wjgklbtvhh/out/v1/659736a1e24c40e4865a80ffd75e7de7/cenc.mpd",
+      "k1": "43d1c3b25207ff38b22ccfe17d302367",
+      "k2": "7b1f85f6e81059473b114c16a25c829a"
+    }
+  },
+  "DAZNRISE": {
+    "drm_info": {
+      "url": "https://dcj-ak-livedazn.akamaized.net/dash/dazn-linear-501/stream.mpd",
+      "k1": "1061be12d303247426ec25e8369b2647",
+      "k2": "bd622b0e610295de3b0bccb850ccaaaa"
     }
   },
   "DISNEY_CHANNEL": {
@@ -144,6 +214,13 @@
       "k2": "119cb163699a60f91dc0c05694522dfe"
     }
   },
+  "ESPNNEWS": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c2p3-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(ESNHD-8235.dfw.720)/index.m3u8",
+      "k1": "406caae8d33769377463163c0ef4e89b",
+      "k2": "57827b2e42f5ca2f716f3d82add2bab6"
+    }
+  },
     "ESPNU":{
       "drm_info":{
          "url":"https://dfwlive-v1-c2p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(ESPNUHD-2355.dfw.720)/index.m3u8",
@@ -165,18 +242,158 @@
                 "k2": "664241133368ab039dc1fb15206ba54b"
                 }
      },
-  "FOX": {
+  "FANDUEL": {
     "drm_info": {
-      "url": "//dfwlive-v1-c2p2-sponsored.akamaized.net/Content/HLS.cps/Live/channel(WFLX-2971.dfw.1080)/index.m3u8",
+      "url": "https://dfwlive-v1-c2p4-sponsored.akamaized.net/Content/HLS.cps/Live/channel(FDTV-602.dfw.720)/index.m3u8",
+      "k1": "433c51bc57b8fd32154f0fa9377a70a1",
+      "k2": "ddd492cea433700d28be6a4ecb457843"
+    }
+  },
+  "FOXFDTV": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c2p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(KDVR-2946.dfw.720)/index.m3u8",
+      "k1": "1acba042572c4865b56d0b52500d40e0",
+      "k2": "6d1de09a1f2961df767ddb2917b6a43b"
+    }
+  },
+  "FOXNEWS": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c2p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(FNCHD-1380.dfw.720)/index.m3u8",
+      "k1": "7b866e940225fb8a38cff597c8e03c9e",
+      "k2": "db949d6d58a2069ce66154dfe4cc433f"
+    }
+  },
+  "FS2": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c1p3-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(FS2HD-5618.dfw.720)/index.m3u8",
+      "k1": "37efe1d171f52ff8d06d0ffc9ed68aeb",
+      "k2": "9f35db58000b13f8aecdc5e15420d3d4"
+    }
+  },
+  "HBO": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c1p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(HBOeHD-1967.dfw.1080)/index.m3u8",
+      "k1": "690abe583b7570364efcc585b0cedfae",
+      "k2": "a993fe33b9bc1354e508d0c8cc1ec4af"
+    }
+  },
+  "LALIGAHYPERMOTION": {
+    "drm_info": {
+      "url": "https://live.ll.ww.aiv-cdn.net/OTTB/dub-nitro/live/clients/dash/enc/woujvkfnmn/out/v1/141b52f08a1e4e97850219729ee48dc8/cenc.mpd",
+      "k1": "0b1fdeaee3ffc51e9a66cf1938d57aaf",
+      "k2": "28e3cb88ab7b476b81ab8aa0624c4d71"
+    }
+  },
+  "MATCHROOM": {
+    "drm_info": {
+      "url": "https://dcj-ak-livedazn.akamaized.net/dash/dazn-linear-515/stream.mpd",
       "k1": "2b5182d6c00c385d7533695b56fb4799",
       "k2": "e17383864a909f35a93db6c0fad53d51"
     }
   },
+  "MSG2": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c4p3-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(MSGALT-1-5636.dfw.1080)/index.m3u8",
+      "k1": "092adea8e7d8b83ea781cbb24f9b8a22",
+      "k2": "5d80d3991b4bc4c74f93279c0d6c6748"
+    }
+  },
+  "MSGSN": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c2p4-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(MSGSNHD-5635.dfw.1080)/index.m3u8",
+      "k1": "3babd3b0d78d5d6e674bd7ac29b7607c",
+      "k2": "eeb7adcdf27914cd955e86d1b22402d8"
+    }
+  },
+  "MTV": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c1p2-sponsored.akamaized.net/Content/HLS.cps/Live/channel(MTVHD-8218.dfw.1080)/index.m3u8",
+      "k1": "1546bc8d65eb0993075cfbe6ff23723a",
+      "k2": "472331a5cf7bc6f0737f958c969d8c9b"
+    }
+  },
+  "NBCWPTV": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c1p1-sponsored.akamaized.net/Content/HLS.cps/Live/channel(WPTV-2968.dfw.1080)/index.m3u8",
+      "k1": "10ac7d6149844d2c8a14d54c18b6fc3a",
+      "k2": "13d92281c98857e7f920b2655876b149"
+    }
+  },
+  "NBCBOSTON": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c4p4-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(NBSBHD-5630.dfw.1080)/index.m3u8",
+      "k1": "783bef423850f172d83c25fbd17332c4",
+      "k2": "8ddd89eb807a96b78acc2c3a3ac2da42"
+    }
+  },
+  "NBCCALIALT": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c2p3-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(NSCAalt-5699.dfw.1080)/index.m3u8",
+      "k1": "0577d3d4071fd8d676798d80b97c6bed",
+      "k2": "b65b547020e77e7ee770b8ce5c4e8859"
+    }
+  },
+  "NBCCHICAGO": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c4p4-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(NSCHHD-5665.dfw.1080)/index.m3u8",
+      "k1": "1b17abef0caf615c5dbbf400a4ff36f5",
+      "k2": "8949e23dc87e0e420b90700bd5ed90e8"
+    }
+  },
+  "NBCGOLF": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c4p3-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(GolfHD-1324.dfw.1080)/index.m3u8",
+      "k1": "01504f5503fe1cf7fe552cf934aae729",
+      "k2": "1692586783e0cf5cc5d67080e08ee269"
+    }
+  },
+  "NBCUNIVERSO": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c1p3-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(UVSOHD-1320.dfw.1080)/index.m3u8",
+      "k1": "701628fa90c54472dbe45d744cda3db3",
+      "k2": "a914dcbc3eeb4d775cd2da7be3ce8f03"
+    }
+  },
+  "NESN": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c4p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(NESNHD-5628.dfw.1080)/index.m3u8",
+      "k1": "4d815a1587e4ca1687e66777aeb4c8b6",
+      "k2": "82864922fe40fde2c9e6078a126feea3"
+    }
+  },
+  "NFLNETWORK": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c4p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(NFLHD-8225.dfw.720)/index.m3u8",
+      "k1": "1a1647ef160b01af97cb517056f14c5b",
+      "k2": "fd7211845ab4d844d01ae7ca9a4e9011"
+    }
+  },
+  "NHLNETWORK": {
+    "drm_info": {
+      "url": "https://dfwlive-v1-c1p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(NHLHD-8230.dfw.720)/index.m3u8",
+      "k1": "607decd7288868d5dcfe6c4ef9c12be9",
+      "k2": "ae07fe96a829fbee61613b2f053454ef"
+    }
+  },
+    "NICKELODEON":{
+      "drm_info":{
+         "url":"https://dfwlive-v1-c7p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(NIKeHD-8274.dfw.1080)/index.m3u8",
+         "k1":"3c49d21bce8a5a79a37a9ff83c9c1cb3",
+         "k2":"6451111ac9c2b24eff6c0035284f2534"
+      }
+   },
+    "PREMIERE":{
+      "drm_info":{
+         "url":"https://ottb.live.cf.ww.aiv-cdn.net/iad-nitro/live/clients/dash/enc/4zkafrcxji/out/v1/810ebca1aff0443da717da4acdeda158/cenc.mpd",
+         "k1":"d98239180d8380b3a1bb28d875b1ddf2",
+         "k2":"cf836ced579257d1c76ae8809818e6c4"
+      }
+   },
     "RALLY_TV":{
       "drm_info":{
          "url":"https://dazn.jdx3.org/https://dcf-ak-livedazn.akamaized.net/dash/dazn-linear-039/stream.mpd",
-         "k1":"82f8e2a17dac44c0a18f660479349c59",
-         "k2":"1b144f73e6fefe91cd05f850e2b589d0"
+         "k1":"cfb5e2b73bef4f3c878f25ab86a7451f",
+         "k2":"0d6712bf2a84edcc93d001a9613f6fec"
       }
    },
     "RALLY_TV_2":{
@@ -186,11 +403,81 @@
 		 "k2": "b1d692fd6818ca81a50440d658b9e939"
       }
    },
+    "ROOTSPORTSNW":{
+      "drm_info":{
+         "url":"https://dfwlive-v1-c4p3-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(RTNWHD-5687.dfw.720)/index.m3u8",
+         "k1": "5c331304ec01c01a6815438dc064937c",
+         "k2": "808399f5457df86a976082b299004990"
+      }
+   },
+    "ROOTSPORTSNW2":{
+      "drm_info":{
+         "url":"https://dfwlive-v1-c1p2-sponsored.akamaized.net/Content/HLS.cps/Live/channel(RTNWPlusHD-5688.dfw.720)/index.m3u8",
+         "k1": "67ce4c4bae58cd874d3e341a4ca04dee",
+         "k2": "2afe5b3a4440e066fb4c964ff3c0cfaf"
+      }
+   },
+    "SECNETWORK":{
+      "drm_info":{
+         "url":"https://dfwlive-v1-c4p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(SECHD-3669.dfw.720)/index.m3u8",
+         "k1": "61bb0ce6c43b4f5768b9892deb919a5d",
+         "k2": "3a20bda5a5d8d8c3ec1fd327d4daf0f1"
+      }
+   },
+    "SNY":{
+      "drm_info":{
+         "url":"https://dfwlive-v1-c4p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(SECHD-3669.dfw.720)/index.m3u8",
+         "k1": "7924d71c6500bce7b16148e578ad1a8b",
+         "k2": "34e855c3ed7854e16fd6025422da6ac2"
+      }
+   },
+    "SPACECITYHN":{
+      "drm_info":{
+         "url":"https://dfwlive-v1-c1p5-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(SCHN-5674.dfw.720)/index.m3u8",
+         "k1": "611b3b7117ccbde9dbde617adf8f3a69",
+         "k2": "c4de0fe2976d80ce0130e27a2a397b11"
+      }
+   },
+    "SPACECITYHN2":{
+      "drm_info":{
+         "url":"https://dfwlive-v1-c1p5-sponsored.akamaized.net/Content/HLS.cps/Live/channel(SCHN2-445.dfw.720)/index.m3u8",
+         "k1": "2020b2fca9fdbcefcdd3d4e635ad253e",
+         "k2": "28b159b53bed690c22474b9250661f45"
+      }
+   },
+    "SPORT1":{
+      "drm_info":{
+         "url":"https://dfwlive-v1-c7p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(SyfyHD-1326.dfw.1080)/index.m3u8",
+         "k1": "05bf7359d5f2e659bf5e35f7725b7536",
+         "k2": "f4d3bbbb5166e002705f3fb31525c139"
+      }
+   },
+    "SYFY":{
+      "drm_info":{
+         "url":"https://ac-009.live.p7s1video.net/c5c609cf/t_009/sport1plus-de-hd/cenc-default.mpd",
+         "k1": "c1c11c3844b0dffdb9d9831900f1a1da",
+         "k2": "a2c31e15346f339ca2b47bdd8591553f"
+      }
+   },
      "TBS":{
       "drm_info":{
          "url":"https://dfwlive-v1-c1p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(TBSHD-8254.dfw.1080)/index.m3u8",
          "k1": "183181fe63a66c2a90b770973cd4c443",
 		 "k2": "324915169fd24da05d6c3a23c613e9e0"
+      }
+   },
+     "TENNISCHANNEL":{
+      "drm_info":{
+         "url":"https://dfwlive-v1-c4p3-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(TNNSHD-8240.dfw.1080)/index.m3u8",
+         "k1": "0077c68863dc9e7e7442ccb2b27e4cab",
+         "k2": "67767105f4f2aa7a5f0feae67cfa3d65"
+      }
+   },
+     "TENNISCHANNEL":{
+      "drm_info":{
+         "url":"https://dfwlive-v1-c4p3-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(TNNSHD-8240.dfw.1080)/index.m3u8",
+         "k1": "0077c68863dc9e7e7442ccb2b27e4cab",
+         "k2": "67767105f4f2aa7a5f0feae67cfa3d65"
       }
    },
      "TNT":{
@@ -200,11 +487,81 @@
 		 "k2": "d8df2a39f26b2ebfdae0ec4e37ceb937"
       }
    },
+     "TNTSPORTS":{
+      "drm_info":{
+         "url":"https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/clients/dash/enc/wf8usag51e/out/v1/bd3b0c314fff4bb1ab4693358f3cd2d3/cenc.mpd",
+         "k1": "ae26845bd33038a9c0774a0981007294",
+	 "k2": "63ac662dde310cfb4cc6f9b43b34196d"
+      }
+   },
+     "TNTSPORTS2":{
+      "drm_info":{
+         "url":"https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/clients/dash/enc/f0qvkrra8j/out/v1/f8fa17f087564f51aa4d5c700be43ec4/cenc.mpd",
+         "k1": "6d1708b185c6c4d7b37600520c7cc93c",
+	 "k2": "1aace05f58d8edef9697fd52cb09f441"
+      }
+   },
+     "TNTSPORTS3":{
+      "drm_info":{
+         "url":"https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/clients/dash/enc/lsdasbvglv/out/v1/bb548a3626cd4708afbb94a58d71dce9/cenc.mpd",
+         "k1": "4e993aa8c1f295f8b94e8e9e6f6d0bfe",
+	 "k2": "86a1ed6e96caab8eb1009fe530d2cf4f"
+      }
+   },
+     "TNTSPORTS4":{
+      "drm_info":{
+         "url":"https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/clients/dash/enc/i2pcjr4pe5/out/v1/912e9db56d75403b8a9ac0a719110f36/cenc.mpd",
+         "k1": "e31a5a81caff5d07ea2411a571fc2e59",
+	 "k2": "96c5ef69479732ae734f962748c19729"
+      }
+   },
+     "TNTSPORTS5":{
+      "drm_info":{
+         "url":"https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/clients/dash/enc/gesdwrdncn/out/v1/79e752f1eccd4e18b6a8904a0bc01f2d/cenc.mpd",
+         "k1": "60c0d9b41475e01db4ffb91ed557fbcc",
+	 "k2": "36ee40e58948ca15e3caba8d47b8f34b"
+      }
+   },
+     "TRUTV":{
+      "drm_info":{
+         "url":"https://dfwlive-v1-c7p3-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(truTVHD-1363.dfw.1080)/index.m3u8",
+         "k1": "20ea3df891f793020a783a667cf90430",
+	 "k2": "2b059512e5c00ea6c95e45a570edeb18"
+      }
+   },
+     "TVLA":{
+      "drm_info":{
+         "url":"https://cache3.zapitv.com/live/eds_c2/la1_4k/dash_live_enc/la1_4k.mpd",
+         "k1": "a3abc44525eef3b0a7af9138a9dbe34a",
+	 "k2": "7740f8ae4223ce5ba293028f7f78f1c1"
+      }
+   },
+    "UMIMAS":{
+      "drm_info":{
+         "url":"https://dfwlive-v1-c1p2-sponsored.akamaized.net/Content/HLS.cps/Live/channel(UMasHD-8030.dfw.1080)/index.m3u8",
+         "k1": "005968f5a20f1650603e8609322b3bf9",
+	 "k2": "b1f5a78aeead90d91c3490cf4dded6c7"
+      }
+   },
+    "UNIVISION":{
+      "drm_info":{
+         "url":"https://dfwlive-v1-c1p2-sponsored.akamaized.net/Content/HLS.cps/Live/channel(UNIeHD-3247.dfw.1080)/index.m3u8",
+         "k1": "298f5360c5a38fec03d57a6aa5bb735f",
+	 "k2": "b8a03587cbe89b1198d8291a62092045"
+      }
+   },
     "USANETWORK":{
       "drm_info":{
          "url":"https://dfwlive-v1-c4p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(USAHD-1327.dfw.1080)/index.m3u8",
          "k1": "372adbbc2f7a84379d4af2a0350ca190",
 	 "k2": "37922201fbe77e02e24a590c7c8b443b"
+      }
+   },
+    "WILLOWXTRA":{
+      "drm_info":{
+         "url":"https://dfwlive-v1-c1p3-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(WILLXT-3292.dfw.1080)/index.m3u8",
+         "k1": "1f52934d28a25c51a5dd577a650dcece",
+	 "k2": "323a46b02a31172c2475406e56fd3be6"
       }
    },
     "WWE":{
@@ -214,7 +571,14 @@
 		 "k2": "090459185a95c99e6bae332d689e6fbe"
       }
    },
-   "NHL_NET":{
+    "YESNETWORK":{
+      "drm_info":{
+         "url":"https://dfwlive-v1-c2p1-sponsored.akamaized.net/Content/HLS.cps/Live/channel(YESOM-1000287.dfw.720)/index.m3u8",
+         "k1": "f1e17658dc69c89f68f324aa70ecb178",
+	 "k2": "2919fbd41e70d292cb7938a226e5c9a7"
+      }
+   },
+   "NHL_NETWORK":{
       "drm_info":{
          "url":"https://dfwlive-v1-c1p3-sponsored.akamaized.net/Content/HLS.cps/Live/channel(NHLHD-8230.dfw.720)/index.m3u8",
          "k1": "607decd7288868d5dcfe6c4ef9c12be9",
