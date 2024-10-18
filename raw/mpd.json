@@ -403,6 +403,11 @@
 		 "k2": "b1d692fd6818ca81a50440d658b9e939"
       }
    },
+    "REALMADRIDTV":{
+      "drm_info":{
+         "url":"https://rmtv-canela.amagi.tv/playlist.m3u8",
+      }
+   },
     "ROOTSPORTSNW":{
       "drm_info":{
          "url":"https://dfwlive-v1-c4p3-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(RTNWHD-5687.dfw.720)/index.m3u8",
@@ -473,11 +478,14 @@
          "k2": "67767105f4f2aa7a5f0feae67cfa3d65"
       }
    },
-     "TENNISCHANNEL":{
+     "TENNISCHANNEL2":{
       "drm_info":{
-         "url":"https://dfwlive-v1-c4p3-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(TNNSHD-8240.dfw.1080)/index.m3u8",
-         "k1": "0077c68863dc9e7e7442ccb2b27e4cab",
-         "k2": "67767105f4f2aa7a5f0feae67cfa3d65"
+         "url":"https://d3qg0hadt0dkov.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-3sfgyrfz9zduo-prod/amgtennisus/playlist.m3u8",
+      }
+   },
+     "TENNISNETWORK":{
+      "drm_info":{
+         "url":"https://tennischannel-intl-samsung-uk.amagi.tv/playlist.m3u8",
       }
    },
      "TNT":{
