@@ -291,6 +291,13 @@
       "k2": "e17383864a909f35a93db6c0fad53d51"
     }
   },
+  "MATCHROOM": {
+    "drm_info": {
+      "url": "https://dcj-ak-livedazn.akamaized.net/dash/dazn-linear-515/stream.mpd",
+      "k1": "2b5182d6c00c385d7533695b56fb4799",
+      "k2": "e17383864a909f35a93db6c0fad53d51"
+    }
+  },
   "MSG2": {
     "drm_info": {
       "url": "https://dfwlive-v1-c4p3-sponsored.s.llnwi.net/Content/HLS.cps/Live/channel(MSGALT-1-5636.dfw.1080)/index.m3u8",
