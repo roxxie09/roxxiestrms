@@ -11,7 +11,9 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link href="/css/buttons.css" rel="stylesheet">
+    <link rel="shortcut icon" type="x-icon" href="imgs/iconn.png">
 <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -65,8 +67,7 @@
             top: -40px;
             left: 10px;
             display: flex;
-            gap: 10px;
-        }
+            gap: 10px;        }
     </style>
 </head>
 <body>
@@ -88,7 +89,9 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
             <div class="streamchanger">
-                <button class="streambutton" onclick="showIframe('https://player.twitch.tv/?channel=pinguloko1&parent=roxiestreams.pro')">Stream 1</button>
+                <button class="streambutton" onclick="showPlayer('clappr', 'https//v1.roxiestreams.pro/wwe.m3u8')">Stream 1</button>
+                <button class="streambutton" onclick="showIframe('https://roxiestreams.pro/raw/raw?id=USANETWORK')">Stream 2</button>
+                <button class="streambutton" onclick="showIframe('https://player.twitch.tv/?channel=adapt&parent=roxiestreams.pro')">Stream 3</button>
             </div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.pro"></iframe>
@@ -99,6 +102,7 @@
     <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
         <ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
             <li class="nav-item"><a href="https://discord.gg/JhkVmejRmn" class="nav-link px-2 text-body-secondary">Discord</a></li>
+            <li class="nav-item"><a href="/donate" class="nav-link px-2 text-body-secondary">Donate</a></li>
         </ul>
         <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
     </footer>
@@ -133,7 +137,7 @@
         }
 
         window.onload = function() {
-            showIframe('https://player.twitch.tv/?channel=pinguloko1&parent=roxiestreams.pro');
+            showPlayer('clappr', 'https//v1.roxiestreams.pro/wwe.m3u8');
         };
     </script>
     <script>
