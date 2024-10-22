@@ -16,11 +16,11 @@ def extract_stream_links(index_html):
     with open(index_html, 'r', encoding='utf-8') as file:
         soup = BeautifulSoup(file, 'html.parser')
 
-    # Find all event links
-    for card in soup.find_all('a', class_='item-card'):
+    # Find all event links in upcoming events
+    for card in soup.select('#upcoming-stream-cards a.item-card'):
         href = card.get('href')
-        if href and 'nfl-streams' in href:
-            # Fetch the stream page
+        if href:
+            print(f"Fetching stream from: {href}")  # Debug output
             try:
                 response = requests.get(href)
                 response.raise_for_status()
@@ -29,16 +29,16 @@ def extract_stream_links(index_html):
                 stream_soup = BeautifulSoup(response.text, 'html.parser')
                 
                 # Look for m3u8 links in the script tags or within the page
-                for script in stream_soup.find_all('script'):
-                    if script.string:  # Check if the script has content
-                        m3u8_links = re.findall(r'https?://[^\s]+\.m3u8', script.string)
-                        links.extend(m3u8_links)
+                found_links = re.findall(r'https?://[^\s]+\.m3u8', response.text)
+                if found_links:
+                    print(f"Found m3u8 links: {found_links}")  # Debug output
+                links.extend(found_links)
 
                 # Alternatively, if .m3u8 links are in <a> tags
                 for link in stream_soup.find_all('a', href=True):
                     if link['href'].endswith('.m3u8'):
                         links.append(link['href'])
-                        
+
             except Exception as e:
                 print(f"Error fetching {href}: {e}")
 
