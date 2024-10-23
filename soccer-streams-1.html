@@ -90,8 +90,8 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
             <div class="streamchanger">
-                <button class="streambutton" onclick="showPlayer('clappr', 'https://v1.roxiestreams.pro/beines.m3u8')">Stream 1 (ES)</button>
-                <button class="streambutton" onclick="showPlayer('clappr', 'https://v1.roxiestreams.pro/bein.m3u8')">Stream 2 (EN)</button>
+                <button class="streambutton" onclick="showPlayer('clappr', 'https://v1.roxiestreams.pro/bt3.m3u8')">Stream 1</button>
+                <button class="streambutton" onclick="showIframe('https://roxiestreams.pro/raw/raw?id=TNTSPORTS3')">Stream 2</button>
             </div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.pro"></iframe>
@@ -110,6 +110,8 @@
         var clapprPlayer;
 
         function showPlayer(playerType, stream) {
+            document.getElementById('playerContainer').innerHTML = '';
+
             if (playerType === "clappr") {
                 if (clapprPlayer) {
                     clapprPlayer.destroy();
@@ -125,8 +127,16 @@
             }
         }
 
+        function showIframe(url) {
+
+            if (clapprPlayer) {
+                clapprPlayer.destroy();
+                clapprPlayer = null;            }
+            document.getElementById('playerContainer').innerHTML = `<iframe src="${url}" style="width: 100%; height: 100%; border: none;"></iframe>`;
+        }
+
         window.onload = function() {
-            showPlayer('clappr', 'https://v1.roxiestreams.pro/beines.m3u8');
+            showPlayer('clappr', 'https://v1.roxiestreams.pro/bt3.m3u8');
         };
     </script>
     <script>
