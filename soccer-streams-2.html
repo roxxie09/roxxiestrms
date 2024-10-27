@@ -11,9 +11,7 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link href="/css/buttons.css" rel="stylesheet">
-    <link rel="shortcut icon" type="x-icon" href="imgs/iconn.png">
 <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
-    <script src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -90,7 +88,7 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
             <div class="streamchanger">
-                <button class="streambutton" onclick="showPlayer('clappr', 'https://v1.roxiestreams.pro/espnc.m3u8')">Stream 1</button>
+                <button class="streambutton" onclick="showIframe('https://player.twitch.tv/?channel=xpired73&parent=roxiestreams.pro')">Stream 1</button>
             </div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.pro"></iframe>
@@ -109,6 +107,8 @@
         var clapprPlayer;
 
         function showPlayer(playerType, stream) {
+            document.getElementById('playerContainer').innerHTML = '';
+
             if (playerType === "clappr") {
                 if (clapprPlayer) {
                     clapprPlayer.destroy();
@@ -124,8 +124,16 @@
             }
         }
 
+        function showIframe(url) {
+            if (clapprPlayer) {
+                clapprPlayer.destroy();
+                clapprPlayer = null;
+            }
+            document.getElementById('playerContainer').innerHTML = `<iframe src="${url}" style="width: 100%; height: 100%; border: none;"></iframe>`;
+        }
+
         window.onload = function() {
-            showPlayer('clappr', 'https://v1.roxiestreams.pro/espnc.m3u8');
+            showIframe('https://player.twitch.tv/?channel=xpired73&parent=roxiestreams.pro');
         };
     </script>
     <script>
