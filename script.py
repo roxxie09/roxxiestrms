@@ -13,10 +13,13 @@ for filename in os.listdir(directory):
         with open(file_path, 'r', encoding='utf-8') as file:
             content = file.read()
 
+        # Remove the existing script tag if present
+        content = content.replace(script_tag, '')
+
         # Insert the script tag before the closing </head> tag
         content = content.replace('</head>', f'  {script_tag}\n</head>')
 
         with open(file_path, 'w', encoding='utf-8') as file:
             file.write(content)
 
-print("Script added to all HTML files.")
+print("Script tag updated in all HTML files.")
