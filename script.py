@@ -3,8 +3,8 @@ import os
 # Get the current directory
 directory = os.getcwd()
 
-# The script to be added
-script_tag = "<script type='text/javascript' src='//pl24903545.profitablecpmrate.com/a8/d0/0a/a8d00ade81b48f5b50f7935385047cd0.js'></script>"
+# The iframe tag to be removed
+iframe_tag = '<iframe data-aa="2358765" src="//acceptable.a-ads.com/2358765" style="border:0px; padding:0; width:100%; height:100%; overflow:hidden; background-color: transparent;"></iframe>'
 
 # Iterate through all files in the directory
 for filename in os.listdir(directory):
@@ -13,13 +13,10 @@ for filename in os.listdir(directory):
         with open(file_path, 'r', encoding='utf-8') as file:
             content = file.read()
 
-        # Remove the existing script tag if present
-        content = content.replace(script_tag, '')
-
-        # Insert the script tag before the closing </head> tag
-        content = content.replace('</head>', f'  {script_tag}\n</head>')
+        # Remove the existing iframe tag if present
+        content = content.replace(iframe_tag, '')
 
         with open(file_path, 'w', encoding='utf-8') as file:
             file.write(content)
 
-print("Script tag updated in all HTML files.")
+print("Specified iframe tag removed from all HTML files.")
