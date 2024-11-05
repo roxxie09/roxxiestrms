@@ -1,22 +1,24 @@
 import os
 
-# Get the current directory
-directory = os.getcwd()
+# Define the old and new script tags carefully
+old_script = "<script type='text/javascript' src='//pl24903545.profitablecpmrate.com/a8/d0/0a/a8d00ade81b48f5b50f7935385047cd0.js'></script>"
+new_script = "<script type='text/javascript' src='//dearesthydrogen.com/a8/d0/0a/a8d00ade81b48f5b50f7935385047cd0.js'></script>"
 
-# The iframe tag to be removed
-iframe_tag = '<iframe data-aa="2358765" src="//acceptable.a-ads.com/2358765" style="border:0px; padding:0; width:100%; height:100%; overflow:hidden; background-color: transparent;"></iframe>'
+# Path to the current directory (same folder as the script)
+folder_path = os.getcwd()
 
-# Iterate through all files in the directory
-for filename in os.listdir(directory):
-    if filename.endswith('.html'):
-        file_path = os.path.join(directory, filename)
-        with open(file_path, 'r', encoding='utf-8') as file:
-            content = file.read()
+# Loop through each file in the current directory
+for filename in os.listdir(folder_path):
+    if filename.endswith(".html"):  # Only target .html files
+        file_path = os.path.join(folder_path, filename)
+        with open(file_path, 'r') as file:
+            file_content = file.read()
 
-        # Remove the existing iframe tag if present
-        content = content.replace(iframe_tag, '')
+        # Replace the old script tag with the new one
+        file_content = file_content.replace(old_script, new_script)
 
-        with open(file_path, 'w', encoding='utf-8') as file:
-            file.write(content)
+        # Write the modified content back to the file
+        with open(file_path, 'w') as file:
+            file.write(file_content)
 
-print("Specified iframe tag removed from all HTML files.")
+print("Replacement complete!")
