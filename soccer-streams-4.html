@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link href="/css/buttons.css" rel="stylesheet">
-<link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
+    <link rel="shortcut icon" type="x-icon" href="imgs/iconn.png">
 <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
@@ -70,8 +70,6 @@
             gap: 10px;
         }
     </style>
-  
-  <script type='text/javascript' src='//dearesthydrogen.com/a8/d0/0a/a8d00ade81b48f5b50f7935385047cd0.js'></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-black">
@@ -111,8 +109,6 @@
         var clapprPlayer;
 
         function showPlayer(playerType, stream) {
-            document.getElementById('playerContainer').innerHTML = '';
-
             if (playerType === "clappr") {
                 if (clapprPlayer) {
                     clapprPlayer.destroy();
@@ -126,14 +122,6 @@
                     autoPlay: true,
                 });
             }
-        }
-
-        function showIframe(url) {
-
-            if (clapprPlayer) {
-                clapprPlayer.destroy();
-                clapprPlayer = null;            }
-            document.getElementById('playerContainer').innerHTML = `<iframe src="${url}" style="width: 100%; height: 100%; border: none;"></iframe>`;
         }
 
         window.onload = function() {
@@ -153,6 +141,16 @@
         });
     </script>
     <script src="js/bootstrap.bundle.min.js"></script>
-
+<script type="text/javascript">
+	atOptions = {
+		'key' : '2dd3949da5b04dc4b008c10d433a08d1',
+		'format' : 'iframe',
+		'height' : 60,
+		'width' : 468,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//dearesthydrogen.com/2dd3949da5b04dc4b008c10d433a08d1/invoke.js"></script>
+<script type='text/javascript' src='//dearesthydrogen.com/a8/d0/0a/a8d00ade81b48f5b50f7935385047cd0.js'></script>
 </body>
 </html>
