@@ -58,7 +58,7 @@ def main_menu():
             # Get user input for event details
             title = input("Title of event: ")
             now = datetime.now()
-            current_year = 2024
+            current_year = 2025
             current_month = now.month
             current_day = now.day
 
