@@ -131,7 +131,9 @@
                 clapprPlayer.destroy();
                 clapprPlayer = null;
             }
-            document.getElementById('playerContainer').innerHTML = `<iframe src="${url}" style="width: 100%; height: 100%; border: none;"></iframe>`;
+            document.getElementById('playerContainer').innerHTML = `
+              <iframe src="${url}" style="width: 100%; height: 100%; border: none;" frameborder="0" scrolling="no" allowfullscreen="true"></iframe>
+            `;
         }
 
         window.onload = function() {
