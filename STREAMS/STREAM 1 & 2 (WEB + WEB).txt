@@ -90,7 +90,7 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
             <div class="streamchanger">
-                <button class="streambutton" onclick="showPlayer('clappr', 'https://v1.delgadaqatar.com/test.m3u8')">Stream 1</button>
+                <button class="streambutton" onclick="showPlayer('clappr', 'https://v1.saharcopyhouse.com/test.m3u8')">Stream 1</button>
                 <button class="streambutton" onclick="showPlayer('clappr', 'PLACEM3U8')">Stream 2</button>
             </div>
             <div class="embedchat">
@@ -126,7 +126,7 @@
         }
 
         window.onload = function() {
-            showPlayer('clappr', 'https://v1.delgadaqatar.com/test.m3u8');
+            showPlayer('clappr', 'https://v1.saharcopyhouse.com/test.m3u8');
         };
     </script>
     <script>
