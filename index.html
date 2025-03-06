@@ -51,7 +51,7 @@
             text-align: left;
         }
         th {
-            cursor: default; /* Disable pointer cursor to indicate no sorting functionality */
+            cursor: default;
         }
         .countdown-timer {
             font-weight: bold;
@@ -78,12 +78,21 @@
             </div>
         </div>
     </nav>
+
+    <!-- New Important Announcement Alert -->
+    <div class="alert alert-warning alert-dismissible mt-2" role="alert">
+        Important Announcement! <a class="alert-link" href="https://roxiestreams.pro/announcement">Click here to read.</a>
+        <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>
+    </div>
+
+    <!-- Existing Discord Alert -->
     <div class="alert alert-danger alert-dismissible mt-2" role="alert">
         We now have a discord server. Enjoy! <a class="alert-link" href="https://discord.gg/JhkVmejRmn">DISCORD</a>
         <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>
     </div>
+
     <div class="mt-5">
-<h2 class="text-center" style="font-family: 'Kanit', sans-serif; font-weight: bold; color: #f8b8d0;">Upcoming Events</h2>
+        <h2 class="text-center" style="font-family: 'Kanit', sans-serif; font-weight: bold; color: #f8b8d0;">Upcoming Events</h2>
         <table id="eventsTable">
             <thead>
                 <tr>
@@ -96,14 +105,13 @@
                 <tr>
                     <td><a href="https://roxiestreams.pro/soccer">NBA</a></td>
                     <td>March 06, 2025 16:00 PM</td>
-                    <td><span class="countdown-timer" data-start="March 06, 2025 21:30:00" data-end="March 06, 2025 16:00:00"></span></td>
+                    <td><span class="countdown-timer" data-start="March 06, 2025 16:00:00" data-end="March 06, 2025 21:30:00"></span></td>
                 </tr>
                 <tr>
                     <td><a href="https://roxiestreams.pro/soccer">WWE Smackdown</a></td>
                     <td>March 07, 2025 17:00 PM</td>
                     <td><span class="countdown-timer" data-start="March 07, 2025 17:00:00" data-end="March 07, 2025 19:00:00"></span></td>
                 </tr>
-                <tr>
             </tbody>
         </table>
     </div>
@@ -118,7 +126,6 @@
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="scripts/countdown.js"></script>
     <script>
-        // Function to update the countdown and remove events once they finish
         function startCountdown() {
             var countdownElements = document.querySelectorAll('.countdown-timer');
             
@@ -126,14 +133,12 @@
                 var startTime = new Date(element.getAttribute('data-start')).getTime();
                 var endTime = new Date(element.getAttribute('data-end')).getTime();
                 
-                // Update the countdown every second
                 setInterval(function() {
                     var now = new Date().getTime();
                     var timeRemaining = startTime - now;
                     
-                    // Check if the event is over
                     if (now > endTime) {
-                        element.parentElement.parentElement.remove(); // Remove the event row from the table
+                        element.parentElement.parentElement.remove();
                     } else {
                         var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
                         var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -146,11 +151,10 @@
                             element.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s";
                         }
                     }
-                }, 1000); // Update every second
+                }, 1000);
             });
         }
 
-        // Start countdown when the page loads
         window.onload = startCountdown;
     </script>
 </body>

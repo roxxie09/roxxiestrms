@@ -1,31 +1,45 @@
 from bs4 import BeautifulSoup
 from datetime import datetime
 
-# Read the index.html file
-with open('index.html', 'r', encoding='utf-8') as file:
-    html_content = file.read()
+# Function to extract events and save them to a text file
+def extract_events_from_file(html_file, category, output_file):
+    with open(html_file, 'r', encoding='utf-8') as file:
+        soup = BeautifulSoup(file, 'html.parser')
 
-# Parse the HTML content
-soup = BeautifulSoup(html_content, 'lxml')
+    # Find all the <a> tags within <td> tags for events
+    events = soup.find_all('td', {'class': None})  # Adjust if necessary
 
-# Get the current date in mm/dd format
-current_date = datetime.now().strftime('%m/%d')
+    with open(output_file, 'a', encoding='utf-8') as output:
+        # Write category header
+        output.write(f'{category}:\n')
 
-# Open a new text file to write the results
-with open('events.txt', 'w', encoding='utf-8') as output_file:
-    # Write the current date at the top
-    output_file.write(f"{current_date} events:\n\n")
-    
-    # Find all upcoming events
-    upcoming_events = soup.find_all('div', class_='px-2 py-2')
-    
-    for event in upcoming_events:
-        # Find the event name
-        event_title = event.find('h5', class_='card-title').get_text(strip=True)
-        # Find the corresponding URL
-        event_link = event.find('a', class_='item-card')['href']
-        
-        # Write the result to the file
-        output_file.write(f"{event_title}: {event_link}\n")
+        # Write each event under the category
+        for event in events:
+            link = event.find('a')
+            if link:
+                title = link.text.strip()
+                href = link.get('href')
+                output.write(f'{title}: {href}\n')
 
-print("Event names and URLs have been extracted to events.txt.")
+        # Add a newline for separation between categories
+        output.write('\n')
+
+# Get today's date in the format: March 06, 2025
+today_date = datetime.now().strftime("%B %d, %Y")
+
+# Specify the output text file
+output_file = 'events.txt'
+
+# Clear any previous contents of the output file
+with open(output_file, 'w', encoding='utf-8') as output:
+    # Write the date at the top of the file
+    output.write(f'Date: {today_date} Events\n\n')
+
+# Extract events for each category (Soccer, NBA, Motorsports, Fighting, NFL)
+extract_events_from_file('soccer.html', 'Soccer', output_file)
+extract_events_from_file('nba.html', 'NBA', output_file)
+extract_events_from_file('motorsports.html', 'Motorsports', output_file)
+extract_events_from_file('fighting.html', 'Fighting', output_file)
+extract_events_from_file('nfl.html', 'NFL', output_file)
+
+print(f'Events have been extracted and saved to {output_file}')
