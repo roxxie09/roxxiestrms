@@ -164,35 +164,35 @@
 </footer>
 <script src="js/bootstrap.bundle.min.js"></script>
 <script>
-        function startCountdown() {
-            var countdownElements = document.querySelectorAll('.countdown-timer');
-
-            countdownElements.forEach(function(element) {
-                var startTime = new Date(element.getAttribute('data-start')).getTime();
-                var endTime = new Date(element.getAttribute('data-end')).getTime();
-
-                setInterval(function() {
-                    var now = new Date().getTime();
-                    var timeRemaining = startTime - now;
-
-                    if (now > endTime) {
-                        element.parentElement.parentElement.remove();
-                    } else {
-                        var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                        var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-                        var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
-
-                        if (timeRemaining <= 0) {
-                            element.innerHTML = "Event Started!";
-                        } else {
-                            element.innerHTML = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
-                        }
-                    }
-                }, 1000);
-            });
-        }
-
-        window.onload = startCountdown;
-    </script>
-</body>
-</html>
+         function startCountdown() {
+             var countdownElements = document.querySelectorAll('.countdown-timer');
+ 
+             countdownElements.forEach(function(element) {
+                 var startTime = new Date(element.getAttribute('data-start')).getTime();
+                 var endTime = new Date(element.getAttribute('data-end')).getTime();
+ 
+                 setInterval(function() {
+                     var now = new Date().getTime();
+                     var timeRemaining = startTime - now;
+ 
+                     if (now > endTime) {
+                         element.parentElement.parentElement.remove();
+                     } else {
+                         var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                         var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                         var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+ 
+                         if (timeRemaining <= 0) {
+                             element.innerHTML = "Event Started!";
+                         } else {
+                             element.innerHTML = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
+                         }
+                     }
+                 }, 1000);
+             });
+         }
+ 
+         window.onload = startCountdown;
+     </script>
+ </body>
+ </html>
