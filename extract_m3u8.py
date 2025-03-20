@@ -1,59 +1,121 @@
-import os
 import requests
 from bs4 import BeautifulSoup
 import re
 
-# Get the current directory
-current_directory = os.path.dirname(os.path.abspath(__file__))
-
-# Paths to your files
-INDEX_HTML_PATH = os.path.join(current_directory, 'index.html')
-OUTPUT_HTML_PATH = os.path.join(current_directory, 'm3u8.html')
-
-def extract_stream_links(index_html):
+def extract_stream_links(html_path, event_type):
     links = []
     
-    with open(index_html, 'r', encoding='utf-8') as file:
+    # Open the HTML file and parse with BeautifulSoup
+    with open(html_path, 'r', encoding='utf-8') as file:
         soup = BeautifulSoup(file, 'html.parser')
 
-    # Find all event links in upcoming events
-    for card in soup.select('#upcoming-stream-cards a.item-card'):
-        href = card.get('href')
-        title_element = card.find('h5')  # Extract title from the card directly
-        title = title_element.text.strip() if title_element else "Unknown Event"
+    # Determine the event selector based on event type (nba, soccer, march-madness, fighting, motorsports)
+    if event_type == 'nba':
+        event_selector = '#eventsTable tbody tr'  # Adjust if needed
+    elif event_type == 'soccer':
+        event_selector = '#eventsTable tbody tr'  # Adjust if needed for soccer
+    elif event_type == 'march-madness':
+        event_selector = '#eventsTable tbody tr'  # Adjust if needed for March Madness
+    elif event_type == 'fighting':
+        event_selector = '#eventsTable tbody tr'  # Adjust if needed for Fighting events
+    elif event_type == 'motorsports':
+        event_selector = '#eventsTable tbody tr'  # Adjust if needed for Motorsports events
+    else:
+        raise ValueError("Invalid event type")
 
-        if href:
-            print(f"Fetching stream from: {href} - Title: {title}")  # Debug output
-            try:
-                response = requests.get(href)
-                response.raise_for_status()
-                
-                # Parse the stream page
-                stream_soup = BeautifulSoup(response.text, 'html.parser')
+    # Debug: Notify that the parsing has started
+    print(f"Started extracting {event_type} stream links...")
 
-                # Look for m3u8 links in the script tags or within the page
-                found_links = set(re.findall(r'https?://[^\s]+\.m3u8', response.text))  # Use set to remove duplicates
-                if found_links:
-                    print(f"Found m3u8 links: {found_links}")  # Debug output
-                links.append(f"{title}\n" + "\n".join(f"{link} (Stream {i+1})" for i, link in enumerate(found_links)))
+    # Loop through the rows in the event table
+    for row in soup.select(event_selector):
+        try:
+            # Try to extract the event name and link
+            event_name_cell = row.find('td')
+            if event_name_cell:
+                event_link_tag = event_name_cell.find('a')
+                if event_link_tag:
+                    event_name = event_link_tag.text.strip()
+                    event_link = event_link_tag.get('href')
+                    if event_link:
+                        print(f"Fetching stream from: {event_link} - Title: {event_name}")
+                        try:
+                            response = requests.get(event_link)
+                            response.raise_for_status()
+                            
+                            # Parse the stream page
+                            stream_soup = BeautifulSoup(response.text, 'html.parser')
 
-            except Exception as e:
-                print(f"Error fetching {href}: {e}")
+                            # Extract m3u8 links from the page
+                            found_links = set(re.findall(r'https?://[^\s]+\.m3u8', response.text))
+                            if found_links:
+                                print(f"Found m3u8 links: {found_links}")
+                            else:
+                                print(f"No m3u8 links found for: {event_name}")
+                            links.append(f"<strong>{event_name}</strong><br>" + "<br>".join(f"<a href='{link}'>{link}</a> (Stream {i+1})<br>" for i, link in enumerate(found_links)))
+                        except Exception as e:
+                            print(f"Error fetching {event_link}: {e}")
+                else:
+                    print(f"Skipping row due to missing <a> tag in event: {row}")
+            else:
+                print(f"Skipping row due to missing <td> tag in event: {row}")
+        except Exception as e:
+            print(f"Error processing row: {e}")
+    
+    # Print completion message
+    if links:
+        print(f"Finished extracting {len(links)} stream links.")
+    else:
+        print("No stream links found.")
 
-    return list(set(links))  # Remove duplicates based on titles
+    return links  # Return the list of links as HTML formatted strings
 
-def create_output_html(links):
-    with open(OUTPUT_HTML_PATH, 'w', encoding='utf-8') as file:
-        file.write("<!DOCTYPE html>\n<html lang='en'>\n<head>\n")
-        file.write("<meta charset='UTF-8'>\n<title>M3U8 Links</title>\n</head>\n<body>\n")
-        file.write("<h1>Available M3U8 Links</h1>\n<pre>\n")  # Use <pre> for formatting
-        
-        for link in links:
-            file.write(f"{link}\n\n")  # Each event with its m3u8 links
-        
-        file.write("</pre>\n</body>\n</html>")
 
-if __name__ == "__main__":
-    links = extract_stream_links(INDEX_HTML_PATH)
-    create_output_html(links)
-    print(f"Extracted {len(links)} links and saved to {OUTPUT_HTML_PATH}")
+# Main execution starts here
+NBA_HTML_PATH = 'nba.html'  # Path to NBA HTML file
+SOCCER_HTML_PATH = 'soccer.html'  # Path to Soccer HTML file
+MARCH_MADNESS_HTML_PATH = 'march-madness.html'  # Path to March Madness HTML file
+FIGHTING_HTML_PATH = 'fighting.html'  # Path to Fighting HTML file
+MOTOSPORTS_HTML_PATH = 'motorsports.html'  # Path to Motorsports HTML file
+
+# Extract links for NBA, Soccer, March Madness, Fighting, and Motorsports
+nba_links = extract_stream_links(NBA_HTML_PATH, 'nba')
+soccer_links = extract_stream_links(SOCCER_HTML_PATH, 'soccer')
+march_madness_links = extract_stream_links(MARCH_MADNESS_HTML_PATH, 'march-madness')
+fighting_links = extract_stream_links(FIGHTING_HTML_PATH, 'fighting')
+motorsports_links = extract_stream_links(MOTOSPORTS_HTML_PATH, 'motorsports')
+
+# Create the HTML content
+html_content = """
+<html>
+<head><title>Stream Links</title></head>
+<body>
+<h1>Stream Links</h1>
+<h2>NBA Streams</h2>
+<div>
+    {}
+</div>
+<h2>Soccer Streams</h2>
+<div>
+    {}
+</div>
+<h2>March Madness Streams</h2>
+<div>
+    {}
+</div>
+<h2>Fighting Streams</h2>
+<div>
+    {}
+</div>
+<h2>Motorsports Streams</h2>
+<div>
+    {}
+</div>
+</body>
+</html>
+""".format("<br><hr>".join(nba_links), "<br><hr>".join(soccer_links), "<br><hr>".join(march_madness_links), "<br><hr>".join(fighting_links), "<br><hr>".join(motorsports_links))
+
+# Write the HTML content to m3u8.html
+with open("m3u8.html", "w", encoding="utf-8") as file:
+    file.write(html_content)
+
+print("m3u8.html has been created.")
