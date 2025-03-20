@@ -41,5 +41,6 @@ extract_events_from_file('nba.html', 'NBA', output_file)
 extract_events_from_file('motorsports.html', 'Motorsports', output_file)
 extract_events_from_file('fighting.html', 'Fighting', output_file)
 extract_events_from_file('nfl.html', 'NFL', output_file)
+extract_events_from_file('march-madness.html', 'March Madness', output_file)
 
 print(f'Events have been extracted and saved to {output_file}')
