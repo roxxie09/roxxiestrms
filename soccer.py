@@ -38,7 +38,7 @@ for row in rows:
             countdown_timer['data-start'] = formatted_event_time.strftime('%B %d, %Y %H:%M:%S')
 
             # Set the data-end attribute to 2 hours after the event start time
-            end_time = formatted_event_time + timedelta(hours=2)
+            end_time = formatted_event_time + timedelta(hours=12)
             countdown_timer['data-end'] = end_time.strftime('%B %d, %Y %H:%M:%S')
 
 # Save the updated HTML back to the file
