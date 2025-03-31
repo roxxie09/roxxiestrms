@@ -1,8 +1,8 @@
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 
-# Load the soccer.html file
-with open('soccer.html', 'r', encoding='utf-8') as file:
+# Load the mlb.html file
+with open('mlb.html', 'r', encoding='utf-8') as file:
     soup = BeautifulSoup(file, 'html.parser')
 
 # Find all the <tr> rows in the table
@@ -42,7 +42,7 @@ for row in rows:
             countdown_timer['data-end'] = end_time.strftime('%B %d, %Y %H:%M:%S')
 
 # Save the updated HTML back to the file
-with open('soccer.html', 'w', encoding='utf-8') as file:
+with open('mlb.html', 'w', encoding='utf-8') as file:
     file.write(str(soup))
 
 print("HTML file updated successfully!")
