@@ -16,11 +16,11 @@ jobs:
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY2 }}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY3 }}
 
       - name: Deploy to VPS
         run: |
-          ssh -o StrictHostKeyChecking=no root@45.87.43.110 << 'EOF'
+          ssh -o StrictHostKeyChecking=no root@45.14.224.58 << 'EOF'
             cd /var/www/roxxiestreams
             git pull origin main
             # Optionally restart services or perform additional tasks
