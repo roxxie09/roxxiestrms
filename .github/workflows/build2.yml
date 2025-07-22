@@ -1,4 +1,4 @@
-name: Deploy to VPS
+name: Deploy to Server
 
 on:
   push:
@@ -10,19 +10,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up SSH
+      - name: Set up SSH agent
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY3 }}
 
-      - name: Deploy to VPS
+      - name: Add deploy key to known hosts
         run: |
-          ssh -o StrictHostKeyChecking=no root@45.14.224.58 << 'EOF'
-            cd /var/www/roxxiestreams
-            git pull origin main
-            # Optionally restart services or perform additional tasks
-            sudo systemctl restart nginx
-          EOF
+          mkdir -p ~/.ssh
+          ssh-keyscan -H 45.14.224.58 >> ~/.ssh/known_hosts
+
+      - name: Deploy to remote server
+        run: |
+          ssh -o StrictHostKeyChecking=no root@45.14.224.58 'your-deploy-script.sh'
