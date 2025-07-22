@@ -1,22 +1,27 @@
 import os
+import re
 
-# Define the directory containing your HTML files
-directory = r"G:\MY LEGIT EVERYTRHING FOLDER\RANDOM\RANDOM\roxxiestrms"
+def replace_afronifty_urls(directory):
+    pattern = r"https://lol\.afronifty\.com/([^\s\"']+\.m3u8)"
+    replacement_template = r"https://snake.ncvtmisgov.com/\1"
 
-# Loop through each file in the directory
-for filename in os.listdir(directory):
-    if filename.endswith(".html"):
-        file_path = os.path.join(directory, filename)
-        
-        # Open the file for reading
-        with open(file_path, 'r', encoding='utf-8') as file:
-            content = file.read()
-        
-        # Replace '.pro' with '.cc'
-        content = content.replace(".pro", ".cc")
-        
-        # Write the modified content back to the file
-        with open(file_path, 'w', encoding='utf-8') as file:
-            file.write(content)
+    for root, _, files in os.walk(directory):
+        for file in files:
+            if file.endswith(".html"):
+                file_path = os.path.join(root, file)
 
-print("Replacement complete!")
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+
+                # Use regex to find and replace all matching URLs
+                updated_content, count = re.subn(pattern, replacement_template, content)
+
+                if count > 0:
+                    with open(file_path, 'w', encoding='utf-8') as f:
+                        f.write(updated_content)
+                    print(f"Updated {count} URL(s) in: {file_path}")
+                else:
+                    print(f"No change: {file_path}")
+
+# Replace '.' with your target directory if needed
+replace_afronifty_urls('.')
