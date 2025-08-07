@@ -3,10 +3,11 @@ from datetime import datetime, timedelta
 import pytz
 from bs4 import BeautifulSoup
 import platform
+import json
 
 def fetch_mlb_games_for_today():
     today = datetime.now().strftime('%Y-%m-%d')
-    url = f'http://statsapi.mlb.com/api/v1/schedule/games/?sportId=1&date='
+    url = f'http://statsapi.mlb.com/api/v1/schedule/games/?sportId=1&date={today}'
 
     response = requests.get(url)
     data = response.json()
@@ -87,6 +88,13 @@ def update_mlb_html(input_file='mlb.html', output_file='mlb.html'):
 
     print(f"Updated MLB schedule written to {output_file}")
 
+def write_mlb_games_to_txt(filename='text.txt'):
+    games = fetch_mlb_games_for_today()
+    with open(filename, 'w', encoding='utf-8') as f:
+        f.write(json.dumps(games, indent=4))
+    print(f"Fetched and wrote MLB games to {filename}")
+
 if __name__ == '__main__':
-    # No need for a loop, just run once (let OS scheduler handle dailies)
-    update_mlb_html()
+    # Uncomment the one you want to use:
+    write_mlb_games_to_txt()         # Writes games JSON to text.txt
+    #update_mlb_html()               # Updates HTML (requires 'mlb.html')

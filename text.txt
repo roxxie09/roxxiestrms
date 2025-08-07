@@ -1,0 +1,92 @@
+[
+    {
+        "teams": "San Francisco Giants vs Pittsburgh Pirates",
+        "display_time": "August 6, 2025 09:35 AM",
+        "data_start": "August 6, 2025 09:35:00",
+        "data_end": "August 6, 2025 21:35:00"
+    },
+    {
+        "teams": "Baltimore Orioles vs Philadelphia Phillies",
+        "display_time": "August 6, 2025 09:35 AM",
+        "data_start": "August 6, 2025 09:35:00",
+        "data_end": "August 6, 2025 21:35:00"
+    },
+    {
+        "teams": "Cleveland Guardians vs New York Mets",
+        "display_time": "August 6, 2025 10:10 AM",
+        "data_start": "August 6, 2025 10:10:00",
+        "data_end": "August 6, 2025 22:10:00"
+    },
+    {
+        "teams": "Minnesota Twins vs Detroit Tigers",
+        "display_time": "August 6, 2025 10:10 AM",
+        "data_start": "August 6, 2025 10:10:00",
+        "data_end": "August 6, 2025 22:10:00"
+    },
+    {
+        "teams": "Cincinnati Reds vs Chicago Cubs",
+        "display_time": "August 6, 2025 11:20 AM",
+        "data_start": "August 6, 2025 11:20:00",
+        "data_end": "August 6, 2025 23:20:00"
+    },
+    {
+        "teams": "New York Yankees vs Texas Rangers",
+        "display_time": "August 6, 2025 11:35 AM",
+        "data_start": "August 6, 2025 11:35:00",
+        "data_end": "August 6, 2025 23:35:00"
+    },
+    {
+        "teams": "Toronto Blue Jays vs Colorado Rockies",
+        "display_time": "August 6, 2025 12:10 PM",
+        "data_start": "August 6, 2025 12:10:00",
+        "data_end": "August 7, 2025 00:10:00"
+    },
+    {
+        "teams": "Tampa Bay Rays vs Los Angeles Angels",
+        "display_time": "August 6, 2025 01:07 PM",
+        "data_start": "August 6, 2025 13:07:00",
+        "data_end": "August 7, 2025 01:07:00"
+    },
+    {
+        "teams": "St. Louis Cardinals vs Los Angeles Dodgers",
+        "display_time": "August 6, 2025 01:10 PM",
+        "data_start": "August 6, 2025 13:10:00",
+        "data_end": "August 7, 2025 01:10:00"
+    },
+    {
+        "teams": "Houston Astros vs Miami Marlins",
+        "display_time": "August 6, 2025 01:40 PM",
+        "data_start": "August 6, 2025 13:40:00",
+        "data_end": "August 7, 2025 01:40:00"
+    },
+    {
+        "teams": "Athletics vs Washington Nationals",
+        "display_time": "August 6, 2025 03:45 PM",
+        "data_start": "August 6, 2025 15:45:00",
+        "data_end": "August 7, 2025 03:45:00"
+    },
+    {
+        "teams": "Kansas City Royals vs Boston Red Sox",
+        "display_time": "August 6, 2025 04:10 PM",
+        "data_start": "August 6, 2025 16:10:00",
+        "data_end": "August 7, 2025 04:10:00"
+    },
+    {
+        "teams": "Milwaukee Brewers vs Atlanta Braves",
+        "display_time": "August 6, 2025 04:15 PM",
+        "data_start": "August 6, 2025 16:15:00",
+        "data_end": "August 7, 2025 04:15:00"
+    },
+    {
+        "teams": "San Diego Padres vs Arizona Diamondbacks",
+        "display_time": "August 6, 2025 06:40 PM",
+        "data_start": "August 6, 2025 18:40:00",
+        "data_end": "August 7, 2025 06:40:00"
+    },
+    {
+        "teams": "Chicago White Sox vs Seattle Mariners",
+        "display_time": "August 6, 2025 06:40 PM",
+        "data_start": "August 6, 2025 18:40:00",
+        "data_end": "August 7, 2025 06:40:00"
+    }
+]
