@@ -1,24 +1,19 @@
 import requests
 from datetime import datetime, timedelta
 import pytz
-from bs4 import BeautifulSoup
 import platform
-import json
+from bs4 import BeautifulSoup
 
 def fetch_mlb_games_for_today():
     today = datetime.now().strftime('%Y-%m-%d')
     url = f'http://statsapi.mlb.com/api/v1/schedule/games/?sportId=1&date={today}'
-
     response = requests.get(url)
     data = response.json()
     games = data.get('dates', [])
-
     pacific = pytz.timezone('US/Pacific')
     games_list = []
 
-    if not games:
-        return games_list
-
+    # Cross-platform day format (for removing leading zero in day)
     if platform.system() == 'Windows':
         day_format = '%#d'
     else:
@@ -36,7 +31,6 @@ def fetch_mlb_games_for_today():
             data_start = game_time_pdt.strftime(f'%B {day_format}, %Y %H:%M:%S')
             data_end_time = game_time_pdt + timedelta(hours=12)
             data_end = data_end_time.strftime(f'%B {day_format}, %Y %H:%M:%S')
-
             games_list.append({
                 'teams': f'{away_team} vs {home_team}',
                 'display_time': display_time,
@@ -45,56 +39,60 @@ def fetch_mlb_games_for_today():
             })
     return games_list
 
-def update_mlb_html(input_file='mlb.html', output_file='mlb.html'):
-    with open(input_file, 'r', encoding='utf-8') as f:
+def update_games_in_html(html_path='mlb.html'):
+    # Load the HTML
+    with open(html_path, 'r', encoding='utf-8') as f:
         soup = BeautifulSoup(f, 'html.parser')
 
+    # Fetch today's games
     games = fetch_mlb_games_for_today()
-    if not games:
-        print("No games found for today.")
+
+    # Find the events table by id
+    table = soup.find('table', id='eventsTable')
+    if table is None:
+        print("Could not find table with id='eventsTable'")
         return
 
-    tbody = soup.find('tbody')
-    if not tbody:
-        print("No <tbody> found in HTML.")
+    tbody = table.find('tbody')
+    if tbody is None:
+        print("Could not find <tbody> under eventsTable")
         return
-    rows = tbody.find_all('tr')
 
-    for i, row in enumerate(rows):
-        if i >= len(games):
-            break
-        game = games[i]
-        tds = row.find_all('td')
-        if len(tds) < 3:
-            continue
+    # Remove all old <tr> (don't leave trailing empty row)
+    for tr in list(tbody.find_all('tr')):
+        tr.decompose()
 
-        event_td = tds[0]
-        a_tag = event_td.find('a')
-        if not a_tag:
-            a_tag = soup.new_tag('a', href='#')
-            event_td.clear()
-            event_td.append(a_tag)
-        a_tag.string = game['teams']
+    # Add one row per game
+    for idx, game in enumerate(games, start=1):
+        stream_url = f"https://roxiestreams.cc/mlb-streams-{idx}"
+        tr = soup.new_tag('tr')
 
-        tds[1].string = game['display_time']
+        # 1. Game link
+        td1 = soup.new_tag('td')
+        a = soup.new_tag('a', href=stream_url)
+        a.string = game['teams']
+        td1.append(a)
+        tr.append(td1)
 
-        countdown_span = tds[2].find('span', class_='countdown-timer')
-        if countdown_span:
-            countdown_span['data-start'] = game['data_start']
-            countdown_span['data-end'] = game['data_end']
+        # 2. Display time
+        td2 = soup.new_tag('td')
+        td2.string = game['display_time']
+        tr.append(td2)
 
-    with open(output_file, 'w', encoding='utf-8') as f_out:
-        f_out.write(str(soup))
+        # 3. Countdown timer
+        td3 = soup.new_tag('td')
+        span = soup.new_tag('span', **{'class':'countdown-timer'})
+        span['data-start'] = game['data_start']
+        span['data-end'] = game['data_end']
+        td3.append(span)
+        tr.append(td3)
 
-    print(f"Updated MLB schedule written to {output_file}")
+        tbody.append(tr)
 
-def write_mlb_games_to_txt(filename='text.txt'):
-    games = fetch_mlb_games_for_today()
-    with open(filename, 'w', encoding='utf-8') as f:
-        f.write(json.dumps(games, indent=4))
-    print(f"Fetched and wrote MLB games to {filename}")
+    with open(html_path, 'w', encoding='utf-8') as f:
+        f.write(str(soup.prettify(formatter="minimal")))
+
+    print(f"Updated MLB games in {html_path}")
 
 if __name__ == '__main__':
-    # Uncomment the one you want to use:
-    write_mlb_games_to_txt()         # Writes games JSON to text.txt
-    #update_mlb_html()               # Updates HTML (requires 'mlb.html')
+    update_games_in_html('mlb.html')
