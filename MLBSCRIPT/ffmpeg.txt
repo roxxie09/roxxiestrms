@@ -20,11 +20,15 @@ while true; do sudo ffmpeg -i "http://ahostingportal.com:8000/Marky0416/Integra1
 
 while true; do sudo ffmpeg -i "http://ahostingportal.com:8000/Marky0416/Integra1994/564365" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_los_angeles_angels%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/mlb10.m3u8; done
 
-while true; do sudo ffmpeg -i "http://ahostingportal.com:8000/Marky0416/Integra1994/564370" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_san_diego_padres%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/mlb11.m3u8; done
+while true; do sudo ffmpeg -i "http://ahostingportal.com:8000/Marky0416/Integra1994/564363" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_colorado_rockies%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/mlb11.m3u8; done
 
-while true; do sudo ffmpeg -i "http://ahostingportal.com:8000/Marky0416/Integra1994/564351" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_detroit_tigers%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/mlb12.m3u8; done
+while true; do sudo ffmpeg -i "http://ahostingportal.com:8000/Marky0416/Integra1994/564370" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_san_diego_padres%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/mlb12.m3u8; done
 
-while true; do sudo ffmpeg -i "http://ahostingportal.com:8000/Marky0416/Integra1994/564350" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_cincinnati_reds%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/mlb13.m3u8; done
+while true; do sudo ffmpeg -i "http://ahostingportal.com:8000/Marky0416/Integra1994/564349" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_chicago_cubs%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/mlb13.m3u8; done
+
+while true; do sudo ffmpeg -i "http://ahostingportal.com:8000/Marky0416/Integra1994/564351" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_detroit_tigers%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/mlb14.m3u8; done
+
+while true; do sudo ffmpeg -i "http://ahostingportal.com:8000/Marky0416/Integra1994/564350" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_cincinnati_reds%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/mlb15.m3u8; done
 
 # --- AWAY Teams ---
 
@@ -48,9 +52,13 @@ while true; do sudo ffmpeg -i "http://ahostingportal.com:8000/Marky0416/Integra1
 
 while true; do sudo ffmpeg -i "http://ahostingportal.com:8000/Marky0416/Integra1994/564374" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_texas_rangers%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/mlb10.m3u8; done
 
-while true; do sudo ffmpeg -i "http://ahostingportal.com:8000/Marky0416/Integra1994/564371" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_seattle_mariners%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/mlb11.m3u8; done
+while true; do sudo ffmpeg -i "http://ahostingportal.com:8000/Marky0416/Integra1994/564352" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_houston_astros%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/mlb11.m3u8; done
 
-while true; do sudo ffmpeg -i "http://ahostingportal.com:8000/Marky0416/Integra1994/564368" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_athletics%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/mlb12.m3u8; done
+while true; do sudo ffmpeg -i "http://ahostingportal.com:8000/Marky0416/Integra1994/564371" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_seattle_mariners%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/mlb12.m3u8; done
 
-while true; do sudo ffmpeg -i "http://ahostingportal.com:8000/Marky0416/Integra1994/564366" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_los_angeles_dodgers%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/mlb13.m3u8; done
+while true; do sudo ffmpeg -i "http://ahostingportal.com:8000/Marky0416/Integra1994/564358" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_san_francisco_giants%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/mlb13.m3u8; done
+
+while true; do sudo ffmpeg -i "http://ahostingportal.com:8000/Marky0416/Integra1994/564368" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_athletics%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/mlb14.m3u8; done
+
+while true; do sudo ffmpeg -i "http://ahostingportal.com:8000/Marky0416/Integra1994/564366" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_los_angeles_dodgers%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/mlb15.m3u8; done
 
