@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 
 def fetch_mlb_games_for_today():
     today = datetime.now().strftime('%Y-%m-%d')
-    url = f'http://statsapi.mlb.com/api/v1/schedule/games/?sportId=1&date={today}'
+    url = f'https://statsapi.mlb.com/api/v1/schedule/games/?sportId=1&date={today}'
     response = requests.get(url)
     data = response.json()
     games = data.get('dates', [])
