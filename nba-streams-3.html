@@ -1,18 +1,20 @@
 <!DOCTYPE html>
-
-<html data-bs-theme="dark" lang="en">
+<html lang="en" data-bs-theme="dark">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>Roxiestreams - Watch Live Sports, F1, UFC, NFL, TV</title>
-<meta content="Free PPV ufc, TV, NBA, NFL, and F1 streams" name="description"/>
-<meta content="Roxiestreams, ppv, boxing, dazn, f1, ufc, nba, for, stream, online, free, mrgamingstreams, f1, tv, nfl" name="keywords"/>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-<link href="css/main.css" rel="stylesheet" type="text/css"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Roxiestreams - Watch Live Sports, F1, UFC, NFL, TV</title>
+    <meta name="description" content="Free PPV UFC, TV, NBA, NFL, and F1 streams">
+    <meta name="keywords" content="Roxiestreams, ppv, boxing, dazn, f1, ufc, nba, for, stream, online, free, mrgamingstreams, f1, tv, nfl">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link href="/css/buttons.css" rel="stylesheet">
 <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
-<style>
+<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -32,150 +34,129 @@
         .navbar-brand:hover {
             text-decoration: underline;
         }
-        .navbar-nav {
-            margin-left: 0;
-        }
         .navbar-nav .nav-link {
             padding-left: 5px;
             padding-right: 5px;
         }
-        table {
+        .fullplayer {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            height: 80vh;
+            margin-top: 50px;
+        }
+        #playerContainer {
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
+            height: 100%;
         }
-        table, th, td {
-            border: 1px solid white;
+        .embedchat {
+            width: 30%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin-left: 10px;
         }
-        th, td {
-            padding: 10px;
-            text-align: left;
+        .embedchat iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
-        th {
-            cursor: default;
-        }
-        .countdown-timer {
-            font-weight: bold;
-            color: #ff0000;
-        }
-        h2 {
-            color: pink;
+        .streamchanger {
+            position: absolute;
+            top: -40px;
+            left: 10px;
+            display: flex;
+            gap: 10px;
         }
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-black">
-<div class="container-fluid">
-<a class="navbar-brand" href="https://roxiestreams.pro/">RoxieStreams</a>
-<button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button">
-<span class="navbar-toggler-icon"></span>
-</button>
-<div class="collapse navbar-collapse" id="navbarSupportedContent">
-<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <nav class="navbar navbar-expand-lg bg-black">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="https://roxiestreams.pro/">RoxieStreams</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.pro/soccer">Soccer</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.pro/nba">NBA</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.pro/nfl">NFL</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.pro/fighting">Fighting</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.pro/motorsports">Motorsports</a></li>
-<li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Discord</a></li>
-</ul>
-</div>
-</div>
-</nav>
-<div class="container container-fluid pt-2 text-white">
-<div class="mt-5">
-<h2 class="m-0" style="font-family: 'Kanit', sans-serif; font-weight: bold;">Upcoming NBA Events</h2>
-<table id="eventsTable">
-<thead>
-<tr>
-<th>Event</th>
-<th>Start Time</th>
-<th>Countdown</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="https://roxiestreams.pro/nba-streams-1">Cavaliers vs Hornets</a></td>
-<td>March 07, 2025 16:00 PM</td>
-<td><span class="countdown-timer" data-end="March 07, 2025 19:00:00" data-start="March 07, 2025 16:00:00"></span></td>
-</tr>
-<tr>
-<td><a href="https://roxiestreams.pro/nba-streams-2">Jazz vs Raptors</a></td>
-<td>March 07, 2025 16:30 PM</td>
-<td><span class="countdown-timer" data-end="March 07, 2025 19:30:00" data-start="March 07, 2025 16:30:00"></span></td>
-</tr>
-<tr>
-<td><a href="https://roxiestreams.pro/nba-streams-3">Grizzlies vs Mavericks</a></td>
-<td>March 07, 2025 16:30 PM</td>
-<td><span class="countdown-timer" data-end="March 07, 2025 19:30:00" data-start="March 07, 2025 16:30:00"></span></td>
-</tr>
-<tr>
-<td><a href="https://roxiestreams.pro/nba-streams-4">Timberwolves vs Heat</a></td>
-<td>March 07, 2025 17:00 PM</td>
-<td><span class="countdown-timer" data-end="March 07, 2025 20:00:00" data-start="March 07, 2025 17:00:00"></span></td>
-</tr>
-<tr>
-<td><a href="https://roxiestreams.pro/nba-streams-5">Trail Blazers vs Thunder</a></td>
-<td>March 07, 2025 17:00 PM</td>
-<td><span class="countdown-timer" data-end="March 07, 2025 20:00:00" data-start="March 07, 2025 17:00:00"></span></td>
-</tr>
-<tr>
-<td><a href="https://roxiestreams.pro/nba-streams-3">Suns vs Nuggets</a></td>
-<td>March 07, 2025 19:00 PM</td>
-<td><span class="countdown-timer" data-end="March 07, 2025 22:00:00" data-start="March 07, 2025 19:00:00"></span></td>
-</tr>
+                    <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Discord</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-<td><a href="https://roxiestreams.pro/nba-streams-6">Spurs vs Kings</a></td>
-<td>March 07, 2025 17:00 PM</td>
-<td><span class="countdown-timer" data-end="March 07, 2025 20:00:00" data-start="March 06, 2025 17:00:00"></span></td>
+    <div class="container container-fluid pt-2 text-white">
+        <div class="fullplayer">
+            <div id="playerContainer"></div>
+            <div class="streamchanger">
+                <button class="streambutton" onclick="showPlayer('clappr', 'https://ac.spyketv.xyz/nba2.m3u8')">Stream 1</button>
+                <button class="streambutton" onclick="showPlayer('clappr', 'https://pi.spyketv.xyz/nba.m3u8')">Stream 2</button>
+            </div>
+            <div class="embedchat">
+                <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.pro"></iframe>
+            </div>
+        </div>
+    </div>
 
-<tr>
-<td><a href="https://roxiestreams.pro/nba-streams-7">Knicks vs Clippers</a></td>
-<td>March 07, 2025 17:00 PM</td>
-<td><span class="countdown-timer" data-end="March 07, 2025 20:00:00" data-start="March 07, 2025 17:00:00"></span></td>
-</tr>
-<tr>
-</tr></tbody>
-</table>
-</div>
-</div>
-<footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-<ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
-<li class="nav-item"><a class="nav-link px-2 text-body-secondary" href="https://discord.gg/2BSP97x2">Discord</a></li>
-</ul>
-<p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
-</footer>
-<script src="js/bootstrap.bundle.min.js"></script>
-<script>
-        function startCountdown() {
-            var countdownElements = document.querySelectorAll('.countdown-timer');
+    <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
+        <ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
+            <li class="nav-item"><a href="https://discord.gg/JhkVmejRmn" class="nav-link px-2 text-body-secondary">Discord</a></li>
+        </ul>
+        <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
+    </footer>
 
-            countdownElements.forEach(function(element) {
-                var startTime = new Date(element.getAttribute('data-start')).getTime();
-                var endTime = new Date(element.getAttribute('data-end')).getTime();
+    <script>
+        var clapprPlayer;
 
-                setInterval(function() {
-                    var now = new Date().getTime();
-                    var timeRemaining = startTime - now;
+        function showPlayer(playerType, stream) {
+            if (playerType === "clappr") {
+                if (clapprPlayer) {
+                    clapprPlayer.destroy();
+                }
 
-                    if (now > endTime) {
-                        element.parentElement.parentElement.remove();
-                    } else {
-                        var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                        var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-                        var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
-
-                        if (timeRemaining <= 0) {
-                            element.innerHTML = "Event Started!";
-                        } else {
-                            element.innerHTML = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
-                        }
-                    }
-                }, 1000);
-            });
+                clapprPlayer = new Clappr.Player({
+                    source: stream,
+                    parentId: "#playerContainer",
+                    height: '100%',
+                    width: '100%',
+                    autoPlay: true,
+                });
+            }
         }
 
-        window.onload = startCountdown;
+        window.onload = function() {
+            showPlayer('clappr', 'https://ac.spyketv.xyz/nba2.m3u8');
+        };
     </script>
+    <script>
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) ||
+                (e.ctrlKey && e.shiftKey && e.key === 'J')) {
+                e.preventDefault();
+            }
+        });
+    </script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+	atOptions = {
+		'key' : '2dd3949da5b04dc4b008c10d433a08d1',
+		'format' : 'iframe',
+		'height' : 60,
+		'width' : 468,
+		'params' : {}
+	};
+</script>
+<script type="text/javascript" src="//dearesthydrogen.com/2dd3949da5b04dc4b008c10d433a08d1/invoke.js"></script>
+<script type='text/javascript' src='//dearesthydrogen.com/a8/d0/0a/a8d00ade81b48f5b50f7935385047cd0.js'></script>
 </body>
 </html>
