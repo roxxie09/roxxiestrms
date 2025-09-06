@@ -1,6 +1,6 @@
 # --- HOME Teams ---
 
-while true; do sudo ffmpeg -i "http://ahostingportal.com:8000/Marky0416/Integra1994/564375" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_toronto_blue_jays%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/mlb.m3u8; done
+while true; do sudo ffmpeg -i "http://ufospeeds.com:8000/Marky0416/Integra1994/564375" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_toronto_blue_jays%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/mlb.m3u8; done
 
 while true; do sudo ffmpeg -i "http://ahostingportal.com:8000/Marky0416/Integra1994/564376" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_washington_nationals%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/mlb2.m3u8; done
 
