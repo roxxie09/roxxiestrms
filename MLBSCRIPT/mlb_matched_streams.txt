@@ -1,5 +1,14 @@
-Atlanta Braves (Home): http://ahostingportal.com:8000/Marky0416/Integra1994/564348
-Washington Nationals (Away): http://ahostingportal.com:8000/Marky0416/Integra1994/564376
+Chicago Cubs (Home): http://ahostingportal.com:8000/Marky0416/Integra1994/564349
+Pittsburgh Pirates (Away): http://ahostingportal.com:8000/Marky0416/Integra1994/564369
+------------------------------
+Cincinnati Reds (Home): http://ahostingportal.com:8000/Marky0416/Integra1994/564350
+St. Louis Cardinals (Away): http://ahostingportal.com:8000/Marky0416/Integra1994/564372
+------------------------------
+Baltimore Orioles (Home): http://ahostingportal.com:8000/Marky0416/Integra1994/564347
+Chicago White Sox (Away): http://ahostingportal.com:8000/Marky0416/Integra1994/564361
+------------------------------
+San Francisco Giants (Home): http://ahostingportal.com:8000/Marky0416/Integra1994/564358
+Arizona Diamondbacks (Away): http://ahostingportal.com:8000/Marky0416/Integra1994/564359
 ------------------------------
 Atlanta Braves (Home): http://ahostingportal.com:8000/Marky0416/Integra1994/564348
 Washington Nationals (Away): http://ahostingportal.com:8000/Marky0416/Integra1994/564376
@@ -7,23 +16,17 @@ Washington Nationals (Away): http://ahostingportal.com:8000/Marky0416/Integra199
 Cleveland Guardians (Home): http://ahostingportal.com:8000/Marky0416/Integra1994/564362
 Detroit Tigers (Away): http://ahostingportal.com:8000/Marky0416/Integra1994/564351
 ------------------------------
-Chicago Cubs (Home): http://ahostingportal.com:8000/Marky0416/Integra1994/564349
-Pittsburgh Pirates (Away): http://ahostingportal.com:8000/Marky0416/Integra1994/564369
-------------------------------
 Athletics (Home): http://ahostingportal.com:8000/Marky0416/Integra1994/564368
 Boston Red Sox (Away): http://ahostingportal.com:8000/Marky0416/Integra1994/564360
-------------------------------
-San Diego Padres (Home): http://ahostingportal.com:8000/Marky0416/Integra1994/564370
-New York Mets (Away): http://ahostingportal.com:8000/Marky0416/Integra1994/564355
 ------------------------------
 Toronto Blue Jays (Home): http://ahostingportal.com:8000/Marky0416/Integra1994/564375
 Tampa Bay Rays (Away): http://ahostingportal.com:8000/Marky0416/Integra1994/564373
 ------------------------------
+San Diego Padres (Home): http://ahostingportal.com:8000/Marky0416/Integra1994/564370
+New York Mets (Away): http://ahostingportal.com:8000/Marky0416/Integra1994/564355
+------------------------------
 Seattle Mariners (Home): http://ahostingportal.com:8000/Marky0416/Integra1994/564371
 Kansas City Royals (Away): http://ahostingportal.com:8000/Marky0416/Integra1994/564364
-------------------------------
-Baltimore Orioles (Home): http://ahostingportal.com:8000/Marky0416/Integra1994/564347
-Chicago White Sox (Away): http://ahostingportal.com:8000/Marky0416/Integra1994/564361
 ------------------------------
 New York Yankees (Home): http://ahostingportal.com:8000/Marky0416/Integra1994/564356
 Minnesota Twins (Away): http://ahostingportal.com:8000/Marky0416/Integra1994/564367
@@ -31,17 +34,11 @@ Minnesota Twins (Away): http://ahostingportal.com:8000/Marky0416/Integra1994/564
 Los Angeles Angels (Home): http://ahostingportal.com:8000/Marky0416/Integra1994/564365
 Milwaukee Brewers (Away): http://ahostingportal.com:8000/Marky0416/Integra1994/564354
 ------------------------------
-Cincinnati Reds (Home): http://ahostingportal.com:8000/Marky0416/Integra1994/564350
-St. Louis Cardinals (Away): http://ahostingportal.com:8000/Marky0416/Integra1994/564372
-------------------------------
 Texas Rangers (Home): http://ahostingportal.com:8000/Marky0416/Integra1994/564374
 Houston Astros (Away): http://ahostingportal.com:8000/Marky0416/Integra1994/564352
 ------------------------------
 Miami Marlins (Home): http://ahostingportal.com:8000/Marky0416/Integra1994/564353
 Colorado Rockies (Away): http://ahostingportal.com:8000/Marky0416/Integra1994/564363
-------------------------------
-San Francisco Giants (Home): http://ahostingportal.com:8000/Marky0416/Integra1994/564358
-Arizona Diamondbacks (Away): http://ahostingportal.com:8000/Marky0416/Integra1994/564359
 ------------------------------
 Philadelphia Phillies (Home): http://ahostingportal.com:8000/Marky0416/Integra1994/564357
 Los Angeles Dodgers (Away): http://ahostingportal.com:8000/Marky0416/Integra1994/564366
