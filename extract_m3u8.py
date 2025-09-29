@@ -14,8 +14,6 @@ def extract_stream_links(html_path, event_type):
         event_selector = '#eventsTable tbody tr'  # Adjust if needed
     elif event_type == 'soccer':
         event_selector = '#eventsTable tbody tr'  # Adjust if needed for soccer
-    elif event_type == 'march-madness':
-        event_selector = '#eventsTable tbody tr'  # Adjust if needed for March Madness
     elif event_type == 'fighting':
         event_selector = '#eventsTable tbody tr'  # Adjust if needed for Fighting events
     elif event_type == 'motorsports':
@@ -73,14 +71,12 @@ def extract_stream_links(html_path, event_type):
 # Main execution starts here
 NBA_HTML_PATH = 'nba.html'  # Path to NBA HTML file
 SOCCER_HTML_PATH = 'soccer.html'  # Path to Soccer HTML file
-MARCH_MADNESS_HTML_PATH = 'march-madness.html'  # Path to March Madness HTML file
 FIGHTING_HTML_PATH = 'fighting.html'  # Path to Fighting HTML file
 MOTOSPORTS_HTML_PATH = 'motorsports.html'  # Path to Motorsports HTML file
 
 # Extract links for NBA, Soccer, March Madness, Fighting, and Motorsports
 nba_links = extract_stream_links(NBA_HTML_PATH, 'nba')
 soccer_links = extract_stream_links(SOCCER_HTML_PATH, 'soccer')
-march_madness_links = extract_stream_links(MARCH_MADNESS_HTML_PATH, 'march-madness')
 fighting_links = extract_stream_links(FIGHTING_HTML_PATH, 'fighting')
 motorsports_links = extract_stream_links(MOTOSPORTS_HTML_PATH, 'motorsports')
 
