@@ -9,7 +9,7 @@ def extract_stream_links(html_path, event_type):
     with open(html_path, 'r', encoding='utf-8') as file:
         soup = BeautifulSoup(file, 'html.parser')
 
-    # Determine the event selector based on event type (nba, soccer, march-madness, fighting, motorsports)
+    # Determine the event selector based on event type (nba, soccer, nfl, fighting, motorsports)
     if event_type == 'nba':
         event_selector = '#eventsTable tbody tr'  # Adjust if needed
     elif event_type == 'soccer':
@@ -18,6 +18,8 @@ def extract_stream_links(html_path, event_type):
         event_selector = '#eventsTable tbody tr'  # Adjust if needed for Fighting events
     elif event_type == 'motorsports':
         event_selector = '#eventsTable tbody tr'  # Adjust if needed for Motorsports events
+    elif event_type == 'nfl':
+        event_selector = '#eventsTable tbody tr'  # Adjust if needed for NFL events
     else:
         raise ValueError("Invalid event type")
 
@@ -73,10 +75,12 @@ NBA_HTML_PATH = 'nba.html'  # Path to NBA HTML file
 SOCCER_HTML_PATH = 'soccer.html'  # Path to Soccer HTML file
 FIGHTING_HTML_PATH = 'fighting.html'  # Path to Fighting HTML file
 MOTOSPORTS_HTML_PATH = 'motorsports.html'  # Path to Motorsports HTML file
+NFL_HTML_PATH = 'nfl.html'  # Path to NFL HTML file
 
-# Extract links for NBA, Soccer, March Madness, Fighting, and Motorsports
+# Extract links for NBA, Soccer, NFL, Fighting, and Motorsports
 nba_links = extract_stream_links(NBA_HTML_PATH, 'nba')
 soccer_links = extract_stream_links(SOCCER_HTML_PATH, 'soccer')
+nfl_links = extract_stream_links(NFL_HTML_PATH, 'nfl')
 fighting_links = extract_stream_links(FIGHTING_HTML_PATH, 'fighting')
 motorsports_links = extract_stream_links(MOTOSPORTS_HTML_PATH, 'motorsports')
 
@@ -87,6 +91,10 @@ html_content = """
 <body>
 <h1>Stream Links</h1>
 <h2>NBA Streams</h2>
+<div>
+    {}
+</div>
+<h2>NFL</h2>
 <div>
     {}
 </div>
@@ -104,7 +112,7 @@ html_content = """
 </div>
 </body>
 </html>
-""".format("<br><hr>".join(nba_links), "<br><hr>".join(soccer_links), "<br><hr>".join(fighting_links), "<br><hr>".join(motorsports_links))
+""".format("<br><hr>".join(nba_links), "<br><hr>".join(soccer_links), "<br><hr>".join(nfl_links), "<br><hr>".join(fighting_links), "<br><hr>".join(motorsports_links))
 
 # Write the HTML content to m3u8.html
 with open("m3u8.html", "w", encoding="utf-8") as file:
