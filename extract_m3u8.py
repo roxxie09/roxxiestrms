@@ -94,11 +94,11 @@ html_content = """
 <div>
     {}
 </div>
-<h2>NFL</h2>
+<h2>Soccer Streams</h2>
 <div>
     {}
 </div>
-<h2>Soccer Streams</h2>
+<h2>NFL Streams</h2>
 <div>
     {}
 </div>
