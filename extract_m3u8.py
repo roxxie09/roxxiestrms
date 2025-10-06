@@ -94,10 +94,6 @@ html_content = """
 <div>
     {}
 </div>
-<h2>March Madness Streams</h2>
-<div>
-    {}
-</div>
 <h2>Fighting Streams</h2>
 <div>
     {}
@@ -108,7 +104,7 @@ html_content = """
 </div>
 </body>
 </html>
-""".format("<br><hr>".join(nba_links), "<br><hr>".join(soccer_links), "<br><hr>".join(march_madness_links), "<br><hr>".join(fighting_links), "<br><hr>".join(motorsports_links))
+""".format("<br><hr>".join(nba_links), "<br><hr>".join(soccer_links), "<br><hr>".join(fighting_links), "<br><hr>".join(motorsports_links))
 
 # Write the HTML content to m3u8.html
 with open("m3u8.html", "w", encoding="utf-8") as file:
