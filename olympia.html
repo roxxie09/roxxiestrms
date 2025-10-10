@@ -67,8 +67,7 @@
             top: -40px;
             left: 10px;
             display: flex;
-            gap: 10px;
-        }
+            gap: 10px;        }
     </style>
 </head>
 <body>
@@ -80,12 +79,11 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/soccer">Soccer</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/mlb">MLB</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nba">NBA</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nfl">NFL</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/fighting">Fighting</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/motorsports">Motorsports</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.pro/soccer">Soccer</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.pro/nba">NBA</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.pro/nfl">NFL</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.pro/fighting">Fighting</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.pro/motorsports">Motorsports</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Discord</a></li>
                 </ul>
             </div>
@@ -97,6 +95,7 @@
             <div id="playerContainer"></div>
             <div class="streamchanger">
                 <button class="streambutton" onclick="showPlayer('clappr', 'https://saz.blitzen.store/olympia.m3u8')">Stream 1</button>
+                <button class="streambutton" onclick="showIframe('https://player.twitch.tv/?channel=china_slayer&parent=roxiestreams.cc')">Stream 2</button>
             </div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.cc"></iframe>
@@ -115,6 +114,8 @@
         var clapprPlayer;
 
         function showPlayer(playerType, stream) {
+            document.getElementById('playerContainer').innerHTML = '';
+
             if (playerType === "clappr") {
                 if (clapprPlayer) {
                     clapprPlayer.destroy();
@@ -128,6 +129,14 @@
                     autoPlay: true,
                 });
             }
+        }
+
+        function showIframe(url) {
+            if (clapprPlayer) {
+                clapprPlayer.destroy();
+                clapprPlayer = null;
+            }
+            document.getElementById('playerContainer').innerHTML = `<iframe src="${url}" style="width: 100%; height: 100%; border: none;"></iframe>`;
         }
 
         window.onload = function() {
@@ -156,7 +165,7 @@
 		'params' : {}
 	};
 </script>
-<script type="text/javascript" src="//monthspathsmug.com/003d52b3a131567a085c68d8775f52a2/invoke.js"></script>
-<script type='text/javascript' src='//monthspathsmug.com/39/5b/74/395b743c98df9f3269c808abb2b1d06a.js'></script>
+<script type="text/javascript" src="//dearesthydrogen.com/003d52b3a131567a085c68d8775f52a2/invoke.js"></script>
+<script type='text/javascript' src='//dearesthydrogen.com/39/5b/74/395b743c98df9f3269c808abb2b1d06a.js'></script>
 </body>
 </html>
