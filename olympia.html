@@ -99,7 +99,7 @@
                 <!-- Stream 1 is now randomized stream -->
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream())">Stream 1</button>
                 <!-- Stream 2 is now fixed OKRU url -->
-                <button class="streambutton" onclick="showIframe('https://ok.ru/videoembed/9983217245944?autoplay=1')">Stream 2 (OKRU)</button>
+<button class="streambutton" onclick="showPlayer('clappr', getRandomStream2())">Stream 2</button>
             </div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.cc"></iframe>
@@ -115,47 +115,56 @@
     </footer>
 
 <script>
-    var clapprPlayer;
+var clapprPlayer;
 
-    // Array of Stream URLs for Stream 1
-    function getRandomStream() {
-        const streams = [
-            'https://sluc.zaynic.my.id/olympia.m3u8',
-            'https://dc.pohon8-advantplay.com/olympia.m3u8',
-            'https://dda.pohon8-amp.asia/olympia.m3u8'
-        ];
-        return streams[Math.floor(Math.random() * streams.length)];
-    }
+// Stream 1 URLs
+function getRandomStream() {
+    const streams = [
+        'https://sluc.zaynic.my.id/olympia.m3u8',
+        'https://dc.pohon8-advantplay.com/olympia.m3u8',
+        'https://dda.pohon8-amp.asia/olympia.m3u8'
+    ];
+    return streams[Math.floor(Math.random() * streams.length)];
+}
 
-    function showPlayer(playerType, stream) {
-        document.getElementById('playerContainer').innerHTML = '';
+// Stream 2 URLs
+function getRandomStream2() {
+    const streams2 = [
+        'https://aba.pohon8-amp.biz/ppv.m3u8',
+        'https://suc.pohon8-amp.click/ppv.m3u8'
+    ];
+    return streams2[Math.floor(Math.random() * streams2.length)];
+}
 
-        if (playerType === "clappr") {
-            if (clapprPlayer) {
-                clapprPlayer.destroy();
-            }
+function showPlayer(playerType, stream) {
+    document.getElementById('playerContainer').innerHTML = '';
 
-            clapprPlayer = new Clappr.Player({
-                source: stream,
-                parentId: "#playerContainer",
-                height: '100%',
-                width: '100%',
-                autoPlay: true,
-            });
-        }
-    }
-
-    function showIframe(url) {
+    if (playerType === "clappr") {
         if (clapprPlayer) {
             clapprPlayer.destroy();
-            clapprPlayer = null;
         }
-        document.getElementById('playerContainer').innerHTML = `<iframe src="${url}" style="width: 100%; height: 100%; border: none;"></iframe>`;
-    }
 
-    window.onload = function() {
-        showPlayer('clappr', getRandomStream()); // Load a random stream as Stream 1 on page load
-    };
+        clapprPlayer = new Clappr.Player({
+            source: stream,
+            parentId: "#playerContainer",
+            height: '100%',
+            width: '100%',
+            autoPlay: true,
+        });
+    }
+}
+
+function showIframe(url) {
+    if (clapprPlayer) {
+        clapprPlayer.destroy();
+        clapprPlayer = null;
+    }
+    document.getElementById('playerContainer').innerHTML = `<iframe src="${url}" style="width: 100%; height: 100%; border: none;"></iframe>`;
+}
+
+window.onload = function() {
+    showPlayer('clappr', getRandomStream()); // Load Stream 1 randomized on page load
+};
 </script>
 
 <script>
