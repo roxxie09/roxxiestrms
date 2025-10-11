@@ -11,18 +11,18 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link href="/css/buttons.css" rel="stylesheet">
-<link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
-<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
+    <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
+    <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-EQ3BHVQGMN');
-</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-EQ3BHVQGMN');
+    </script>
     <style>
+        /* Existing styles */
         .navbar-brand {
             color: pink;
             font-size: 1.3rem;
@@ -67,7 +67,8 @@
             top: -40px;
             left: 10px;
             display: flex;
-            gap: 10px;        }
+            gap: 10px;
+        }
     </style>
 </head>
 <body>
@@ -79,12 +80,12 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/soccer">Soccer</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/mlb">MLB</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nba">NBA</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nfl">NFL</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/fighting">Fighting</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/motorsports">Motorsports</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/soccer">Soccer</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/mlb">MLB</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nba">NBA</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nfl">NFL</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/fighting">Fighting</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/motorsports">Motorsports</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Discord</a></li>
                 </ul>
             </div>
@@ -95,8 +96,10 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
             <div class="streamchanger">
-                <button class="streambutton" onclick="showIframe('https://ok.ru/videoembed/9983217245944?autoplay=1')">Stream 1 (OKRU)</button>
-<button class="streambutton" onclick="showPlayer('clappr', getRandomStream())">Stream 2</button>
+                <!-- Stream 1 is now randomized stream -->
+                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream())">Stream 1</button>
+                <!-- Stream 2 is now fixed OKRU url -->
+                <button class="streambutton" onclick="showIframe('https://ok.ru/videoembed/9983217245944?autoplay=1')">Stream 2 (OKRU)</button>
             </div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.cc"></iframe>
@@ -114,7 +117,7 @@
 <script>
     var clapprPlayer;
 
-    // Array of Stream 2 URLs
+    // Array of Stream URLs for Stream 1
     function getRandomStream() {
         const streams = [
             'https://sluc.zaynic.my.id/olympia.m3u8',
@@ -151,22 +154,23 @@
     }
 
     window.onload = function() {
-        showIframe('https://ok.ru/videoembed/9983217245944?autoplay=1'); // Default Stream 1 on load
+        showPlayer('clappr', getRandomStream()); // Load a random stream as Stream 1 on page load
     };
 </script>
-    <script>
-        document.addEventListener('contextmenu', function (e) {
-            e.preventDefault();
-        });
 
-        document.addEventListener('keydown', function (e) {
-            if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) ||
-                (e.ctrlKey && e.shiftKey && e.key === 'J')) {
-                e.preventDefault();
-            }
-        });
-    </script>
-    <script src="js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+    });
+
+    document.addEventListener('keydown', function (e) {
+        if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) ||
+            (e.ctrlKey && e.shiftKey && e.key === 'J')) {
+            e.preventDefault();
+        }
+    });
+</script>
+<script src="js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
 	atOptions = {
 		'key' : '003d52b3a131567a085c68d8775f52a2',
