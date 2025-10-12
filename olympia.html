@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Roxiestreams - Watch Live Sports, F1, UFC, NFL, TV</title>
-    <meta name="description" content="Free PPV UFC, TV, NBA, NFL, and F1 streams">
-    <meta name="keywords" content="Roxiestreams, ppv, boxing, dazn, f1, ufc, nba, for, stream, online, free, mrgamingstreams, f1, tv, nfl">
+    <title>Olympia VODs - Roxiestreams</title>
+    <meta name="description" content="Olympia VODs collection">
+    <meta name="keywords" content="Olympia, VODs, bodybuilding, videos">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
@@ -22,7 +22,6 @@
       gtag('config', 'G-EQ3BHVQGMN');
     </script>
     <style>
-        /* Existing styles */
         .navbar-brand {
             color: pink;
             font-size: 1.3rem;
@@ -69,6 +68,31 @@
             display: flex;
             gap: 10px;
         }
+        .vod-links {
+            margin-top: 20px;
+            max-width: 600px;
+        }
+        .vod-links a {
+            color: #00bfff;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .vod-links a:hover, .vod-links a:focus {
+            text-decoration: underline;
+            background-color: rgba(0, 191, 255, 0.1);
+            outline: none;
+        }
+        .vod-links p {
+            margin: 8px 0;
+            font-size: 1.1rem;
+        }
+        h1 {
+            margin-top: 15px;
+            font-family: 'Kanit', sans-serif;
+            font-weight: bold;
+            color: pink;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -93,17 +117,17 @@
     </nav>
 
     <div class="container container-fluid pt-2 text-white">
-        <div class="fullplayer">
-            <div id="playerContainer"></div>
-            <div class="streamchanger">
-                <!-- Stream 1 is now randomized stream -->
-                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream())">Stream 1</button>
-                <!-- Stream 2 is now fixed OKRU url -->
-<button class="streambutton" onclick="showPlayer('clappr', getRandomStream2())">Stream 2</button>
-            </div>
-            <div class="embedchat">
-                <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.cc"></iframe>
-            </div>
+        <h1>Olympia VODs</h1>
+        <div class="vod-links">
+            <p><a href="https://www.livereacting.com/tools/hls-player-embed?url=https%3A%2F%2Fgreat-white.mediatools.click%2F2025-Olympia-1-1.mp4%2Findex.m3u8" target="_blank" rel="noopener noreferrer" tabindex="0">Tuesday Pre Judging</a></p>
+            <p><a href="https://www.livereacting.com/tools/hls-player-embed?url=https%3A%2F%2Fgreat-white.mediatools.click%2F2025-Olympia-1-2.mp4%2Findex.m3u8" target="_blank" rel="noopener noreferrer" tabindex="0">Tuesday Finals</a></p>
+            <p><a href="https://www.livereacting.com/tools/hls-player-embed?url=https%3A%2F%2Fgreat-white.mediatools.click%2F2025-Olympia-2-1.mp4%2Findex.m3u8" target="_blank" rel="noopener noreferrer" tabindex="0">Wednesday Pre Judging</a></p>
+            <p><a href="https://www.livereacting.com/tools/hls-player-embed?url=https%3A%2F%2Fgreat-white.mediatools.click%2F2025-Olympia-2-2.mp4%2Findex.m3u8" target="_blank" rel="noopener noreferrer" tabindex="0">Wednesday Finals</a></p>
+            <p><a href="https://www.livereacting.com/tools/hls-player-embed?url=https%3A%2F%2Fgreat-white.mediatools.click%2F2025-Olympia-3-1.mp4%2Findex.m3u8" target="_blank" rel="noopener noreferrer" tabindex="0">Thursday Press Conf</a></p>
+            <p><a href="https://www.livereacting.com/tools/hls-player-embed?url=https%3A%2F%2Fgreat-white.mediatools.click%2F2025-Olympia-4-1.mp4%2Findex.m3u8" target="_blank" rel="noopener noreferrer" tabindex="0">Friday Pre Judging</a></p>
+            <p><a href="https://www.livereacting.com/tools/hls-player-embed?url=https%3A%2F%2Fgreat-white.mediatools.click%2F2025-Olympia-4-3.mp4%2Findex.m3u8" target="_blank" rel="noopener noreferrer" tabindex="0">Friday Finals</a></p>
+            <p><a href="https://www.livereacting.com/tools/hls-player-embed?url=https%3A%2F%2Fgreat-white.mediatools.click%2F2025-Olympia-5-1.mp4%2Findex.m3u8" target="_blank" rel="noopener noreferrer" tabindex="0">Saturday Pre Judging</a></p>
+            <p><a href="https://www.livereacting.com/tools/hls-player-embed?url=https%3A%2F%2Fgreat-white.mediatools.click%2F2025-Olympia-5-3.mp4%2Findex.m3u8" target="_blank" rel="noopener noreferrer" tabindex="0">Saturday Finals</a></p>
         </div>
     </div>
 
@@ -113,63 +137,6 @@
         </ul>
         <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
     </footer>
-
-<script>
-var clapprPlayer;
-
-// Stream 1 URLs
-function getRandomStream() {
-    const streams = [
-        'https://sluc.zaynic.my.id/olympia.m3u8',
-        'https://dc.pohon8-advantplay.com/olympia.m3u8',
-        'https://aba.pohon8-amp.biz/olympia.m3u8',
-        'https://suc.pohon8-amp.click/olympia.m3u8',
-        'https://dda.pohon8-amp.asia/olympia.m3u8'
-    ];
-    return streams[Math.floor(Math.random() * streams.length)];
-}
-
-// Stream 2 URLs
-function getRandomStream2() {
-    const streams2 = [
-        'https://aba.pohon8-amp.biz/ppv.m3u8',
-        'https://dc.pohon8-advantplay.com/ppv.m3u8',
-        'https://dda.pohon8-amp.asia/ppv.m3u8',
-        'https://suc.pohon8-amp.click/ppv.m3u8'
-    ];
-    return streams2[Math.floor(Math.random() * streams2.length)];
-}
-
-function showPlayer(playerType, stream) {
-    document.getElementById('playerContainer').innerHTML = '';
-
-    if (playerType === "clappr") {
-        if (clapprPlayer) {
-            clapprPlayer.destroy();
-        }
-
-        clapprPlayer = new Clappr.Player({
-            source: stream,
-            parentId: "#playerContainer",
-            height: '100%',
-            width: '100%',
-            autoPlay: true,
-        });
-    }
-}
-
-function showIframe(url) {
-    if (clapprPlayer) {
-        clapprPlayer.destroy();
-        clapprPlayer = null;
-    }
-    document.getElementById('playerContainer').innerHTML = `<iframe src="${url}" style="width: 100%; height: 100%; border: none;"></iframe>`;
-}
-
-window.onload = function() {
-    showPlayer('clappr', getRandomStream()); // Load Stream 1 randomized on page load
-};
-</script>
 
 <script>
     document.addEventListener('contextmenu', function (e) {
@@ -183,17 +150,5 @@ window.onload = function() {
         }
     });
 </script>
-<script src="js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript">
-	atOptions = {
-		'key' : '003d52b3a131567a085c68d8775f52a2',
-		'format' : 'iframe',
-		'height' : 60,
-		'width' : 468,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//monthspathsmug.com/003d52b3a131567a085c68d8775f52a2/invoke.js"></script>
-<script type='text/javascript' src='//monthspathsmug.com/39/5b/74/395b743c98df9f3269c808abb2b1d06a.js'></script>
 </body>
 </html>
