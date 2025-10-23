@@ -10,100 +10,58 @@
   }
 
   const teamNameMap = {
+  "aberdeen": "aberdeen",
+  "aek athens": "aek athens",
+  "aek larnaca": "aek larnaca",
   "aew": "aew",
-  "ajax": "ajax",
-  "atalanta": "atalanta",
-  "athletic club": "athletic club",
-  "atlanta hawks": "atlanta hawks",
-  "atlas": "atlas",
-  "bahia": "bahia",
-  "bayer munich": "bayer munich",
-  "bodø / glimt": "bodø / glimt",
-  "boston celtics": "boston celtics",
-  "brooklyn nets": "brooklyn nets",
-  "charlotte hornet": "charlotte hornet",
-  "chelsea": "chelsea",
-  "chicago bulls": "chicago bulls",
-  "chivas": "chivas",
-  "cleveland cavaliers": "cleveland cavaliers",
-  "club brugge": "club brugge",
-  "dallas mavericks": "dallas mavericks",
-  "detroit pistons": "detroit pistons",
-  "flamengo": "flamengo",
+  "aston villa": "aston villa",
+  "basel": "basel",
+  "brann": "brann",
+  "celtic": "celtic",
+  "crystal palace": "crystal palace",
+  "denver nuggets": "denver nuggets",
   "formula 1 - usa grand prix": "formula 1 - usa grand prix",
-  "frankfurt": "frankfurt",
-  "galatasaray": "galatasaray",
-  "internacional": "internacional",
-  "juventus": "juventus",
-  "león": "león",
-  "liverpool": "liverpool",
+  "go ahead eagles": "go ahead eagles",
+  "golden state warriors": "golden state warriors",
+  "indiana pacers": "indiana pacers",
+  "lanus": "lanus",
+  "ldu quito": "ldu quito",
   "los angeles chargers": "los angeles chargers",
-  "los angeles clippers": "los angeles clippers",
-  "marseille": "marseille",
-  "memphis grizzlies": "memphis grizzlies",
-  "miami heat": "miami heat",
-  "milwaukee bucks": "milwaukee bucks",
-  "minnesota timberwolves": "minnesota timberwolves",
+  "lyon": "lyon",
   "minnesota vikings": "minnesota vikings",
-  "monaco": "monaco",
   "nascar cup series - race": "nascar cup series - race",
-  "new orlean pelicans": "new orlean pelicans",
-  "new york knicks": "new york knicks",
-  "orlando magic": "orlando magic",
-  "pachuca": "pachuca",
-  "philadelphia 76ers": "philadelphia 76ers",
-  "phoenix suns": "phoenix suns",
-  "portland trail blazers": "portland trail blazers",
-  "qarabağ": "qarabağ",
-  "querétaro": "querétaro",
-  "racing club": "racing club",
-  "real madrid": "real madrid",
-  "sacromento kings": "sacromento kings",
-  "san antonio spurs": "san antonio spurs",
+  "nottingham forest": "nottingham forest",
+  "oklahoma city thunder": "oklahoma city thunder",
+  "palmeiras": "palmeiras",
+  "porto": "porto",
+  "rangers": "rangers",
+  "roma": "roma",
   "seattle mariners": "seattle mariners",
-  "slavia prague": "slavia prague",
-  "sporting cp": "sporting cp",
-  "tigres uanl": "tigres uanl",
-  "tijuana": "tijuana",
-  "toluca": "toluca",
+  "sporting cristal": "sporting cristal",
+  "sturm graz": "sturm graz",
   "toronto blue jays": "toronto blue jays",
-  "toronto raptors": "toronto raptors",
-  "tottenham": "tottenham",
-  "uefa golazo show": "uefa golazo show",
-  "utah jazz": "utah jazz",
-  "washington wizards": "washington wizards"
+  "universidad chile": "universidad chile",
+  "universitario": "universitario",
+  "viktoria plzeň": "viktoria plzeň",
+  "nuggets": "denver nuggets",
+  "warriors": "golden state warriors"
 };
 
   const roxieStreamsCached = [
-  {title: "bodø / glimt vs galatasaray", url: "https://roxiestreams.cc/soccer-streams-1"},
-  {title: "athletic club vs qarabağ", url: "https://roxiestreams.cc/soccer-streams-2"},
-  {title: "uefa golazo show", url: "https://roxiestreams.cc/soccer-streams-3"},
-  {title: "atalanta vs slavia prague", url: "https://roxiestreams.cc/soccer-streams-4"},
-  {title: "bayer munich vs club brugge", url: "https://roxiestreams.cc/soccer-streams-4"},
-  {title: "ajax vs chelsea", url: "https://roxiestreams.cc/soccer-streams-5"},
-  {title: "frankfurt vs liverpool", url: "https://roxiestreams.cc/soccer-streams-6"},
-  {title: "monaco vs tottenham", url: "https://roxiestreams.cc/soccer-streams-7"},
-  {title: "juventus vs real madrid", url: "https://roxiestreams.cc/soccer-streams-8"},
-  {title: "marseille vs sporting cp", url: "https://roxiestreams.cc/soccer-streams-9"},
-  {title: "bahia vs internacional", url: "https://roxiestreams.cc/soccer-streams-10"},
-  {title: "flamengo vs racing club", url: "https://roxiestreams.cc/soccer-streams-11"},
-  {title: "chivas vs querétaro", url: "https://roxiestreams.cc/soccer-streams-13"},
-  {title: "pachuca vs tigres uanl", url: "https://roxiestreams.cc/soccer-streams-14"},
-  {title: "tijuana vs toluca", url: "https://roxiestreams.cc/soccer-streams-14"},
-  {title: "atlas vs león", url: "https://roxiestreams.cc/soccer-streams-13"},
+  {title: "aberdeen vs aek athens", url: "https://roxiestreams.cc/soccer-streams-1"},
+  {title: "brann vs rangers", url: "https://roxiestreams.cc/soccer-streams-2"},
+  {title: "aston villa vs go ahead eagles", url: "https://roxiestreams.cc/soccer-streams-3"},
+  {title: "basel vs lyon", url: "https://roxiestreams.cc/soccer-streams-4"},
+  {title: "aek larnaca vs crystal palace", url: "https://roxiestreams.cc/soccer-streams-1"},
+  {title: "celtic vs sturm graz", url: "https://roxiestreams.cc/soccer-streams-2"},
+  {title: "roma vs viktoria plzeň", url: "https://roxiestreams.cc/soccer-streams-5"},
+  {title: "nottingham forest vs porto", url: "https://roxiestreams.cc/soccer-streams-6"},
+  {title: "lanus vs universidad chile", url: "https://roxiestreams.cc/soccer-streams-7"},
+  {title: "ldu quito vs palmeiras", url: "https://roxiestreams.cc/soccer-streams-7"},
+  {title: "sporting cristal vs universitario", url: "https://roxiestreams.cc/soccer-streams-8"},
   {title: "seattle mariners vs toronto blue jays", url: "https://roxiestreams.cc/mlb-streams-1"},
-  {title: "cleveland cavaliers vs new york knicks", url: "https://roxiestreams.cc/nba-streams-1"},
-  {title: "miami heat vs orlando magic", url: "https://roxiestreams.cc/nba-streams-2"},
-  {title: "brooklyn nets vs charlotte hornet", url: "https://roxiestreams.cc/nba-streams-3"},
-  {title: "boston celtics vs philadelphia 76ers", url: "https://roxiestreams.cc/nba-streams-4"},
-  {title: "atlanta hawks vs toronto raptors", url: "https://roxiestreams.cc/nba-streams-5"},
-  {title: "memphis grizzlies vs new orlean pelicans", url: "https://roxiestreams.cc/nba-streams-6"},
-  {title: "chicago bulls vs detroit pistons", url: "https://roxiestreams.cc/nba-streams-7"},
-  {title: "milwaukee bucks vs washington wizards", url: "https://roxiestreams.cc/nba-streams-8"},
-  {title: "los angeles clippers vs utah jazz", url: "https://roxiestreams.cc/nba-streams-9"},
-  {title: "dallas mavericks vs san antonio spurs", url: "https://roxiestreams.cc/nba-streams-1"},
-  {title: "phoenix suns vs sacromento kings", url: "https://roxiestreams.cc/nba-streams-10"},
-  {title: "minnesota timberwolves vs portland trail blazers", url: "https://roxiestreams.cc/nba-streams-5"},
+  {title: "indiana pacers vs oklahoma city thunder", url: "https://roxiestreams.cc/nba-streams-1"},
+  {title: "denver nuggets vs golden state warriors", url: "https://roxiestreams.cc/nba-streams-1"},
   {title: "nascar cup series - race", url: "https://roxiestreams.cc/nascar"},
   {title: "formula 1 - usa grand prix", url: "https://roxiestreams.cc/f1-streams"},
   {title: "aew", url: "https://roxiestreams.cc/aew"},
@@ -111,14 +69,13 @@
 ];
 
   function normalizeTeamName(name) {
-    name = name.toLowerCase().trim();
-    return teamNameMap[name] || name;
+    return teamNameMap[name.toLowerCase().trim()] || name.toLowerCase().trim();
   }
 
   function normalizeTitle(title) {
     let t = title.toLowerCase().replace(/@/g, 'vs').trim();
     if (!t.includes('vs')) {
-      return (teamNameMap[t] || t);
+      return normalizeTeamName(t);
     }
     let teams = t.split('vs').map(s => normalizeTeamName(s.trim()));
     teams.sort();
@@ -140,16 +97,24 @@
 
   function findBestMatch(eventTitle) {
     const lowerTitle = eventTitle.toLowerCase();
-    if (lowerTitle.includes("ufc")) {
-      return "https://roxiestreams.cc/ufc";
+    if (lowerTitle.includes("ufc")) return "https://roxiestreams.cc/ufc";
+    if (lowerTitle.includes("grand prix")) return "https://roxiestreams.cc/f1-streams";
+
+    let teams = [];
+    if (lowerTitle.includes("@")) {
+      teams = lowerTitle.split("@").map(t => normalizeTeamName(t.trim()));
+    } else if (lowerTitle.includes("vs")) {
+      teams = lowerTitle.split("vs").map(t => normalizeTeamName(t.trim()));
+    } else {
+      teams = [normalizeTeamName(lowerTitle.trim())];
     }
-    if (lowerTitle.includes("grand prix")) {
-      return "https://roxiestreams.cc/f1-streams";
-    }
-    const normTitle = normalizeTitle(eventTitle);
-    const results = fuse.search(normTitle);
-    if (results.length && results[0].score <= 0.3) {
-      return results[0].item.url;
+
+    if (teams.length === 0) return 'https://roxiestreams.cc/missing';
+
+    for (const entry of normalizedCache) {
+      for (const team of teams) {
+        if (entry.title.includes(team)) return entry.url;
+      }
     }
     return 'https://roxiestreams.cc/missing';
   }
@@ -166,18 +131,21 @@
     return titleText.trim();
   }
 
-  function attachAutofill() {
-    document.querySelectorAll('button.add.modal-trigger').forEach(button => {
-      button.removeEventListener('click', autofillHandler);
-      button.addEventListener('click', autofillHandler);
-    });
-  }
-
   function autofillHandler(e) {
     const gameId = e.currentTarget.getAttribute('data-target');
     const listDiv = e.currentTarget.closest('.list');
     const eventTitle = getEventTitleFromListDiv(listDiv);
     console.log('Extracted event title:', eventTitle, 'for gameId:', gameId);
+
+    // Get league/channel name from .league span; exclude if starts with digit (likely year)
+    let channelName = '';
+    const leagueSpan = listDiv ? listDiv.querySelector('span.league') : null;
+    if (leagueSpan) {
+      const leagueText = leagueSpan.textContent.trim();
+      if (!/^\d/.test(leagueText)) {
+        channelName = leagueText;
+      }
+    }
 
     setTimeout(() => {
       const form = document.querySelector(`#form-${gameId}`);
@@ -188,18 +156,25 @@
       const streamUrl = findBestMatch(eventTitle);
       form.querySelector('#site').value = 'RoxieStreams';
       form.querySelector('#url').value = streamUrl;
-      form.querySelector('#channel').value = 'Main';
+      form.querySelector('#channel').value = channelName || 'Main';
       form.querySelector('#fps').value = '60';
 
-      const bitrateInput = form.querySelector('#bitrate') || form.querySelector('#bps') || form.querySelector('input[name="bitrate"]');
+      const bitrateInput = form.querySelector('#bitrate') || form.querySelector('input[name="bitrate"]');
       if (bitrateInput) bitrateInput.value = '7000';
 
       const adsInput = form.querySelector('#ads') || form.querySelector('input[name="ads"]') || form.querySelector('input[name="numAds"]');
       if (adsInput) adsInput.value = '0';
 
       form.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = true);
-      console.log(`Autofilled URL: ${streamUrl} with bitrate 7000 and ads 0`);
+      console.log(`Autofilled URL: ${streamUrl} and channel: ${channelName} with bitrate 7000 and ads 0`);
     }, 300);
+  }
+
+  function attachAutofill() {
+    document.querySelectorAll('button.add.modal-trigger').forEach(button => {
+      button.removeEventListener('click', autofillHandler);
+      button.addEventListener('click', autofillHandler);
+    });
   }
 
   attachAutofill();
