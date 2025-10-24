@@ -2,7 +2,6 @@ import re
 from pathlib import Path
 
 ABBREVIATION_MAP = {
-    # NBA abbreviations and canonical full names (partial list for brevity)
     "hawks": "atlanta hawks",
     "celtics": "boston celtics",
     "hornets": "charlotte hornets",
@@ -13,8 +12,47 @@ ABBREVIATION_MAP = {
     "pistons": "detroit pistons",
     "warriors": "golden state warriors",
     "rockets": "houston rockets",
-    # ... add more abbreviations as before ...
+    "pacers": "indiana pacers",
+    "clippers": "los angeles clippers",
+    "lakers": "los angeles lakers",
+    "grizzlies": "memphis grizzlies",
+    "heat": "miami heat",
+    "bucks": "milwaukee bucks",
+    "timberwolves": "minnesota timberwolves",
+    "pelicans": "new orleans pelicans",
+    "knicks": "new york knicks",
+    "thunder": "oklahoma city thunder",
+    "magic": "orlando magic",
+    "sixers": "philadelphia 76ers",
+    "suns": "phoenix suns",
+    "blazers": "portland trail blazers",
+    "kings": "sacramento kings",
+    "spurs": "san antonio spurs",
+    "raptors": "toronto raptors",
+    "jazz": "utah jazz",
+    "wizards": "washington wizards",
 }
+
+PREMIER_LEAGUE_SHORT_NAMES = [
+    "leeds", "west ham", "c palace", "nottm forest", "man united",
+    "man city", "newcastle", "brighton", "brentford", "liverpool", "spurs"
+]
+
+LALIGA_TEAMS = [
+    "alaves", "athletic bilbao", "atm", "atletico madrid", "barcelona",
+    "celta vigo", "elche", "espanyol", "getafe", "girona",
+    "mallorca", "osasuna", "rayo vallecano", "real betis",
+    "real madrid", "real sociedad", "real valladolid",
+    "sevilla", "valencia", "villarreal"
+]
+
+MLS_TEAMS = [
+    "miami", "atlanta", "chicago", "cincinnati", "columbus", "dallas",
+    "dc", "houston", "los angeles", "minnesota", "nashville",
+    "new england", "new york", "orlando", "philadelphia", "portland",
+    "real salt lake", "seattle", "sporting kansas city", "san jose",
+    "toronto", "vancouver"
+]
 
 def extract_events_and_links(text):
     events = {}
@@ -66,7 +104,11 @@ def generate_teammap_js(all_teams):
             lines.append(f'"{abbr}": "{full_name}"')
     return "const teamNameMap = {\n  " + ",\n  ".join(lines) + "\n};"
 
-def generate_full_js(team_map_js, roxie_js):
+def generate_full_js(team_map_js, roxie_js, nba_canonical_set):
+    nba_canonical_js_array = ','.join(f'"{team}"' for team in nba_canonical_set)
+    premier_league_js_array = ','.join(f'"{team}"' for team in PREMIER_LEAGUE_SHORT_NAMES)
+    laliga_js_array = ','.join(f'"{team}"' for team in LALIGA_TEAMS)
+    mls_js_array = ','.join(f'"{team}"' for team in MLS_TEAMS)
     return f"""(async () => {{
   if (!window.Fuse) {{
     await new Promise((resolve, reject) => {{
@@ -81,6 +123,11 @@ def generate_full_js(team_map_js, roxie_js):
   {team_map_js}
 
   {roxie_js}
+
+  const nbaTeams = new Set([{nba_canonical_js_array}]);
+  const premierLeagueTeams = new Set([{premier_league_js_array}]);
+  const laLigaTeams = new Set([{laliga_js_array}]);
+  const mlsTeams = new Set([{mls_js_array}]);
 
   function normalizeTeamName(name) {{
     return teamNameMap[name.toLowerCase().trim()] || name.toLowerCase().trim();
@@ -113,6 +160,7 @@ def generate_full_js(team_map_js, roxie_js):
     const lowerTitle = eventTitle.toLowerCase();
     if (lowerTitle.includes("ufc")) return "https://roxiestreams.cc/ufc";
     if (lowerTitle.includes("grand prix")) return "https://roxiestreams.cc/f1-streams";
+    if (lowerTitle.includes("wwe")) return "https://roxiestreams.cc/wwe-streams";
 
     let teams = [];
     if (lowerTitle.includes("@")) {{
@@ -148,10 +196,9 @@ def generate_full_js(team_map_js, roxie_js):
   function autofillHandler(e) {{
     const gameId = e.currentTarget.getAttribute('data-target');
     const listDiv = e.currentTarget.closest('.list');
-    const eventTitle = getEventTitleFromListDiv(listDiv);
+    const eventTitle = getEventTitleFromListDiv(listDiv).toLowerCase();
     console.log('Extracted event title:', eventTitle, 'for gameId:', gameId);
 
-    // Get league/channel name from .league span; exclude if starts with digit (likely year)
     let channelName = '';
     const leagueSpan = listDiv ? listDiv.querySelector('span.league') : null;
     if (leagueSpan) {{
@@ -159,6 +206,40 @@ def generate_full_js(team_map_js, roxie_js):
       if (!/^\\d/.test(leagueText)) {{
         channelName = leagueText;
       }}
+    }}
+
+    const nbaShortNames = Object.keys(teamNameMap).filter(key => nbaTeams.has(teamNameMap[key].toLowerCase()));
+    const hasNbaShortName = nbaShortNames.some(shortName => eventTitle.includes(shortName.toLowerCase()));
+
+    if ((!channelName || channelName.trim() === '') && hasNbaShortName) {{
+      channelName = 'NBA League Pass';
+    }}
+
+    if (eventTitle.includes('wwe')) {{
+      channelName = 'Netflix';
+    }}
+
+    if (eventTitle.includes('grand prix')) {{
+      channelName = 'Sky Sports F1';
+    }}
+
+    if (eventTitle.includes('ufc')) {{
+      channelName = 'ESPN+';
+    }}
+
+    const hasPlTeam = Array.from(premierLeagueTeams).some(plTeam => eventTitle.includes(plTeam));
+    if ((!channelName || channelName.trim() === '') && hasPlTeam) {{
+      channelName = 'Now Sports';
+    }}
+
+    const hasLaLigaTeam = Array.from(laLigaTeams).some(laTeam => eventTitle.includes(laTeam));
+    if ((!channelName || channelName.trim() === '') && hasLaLigaTeam) {{
+      channelName = 'ESPN Deportes';
+    }}
+
+    const hasMlsTeam = Array.from(mlsTeams).some(mlsTeam => eventTitle.includes(mlsTeam));
+    if ((!channelName || channelName.trim() === '') && hasMlsTeam) {{
+      channelName = 'MLS Season Pass';
     }}
 
     setTimeout(() => {{
@@ -198,22 +279,25 @@ def generate_full_js(team_map_js, roxie_js):
 def main():
     events_path = Path("events.txt")
     js_path = Path("watchsport.txt")
+
     if not events_path.exists():
         raise SystemExit("events.txt not found.")
     if not js_path.exists():
         raise SystemExit("watchsport.txt not found.")
 
-    events_text = events_path.read_text(encoding='utf-8')
-    js_text = js_path.read_text(encoding='utf-8')
+    events_text = events_path.read_text(encoding="utf-8")
+    js_text = js_path.read_text(encoding="utf-8")
 
     events = extract_events_and_links(events_text)
     roxie_js, all_teams = generate_roxie_js(events)
     team_map_js = generate_teammap_js(all_teams)
 
-    full_js_code = generate_full_js(team_map_js, roxie_js)
+    nba_canonical = {v.lower() for k, v in ABBREVIATION_MAP.items()}
 
-    js_path.write_text(full_js_code, encoding='utf-8')
-    print("watchsport.txt updated with channel autofill excluding year-leading names.")
+    full_js_code = generate_full_js(team_map_js, roxie_js, nba_canonical)
+
+    js_path.write_text(full_js_code, encoding="utf-8")
+    print("watchsport.txt updated with channel autofill for NBA, WWE, F1, UFC, Premier League, La Liga, MLS.")
 
 if __name__ == "__main__":
     main()
