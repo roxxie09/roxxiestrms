@@ -15,6 +15,7 @@
   "arsenal": "arsenal",
   "atlanta hawks": "atlanta hawks",
   "austin": "austin",
+  "baltimore ravens": "baltimore ravens",
   "bayern münchen": "bayern münchen",
   "boston celtics": "boston celtics",
   "brighton": "brighton",
@@ -31,11 +32,11 @@
   "flamengo": "flamengo",
   "fluminense": "fluminense",
   "formula 1 - mexico city grand prix": "formula 1 - mexico city grand prix",
+  "golden state warriors": "golden state warriors",
   "houston rockets": "houston rockets",
   "indiana pacers": "indiana pacers",
   "inter milan": "inter milan",
   "juventus": "juventus",
-  "kansas city chiefs": "kansas city chiefs",
   "köln": "köln",
   "lens": "lens",
   "lille": "lille",
@@ -50,6 +51,9 @@
   "marseille": "marseille",
   "mempis grizzlies": "mempis grizzlies",
   "metz": "metz",
+  "miami dolphins": "miami dolphins",
+  "miami heat": "miami heat",
+  "milwaukee bucks": "milwaukee bucks",
   "minnesota timberwolves": "minnesota timberwolves",
   "monaco": "monaco",
   "nantes": "nantes",
@@ -57,6 +61,7 @@
   "new orleans pelicans": "new orleans pelicans",
   "newcastle": "newcastle",
   "nice": "nice",
+  "oklahoma city thunder": "oklahoma city thunder",
   "orlando magic": "orlando magic",
   "paris": "paris",
   "parma": "parma",
@@ -67,6 +72,7 @@
   "rayo vallecano": "rayo vallecano",
   "roma": "roma",
   "sacromento kings": "sacromento kings",
+  "san antonio spurs": "san antonio spurs",
   "sant just": "sant just",
   "swansea city": "swansea city",
   "toronto blue jays": "toronto blue jays",
@@ -74,7 +80,7 @@
   "tottenham": "tottenham",
   "udinese": "udinese",
   "utah jazz": "utah jazz",
-  "washington commanders": "washington commanders",
+  "washington wizards": "washington wizards",
   "wolves": "wolves",
   "wwe raw": "wwe raw",
   "wwe smackdown": "wwe smackdown",
@@ -86,16 +92,22 @@
   "mavericks": "dallas mavericks",
   "nuggets": "denver nuggets",
   "pistons": "detroit pistons",
+  "warriors": "golden state warriors",
   "rockets": "houston rockets",
   "pacers": "indiana pacers",
   "lakers": "los angeles lakers",
+  "heat": "miami heat",
+  "bucks": "milwaukee bucks",
   "timberwolves": "minnesota timberwolves",
   "pelicans": "new orleans pelicans",
+  "thunder": "oklahoma city thunder",
   "magic": "orlando magic",
   "suns": "phoenix suns",
   "blazers": "portland trail blazers",
+  "spurs": "san antonio spurs",
   "raptors": "toronto raptors",
-  "jazz": "utah jazz"
+  "jazz": "utah jazz",
+  "wizards": "washington wizards"
 };
 
   const roxieStreamsCached = [
@@ -130,15 +142,18 @@
   {title: "portland trail blazers vs utah jazz", url: "https://roxiestreams.cc/nba-streams-8"},
   {title: "los angeles lakers vs minnesota timberwolves", url: "https://roxiestreams.cc/nba-streams-3"},
   {title: "mempis grizzlies vs phoenix suns", url: "https://roxiestreams.cc/nba-streams-9"},
+  {title: "oklahoma city thunder vs washington wizards", url: "https://roxiestreams.cc/nba-streams-2"},
+  {title: "golden state warriors vs milwaukee bucks", url: "https://roxiestreams.cc/nba-streams-3"},
+  {title: "miami heat vs san antonio spurs", url: "https://roxiestreams.cc/nba-streams-4"},
   {title: "nascar cup series - xfinity 500", url: "https://roxiestreams.cc/nascar"},
   {title: "formula 1 - mexico city grand prix", url: "https://roxiestreams.cc/f1-streams"},
   {title: "aew", url: "https://roxiestreams.cc/aew"},
   {title: "wwe smackdown", url: "https://roxiestreams.cc/wwe-streams"},
   {title: "wwe raw", url: "https://roxiestreams.cc/wwe-streams"},
-  {title: "kansas city chiefs vs washington commanders", url: "https://roxiestreams.cc/nfl-streams-1"}
+  {title: "baltimore ravens vs miami dolphins", url: "https://roxiestreams.cc/nfl-streams-1"}
 ];
 
-  const nbaTeams = new Set(["detroit pistons","chicago bulls","sacramento kings","orlando magic","oklahoma city thunder","san antonio spurs","new york knicks","philadelphia 76ers","milwaukee bucks","miami heat","charlotte hornets","toronto raptors","portland trail blazers","los angeles lakers","memphis grizzlies","boston celtics","atlanta hawks","houston rockets","cleveland cavaliers","denver nuggets","new orleans pelicans","minnesota timberwolves","utah jazz","washington wizards","indiana pacers","los angeles clippers","phoenix suns","golden state warriors","dallas mavericks"]);
+  const nbaTeams = new Set(["los angeles lakers","golden state warriors","utah jazz","oklahoma city thunder","charlotte hornets","new york knicks","miami heat","detroit pistons","memphis grizzlies","minnesota timberwolves","sacramento kings","chicago bulls","san antonio spurs","orlando magic","new orleans pelicans","portland trail blazers","houston rockets","cleveland cavaliers","boston celtics","los angeles clippers","washington wizards","denver nuggets","milwaukee bucks","toronto raptors","philadelphia 76ers","atlanta hawks","phoenix suns","indiana pacers","dallas mavericks"]);
   const premierLeagueTeams = new Set(["leeds","west ham","c palace","nottm forest","man united","man city","newcastle","brighton","brentford","liverpool","spurs"]);
   const laLigaTeams = new Set(["alaves","athletic bilbao","atm","atletico madrid","barcelona","celta vigo","elche","espanyol","getafe","girona","mallorca","osasuna","rayo vallecano","real betis","real madrid","real sociedad","real valladolid","sevilla","valencia","villarreal"]);
   const mlsTeams = new Set(["miami","atlanta","chicago","cincinnati","columbus","dallas","dc","houston","los angeles","minnesota","nashville","new england","new york","orlando","philadelphia","portland","real salt lake","seattle","sporting kansas city","san jose","toronto","vancouver"]);
