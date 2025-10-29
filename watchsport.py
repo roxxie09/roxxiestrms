@@ -109,6 +109,7 @@ def generate_full_js(team_map_js, roxie_js, nba_canonical_set):
     premier_league_js_array = ','.join(f'"{team}"' for team in PREMIER_LEAGUE_SHORT_NAMES)
     laliga_js_array = ','.join(f'"{team}"' for team in LALIGA_TEAMS)
     mls_js_array = ','.join(f'"{team}"' for team in MLS_TEAMS)
+    # Full JS including autofill/autoprocess logic
     return f"""(async () => {{
   if (!window.Fuse) {{
     await new Promise((resolve, reject) => {{
@@ -129,9 +130,9 @@ def generate_full_js(team_map_js, roxie_js, nba_canonical_set):
   const laLigaTeams = new Set([{laliga_js_array}]);
   const mlsTeams = new Set([{mls_js_array}]);
 
-  function normalizeTeamName(name) {{
-    return teamNameMap[name.toLowerCase().trim()] || name.toLowerCase().trim();
-  }}
+function normalizeTeamName(name) {{
+  return teamNameMap[name.toLowerCase().trim()] || name.toLowerCase().trim();
+}}
 
   function normalizeTitle(title) {{
     let t = title.toLowerCase().replace(/@/g, 'vs').trim();
@@ -143,10 +144,10 @@ def generate_full_js(team_map_js, roxie_js, nba_canonical_set):
     return teams.join(' vs ');
   }}
 
-  const normalizedCache = roxieStreamsCached.map(item => ({{
-    title: normalizeTitle(item.title),
-    url: item.url
-  }}));
+const normalizedCache = roxieStreamsCached.map(item => ({{
+  title: normalizeTitle(item.title),
+  url: item.url
+}}));
 
   const fuse = new Fuse(normalizedCache, {{
     keys: ['title'],
@@ -273,6 +274,59 @@ def generate_full_js(team_map_js, roxie_js, nba_canonical_set):
   }}
 
   attachAutofill();
+
+  async function autoProcessAllEvents() {{
+    const buttons = Array.from(document.querySelectorAll('button.add.modal-trigger'));
+
+    for (const button of buttons) {{
+      const gameId = button.getAttribute('data-target');
+      console.log(`Opening modal for gameId ${{gameId}}`);
+      button.dispatchEvent(new MouseEvent('click', {{ bubbles: true, cancelable: true }}));
+
+      await new Promise(res => setTimeout(res, 400)); // Wait for autofill
+
+      const form = document.querySelector(`#form-${{gameId}}`);
+      if (!form) {{
+        console.warn(`Form not found for gameId: ${{gameId}}`);
+        continue;
+      }}
+      const urlInput = form.querySelector('#url');
+      if (!urlInput) {{
+        console.warn(`URL input not found for gameId: ${{gameId}}`);
+        continue;
+      }}
+      const urlValue = urlInput.value.trim();
+
+      // SKIP modals/events whose URL is "missing"
+      if (urlValue === 'https://roxiestreams.cc/missing') {{
+        console.log(`Skipping ${{gameId}}: URL is missing!`);
+        // Optionally: You may wish to close the modal here so it doesn't remain open, OR ignore and let user close after
+        // If you want to close, uncomment below:
+        // const closeBtn = document.querySelector(`#submit-${{gameId}}`);
+        // if (closeBtn) closeBtn.click();
+        await new Promise(res => setTimeout(res, 400));
+        continue;
+      }}
+
+      // Valid URL found, click external submit button to save/close
+      const submitBtn = document.querySelector(`#submit-${{gameId}}`);
+      if (submitBtn) {{
+        submitBtn.focus();
+        submitBtn.dispatchEvent(new MouseEvent('click', {{bubbles: true, cancelable: true, view: window}}));
+        console.log(`Clicked external submit button for ${{gameId}}`);
+      }} else if (form) {{
+        form.submit();
+        console.log(`Fallback: submitted form element for ${{gameId}}`);
+      }}
+      await new Promise(res => setTimeout(res, 700));
+    }}
+  }}
+
+  // Start automated modal processing
+  autoProcessAllEvents();
+
+  // For manual reruns, expose to window
+  window.autoProcessAllEvents = autoProcessAllEvents;
 }})();
 """
 
@@ -286,7 +340,6 @@ def main():
         raise SystemExit("watchsport.txt not found.")
 
     events_text = events_path.read_text(encoding="utf-8")
-    js_text = js_path.read_text(encoding="utf-8")
 
     events = extract_events_and_links(events_text)
     roxie_js, all_teams = generate_roxie_js(events)
