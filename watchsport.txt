@@ -153,7 +153,7 @@
   {title: "baltimore ravens vs miami dolphins", url: "https://roxiestreams.cc/nfl-streams-1"}
 ];
 
-  const nbaTeams = new Set(["los angeles lakers","golden state warriors","utah jazz","oklahoma city thunder","charlotte hornets","new york knicks","miami heat","detroit pistons","memphis grizzlies","minnesota timberwolves","sacramento kings","chicago bulls","san antonio spurs","orlando magic","new orleans pelicans","portland trail blazers","houston rockets","cleveland cavaliers","boston celtics","los angeles clippers","washington wizards","denver nuggets","milwaukee bucks","toronto raptors","philadelphia 76ers","atlanta hawks","phoenix suns","indiana pacers","dallas mavericks"]);
+  const nbaTeams = new Set(["chicago bulls","indiana pacers","houston rockets","orlando magic","utah jazz","charlotte hornets","minnesota timberwolves","memphis grizzlies","detroit pistons","milwaukee bucks","atlanta hawks","san antonio spurs","los angeles clippers","new york knicks","oklahoma city thunder","dallas mavericks","new orleans pelicans","golden state warriors","los angeles lakers","cleveland cavaliers","washington wizards","boston celtics","portland trail blazers","toronto raptors","sacramento kings","denver nuggets","miami heat","philadelphia 76ers","phoenix suns"]);
   const premierLeagueTeams = new Set(["leeds","west ham","c palace","nottm forest","man united","man city","newcastle","brighton","brentford","liverpool","spurs"]);
   const laLigaTeams = new Set(["alaves","athletic bilbao","atm","atletico madrid","barcelona","celta vigo","elche","espanyol","getafe","girona","mallorca","osasuna","rayo vallecano","real betis","real madrid","real sociedad","real valladolid","sevilla","valencia","villarreal"]);
   const mlsTeams = new Set(["miami","atlanta","chicago","cincinnati","columbus","dallas","dc","houston","los angeles","minnesota","nashville","new england","new york","orlando","philadelphia","portland","real salt lake","seattle","sporting kansas city","san jose","toronto","vancouver"]);
@@ -280,7 +280,7 @@ const normalizedCache = roxieStreamsCached.map(item => ({
       const streamUrl = findBestMatch(eventTitle);
       form.querySelector('#site').value = 'RoxieStreams';
       form.querySelector('#url').value = streamUrl;
-      form.querySelector('#channel').value = channelName || 'Main';
+      form.querySelector('#channel').value = (channelName ? (channelName + ' (FHD)') : 'Main (FHD)');
       form.querySelector('#fps').value = '60';
 
       const bitrateInput = form.querySelector('#bitrate') || form.querySelector('input[name="bitrate"]');

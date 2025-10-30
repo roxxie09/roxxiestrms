@@ -252,7 +252,7 @@ const normalizedCache = roxieStreamsCached.map(item => ({{
       const streamUrl = findBestMatch(eventTitle);
       form.querySelector('#site').value = 'RoxieStreams';
       form.querySelector('#url').value = streamUrl;
-      form.querySelector('#channel').value = channelName || 'Main';
+      form.querySelector('#channel').value = (channelName ? (channelName + ' (FHD)') : 'Main (FHD)');
       form.querySelector('#fps').value = '60';
 
       const bitrateInput = form.querySelector('#bitrate') || form.querySelector('input[name="bitrate"]');
