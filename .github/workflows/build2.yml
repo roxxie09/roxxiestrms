@@ -21,7 +21,7 @@ jobs:
       - name: Deploy to VPS
         run: |
           ssh -o StrictHostKeyChecking=no root@191.252.186.212 << 'EOF'
-            cd /var/www/roxxiestreams/roxxiestrms
+            cd /var/www/html/roxxiestrms
             git pull origin main
             # Optionally restart services or perform additional tasks
             sudo systemctl restart nginx
