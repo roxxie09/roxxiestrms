@@ -318,7 +318,7 @@ const normalizedCache = roxieStreamsCached.map(item => ({{
         form.submit();
         console.log(`Fallback: submitted form element for ${{gameId}}`);
       }}
-      await new Promise(res => setTimeout(res, 700));
+      await new Promise(res => setTimeout(res, 400));
     }}
   }}
 
