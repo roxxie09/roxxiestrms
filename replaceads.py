@@ -3,7 +3,6 @@ import re
 
 folder_path = r"G:\MY LEGIT EVERYTRHING FOLDER\RANDOM\RANDOM\roxxiestrms"
 
-# The exact script block pattern to find (normalized for whitespace)
 pattern = re.compile(
     r"""<script\s+type="text/javascript">\s*
     atOptions\s*=\s*\{\s*
@@ -18,8 +17,9 @@ pattern = re.compile(
     <script\s+type='text/javascript'\s+src='//monthspathsmug.com/39/5b/74/395b743c98df9f3269c808abb2b1d06a.js'></script>
     """, re.VERBOSE | re.DOTALL)
 
-# The replacement script block
-replacement_script = '<script src="https://richinfo.co/richpartners/pops/js/richads-pu-ob.js" data-pubid="991686" data-siteid="376319" async data-cfasync="false"></script>'
+replacement_script_tag = '<script src="https://richinfo.co/richpartners/pops/js/richads-pu-ob.js" data-pubid="991686" data-siteid="376319" async data-cfasync="false"></script>'
+
+head_close_pattern = re.compile(r"</head>", re.IGNORECASE)
 
 for filename in os.listdir(folder_path):
     if filename.lower().endswith(".html"):
@@ -27,8 +27,15 @@ for filename in os.listdir(folder_path):
         with open(file_path, 'r', encoding='utf-8') as f:
             content = f.read()
 
-        new_content, n = pattern.subn(replacement_script, content)
+        # Remove the target old script block
+        new_content, n = pattern.subn("", content)
         if n > 0:
+            # Insert the replacement_script_tag just before </head>
+            def insert_script(match):
+                return replacement_script_tag + "\n" + match.group(0)
+            new_content = head_close_pattern.sub(insert_script, new_content, count=1)
+
             with open(file_path, 'w', encoding='utf-8') as f:
                 f.write(new_content)
-            print(f"Replaced script in: {filename}")
+
+            print(f"Replaced script and moved to head in: {filename}")
