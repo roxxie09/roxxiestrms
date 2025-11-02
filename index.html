@@ -58,6 +58,18 @@
             background-color: #ff1a1a;
             color: white;
             border: 1px solid #cc0000;
+            font-family: 'Kanit', sans-serif;
+            font-weight: 500;
+        }
+        .alert-bright-red a {
+            color: white;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+        .alert-icon {
+            font-size: 1.3rem;
+            margin-right: 8px;
+            vertical-align: middle;
         }
     </style>
 </head>
@@ -83,7 +95,9 @@
     </nav>
 
     <div class="alert alert-bright-red alert-dismissible mt-2" role="alert">
-        NEW DOMAIN: FASTER & MORE RELIABLE <a href="https://roxiestreams.live" class="alert-link">roxiestreams.live</a>
+        <span class="alert-icon">⚠️</span> 
+        NEW DOMAIN: FASTER & MORE RELIABLE 
+        <a href="https://roxiestreams.live" target="_blank">roxiestreams.live</a>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
