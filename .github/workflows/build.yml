@@ -1,4 +1,4 @@
-name: Sync files to roxiestreams.live
+name: Sync Files to roxiestreams.live
 
 on:
   push:
@@ -11,15 +11,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Replace roxiestreams.cc with roxiestreams.live in files
+      - name: Replace domain before sync
         run: |
           find . -type f -name '*.html' -exec sed -i 's/roxiestreams.cc/roxiestreams.live/g' {} +
 
-      - name: Sync files to roxiestreams.live repo
+      - name: Sync to roxiestreams.live repo
         uses: BetaHuhn/repo-file-sync-action@v1
         with:
-          destination_repo: roxxie09/roxxiestreams.live
-          destination_branch: main
-          github_token: ${{ secrets.PAT }}
-          folder_to_sync: '.'
-          commit_message: 'Sync roxiestreams.cc to roxiestreams.live with domain replace'
+          GH_PAT: ${{ secrets.PAT }}
+          CONFIG_PATH: .github/sync.yml
+          IS_FINE_GRAINED: false
