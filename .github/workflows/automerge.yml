@@ -1,0 +1,24 @@
+name: Auto Merge Sync Pull Requests
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - labeled
+      - ready_for_review
+
+jobs:
+  automerge:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Auto merge
+        uses: pascalgn/automerge-action@v0.16.4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
