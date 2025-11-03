@@ -6,7 +6,7 @@ on:
       - opened
       - synchronize
       - labeled
-      - ready_for_review
+      - unlabeled
 
 jobs:
   automerge:
@@ -14,11 +14,10 @@ jobs:
     permissions:
       pull-requests: write
       contents: write
-
     steps:
       - uses: actions/checkout@v3
-
       - name: Auto merge
         uses: pascalgn/automerge-action@v0.16.4
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
+          MERGE_LABELS: "sync"
