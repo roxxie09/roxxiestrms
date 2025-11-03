@@ -1,4 +1,4 @@
-name: Deploy to VPS
+name: Sync roxiestreams.live to roxiestreams.cc
 
 on:
   push:
@@ -6,24 +6,20 @@ on:
       - main
 
 jobs:
-  deploy:
+  sync:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.3
+      - uses: actions/checkout@v3
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          fetch-depth: 0
 
-      - name: Deploy to VPS
+      - name: Replace roxiestreams.live with roxiestreams.cc
         run: |
-          ssh -o StrictHostKeyChecking=no root@159.65.1.148 << 'EOF'
-            cd /var/www/roxxiestreams
-            git pull origin main
-            # Optionally restart services or perform additional tasks
-            sudo systemctl restart nginx
-          EOF
+          find . -type f -name '*.html' -exec sed -i 's/roxiestreams.live/roxiestreams.cc/g' {} +
 
+      - name: Push changes to roxiestreams.cc
+        env:
+          TOKEN: ${{ secrets.PAT }}
+        run: |
+          git remote add target https://x-access-token:${TOKEN}@github.com/roxxie09/roxiestreams.cc.git
+          git push target main --force
