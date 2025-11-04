@@ -1,3 +1,2 @@
-roxxie09/roxxiestreams.live:
-  - index.html
-  - soccer.html
+roxxie09/roxxie09/roxxiestreams.live:
+  - '.'  # root directory sync back
