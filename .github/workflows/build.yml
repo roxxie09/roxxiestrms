@@ -11,9 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Replace domain before sync
+      - name: Replace domain only in index.html before sync
         run: |
-          find . -type f -name '*.html' -exec sed -i 's/roxiestreams.cc/roxiestreams.live/g' {} +
+          sed -i 's/roxiestreams.cc/roxiestreams.live/g' index.html
 
       - name: Sync to roxiestreams.live repo
         uses: BetaHuhn/repo-file-sync-action@v1
