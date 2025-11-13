@@ -88,7 +88,7 @@
                     <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nfl">NFL</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/fighting">Fighting</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/motorsports">Motorsports</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Discord</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
                 </ul>
             </div>
         </div>
@@ -102,7 +102,7 @@
     </div>
 
     <div class="alert alert-danger alert-dismissible mt-2" role="alert">
-        We now have a discord server. Enjoy! <a href="https://discord.gg/JhkVmejRmn" class="alert-link">DISCORD</a>
+        We now have a Discord server. Enjoy! <a href="https://discord.gg/JhkVmejRmn" class="alert-link">Discord</a>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
@@ -118,51 +118,28 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><a href="https://roxiestreams.cc/nba">NBA</a></td>
-                    <td>November 12, 2025 16:00 PM</td>
-                    <td><span class="countdown-timer" data-start="November 12, 2025 16:30:00 PST"></span></td>
+                    <td><a href="https://roxiestreams.cc/nba">NBA</td>
+                    <td>November 13, 2025 16:00 PM</td>
+                    <td><span class="countdown-timer" data-start="November 13, 2025 09:45:00" data-end="November 31, 2025 23:30:00"></span></td>
                 </tr>
                 <tr>
-                    <td><a href="https://roxiestreams.cc/aew">AEW</a></td>
-                    <td>November 12, 2025 17:00 PM</td>
-                    <td><span class="countdown-timer" data-start="November 12, 2025 17:00:00 PST"></span></td>
+                    <td><a href="https://roxiestreams.cc/nfl-streams-1">NFL (TNF)</a></td>
+                    <td>November 13, 2025 17:00 PM</td>
+                    <td><span class="countdown-timer" data-start="November 13, 2025 17:00:00" data-end="November 31, 2025 23:30:00"></span></td>
                 </tr>
                 <tr>
             </tbody>
         </table>
     </div>
-    <script>
-        function updateCountdowns() {
-            const countdownElements = document.querySelectorAll('.countdown-timer');
-            const now = new Date();
 
-            countdownElements.forEach(el => {
-                const startTimeStr = el.getAttribute('data-start');
-                const startTime = new Date(startTimeStr);
-                const diffMs = startTime - now;
+    <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
+        <ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
+            <li class="nav-item"><a href="https://discord.gg/JhkVmejRmn" class="nav-link px-2 text-body-secondary">Stream Request (Discord)</a></li>
+        </ul>
+        <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2025</p>
+    </footer>
 
-                if (diffMs <= 0) {
-                    el.textContent = "Started";
-                    return;
-                }
-
-                const seconds = Math.floor(diffMs / 1000) % 60;
-                const minutes = Math.floor(diffMs / 1000 / 60) % 60;
-                const hours = Math.floor(diffMs / 1000 / 60 / 60) % 24;
-                const days = Math.floor(diffMs / 1000 / 60 / 60 / 24);
-
-                let countdownStr = "";
-                if (days > 0) countdownStr += days + "d ";
-                countdownStr += String(hours).padStart(2, '0') + ":";
-                countdownStr += String(minutes).padStart(2, '0') + ":";
-                countdownStr += String(seconds).padStart(2, '0');
-
-                el.textContent = countdownStr;
-            });
-        }
-
-        updateCountdowns();
-        setInterval(updateCountdowns, 1000);
-    </script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="scripts/countdown.js"></script>
 </body>
 </html>
