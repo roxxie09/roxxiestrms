@@ -1,32 +1,38 @@
-// After adding the new events
 function initializeCountdowns() {
-    document.querySelectorAll('[data-time]').forEach(function(eventCard) {
-        var countDownDate = new Date(eventCard.getAttribute('data-time')).getTime();
-        var endTime = new Date(eventCard.getAttribute('data-end-time')).getTime();
-        
-        var timerElement = eventCard.querySelector('.countdown-timer');
+    document.querySelectorAll('.countdown-timer').forEach(function(timerElement) {
+        var countDownDate = new Date(timerElement.getAttribute('data-start')).getTime();
+        var endTime = new Date(timerElement.getAttribute('data-end')).getTime();
+
         var intervalId = setInterval(function() {
             var now = new Date().getTime();
             var distance = countDownDate - now;
-            // Calculate days, hours, minutes, and seconds
-            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            timerElement.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
-            if (distance < 0) {
-                clearInterval(intervalId);
+
+            if (distance >= 0) {
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                timerElement.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+                timerElement.style.color = "#ff0000";
+                timerElement.style.fontWeight = "bold";
+            } else if (now <= endTime) {
                 timerElement.innerHTML = "LIVE";
-                timerElement.style.color = "red"; 
-                timerElement.style.fontWeight = "bold"; 
+                timerElement.style.color = "red";
+                timerElement.style.fontWeight = "bold";
+            } else {
+                clearInterval(intervalId);
+                timerElement.innerHTML = "ENDED";
+                timerElement.style.color = "gray";
+                timerElement.style.fontWeight = "normal";
             }
-            // Check if the event has ended
+
             if (now > endTime) {
                 clearInterval(intervalId);
-                eventCard.remove();
+                // Optionally hide or remove event rows here if needed
             }
+
         }, 1000);
     });
 }
-// Call this function after you add new events to the DOM
+
 initializeCountdowns();
