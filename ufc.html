@@ -11,17 +11,9 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link href="/css/buttons.css" rel="stylesheet">
-<link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
-<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
+    <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
+    <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-EQ3BHVQGMN');
-</script>
     <style>
         .navbar-brand {
             color: pink;
@@ -70,7 +62,6 @@
             gap: 10px;
         }
     </style>
-
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-black">
@@ -81,12 +72,12 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/soccer">Soccer</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/mlb">MLB</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nba">NBA</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nfl">NFL</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/fighting">Fighting</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/motorsports">Motorsports</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/soccer">Soccer</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/mlb">MLB</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nba">NBA</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nfl">NFL</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/fighting">Fighting</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/motorsports">Motorsports</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
                 </ul>
             </div>
@@ -97,9 +88,8 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
             <div class="streamchanger">
-                <button class="streambutton" onclick="showPlayer('clappr', 'https://abigail.009292.xyz/ufc.m3u8')">Stream 1</button>
-                <button class="streambutton" onclick="showPlayer('clappr', 'https://again.009292.xyz/tnt2.m3u8')">Stream 2</button>
-                <button class="streambutton" onclick="showPlayer('clappr', 'https://abigail.009292.xyz/ufcalt.m3u8')">Stream 3</button>
+                <button class="streambutton" onclick="randomStream1()">Stream 1</button>
+                <button class="streambutton" onclick="randomStream2()">Stream 2</button>
             </div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.cc"></iframe>
@@ -133,8 +123,31 @@
             }
         }
 
+        // Randomizes Stream 1 (ufc.m3u8 set)
+        function randomStream1() {
+            var links = [
+                "https://600.qiyarmedia.com/ufc.m3u8",
+                "https://600.pixelcraft.qzz.io/ufc.m3u8",
+                "https://600.wnion.co.in/ufc.m3u8"
+            ];
+            var randomLink = links[Math.floor(Math.random() * links.length)];
+            showPlayer('clappr', randomLink);
+        }
+
+        // Randomizes Stream 2 (ufc2.m3u8 set)
+        function randomStream2() {
+            var links = [
+                "https://600.qiyarmedia.com/ufc2.m3u8",
+                "https://600.pixelcraft.qzz.io/ufc2.m3u8",
+                "https://600.wnion.co.in/ufc2.m3u8"
+            ];
+            var randomLink = links[Math.floor(Math.random() * links.length)];
+            showPlayer('clappr', randomLink);
+        }
+
         window.onload = function() {
-            showPlayer('clappr', 'https://abigail.009292.xyz/ufc.m3u8');
+            // On load, can display a default stream (optional)
+            showPlayer('clappr', 'https://600.qiyarmedia.com/ufc.m3u8');
         };
     </script>
     <script>
@@ -150,16 +163,16 @@
         });
     </script>
     <script src="js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript">
-	atOptions = {
-		'key' : '4fb9813602118af6e6ec2974670023c9',
-		'format' : 'iframe',
-		'height' : 60,
-		'width' : 468,
-		'params' : {}
-	};
-</script>
-<script type="text/javascript" src="//monthspathsmug.com/4fb9813602118af6e6ec2974670023c9/invoke.js"></script>
-<script type='text/javascript' src='//monthspathsmug.com/ab/1a/c2/ab1ac2d66efae0c6bc04e68156bc710e.js'></script>
+    <script type="text/javascript">
+        atOptions = {
+            'key' : '4fb9813602118af6e6ec2974670023c9',
+            'format' : 'iframe',
+            'height' : 60,
+            'width' : 468,
+            'params' : {}
+        };
+    </script>
+    <script type="text/javascript" src="//monthspathsmug.com/4fb9813602118af6e6ec2974670023c9/invoke.js"></script>
+    <script type='text/javascript' src='//monthspathsmug.com/ab/1a/c2/ab1ac2d66efae0c6bc04e68156bc710e.js'></script>
 </body>
 </html>
