@@ -91,6 +91,7 @@
                 <button class="streambutton" onclick="randomStream1()">Stream 1</button>
                 <button class="streambutton" onclick="randomStream2()">Stream 2</button>
                 <button class="streambutton" onclick="randomStream3()">Stream 3</button>
+                <button class="streambutton" onclick="randomStream4()">Stream 4</button>
             </div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.cc"></iframe>
@@ -152,6 +153,17 @@
                 "https://600.qiyarmedia.com/ufc3.m3u8",
                 "https://600.pixelcraft.qzz.io/ufc3.m3u8",
                 "https://600.wnion.co.in/ufc3.m3u8"
+            ];
+            var randomLink = links[Math.floor(Math.random() * links.length)];
+            showPlayer('clappr', randomLink);
+        }
+
+        // Stream 4 Randomizer
+        function randomStream4() {
+            var links = [
+                "https://600.qiyarmedia.com/ufc4.m3u8",
+                "https://600.pixelcraft.qzz.io/ufc4.m3u8",
+                "https://600.wnion.co.in/ufc4.m3u8"
             ];
             var randomLink = links[Math.floor(Math.random() * links.length)];
             showPlayer('clappr', randomLink);
