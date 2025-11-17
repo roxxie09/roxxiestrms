@@ -118,174 +118,9 @@
   <div class="container container-fluid pt-2 text-white">
    <div class="mt-5">
     <h2 class="m-0" style="font-family: 'Kanit', sans-serif; font-weight: bold;">
-     Upcoming NBA Events
+     Upcoming Soccer Events
     </h2>
     <table id="eventsTable">
-     <tbody>
-      <tr>
-       <td>
-        <a href="https://roxiestreams.cc/nba-streams-1">
-         Los Angeles Clippers vs Boston Celtics
-        </a>
-       </td>
-       <td>
-        November 16, 2025 12:30 PM
-       </td>
-       <td>
-        <span class="countdown-timer" data-end="November 17, 2025 12:30 PM:00" data-start="November 16, 2025 12:30 PM:00">
-        </span>
-       </td>
-      </tr>
-      <tr>
-       <td>
-        <a href="https://roxiestreams.cc/nba-streams-2">
-         Sacramento Kings vs San Antonio Spurs
-        </a>
-       </td>
-       <td>
-        November 16, 2025 1:00 PM
-       </td>
-       <td>
-        <span class="countdown-timer" data-end="November 17, 2025 1:00 PM:00" data-start="November 16, 2025 1:00 PM:00">
-        </span>
-       </td>
-      </tr>
-      <tr>
-       <td>
-        <a href="https://roxiestreams.cc/nba-streams-3">
-         Brooklyn Nets vs Washington Wizards
-        </a>
-       </td>
-       <td>
-        November 16, 2025 3:00 PM
-       </td>
-       <td>
-        <span class="countdown-timer" data-end="November 17, 2025 3:00 PM:00" data-start="November 16, 2025 3:00 PM:00">
-        </span>
-       </td>
-      </tr>
-      <tr>
-       <td>
-        <a href="https://roxiestreams.cc/nba-streams-4">
-         Orlando Magic vs Houston Rockets
-        </a>
-       </td>
-       <td>
-        November 16, 2025 4:00 PM
-       </td>
-       <td>
-        <span class="countdown-timer" data-end="November 17, 2025 4:00 PM:00" data-start="November 16, 2025 4:00 PM:00">
-        </span>
-       </td>
-      </tr>
-      <tr>
-       <td>
-        <a href="https://roxiestreams.cc/nba-streams-5">
-         Golden State Warriors vs New Orleans Pelicans
-        </a>
-       </td>
-       <td>
-        November 16, 2025 4:00 PM
-       </td>
-       <td>
-        <span class="countdown-timer" data-end="November 17, 2025 4:00 PM:00" data-start="November 16, 2025 4:00 PM:00">
-        </span>
-       </td>
-      </tr>
-      <tr>
-       <td>
-        <a href="https://roxiestreams.cc/nba-streams-6">
-         Portland Trail Blazers vs Dallas Mavericks
-        </a>
-       </td>
-       <td>
-        November 16, 2025 4:30 PM
-       </td>
-       <td>
-        <span class="countdown-timer" data-end="November 17, 2025 4:30 PM:00" data-start="November 16, 2025 4:30 PM:00">
-        </span>
-       </td>
-      </tr>
-      <tr>
-       <td>
-        <a href="https://roxiestreams.cc/nba-streams-7">
-         Atlanta Hawks vs Phoenix Suns
-        </a>
-       </td>
-       <td>
-        November 16, 2025 5:00 PM
-       </td>
-       <td>
-        <span class="countdown-timer" data-end="November 17, 2025 5:00 PM:00" data-start="November 16, 2025 5:00 PM:00">
-        </span>
-       </td>
-      </tr>
-      <tr>
-       <td>
-        <a href="https://roxiestreams.cc/nba-streams-8">
-         Chicago Bulls vs Utah Jazz
-        </a>
-       </td>
-       <td>
-        November 16, 2025 5:00 PM
-       </td>
-       <td>
-        <span class="countdown-timer" data-end="November 17, 2025 5:00 PM:00" data-start="November 16, 2025 5:00 PM:00">
-        </span>
-       </td>
-      </tr>
-     </tbody>
-    </table>
-   </div>
-   <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-    <ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
-     <li class="nav-item">
-      <a class="nav-link px-2 text-body-secondary" href="https://discord.gg/JhkVmejRmn">
-       Stream Request (Discord)
-      </a>
-     </li>
-    </ul>
-    <p class="mb-0 text-body-secondary text-center text-lg-start">
-     Roxiestreams © 2024
-    </p>
-   </footer>
-   <script src="js/bootstrap.bundle.min.js">
-   </script>
-   <script>
-    function startCountdown() {
-            var countdownElements = document.querySelectorAll('.countdown-timer');
-
-            countdownElements.forEach(function(element) {
-                var startTime = new Date(element.getAttribute('data-start')).getTime();
-                var endTime = new Date(element.getAttribute('data-end')).getTime();
-
-                setInterval(function() {
-                    var now = new Date().getTime();
-                    var timeRemaining = startTime - now;
-
-                    if (now > endTime) {
-                        element.parentElement.parentElement.remove();
-                    } else {
-                        var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                        var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-                        var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
-
-                        if (timeRemaining <= 0) {
-                            element.innerHTML = "Event Started!";
-                        } else {
-                            element.innerHTML = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
-                        }
-                    }
-                }, 1000);
-            });
-        }
-
-        window.onload = startCountdown;
-   </script>
-   <h2>
-    NBA Schedule for November 17, 2025
-   </h2>
-   <table id="eventsTable">
     <thead>
      <tr>
       <th>
@@ -414,6 +249,51 @@
      </tr>
     </tbody>
    </table>
+   <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
+    <ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
+     <li class="nav-item">
+      <a class="nav-link px-2 text-body-secondary" href="https://discord.gg/JhkVmejRmn">
+       Stream Request (Discord)
+      </a>
+     </li>
+    </ul>
+    <p class="mb-0 text-body-secondary text-center text-lg-start">
+     Roxiestreams © 2024
+    </p>
+   </footer>
+   <script src="js/bootstrap.bundle.min.js">
+   </script>
+   <script>
+    function startCountdown() {
+            var countdownElements = document.querySelectorAll('.countdown-timer');
+
+            countdownElements.forEach(function(element) {
+                var startTime = new Date(element.getAttribute('data-start')).getTime();
+                var endTime = new Date(element.getAttribute('data-end')).getTime();
+
+                setInterval(function() {
+                    var now = new Date().getTime();
+                    var timeRemaining = startTime - now;
+
+                    if (now > endTime) {
+                        element.parentElement.parentElement.remove();
+                    } else {
+                        var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                        var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+                        if (timeRemaining <= 0) {
+                            element.innerHTML = "Event Started!";
+                        } else {
+                            element.innerHTML = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
+                        }
+                    }
+                }, 1000);
+            });
+        }
+
+        window.onload = startCountdown;
+   </script>
   </div>
  </body>
 </html>
