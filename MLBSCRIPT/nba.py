@@ -4,14 +4,13 @@ import datetime
 from pathlib import Path
 from bs4 import BeautifulSoup
 
-# List of multiple M3U username/password accounts to rotate through
-M3U_ACCOUNTS = [
-    {"username": "Flathern2020", "password": "Sports"},
-    {"username": "6588574444", "password": "7405892934"},
-    {"username": "JACQUELINETAYLOR09", "password": "783cnZVH2D"},
-    {"username": "Darren362", "password": "Muffy8816"},
-    {"username": "Lakergirl", "password": "froggie"},
-    # Add more as needed
+# List your full M3U URLs here (each with username/password embedded)
+M3U_URLS = [
+    "http://madjokersqaud.nl:8080/get.php?username=Flathern2020&password=Sports&type=m3u",
+    "http://madjokersqaud.nl:8080/get.php?username=6588574444&password=7405892934&type=m3u",
+    "http://madjokersqaud.nl:8080/get.php?username=JACQUELINETAYLOR09&password=783cnZVH2D&type=m3u",
+    "http://madjokersqaud.nl:8080/get.php?username=Lakergirl&password=froggie&type=m3u",
+    # Add more URLs as needed
 ]
 
 DOWNLOADS_FOLDER = Path.home() / "Downloads"
@@ -40,15 +39,12 @@ def team_alias_from_name(name: str) -> str:
     alias = normalize_team_name(name).replace(' ', '_').replace('.', '')
     return alias
 
-def get_m3u_content_for_account(account):
-    url = f"http://madjokersqaud.nl:8080/get.php?username={account['username']}&password={account['password']}&type=m3u"
+def download_and_parse_m3u(url):
     r = requests.get(url)
     r.raise_for_status()
-    return r.text
-
-def parse_m3u_content(m3u_content):
+    content = r.text
     team_streams = {}
-    lines = m3u_content.splitlines()
+    lines = content.splitlines()
     for i in range(len(lines)):
         line = lines[i].strip()
         m = re.search(r"USA *\| *NBA ([\w\s.'-]+?)\s*\(HD\)", line, re.IGNORECASE)
@@ -61,7 +57,7 @@ def parse_m3u_content(m3u_content):
     return team_streams
 
 def main():
-    print("Parsing nba.html file for stream links and matchups...")
+    print("Parsing nba.html for matchups and stream links...")
     if not NBA_HTML_FILE.exists():
         print(f"nba.html not found at {NBA_HTML_FILE}. Exiting.")
         return
@@ -82,18 +78,25 @@ def main():
     html_matches.sort(key=lambda x: x[0])
     print(f"Found {len(html_matches)} NBA matchups in HTML.")
 
-    chunk_size = 3  # Number of matches per M3U account before switching
+    chunk_size = 3  # Change M3U URL after every 3 matches
+
     outputs = []
     ffmpeg_cmds_by_game = {}
 
     for idx, (match_number, match_str) in enumerate(html_matches):
-        account_index = idx // chunk_size
-        account = M3U_ACCOUNTS[account_index % len(M3U_ACCOUNTS)]
+        url_index = idx // chunk_size
+        if url_index >= len(M3U_URLS):
+            url_index = len(M3U_URLS) - 1  # Use last if out of range
 
-        if idx % chunk_size == 0:
-            print(f"Downloading M3U for account {account_index + 1}: {account['username']}")
-            m3u_content = get_m3u_content_for_account(account)
-            team_streams = parse_m3u_content(m3u_content)
+        current_m3u_url = M3U_URLS[url_index]
+
+        # Cache downloads per URL to avoid redundant downloads
+        if url_index != getattr(main, "last_url_index", None):
+            print(f"Downloading M3U from: {current_m3u_url}")
+            main.team_streams = download_and_parse_m3u(current_m3u_url)
+            main.last_url_index = url_index
+
+        team_streams = main.team_streams
 
         teams = [t.strip() for t in match_str.split(' vs ')]
         if len(teams) != 2:
@@ -103,8 +106,10 @@ def main():
         home_team_raw, away_team_raw = teams
         home_norm = correct_team_name(home_team_raw)
         away_norm = correct_team_name(away_team_raw)
+
         home_url = team_streams.get(home_norm)
         away_url = team_streams.get(away_norm)
+
         home_alias = team_alias_from_name(home_team_raw)
         away_alias = team_alias_from_name(away_team_raw)
 
