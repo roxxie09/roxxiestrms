@@ -1,28 +1,40 @@
 Game 1 (nba-streams-1):
-Los Angeles Clippers (Home): http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoPbk5vtZWdciKW5tcPY5M_Y/ts
-Charlotte Hornets (Away): http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoGkK6e0QURZUK0uc6aFQShM/ts
+Detroit Pistons (Home): http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoD4LNDHUPu_ZNV_aPtHRt4o/ts
+Indiana Pacers (Away): http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoCpuwFYUWPRtlQQOZ5DwL5g/ts
 ------------------------------
 Game 2 (nba-streams-2):
-New York Knicks (Home): No stream found
-Orlando Magic (Away): http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoCjoAAF96ROt4gBgdTLkUyw/ts
+Cleveland Cavaliers (Home): http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFPOOK75LEmjoYE7_lqnkJqoIwzQuHbRFO87Qf5HZ3vL2/ts (60fps)
+Toronto Raptors (Away): http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoGcmksTDOzk0hBgUcfMQ9QQ/ts
 ------------------------------
 Game 3 (nba-streams-3):
-Atlanta Hawks (Home): http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoO53lSo6uZE3AAyMxn7lpTU/ts
-New Orleans Pelicans (Away): http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoAfaVeoXG6yGABpjQD67JAI/ts
+New York Knicks (Home): No stream found
+Brooklyn Nets (Away): http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoCsGzNHReCNAZ4CcrBd0orQ/ts
 ------------------------------
 Game 4 (nba-streams-4):
-Washington Wizards (Home): http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFKzhcYumuSKIlssCYK7nFS9TtCBsu06KkU-aPytqv9N4/ts
-Chicago Bulls (Away): http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFPOOK75LEmjoYE7_lqnkJqrA3L4YY9JgaAPqDvA-pIba/ts
+Dallas Mavericks (Home): http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFPOOK75LEmjoYE7_lqnkJqqxm4QDu3JHZ4rOOxa1prDQ/ts
+Miami Heat (Away): http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFA5wR4G0r-DmQo-6bpDFOVQcVuQQTlKSH9xGINLTZ6Rx/ts (60fps)
 ------------------------------
 Game 5 (nba-streams-5):
-Detroit Pistons (Home): http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFPOOK75LEmjoYE7_lqnkJqpUw4EWtkyrB1yQRWyTyK-z/ts
-Milwaukee Bucks (Away): http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFA5wR4G0r-DmQo-6bpDFOVRZM894M1ZyLMgqJVFmkR31/ts
+Denver Nuggets (Home): http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFPOOK75LEmjoYE7_lqnkJqrjgXwh0tcUUN3ZLOrGr86B/ts
+Memphis Grizzlies (Away): http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFA5wR4G0r-DmQo-6bpDFOVT6G0_87gON6x7KAZem9xMj/ts
 ------------------------------
 Game 6 (nba-streams-6):
-Memphis Grizzlies (Home): http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFA5wR4G0r-DmQo-6bpDFOVT6G0_87gON6x7KAZem9xMj/ts
-Dallas Mavericks (Away): http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFPOOK75LEmjoYE7_lqnkJqqxm4QDu3JHZ4rOOxa1prDQ/ts
+Portland Trail Blazers (Home): http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFB3KLpQfY23vqoVeW5l-7AWgPkzqorPiuMBfwsKDMrjo/ts
+Milwaukee Bucks (Away): http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFA5wR4G0r-DmQo-6bpDFOVRZM894M1ZyLMgqJVFmkR31/ts
 ------------------------------
 Game 7 (nba-streams-7):
-Sacramento Kings (Home): http://flashvpn.nl:8080/play/w3Rf-7h_ttXv2yyUx29Lm3SXM5hyIQH3ZJoftf7Qi9a5SXZlHi3O27wtB7g_mjOb/ts
-Denver Nuggets (Away): http://flashvpn.nl:8080/play/w3Rf-7h_ttXv2yyUx29Lm3SXM5hyIQH3ZJoftf7Qi9YMj-YJDmN9WAkKSvB6hBUa/ts
+Chicago Bulls (Home): http://flashvpn.nl:8080/play/w3Rf-7h_ttXv2yyUx29Lm3SXM5hyIQH3ZJoftf7Qi9bmY51KOSk-n027XuzKFhmY/ts
+New Orleans Pelicans (Away): http://flashvpn.nl:8080/play/w3Rf-7h_ttXv2yyUx29Lm3SXM5hyIQH3ZJoftf7Qi9ZpNymPqyizIgF0NNnxv4qS/ts
+------------------------------
+Game 8 (nba-streams-8):
+Houston Rockets (Home): http://flashvpn.nl:8080/play/w3Rf-7h_ttXv2yyUx29Lm3SXM5hyIQH3ZJoftf7Qi9Z7zBJFfuwj68NxsOYorWtl/ts
+Phoenix Suns (Away): http://flashvpn.nl:8080/play/w3Rf-7h_ttXv2yyUx29Lm3SXM5hyIQH3ZJoftf7Qi9YpKIXp9WVij6umbTCTb5Ag/ts
+------------------------------
+Game 9 (nba-streams-9):
+Utah Jazz (Home): http://flashvpn.nl:8080/play/w3Rf-7h_ttXv2yyUx29Lm3SXM5hyIQH3ZJoftf7Qi9Z5YbrFqvPBNlyj_vpl0yAE/ts
+Golden State Warriors (Away): http://flashvpn.nl:8080/play/w3Rf-7h_ttXv2yyUx29Lm3SXM5hyIQH3ZJoftf7Qi9a2fRemShpBWxis3f4tr2_E/ts
+------------------------------
+Game 10 (nba-streams-10):
+Minnesota Timberwolves (Home): http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFA5wR4G0r-DmQo-6bpDFOVTVu6of9tmyZ085T0L1Oh97/ts (60fps)
+Sacramento Kings (Away): http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFB3KLpQfY23vqoVeW5l-7AUjRilBq1dq_sROrSZDAlIO/ts (60fps)
 ------------------------------
