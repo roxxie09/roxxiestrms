@@ -43,6 +43,3 @@ while true; do sudo ffmpeg -i "http://flashvpn.nl:8080/play/w3Rf-7h_ttXv2yyUx29L
 # nba-streams-10 - playlist nba10.m3u8 - team_alias minnesota_timberwolves (60fps)
 while true; do sudo ffmpeg -i "http://flashvpn.nl:8080/play/SD1iOG27h8fLzwTycHjs4n5AVwM3z5WKnVlahvUMkvQ/ts" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_minnesota_timberwolves%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/nba10.m3u8; done
 
-# nba-streams-10 - playlist nba10.m3u8 - team_alias sacramento_kings (60fps)
-while true; do sudo ffmpeg -i "http://flashvpn.nl:8080/play/SD1iOG27h8fLzwTycHjs4n5AVwM3z5WKnVlahvUMkvQ/ts" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_sacramento_kings%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/nba10.m3u8; done
-
