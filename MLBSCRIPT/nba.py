@@ -53,15 +53,20 @@ def parse_full_m3u(m3u_content):
         if line.startswith("#EXTINF"):
             info = line.split(',', 1)[1] if ',' in line else ''
             url = lines[i + 1].strip()
-            m = re.search(r"\|\s*([^@]+)@([^|]+)\|", info)
-            if m:
-                team1 = normalize_team_name(m.group(1).strip())
-                team2 = normalize_team_name(m.group(2).strip())
-                key1 = f"{team1} vs {team2}"
-                key2 = f"{team2} vs {team1}"
-                # Map both directions
-                streams[key1] = url
-                streams[key2] = url
+            # Extract NBA game number tag e.g. NBA 01 or NBA 02, etc.
+            game_num_match = re.search(r"NBA (\d+)", info)
+            # Extract teams from info: look for TEAM1 @ TEAM2
+            teams_match = re.search(r"\|\s*([^@]+)@([^|]+)\|", info)
+            if teams_match and game_num_match:
+                team1 = normalize_team_name(teams_match.group(1).strip())
+                team2 = normalize_team_name(teams_match.group(2).strip())
+                game_num = int(game_num_match.group(1))
+                # Store by game num
+                streams[game_num] = {
+                    "teams": (team1, team2),
+                    "url": url,
+                    "info": info
+                }
     return streams
 
 def main():
@@ -81,7 +86,7 @@ def main():
             html_matches.append((match_num, text))
 
     html_matches.sort(key=lambda x: x[0])
-    print(f"Found {len(html_matches)} games in html")
+    print(f"Found {len(html_matches)} matches in HTML")
 
     chunk_size = 3
     outputs = []
@@ -91,8 +96,7 @@ def main():
     matches_on_current_m3u = 0
     all_streams = {}
 
-    # Pre-normalize 60fps teams set
-    fps_60_teams_norm = set(normalize_team_name(t) for t in fps_60_teams)
+    fps_60_norm = set(normalize_team_name(t) for t in fps_60_teams)
 
     for idx, (match_number, match_str) in enumerate(html_matches):
         if matches_on_current_m3u == 0 or matches_on_current_m3u >= chunk_size:
@@ -106,25 +110,36 @@ def main():
 
         matches_on_current_m3u += 1
 
-        teams = [t.strip() for t in match_str.lower().split(' vs ')]
+        # Get matchup teams from schedule
+        teams = [t.strip().lower() for t in match_str.split(" vs ")]
         if len(teams) != 2:
             outputs.append(f"{match_str}: Unexpected format - skipping")
             continue
 
-        home_norm, away_norm = teams
+        home_norm, away_norm = map(correct_team_name, teams)
 
-        # Check 60fps team presence
-        contains_60fps = (home_norm in fps_60_teams_norm or away_norm in fps_60_teams_norm)
+        # Find matching stream for this match by game_number or by teams in parsed M3U
+        stream_info = all_streams.get(match_number, None)
 
-        # Extract stream URL from parsed playlist
-        stream_url = all_streams.get(f"{home_norm} vs {away_norm}") or all_streams.get(f"{away_norm} vs {home_norm}")
+        if not stream_info:
+            # fallback: try find by teams in all_streams values (rare case)
+            for sinfo in all_streams.values():
+                s_team1, s_team2 = sinfo["teams"]
+                if {home_norm, away_norm} == {s_team1, s_team2}:
+                    stream_info = sinfo
+                    break
 
-        # Decide which teams to add: priority to 60fps teams
-        home_60_used = home_norm in fps_60_teams_norm and contains_60fps
-        away_60_used = away_norm in fps_60_teams_norm and contains_60fps
+        if stream_info:
+            stream_url = stream_info["url"]
+            s_team1, s_team2 = stream_info["teams"]
+            contains_60fps = s_team1 in fps_60_norm or s_team2 in fps_60_norm
+        else:
+            stream_url = None
+            contains_60fps = False
 
-        home_url = stream_url if home_60_used or not contains_60fps else None
-        away_url = stream_url if away_60_used or not contains_60fps else None
+        # Decide which teams are 60fps in this matchup
+        home_60_used = home_norm in fps_60_norm and contains_60fps
+        away_60_used = away_norm in fps_60_norm and contains_60fps
 
         home_alias = team_alias_from_name(home_norm)
         away_alias = team_alias_from_name(away_norm)
@@ -132,25 +147,30 @@ def main():
         home_note = " (60fps)" if home_60_used else ""
         away_note = " (60fps)" if away_60_used else ""
 
+        # Write human-readable results
         outputs.append(f"Game {match_number} (nba-streams-{match_number}):")
-        outputs.append(f"{home_norm.title()} (Home): {home_url if home_url else 'No stream found'}{home_note}")
-        outputs.append(f"{away_norm.title()} (Away): {away_url if away_url else 'No stream found'}{away_note}")
+        outputs.append(f"{home_norm.title()} (Home): {stream_url if stream_url else 'No stream found'}{home_note}")
+        outputs.append(f"{away_norm.title()} (Away): {stream_url if stream_url else 'No stream found'}{away_note}")
         outputs.append("-" * 30)
 
         playlist_name = "nba.m3u8" if match_number == 1 else f"nba{match_number}.m3u8"
         cmds = []
 
-        # For 60fps games add only those teams; else both if available
-        if contains_60fps:
-            if home_60_used and home_url:
-                cmds.append((f"{home_norm.title()} (Home) - {match_str}", home_url, home_alias, playlist_name, True))
-            if away_60_used and away_url:
-                cmds.append((f"{away_norm.title()} (Away) - {match_str}", away_url, away_alias, playlist_name, True))
+        # For 60fps games, add only the 60fps teams' stream once
+        # For others, add both teams
+        if contains_60fps and stream_url:
+            if home_60_used:
+                cmds.append((f"{home_norm.title()} (Home) - {match_str}",
+                             stream_url, home_alias, playlist_name, True))
+            elif away_60_used:
+                cmds.append((f"{away_norm.title()} (Away) - {match_str}",
+                             stream_url, away_alias, playlist_name, True))
         else:
-            if home_url:
-                cmds.append((f"{home_norm.title()} (Home) - {match_str}", home_url, home_alias, playlist_name, False))
-            if away_url:
-                cmds.append((f"{away_norm.title()} (Away) - {match_str}", away_url, away_alias, playlist_name, False))
+            if stream_url:
+                cmds.append((f"{home_norm.title()} (Home) - {match_str}",
+                             stream_url, home_alias, playlist_name, False))
+                cmds.append((f"{away_norm.title()} (Away) - {match_str}",
+                             stream_url, away_alias, playlist_name, False))
 
         ffmpeg_cmds_by_game[match_number] = cmds
 
