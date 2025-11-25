@@ -1,10 +1,8 @@
 import re
 import requests
-import datetime
 from pathlib import Path
 from bs4 import BeautifulSoup
 
-# --- M3U sources (full URLs with credentials embedded) ---
 M3U_URLS = [
     "http://madjokersqaud.nl:8080/get.php?username=Flathern2020&password=Sports&type=m3u",
     "http://madjokersqaud.nl:8080/get.php?username=6588574444&password=7405892934&type=m3u",
@@ -12,28 +10,25 @@ M3U_URLS = [
     "http://madjokersqaud.nl:8080/get.php?username=Lakergirl&password=froggie&type=m3u",
 ]
 
-# Use this M3U for 60fps-preferred teams
-M3U_60FPS_URL = "http://madjokersqaud.nl:8080/get.php?username=6588574444&password=7405892934&type=m3u"
-
 DOWNLOADS_FOLDER = Path.home() / "Downloads"
 CURRENT_DIR = Path.cwd()
 NBA_HTML_FILE = Path(r"G:\MY LEGIT EVERYTRHING FOLDER\RANDOM\rxxiestrms.live\nba.html")
 OUTPUT_FILE = CURRENT_DIR / "nba_matched_streams.txt"
 FFMPEG_TXT_PATH = CURRENT_DIR / "nba_ffmpeg.txt"
 
-# Known text typos to normalize
 correct_names = {
     'dever nuggets': 'denver nuggets',
     'tornoto raptors': 'toronto raptors',
     'washington wizard': 'washington wizards',
 }
 
-# Teams that should prefer 60fps links
 fps_60_teams = {
     "miami heat",
     "minnesota timberwolves",
     "sacramento kings",
     "cleveland cavaliers",
+    "denver nuggets",
+    "new york knicks",
 }
 
 def normalize_team_name(name: str) -> str:
@@ -50,25 +45,26 @@ def team_alias_from_name(name: str) -> str:
     alias = normalize_team_name(name).replace(' ', '_').replace('.', '')
     return alias
 
-def download_and_parse_m3u(url: str) -> dict:
-    r = requests.get(url)
-    r.raise_for_status()
-    content = r.text
-    team_streams = {}
-    lines = content.splitlines()
-    for i in range(len(lines)):
+def parse_full_m3u(m3u_content):
+    streams = {}
+    lines = m3u_content.splitlines()
+    for i in range(len(lines) - 1):
         line = lines[i].strip()
-        m = re.search(r"USA *\| *NBA ([\w\s.'-]+?)\s*\(HD\)", line, re.IGNORECASE)
-        if m and (i + 1) < len(lines):
-            team_name_raw = m.group(1).strip()
-            team_name_raw = re.sub(r'\s*\(.*\)$', '', team_name_raw)
-            key = normalize_team_name(team_name_raw)
-            url_line = lines[i + 1].strip()
-            team_streams[key] = url_line
-    return team_streams
+        if line.startswith("#EXTINF"):
+            info = line.split(',', 1)[1] if ',' in line else ''
+            url = lines[i + 1].strip()
+            m = re.search(r"\|\s*([^@]+)@([^|]+)\|", info)
+            if m:
+                team1 = normalize_team_name(m.group(1).strip())
+                team2 = normalize_team_name(m.group(2).strip())
+                key1 = f"{team1} vs {team2}"
+                key2 = f"{team2} vs {team1}"
+                # Map both directions
+                streams[key1] = url
+                streams[key2] = url
+    return streams
 
 def main():
-    print("Parsing nba.html for matchups and stream links...")
     if not NBA_HTML_FILE.exists():
         print(f"nba.html not found at {NBA_HTML_FILE}. Exiting.")
         return
@@ -76,141 +72,92 @@ def main():
     html_content = NBA_HTML_FILE.read_text(encoding='utf-8')
     soup = BeautifulSoup(html_content, 'html.parser')
 
-    # Collect (match_number, matchup_text)
     html_matches = []
     for a in soup.find_all('a', href=True):
         href = a['href']
         text = a.text.strip()
         if 'nba-streams-' in href and ' vs ' in text:
-            match_number_search = re.search(r"nba-streams-(\d+)", href)
-            if match_number_search:
-                match_number = int(match_number_search.group(1))
-                html_matches.append((match_number, text))
+            match_num = int(re.search(r"nba-streams-(\d+)", href).group(1))
+            html_matches.append((match_num, text))
 
     html_matches.sort(key=lambda x: x[0])
-    print(f"Found {len(html_matches)} NBA matchups in HTML.")
+    print(f"Found {len(html_matches)} games in html")
 
-    # Preload 60fps playlist once
-    print("Downloading 60fps M3U...")
-    team_streams_60 = download_and_parse_m3u(M3U_60FPS_URL)
-
-    chunk_size = 3  # Rotate main M3U source every 3 games
-
+    chunk_size = 3
     outputs = []
     ffmpeg_cmds_by_game = {}
 
+    last_url_index = -1
+    matches_on_current_m3u = 0
+    all_streams = {}
+
+    # Pre-normalize 60fps teams set
+    fps_60_teams_norm = set(normalize_team_name(t) for t in fps_60_teams)
+
     for idx, (match_number, match_str) in enumerate(html_matches):
-        # Select which normal M3U URL to use based on chunk index
-        url_index = idx // chunk_size
-        if url_index >= len(M3U_URLS):
-            url_index = len(M3U_URLS) - 1  # clamp to last URL
+        if matches_on_current_m3u == 0 or matches_on_current_m3u >= chunk_size:
+            url_index = (last_url_index + 1) if last_url_index + 1 < len(M3U_URLS) else 0
+            current_m3u_url = M3U_URLS[url_index]
+            print(f"Downloading M3U: {current_m3u_url}")
+            m3u_content = requests.get(current_m3u_url).text
+            all_streams = parse_full_m3u(m3u_content)
+            last_url_index = url_index
+            matches_on_current_m3u = 0
 
-        current_m3u_url = M3U_URLS[url_index]
+        matches_on_current_m3u += 1
 
-        # Download & cache per URL to avoid repeated downloads
-        if url_index != getattr(main, "last_url_index", None):
-            print(f"Downloading normal M3U from: {current_m3u_url}")
-            main.team_streams = download_and_parse_m3u(current_m3u_url)
-            main.last_url_index = url_index
-
-        team_streams = main.team_streams
-
-        teams = [t.strip() for t in match_str.split(' vs ')]
+        teams = [t.strip() for t in match_str.lower().split(' vs ')]
         if len(teams) != 2:
             outputs.append(f"{match_str}: Unexpected format - skipping")
             continue
 
-        home_team_raw, away_team_raw = teams
-        home_norm = correct_team_name(home_team_raw)
-        away_norm = correct_team_name(away_team_raw)
+        home_norm, away_norm = teams
 
-        # Default URLs from the normal playlist
-        home_url = team_streams.get(home_norm)
-        away_url = team_streams.get(away_norm)
+        # Check 60fps team presence
+        contains_60fps = (home_norm in fps_60_teams_norm or away_norm in fps_60_teams_norm)
 
-        # Flags for 60fps usage
-        home_60_used = False
-        away_60_used = False
+        # Extract stream URL from parsed playlist
+        stream_url = all_streams.get(f"{home_norm} vs {away_norm}") or all_streams.get(f"{away_norm} vs {home_norm}")
 
-        # Try override with 60fps where applicable
-        if home_norm in fps_60_teams:
-            url_60 = team_streams_60.get(home_norm)
-            if url_60:
-                home_url = url_60
-                home_60_used = True
+        # Decide which teams to add: priority to 60fps teams
+        home_60_used = home_norm in fps_60_teams_norm and contains_60fps
+        away_60_used = away_norm in fps_60_teams_norm and contains_60fps
 
-        if away_norm in fps_60_teams:
-            url_60 = team_streams_60.get(away_norm)
-            if url_60:
-                away_url = url_60
-                away_60_used = True
+        home_url = stream_url if home_60_used or not contains_60fps else None
+        away_url = stream_url if away_60_used or not contains_60fps else None
 
-        home_alias = team_alias_from_name(home_team_raw)
-        away_alias = team_alias_from_name(away_team_raw)
+        home_alias = team_alias_from_name(home_norm)
+        away_alias = team_alias_from_name(away_norm)
 
-        # Human-readable file with 60fps note
         home_note = " (60fps)" if home_60_used else ""
         away_note = " (60fps)" if away_60_used else ""
 
         outputs.append(f"Game {match_number} (nba-streams-{match_number}):")
-        outputs.append(f"{home_team_raw} (Home): {home_url if home_url else 'No stream found'}{home_note}")
-        outputs.append(f"{away_team_raw} (Away): {away_url if away_url else 'No stream found'}{away_note}")
+        outputs.append(f"{home_norm.title()} (Home): {home_url if home_url else 'No stream found'}{home_note}")
+        outputs.append(f"{away_norm.title()} (Away): {away_url if away_url else 'No stream found'}{away_note}")
         outputs.append("-" * 30)
 
-        # Playlist naming per game
         playlist_name = "nba.m3u8" if match_number == 1 else f"nba{match_number}.m3u8"
-
         cmds = []
 
-        # Logic for ffmpeg: if any 60fps side exists, ONLY add that side.
-        # If both are 60fps, add both; if neither is 60fps, add both normal sides if present.
-
-        if home_60_used or away_60_used:
-            # At least one side is 60fps
+        # For 60fps games add only those teams; else both if available
+        if contains_60fps:
             if home_60_used and home_url:
-                cmds.append((
-                    f"{home_team_raw} (Home) - {match_str}",
-                    home_url,
-                    home_alias,
-                    playlist_name,
-                    True  # is_60fps
-                ))
+                cmds.append((f"{home_norm.title()} (Home) - {match_str}", home_url, home_alias, playlist_name, True))
             if away_60_used and away_url:
-                cmds.append((
-                    f"{away_team_raw} (Away) - {match_str}",
-                    away_url,
-                    away_alias,
-                    playlist_name,
-                    True
-                ))
+                cmds.append((f"{away_norm.title()} (Away) - {match_str}", away_url, away_alias, playlist_name, True))
         else:
-            # No 60fps side: add whatever is available (home/away normal)
             if home_url:
-                cmds.append((
-                    f"{home_team_raw} (Home) - {match_str}",
-                    home_url,
-                    home_alias,
-                    playlist_name,
-                    False
-                ))
+                cmds.append((f"{home_norm.title()} (Home) - {match_str}", home_url, home_alias, playlist_name, False))
             if away_url:
-                cmds.append((
-                    f"{away_team_raw} (Away) - {match_str}",
-                    away_url,
-                    away_alias,
-                    playlist_name,
-                    False
-                ))
+                cmds.append((f"{away_norm.title()} (Away) - {match_str}", away_url, away_alias, playlist_name, False))
 
         ffmpeg_cmds_by_game[match_number] = cmds
 
-    # Write human-readable matches
     with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
-        for line in outputs:
-            f.write(line + "\n")
-    print(f"Matching NBA streams written to {OUTPUT_FILE}")
+        f.write("\n".join(outputs))
+    print(f"Wrote matched streams to {OUTPUT_FILE}")
 
-    # Write ffmpeg commands, tagging 60fps in the comment
     with open(FFMPEG_TXT_PATH, 'w', encoding='utf-8') as f:
         for match_number in sorted(ffmpeg_cmds_by_game.keys()):
             for match_str, stream_url, team_alias, playlist_name, is_60fps in ffmpeg_cmds_by_game[match_number]:
@@ -225,7 +172,7 @@ def main():
                     '-hls_flags delete_segments+append_list+omit_endlist '
                     f'/var/www/html/{playlist_name}; done\n\n'
                 )
-    print(f"ffmpeg commands written to {FFMPEG_TXT_PATH}")
+    print(f"Wrote ffmpeg commands to {FFMPEG_TXT_PATH}")
 
 if __name__ == "__main__":
     main()
