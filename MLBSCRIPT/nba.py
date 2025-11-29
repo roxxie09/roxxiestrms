@@ -8,7 +8,7 @@ M3U_URLS = [
     "http://madjokersqaud.nl:8080/get.php?username=6588574444&password=7405892934&type=m3u",
     "http://madjokersqaud.nl:8080/get.php?username=JACQUELINETAYLOR09&password=783cnZVH2D&type=m3u",
     "http://madjokersqaud.nl:8080/get.php?username=9940767554&password=6567348537&type=m3u",
-    "madjokersqaud.nl:8080/get.php?username=delray288699&password=Kane288699&type=m3u",
+    "http://madjokersqaud.nl:8080/get.php?username=delray288699&password=Kane288699&type=m3u",
     "http://madjokersqaud.nl:8080/get.php?username=Lakergirl&password=froggie&type=m3u",
 ]
 
@@ -19,9 +19,9 @@ OUTPUT_FILE = CURRENT_DIR / "nba_matched_streams.txt"
 FFMPEG_TXT_PATH = CURRENT_DIR / "nba_ffmpeg.txt"
 
 correct_names = {
-    'dever nuggets': 'denver nuggets',
-    'tornoto raptors': 'toronto raptors',
-    'washington wizard': 'washington wizards',
+    "dever nuggets": "denver nuggets",
+    "tornoto raptors": "toronto raptors",
+    "washington wizard": "washington wizards",
 }
 
 fps_60_teams = {
@@ -30,12 +30,13 @@ fps_60_teams = {
     "sacramento kings",
     "cleveland cavaliers",
     "denver nuggets",
+    "detroit pistons",
     "new york knicks",
 }
 
 def normalize_team_name(name: str) -> str:
-    name = name.lower().replace('.', '').replace('-', ' ')
-    if name.startswith('the '):
+    name = name.lower().replace(".", "").replace("-", " ")
+    if name.startswith("the "):
         name = name[4:]
     return name.strip()
 
@@ -44,7 +45,7 @@ def correct_team_name(name: str) -> str:
     return correct_names.get(name_norm, name_norm)
 
 def team_alias_from_name(name: str) -> str:
-    alias = normalize_team_name(name).replace(' ', '_').replace('.', '')
+    alias = normalize_team_name(name).replace(" ", "_").replace(".", "")
     return alias
 
 def parse_full_m3u(m3u_content):
@@ -55,7 +56,7 @@ def parse_full_m3u(m3u_content):
     while i < len(lines):
         line = lines[i].strip()
         if line.startswith("#EXTINF"):
-            info = line.split(',', 1)[1] if ',' in line else ''
+            info = line.split(",", 1)[1] if "," in line else ""
             url = lines[i + 1].strip() if (i + 1) < len(lines) else None
 
             # Match general NBA game streams (with NBA number and teams)
@@ -68,13 +69,19 @@ def parse_full_m3u(m3u_content):
                 matchup_streams[game_num] = {
                     "teams": (team1, team2),
                     "url": url,
-                    "info": info
+                    "info": info,
                 }
             else:
-                # Match team-specific (HD) streams e.g. "USA | NBA Sacramento Kings (HD)"
-                m_hd = re.search(r"USA *\| *NBA ([\w\s]+) \(HD\)", info)
+                # Flexible HD matcher:
+                # Handles:
+                #   "USA | NBA Sacramento Kings (HD)"
+                #   "US NBA New York Knicks (NYK) (HD) (S)"
+                m_hd = re.search(r"NBA\s+(.+?)\s*\(HD\)", info, re.IGNORECASE)
                 if m_hd and url:
-                    team_name = normalize_team_name(m_hd.group(1).strip())
+                    raw_team = m_hd.group(1).strip()
+                    # Strip any extra tags like (NYK), (S) etc.
+                    raw_team = re.sub(r"\([^)]*\)", "", raw_team).strip()
+                    team_name = normalize_team_name(raw_team)
                     hd_team_streams[team_name] = url
 
             i += 2
@@ -163,16 +170,25 @@ def main():
         playlist_name = "nba.m3u8" if match_number == 1 else f"nba{match_number}.m3u8"
         cmds = []
 
+        # For 60fps games, only include the 60fps team(s) in ffmpeg.txt
         if contains_60fps and (home_60_used or away_60_used):
             if home_60_used and home_url:
-                cmds.append((f"{home_norm.title()} (Home) - NBA {match_number}", home_url, home_alias, playlist_name, True))
+                cmds.append(
+                    (f"{home_norm.title()} (Home) - NBA {match_number}", home_url, home_alias, playlist_name, True)
+                )
             elif away_60_used and away_url:
-                cmds.append((f"{away_norm.title()} (Away) - NBA {match_number}", away_url, away_alias, playlist_name, True))
+                cmds.append(
+                    (f"{away_norm.title()} (Away) - NBA {match_number}", away_url, away_alias, playlist_name, True)
+                )
         else:
             if home_url:
-                cmds.append((f"{home_norm.title()} (Home) - NBA {match_number}", home_url, home_alias, playlist_name, False))
+                cmds.append(
+                    (f"{home_norm.title()} (Home) - NBA {match_number}", home_url, home_alias, playlist_name, False)
+                )
             if away_url:
-                cmds.append((f"{away_norm.title()} (Away) - NBA {match_number}", away_url, away_alias, playlist_name, False))
+                cmds.append(
+                    (f"{away_norm.title()} (Away) - NBA {match_number}", away_url, away_alias, playlist_name, False)
+                )
 
         ffmpeg_cmds_by_game[match_number] = cmds
 
@@ -189,7 +205,8 @@ def main():
                 )
                 f.write(
                     f'while true; do sudo ffmpeg -i "{stream_url}" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 '
-                    f'-bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_{team_alias}%d.js" '
+                    f'-bsf:a aac_adtstoasc -hls_segment_type mpegts '
+                    f'-hls_segment_filename "/var/www/html/index_{team_alias}%d.js" '
                     f'-hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist '
                     f'/var/www/html/{playlist_name}; done\n\n'
                 )

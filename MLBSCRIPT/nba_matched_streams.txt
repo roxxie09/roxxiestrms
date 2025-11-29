@@ -12,7 +12,7 @@ Charlotte Hornets (Away): http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoMKtm
 ------------------------------
 Game NBA 4:
 Orlando Magic (Home): http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFKUIZKiFd19blJkYG2yJublvLQnfOjtEuDXAkLtwNIln/ts
-Detroit Pistons (Away): http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFKUIZKiFd19blJkYG2yJublvLQnfOjtEuDXAkLtwNIln/ts
+Detroit Pistons (Away): http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFPOOK75LEmjoYE7_lqnkJqpUw4EWtkyrB1yQRWyTyK-z/ts (60fps)
 ------------------------------
 Game NBA 5:
 Washington Wizards (Home): http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFKUIZKiFd19blJkYG2yJubn1j1I2FpBOz-jQlM2rViio/ts
@@ -20,7 +20,7 @@ Indiana Pacers (Away): http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFKUIZKiF
 ------------------------------
 Game NBA 6:
 Milwaukee Bucks (Home): http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFBs3tkgrmVpfLqcv7gNXPUFhNkaZrNquk7IviBcLxLEh/ts
-New York Knicks (Away): http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFBs3tkgrmVpfLqcv7gNXPUFhNkaZrNquk7IviBcLxLEh/ts
+New York Knicks (Away): http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFPtVE_bB337mZ9vJNIsD5LRan6Lks9iLX6X0wm_TuFWI/ts (60fps)
 ------------------------------
 Game NBA 7:
 Phoenix Suns (Home): http://flashvpn.nl:8080/play/w3Rf-7h_ttXv2yyUx29Lm3SXM5hyIQH3ZJoftf7Qi9Zj3ixsVIW4UoX2G-D-ehIZ/ts
