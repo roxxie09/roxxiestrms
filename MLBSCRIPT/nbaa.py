@@ -8,6 +8,8 @@ M3U_URLS = [
     "http://madjokersqaud.nl:8080/get.php?username=Flathern2020&password=Sports&type=m3u",
     "http://madjokersqaud.nl:8080/get.php?username=6588574444&password=7405892934&type=m3u",
     "http://madjokersqaud.nl:8080/get.php?username=JACQUELINETAYLOR09&password=783cnZVH2D&type=m3u",
+    "http://madjokersqaud.nl:8080/get.php?username=9940767554&password=6567348537&type=m3u",
+    "http://madjokersqaud.nl:8080/get.php?username=delray288699&password=Kane288699&type=m3u",
     "http://madjokersqaud.nl:8080/get.php?username=Lakergirl&password=froggie&type=m3u",
 ]
 
@@ -23,27 +25,28 @@ correct_names = {
 }
 
 fps_60_teams = {
-    "miami heat", "minnesota timberwolves", "sacramento kings",
-    "cleveland cavaliers", "denver nuggets", "new york knicks",
+    "miami heat",
+    "minnesota timberwolves",
+    "sacramento kings",
+    "cleveland cavaliers",
+    "denver nuggets",
+    "new york knicks",
+    "detroit pistons",
 }
 
 def parse_game_time(game_time_str):
-    """Parse game time with multiple format attempts"""
     current_year = datetime.now().year
     formats = [
+        game_time_str,
         f"{game_time_str}, {current_year}",
         f"{game_time_str} {current_year}",
-        game_time_str
     ]
-    for fmt in formats:
+    for candidate in formats:
         try:
-            if "PM" in fmt.upper() or "AM" in fmt.upper():
-                return datetime.strptime(fmt.strip(), "%B %d, %Y %I:%M %p")
-            else:
-                return datetime.strptime(fmt.strip(), "%B %d, %Y %I:%M")
+            return datetime.strptime(candidate.strip(), "%B %d, %Y %I:%M %p")
         except ValueError:
             continue
-    print(f"⚠️  Could not parse time: '{game_time_str}'")
+    print(f"Could not parse time: '{game_time_str}'")
     return None
 
 def calculate_delay_seconds(current_time, game_time):
@@ -88,15 +91,13 @@ def main():
         print(f"nba.html not found at {NBA_HTML_FILE}")
         return
 
-    print(f"📁 Reading {NBA_HTML_FILE}")
     html_content = NBA_HTML_FILE.read_text(encoding='utf-8')
     soup = BeautifulSoup(html_content, 'html.parser')
 
-    # DEBUG: Find ALL table rows to understand structure
-    print("🔍 Scanning HTML table structure...")
     html_matches = []
     game_times = {}
-    
+
+    # Parse NBA games and times from the table
     for tr in soup.find_all('tr'):
         tds = tr.find_all('td')
         if len(tds) >= 2:
@@ -106,26 +107,26 @@ def main():
                 href = a_tag['href']
                 text = a_tag.text.strip()
                 time_text = time_td.get_text(strip=True)
-                
-                match_num = int(re.search(r"nba-streams-(\d+)", href).group(1))
-                
-                print(f"  Game {match_num}: '{text}' | Time text: '{time_text}'")
-                
+
+                num_match = re.search(r"nba-streams-(\d+)", href)
+                if not num_match:
+                    continue
+                match_num = int(num_match.group(1))
+
                 game_time = parse_game_time(time_text)
                 game_times[match_num] = game_time
-                
                 html_matches.append((match_num, text))
 
     html_matches.sort(key=lambda x: x[0])
-    print(f"✅ Found {len(html_matches)} matches")
+    print(f"Found {len(html_matches)} matches")
 
     current_time = datetime.now()
-    print(f"🕐 Current PC time: {current_time.strftime('%I:%M %p PST')}")
+    print(f"Current PC time: {current_time.strftime('%I:%M %p PST')}")
 
-    # Rest of M3U parsing logic (unchanged)
     chunk_size = 3
     outputs = []
     ffmpeg_cmds_by_game = {}
+
     last_url_index = -1
     matches_on_current_m3u = 0
     all_streams = {}
@@ -135,7 +136,7 @@ def main():
         if matches_on_current_m3u == 0 or matches_on_current_m3u >= chunk_size:
             url_index = (last_url_index + 1) if last_url_index + 1 < len(M3U_URLS) else 0
             current_m3u_url = M3U_URLS[url_index]
-            print(f"📥 Downloading M3U: {current_m3u_url}")
+            print(f"Downloading M3U: {current_m3u_url}")
             m3u_content = requests.get(current_m3u_url).text
             all_streams = parse_full_m3u(m3u_content)
             last_url_index = url_index
@@ -148,8 +149,8 @@ def main():
             continue
 
         home_norm, away_norm = map(correct_team_name, teams)
-        stream_info = all_streams.get(match_number, None)
 
+        stream_info = all_streams.get(match_number, None)
         if not stream_info:
             for sinfo in all_streams.values():
                 s_team1, s_team2 = sinfo["teams"]
@@ -160,68 +161,76 @@ def main():
         if stream_info:
             stream_url = stream_info["url"]
             s_team1, s_team2 = stream_info["teams"]
-            contains_60fps = s_team1 in fps_60_norm or s_team2 in fps_60_norm
+            game_has_60fps_team = (s_team1 in fps_60_norm) or (s_team2 in fps_60_norm)
         else:
             stream_url = None
-            contains_60fps = False
+            game_has_60fps_team = False
 
-        # CRITICAL: Calculate delay for NON-60fps games
         game_time = game_times.get(match_number)
-        delay_seconds = calculate_delay_seconds(current_time, game_time) if not contains_60fps else 0
-
-        print(f"Game {match_number}: 60fps={contains_60fps}, delay={delay_seconds}s ({delay_seconds//60}m)")
-
         home_alias = team_alias_from_name(home_norm)
         away_alias = team_alias_from_name(away_norm)
 
-        # Human readable output
-        time_info = f" | {game_time.strftime('%I:%M %p') if game_time else 'No time'} | Delay: {delay_seconds//60}m" if delay_seconds else ""
-        outputs.append(f"Game {match_number}:{time_info}")
-        outputs.append(f"{home_norm.title()} vs {away_norm.title()}: {stream_url or 'No stream'}{' (60fps)' if contains_60fps else ''}")
+        # Info output
+        delay_seconds = calculate_delay_seconds(current_time, game_time)
+        time_info = ""
+        if game_time:
+            time_info = f" | {game_time.strftime('%I:%M %p')} | Delay: {delay_seconds//60}m {delay_seconds%60}s"
+        outputs.append(f"Game {match_number}{time_info}")
+        outputs.append(f"{home_norm.title()} vs {away_norm.title()}: {stream_url or 'No stream'}{' (has 60fps team)' if game_has_60fps_team else ''}")
         outputs.append("")
 
         playlist_name = "nba.m3u8" if match_number == 1 else f"nba{match_number}.m3u8"
-        
-        if stream_url:
-            # ALWAYS add sleep for non-60fps
-            cmds = []
-            if contains_60fps:
-                # 60fps: no sleep
-                cmds.append((f"{home_norm.title()} - {match_str}", stream_url, home_alias, playlist_name, True, 0))
-            else:
-                # Non-60fps: ADD SLEEP
-                cmds.append((f"{home_norm.title()} - {match_str}", stream_url, home_alias, playlist_name, False, delay_seconds))
-            
-            ffmpeg_cmds_by_game[match_number] = cmds
 
-    # Write outputs
+        if not stream_url:
+            continue
+
+        cmds = []
+        home_is_60 = home_norm in fps_60_norm
+        away_is_60 = away_norm in fps_60_norm
+
+        # Priority logic:
+        # - If there is any 60fps team in this game, output that team’s ffmpeg line (no sleep).
+        # - If both are 60fps, output both, no sleep.
+        # - If no 60fps team, output both teams, with sleep.
+        if home_is_60 or away_is_60:
+            if home_is_60:
+                cmds.append((stream_url, home_alias, playlist_name, True, 0))
+            if away_is_60:
+                cmds.append((stream_url, away_alias, playlist_name, True, 0))
+        else:
+            cmds.append((stream_url, home_alias, playlist_name, False, delay_seconds))
+            cmds.append((stream_url, away_alias, playlist_name, False, delay_seconds))
+
+        ffmpeg_cmds_by_game[match_number] = cmds
+
     with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
         f.write("\n".join(outputs))
-    print(f"📄 Wrote {OUTPUT_FILE}")
+    print(f"Wrote matched streams to {OUTPUT_FILE}")
 
-    # FIXED FFMPEG OUTPUT WITH SLEEP
+    # Write ffmpeg commands using while-true, sleep only for non‑60fps
     with open(FFMPEG_TXT_PATH, 'w', encoding='utf-8') as f:
         for match_number in sorted(ffmpeg_cmds_by_game.keys()):
-            for match_str, stream_url, team_alias, playlist_name, is_60fps, delay_seconds in ffmpeg_cmds_by_game[match_number]:
+            for stream_url, team_alias, playlist_name, is_60fps, delay_seconds in ffmpeg_cmds_by_game[match_number]:
                 fps_tag = " (60fps)" if is_60fps else ""
-                delay_tag = f" (sleep {delay_seconds//60}m)" if delay_seconds > 0 else ""
-                
+                delay_tag = f" (sleep {delay_seconds//60}m)" if delay_seconds > 0 and not is_60fps else ""
                 f.write(f"# Game {match_number} - {team_alias}{fps_tag}{delay_tag}\n")
-                
-                # ADD SLEEP FOR NON-60FPS
-                if delay_seconds > 0 and not is_60fps:
-                    f.write(f'sleep {delay_seconds} && ')
-                
-                f.write(
-                    f'sudo ffmpeg -i "{stream_url}" '
+
+                core_cmd = (
+                    f'while true; do sudo ffmpeg -i "{stream_url}" '
                     '-c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 '
                     '-bsf:a aac_adtstoasc -hls_segment_type mpegts '
                     f'-hls_segment_filename "/var/www/html/index_{team_alias}%d.js" '
                     '-hls_list_size 5 -hls_time 4 '
                     '-hls_flags delete_segments+append_list+omit_endlist '
-                    f'/var/www/html/{playlist_name} &\n\n'
+                    f'/var/www/html/{playlist_name}; done'
                 )
-    print(f"✅ FIXED: Wrote ffmpeg with sleep commands to {FFMPEG_TXT_PATH}")
+
+                if delay_seconds > 0 and not is_60fps:
+                    f.write(f"sleep {delay_seconds} && {core_cmd}\n\n")
+                else:
+                    f.write(f"{core_cmd}\n\n")
+
+    print(f"Wrote ffmpeg commands to {FFMPEG_TXT_PATH}")
 
 if __name__ == "__main__":
     main()
