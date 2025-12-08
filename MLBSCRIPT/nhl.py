@@ -56,16 +56,10 @@ def get_nhl_games(date_ymd):
                 dt_utc = datetime.fromisoformat(start_str)
             
             dt_pacific = dt_utc.astimezone(PACIFIC_TZ)
-            
-            # Display time: full date + time
             start_display = dt_pacific.strftime("%B %d, %Y %I:%M %p")
-            
-            # data-start = PST time in YYYY-MM-DD HH:MM:SS format
             start_pst_formatted = dt_pacific.strftime("%Y-%m-%d %H:%M:%S")
-            # data-end = start + 1 day
             end_pst = dt_pacific + timedelta(days=1)
             end_pst_formatted = end_pst.strftime("%Y-%m-%d %H:%M:%S")
-            
         except Exception as e:
             print(f"Time parse error for {away_team} vs {home_team}: {e}")
             start_display = "TBD"
@@ -79,37 +73,43 @@ def get_nhl_games(date_ymd):
         })
     return games
 
-def replace_soccer_with_nhl(html_content, games):
+def append_nhl_games(html_content, games):
     if not games:
-        return html_content.replace(
-            r'<tbody>.*?</tbody>',
-            '<tbody><tr><td colspan="3">No NHL games today</td></tr></tbody>',
-            1, re.DOTALL | re.IGNORECASE
-        )
-    
+        return html_content
+
+    # Ensure header is NHL-focused once
     html_content = re.sub(
         r'<h2[^>]*Upcoming NHL Events[^<]*</h2>',
-        '<h2 class="m-0" style="font-family: Kanit, sans-serif; font-weight: bold;">Today\'s NHL Games</h2>',
+        '<h2 class="m-0" style="font-family: Kanit, sans-serif; font-weight: bold;">Upcoming NHL Events</h2>',
         html_content, flags=re.IGNORECASE | re.DOTALL
     )
-    
-    # NHL rows with EMPTY countdown-timer spans
-    rows = ""
-    for i, game in enumerate(games, 1):
-        rows += f'''
+
+    # Find current highest nhl-streams-N index
+    stream_nums = re.findall(r'nhl-streams-(\d+)', html_content)
+    start_index = max(map(int, stream_nums)) + 1 if stream_nums else 1
+
+    # Find tbody closing tag of the events table and append rows before it
+    tbody_match = re.search(r'(<tbody[^>]*>)(.*?)(</tbody>)', html_content, re.DOTALL | re.IGNORECASE)
+    if not tbody_match:
+        print("Could not find <tbody> in HTML; nothing appended.")
+        return html_content
+
+    before = html_content[:tbody_match.start(2)]
+    existing_rows = tbody_match.group(2)
+    after = html_content[tbody_match.end(2):]
+
+    new_rows = ""
+    for i, game in enumerate(games, start_index):
+        new_rows += f'''
         <tr>
             <td><a href="https://roxiestreams.live/nhl-streams-{i}">{game["matchup"]}</a></td>
             <td>{game["time_display"]}</td>
             <td><span class="countdown-timer" data-end="{game["end_pst"]}" data-start="{game["start_pst"]}"></span></td>
         </tr>'''
-    
-    html_content = re.sub(
-        r'<tbody>.*?</tbody>',
-        f'<tbody>{rows}</tbody>',
-        html_content, 
-        flags=re.DOTALL | re.IGNORECASE
-    )
-    
+
+    # Append after existing_rows, keep old rows plus new
+    new_tbody_content = existing_rows + new_rows
+    html_content = before + new_tbody_content + after
     return html_content
 
 if __name__ == "__main__":
@@ -124,16 +124,12 @@ if __name__ == "__main__":
         print(f"Error: {HTML_PATH} not found!")
         sys.exit(1)
     
-    print(f"Updating nhl.html with {len(games)} NHL games...")
     with open(HTML_PATH, "r", encoding="utf-8") as f:
         content = f.read()
     
-    updated_content = replace_soccer_with_nhl(content, games)
+    updated_content = append_nhl_games(content, games)
     
     with open(HTML_PATH, "w", encoding="utf-8") as f:
         f.write(updated_content)
     
-    print(f"✓ Updated! Countdown spans are now empty (JS will fill them)")
-    print("Examples:")
-    for game in games[:3]:
-        print(f"  {game['matchup']} → <span data-end=\"{game['end_pst']}\" data-start=\"{game['start_pst']}\"></span>")
+    print(f"✓ Appended {len(games)} NHL games to nhl.html (links continue from last index)")
