@@ -73,33 +73,41 @@ def get_nhl_games(date_ymd):
         })
     return games
 
-def append_nhl_games(html_content, games):
+def update_nhl_date_section(html_content, games, target_date_str):
     if not games:
-        return html_content
+        return html_content, False
 
-    # Ensure header is NHL-focused once
-    html_content = re.sub(
-        r'<h2[^>]*Upcoming NHL Events[^<]*</h2>',
-        '<h2 class="m-0" style="font-family: Kanit, sans-serif; font-weight: bold;">Upcoming NHL Events</h2>',
-        html_content, flags=re.IGNORECASE | re.DOTALL
-    )
+    pretty_date = datetime.strptime(target_date_str, "%Y%m%d").strftime("%A, %B %d, %Y")
+    date_header_text = pretty_date.replace(",", r"\,").replace(" ", r"\s+")
+    
+    # Check if date header already exists
+    if re.search(rf'<td colspan="3"><strong>{date_header_text}</strong></td>', html_content, re.IGNORECASE):
+        print(f"⚠️  Date '{pretty_date}' already exists - updating games with correct links...")
+        updated = True
+    else:
+        print(f"✓ Adding new date: {pretty_date}")
+        updated = True
 
-    # Find current highest nhl-streams-N index
-    stream_nums = re.findall(r'nhl-streams-(\d+)', html_content)
-    start_index = max(map(int, stream_nums)) + 1 if stream_nums else 1
-
-    # Find tbody closing tag of the events table and append rows before it
+    # Remove existing games for this date (anything after date header until next date header or tbody end)
+    # First find all date headers
+    date_headers = re.findall(r'<tr style="background-color:\s*#333[^>]*>\s*<td colspan="3"><strong>([^<]+)</strong></td>\s*</tr>', html_content, re.IGNORECASE | re.DOTALL)
+    
     tbody_match = re.search(r'(<tbody[^>]*>)(.*?)(</tbody>)', html_content, re.DOTALL | re.IGNORECASE)
     if not tbody_match:
-        print("Could not find <tbody> in HTML; nothing appended.")
-        return html_content
+        return html_content, False
 
     before = html_content[:tbody_match.start(2)]
-    existing_rows = tbody_match.group(2)
+    tbody_content = tbody_match.group(2)
     after = html_content[tbody_match.end(2):]
 
+    # Create new section for this date
+    date_header = f'''
+        <tr style="background-color: #333; color: white;">
+            <td colspan="3"><strong>{pretty_date}</strong></td>
+        </tr>'''
+    
     new_rows = ""
-    for i, game in enumerate(games, start_index):
+    for i, game in enumerate(games, 1):
         new_rows += f'''
         <tr>
             <td><a href="https://roxiestreams.live/nhl-streams-{i}">{game["matchup"]}</a></td>
@@ -107,10 +115,22 @@ def append_nhl_games(html_content, games):
             <td><span class="countdown-timer" data-end="{game["end_pst"]}" data-start="{game["start_pst"]}"></span></td>
         </tr>'''
 
-    # Append after existing_rows, keep old rows plus new
-    new_tbody_content = existing_rows + new_rows
-    html_content = before + new_tbody_content + after
-    return html_content
+    # Replace or append the section
+    new_section = date_header + new_rows
+    if re.search(rf'<strong>{date_header_text}</strong>', tbody_content, re.IGNORECASE):
+        # Replace existing section for this date
+        tbody_content = re.sub(
+            rf'<tr style="background-color:?\s*#333[^>]*>.*?<strong>{date_header_text}</strong>.*?(?=<tr style="background-color:?\s*#333|<tr|<tbody|$)',
+            new_section,
+            tbody_content,
+            flags=re.DOTALL | re.IGNORECASE
+        )
+    else:
+        # Append to end
+        tbody_content += new_section
+
+    html_content = before + tbody_content + after
+    return html_content, updated
 
 if __name__ == "__main__":
     date_input = sys.argv[1] if len(sys.argv) > 1 else None
@@ -127,9 +147,12 @@ if __name__ == "__main__":
     with open(HTML_PATH, "r", encoding="utf-8") as f:
         content = f.read()
     
-    updated_content = append_nhl_games(content, games)
+    updated_content, changed = update_nhl_date_section(content, games, api_date)
     
-    with open(HTML_PATH, "w", encoding="utf-8") as f:
-        f.write(updated_content)
-    
-    print(f"✓ Appended {len(games)} NHL games to nhl.html (links continue from last index)")
+    if changed and games:
+        with open(HTML_PATH, "w", encoding="utf-8") as f:
+            f.write(updated_content)
+        print(f"✓ Updated {len(games)} NHL games for {pretty_date}")
+        print(f"  Links fixed: nhl-streams-1 through nhl-streams-{len(games)}")
+    else:
+        print("No changes needed")
