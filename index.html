@@ -71,12 +71,72 @@
             margin-right: 8px;
             vertical-align: middle;
         }
+
+        /* NHL gold alert uses normal alert sizing */
+        .alert-nhl-gold {
+            background-color: #111111;
+            color: #ffd700;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Kanit', sans-serif;
+            font-weight: 600;
+        }
+
+        /* Animated gold outline */
+        .alert-nhl-gold::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            border-radius: 4px;
+            background: linear-gradient(120deg, #ffbf00, #ffd700, #fff3b0, #ffbf00);
+            z-index: -1;
+            animation: nhl-gold-border 3s linear infinite;
+        }
+
+        .alert-nhl-gold::after {
+            content: "";
+            position: absolute;
+            inset: 2px;
+            background-color: #111111;
+            border-radius: 2px;
+            z-index: -1;
+        }
+
+        /* Glow animation */
+        @keyframes nhl-gold-border {
+            0% {
+                filter: brightness(0.8);
+            }
+            50% {
+                filter: brightness(1.4);
+            }
+            100% {
+                filter: brightness(0.8);
+            }
+        }
+
+        .nhl-gold-text {
+            font-size: 1rem;
+            letter-spacing: 1px;
+        }
+
+        /* Clickable 'ADDED' link with underline */
+        .nhl-link {
+            color: #ffd700;
+            text-decoration: underline;
+            font-weight: 700;
+        }
+
+        .nhl-link:hover {
+            color: #fff3b0;
+        }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-black">
         <div class="container-fluid">
-            <a class="navbar-brand" href="https://Roxiestreams.cc/">RoxieStreams</a>
+            <a class="navbar-brand" href="https://roxiestreams.cc/">RoxieStreams</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -86,7 +146,7 @@
                     <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/mlb">MLB</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nba">NBA</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nfl">NFL</a></li>
-		    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nhl">NHL</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nhl">NHL</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/fighting">Fighting</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/motorsports">Motorsports</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
@@ -95,13 +155,17 @@
         </div>
     </nav>
 
-    <div class="alert alert-bright-red alert-dismissible mt-2" role="alert">
-        <span class="alert-icon">⚠️</span> 
-        NEW DOMAIN: FASTER & MORE RELIABLE 
-        <a href="https://roxiestreams.cc" target="_blank">roxiestreams.cc</a>
+    <!-- NHL SECTION ADDED alert with gold outline animation and link -->
+    <div class="alert alert-nhl-gold alert-dismissible mt-2" role="alert">
+        <span class="alert-icon">🏒</span>
+        <span class="nhl-gold-text">
+            NHL SECTION 
+            <a href="https://roxiestreams.cc/nhl" class="nhl-link">ADDED</a>
+        </span>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
+    <!-- Discord alert kept as-is -->
     <div class="alert alert-danger alert-dismissible mt-2" role="alert">
         We now have a Discord server. Enjoy! <a href="https://discord.gg/JhkVmejRmn" class="alert-link">Discord</a>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -119,31 +183,30 @@
             </thead>
             <tbody>
                 <tr>
-                    <td><a href="https://roxiestreams.cc/soccer-streams-2">Laliga</td>
+                    <td><a href="https://roxiestreams.cc/soccer-streams-2">Laliga</a></td>
                     <td>December 08, 2025 11:45 AM</td>
                     <td><span class="countdown-timer" data-start="December 07, 2025 05:00:00" data-end="December 30, 2025 23:30:00"></span></td>
                 </tr>
                 <tr>
-                    <td><a href="https://roxiestreams.cc/soccer-streams-3">Premier League</td>
+                    <td><a href="https://roxiestreams.cc/soccer-streams-3">Premier League</a></td>
                     <td>December 08, 2025 12:00 PM</td>
                     <td><span class="countdown-timer" data-start="December 08, 2025 12:00:00" data-end="December 30, 2025 23:30:00"></span></td>
                 </tr>
                 <tr>
-                    <td><a href="https://roxiestreams.cc/nba">NBA</td>
+                    <td><a href="https://roxiestreams.cc/nba">NBA</a></td>
                     <td>December 08, 2025 16:00 PM</td>
                     <td><span class="countdown-timer" data-start="December 08, 2025 16:00:00" data-end="December 30, 2025 23:30:00"></span></td>
                 </tr>
                 <tr>
-                    <td><a href="https://roxiestreams.cc/wwe-streams">WWE RAW</td>
+                    <td><a href="https://roxiestreams.cc/wwe-streams">WWE RAW</a></td>
                     <td>December 08, 2025 17:00 PM</td>
                     <td><span class="countdown-timer" data-start="December 08, 2025 17:00:00" data-end="December 30, 2025 23:30:00"></span></td>
                 </tr>
                 <tr>
-                    <td><a href="https://roxiestreams.cc/nfl-streams-3">NFL (MNF)</td>
+                    <td><a href="https://roxiestreams.cc/nfl-streams-3">NFL (MNF)</a></td>
                     <td>December 08, 2025 17:15 PM</td>
                     <td><span class="countdown-timer" data-start="December 08, 2025 17:15:00" data-end="December 30, 2025 23:30:00"></span></td>
                 </tr>
-                <tr>
             </tbody>
         </table>
     </div>
