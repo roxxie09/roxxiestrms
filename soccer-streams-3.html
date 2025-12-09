@@ -90,6 +90,7 @@
       <div id="playerContainer"></div>
       <div class="streamchanger">
         <button class="streambutton" onclick="randomStream1()">Stream 1</button>
+        <button class="streambutton" onclick="randomStream2()">Stream 2</button>
       </div>
       <div class="embedchat">
         <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.cc"></iframe>
@@ -126,8 +127,8 @@
     // Stream 1: TNT3 only (two domains)
     function randomStream1() {
       var links = [
-        "https://daffodil.shadow-ran.online/tnt2.m3u8",
-        "https://abby.xn--1000-ugoa0hsb9a0hb.com/tnt2.m3u8"
+        "https://600.shadow-ran.online/tnt2.m3u8",
+        "https://600.xn--1000-ugoa0hsb9a0hb.com/tnt2.m3u8"
       ];
       var randomLink = links[Math.floor(Math.random() * links.length)];
       showPlayer('clappr', randomLink);
@@ -136,8 +137,8 @@
     // Stream 2: BeIN3 only (two domains)
     function randomStream2() {
       var links = [
-        "https://daffodil.shadow-ran.online/bein3.m3u8",
-        "https://abby.xn--1000-ugoa0hsb9a0hb.com/bein3.m3u8"
+        "https://daffodil.shadow-ran.online/tnt2.m3u8",
+        "https://abby.xn--1000-ugoa0hsb9a0hb.com/tnt2.m3u8"
       ];
       var randomLink = links[Math.floor(Math.random() * links.length)];
       showPlayer('clappr', randomLink);
