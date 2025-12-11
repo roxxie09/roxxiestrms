@@ -1,12 +1,24 @@
-# nba-streams-1 - playlist nba.m3u8 - team_alias sacramento_kings (60fps)
-while true; do sudo ffmpeg -i "http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoKpL02rbVhHD2x5tFp7m1uw/ts" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_sacramento_kings%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/nba.m3u8; done
+# Game 1 - los_angeles_clippers (sleep 200m)
+sleep 12023 && while true; do sudo ffmpeg -i "http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoAnaIUtcQeRHOIXYGvUA29Y/ts" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_los_angeles_clippers%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/nba.m3u8; done
 
-# nba-streams-2 - playlist nba2.m3u8 - team_alias minnesota_timberwolves (60fps)
-while true; do sudo ffmpeg -i "http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoK41sf7B08aXyPCYhPyDAGs/ts" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_minnesota_timberwolves%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/nba2.m3u8; done
+# Game 1 - houston_rockets (sleep 200m)
+sleep 12023 && while true; do sudo ffmpeg -i "http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoAnaIUtcQeRHOIXYGvUA29Y/ts" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_houston_rockets%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/nba.m3u8; done
 
-# nba-streams-3 - playlist nba3.m3u8 - team_alias san_antonio_spurs
-while true; do sudo ffmpeg -i "http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoMKtmwG3PJmOcm94_6ZnUS0/ts" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_san_antonio_spurs%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/nba3.m3u8; done
+# Game 2 - boston_celtics (sleep 200m)
+sleep 12023 && while true; do sudo ffmpeg -i "http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoDqVyKWaZmfCOsTZFVQyP3I/ts" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_boston_celtics%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/nba2.m3u8; done
 
-# nba-streams-3 - playlist nba3.m3u8 - team_alias new_orleans_pelicans
-while true; do sudo ffmpeg -i "http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoMKtmwG3PJmOcm94_6ZnUS0/ts" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_new_orleans_pelicans%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/nba3.m3u8; done
+# Game 2 - milwaukee_bucks (sleep 200m)
+sleep 12023 && while true; do sudo ffmpeg -i "http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoDqVyKWaZmfCOsTZFVQyP3I/ts" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_milwaukee_bucks%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/nba2.m3u8; done
+
+# Game 3 - portland_trail_blazers (sleep 200m)
+sleep 12023 && while true; do sudo ffmpeg -i "http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoMKtmwG3PJmOcm94_6ZnUS0/ts" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_portland_trail_blazers%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/nba3.m3u8; done
+
+# Game 3 - new_orleans_pelicans (sleep 200m)
+sleep 12023 && while true; do sudo ffmpeg -i "http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoMKtmwG3PJmOcm94_6ZnUS0/ts" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_new_orleans_pelicans%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/nba3.m3u8; done
+
+# Game 4 - denver_nuggets (60fps)
+while true; do sudo ffmpeg -i "http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFPOOK75LEmjoYE7_lqnkJqrjgXwh0tcUUN3ZLOrGr86B/ts" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_denver_nuggets%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/nba4.m3u8; done
+
+# Game 4 - sacramento_kings (60fps)
+while true; do sudo ffmpeg -i "http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFB3KLpQfY23vqoVeW5l-7AUjRilBq1dq_sROrSZDAlIO/ts" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_sacramento_kings%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/nba4.m3u8; done
 
