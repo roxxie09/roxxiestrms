@@ -1,0 +1,8 @@
+while true; do sleep 5998 && sudo ffmpeg -i "http://ahostingportal.com:8000/Marky0416/Integra1994/7250" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_new_york_rangers_vs_chicago_blackhawks%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/nhl.m3u8; done
+
+while true; do sleep 9598 && sudo ffmpeg -i "http://ahostingportal.com:8000/Marky0416/Integra1994/7251" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_detroit_red_wings_vs_calgary_flames%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/nhl2.m3u8; done
+
+while true; do sleep 11398 && sudo ffmpeg -i "http://ahostingportal.com:8000/Marky0416/Integra1994/7252" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_florida_panthers_vs_utah_mammoth%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/nhl3.m3u8; done
+
+while true; do sleep 14998 && sudo ffmpeg -i "http://ahostingportal.com:8000/Marky0416/Integra1994/7253" -c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 -bsf:a aac_adtstoasc -hls_segment_type mpegts -hls_segment_filename "/var/www/html/index_los_angeles_kings_vs_seattle_kraken%d.js" -hls_list_size 5 -hls_time 4 -hls_flags delete_segments+append_list+omit_endlist /var/www/html/nhl4.m3u8; done
+
