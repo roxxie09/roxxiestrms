@@ -1,12 +1,11 @@
-Game NBA 1:
-Sacramento Kings (Home): http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoKpL02rbVhHD2x5tFp7m1uw/ts (60fps)
-Indiana Pacers (Away): http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoAnaIUtcQeRHOIXYGvUA29Y/ts
-------------------------------
-Game NBA 2:
-Phoenix Suns (Home): http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoDqVyKWaZmfCOsTZFVQyP3I/ts
-Minnesota Timberwolves (Away): http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoK41sf7B08aXyPCYhPyDAGs/ts (60fps)
-------------------------------
-Game NBA 3:
-San Antonio Spurs (Home): http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoMKtmwG3PJmOcm94_6ZnUS0/ts
-New Orleans Pelicans (Away): http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoMKtmwG3PJmOcm94_6ZnUS0/ts
-------------------------------
+Game 1 | 05:00 PM | Delay: 200m 23s
+Los Angeles Clippers vs Houston Rockets: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoAnaIUtcQeRHOIXYGvUA29Y/ts
+
+Game 2 | 05:00 PM | Delay: 200m 23s
+Boston Celtics vs Milwaukee Bucks: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoDqVyKWaZmfCOsTZFVQyP3I/ts
+
+Game 3 | 05:00 PM | Delay: 200m 23s
+Portland Trail Blazers vs New Orleans Pelicans: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoMKtmwG3PJmOcm94_6ZnUS0/ts
+
+Game 4 | 07:00 PM | Delay: 320m 23s
+Denver Nuggets vs Sacramento Kings: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFKUIZKiFd19blJkYG2yJublvLQnfOjtEuDXAkLtwNIln/ts
