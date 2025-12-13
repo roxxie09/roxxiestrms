@@ -11,7 +11,9 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link href="/css/buttons.css" rel="stylesheet">
+<link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
 <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -68,14 +70,12 @@
             gap: 10px;
         }
     </style>
-  
-  <script type='text/javascript' src='//monthspathsmug.com/a8/d0/0a/a8d00ade81b48f5b50f7935385047cd0.js'></script>
 
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-black">
         <div class="container-fluid">
-            <a class="navbar-brand" href="https://Roxiestreams.cc/">RoxieStreams</a>
+            <a class="navbar-brand" href="https://roxiestreams.cc/">RoxieStreams</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -85,6 +85,8 @@
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/mlb">MLB</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nba">NBA</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nfl">NFL</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nhl">NHL</a></li>
+
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/fighting">Fighting</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/motorsports">Motorsports</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
@@ -97,9 +99,7 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
             <div class="streamchanger">
-                <button class="streambutton" onclick="showIframe('https://ok.ru/videoembed/7648027216583?autoplay=1')">Server 1</button>
-                <button class="streambutton" onclick="showIframe('https://filemoon.sx/e/lc53rwjejz05')">Server 2</button>
-                <button class="streambutton" onclick="showIframe('https://gofile.io/d/WbbkYa')">Server 3</button>
+                <button class="streambutton" onclick="showPlayer('clappr', 'https://cdnvideo.webvideocore.net/enc4_l2rsmo59d51fs2anbpghs4c9ka705h9ap3ihakki4eba61i36cgrgdh24d1nh4d999t7hdnmggjfs8ubulg3f3gabss8essrccbeu1lls2qtek1d9h0d3uqc89nfsom6ae4ibsmjlo462jdcme27spohkjg/index.m3u8?clip_id=f1eois0g1ds0')">Stream 1</button>
             </div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.cc"></iframe>
@@ -118,8 +118,6 @@
         var clapprPlayer;
 
         function showPlayer(playerType, stream) {
-            document.getElementById('playerContainer').innerHTML = '';
-
             if (playerType === "clappr") {
                 if (clapprPlayer) {
                     clapprPlayer.destroy();
@@ -135,16 +133,8 @@
             }
         }
 
-        function showIframe(url) {
-            if (clapprPlayer) {
-                clapprPlayer.destroy();
-                clapprPlayer = null;
-            }
-            document.getElementById('playerContainer').innerHTML = `<iframe src="${url}" style="width: 100%; height: 100%; border: none;"></iframe>`;
-        }
-
         window.onload = function() {
-            showIframe('https://ok.ru/videoembed/7648027216583?autoplay=1');
+            showPlayer('clappr', 'https://cdnvideo.webvideocore.net/enc4_l2rsmo59d51fs2anbpghs4c9ka705h9ap3ihakki4eba61i36cgrgdh24d1nh4d999t7hdnmggjfs8ubulg3f3gabss8essrccbeu1lls2qtek1d9h0d3uqc89nfsom6ae4ibsmjlo462jdcme27spohkjg/index.m3u8?clip_id=f1eois0g1ds0');
         };
     </script>
     <script>
@@ -162,13 +152,14 @@
     <script src="js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
 	atOptions = {
-		'key' : '003d52b3a131567a085c68d8775f52a2',
+		'key' : '4fb9813602118af6e6ec2974670023c9',
 		'format' : 'iframe',
 		'height' : 60,
 		'width' : 468,
 		'params' : {}
 	};
 </script>
-<script type="text/javascript" src="//monthspathsmug.com/003d52b3a131567a085c68d8775f52a2/invoke.js"></script>
+<script type="text/javascript" src="//monthspathsmug.com/4fb9813602118af6e6ec2974670023c9/invoke.js"></script>
+<script type='text/javascript' src='//monthspathsmug.com/ab/1a/c2/ab1ac2d66efae0c6bc04e68156bc710e.js'></script>
 </body>
 </html>
