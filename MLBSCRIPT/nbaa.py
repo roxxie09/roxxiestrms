@@ -32,6 +32,7 @@ fps_60_teams = {
     "cleveland cavaliers",
     "denver nuggets",
     "new york knicks",
+    "philadelphia 76ers",
     "detroit pistons",
 }
 
