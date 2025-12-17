@@ -79,14 +79,12 @@ def generate_ffmpeg_txt(stream_cmds, output_path: Path):
         for idx, (match_str, stream_url, team_alias, sleep_secs) in enumerate(stream_cmds, start=1):
             playlist_name = "nhl.m3u8" if idx == 1 else f"nhl{idx}.m3u8"
 
-            # If there is a future start time, prepend sleep <seconds> &&
             if sleep_secs is not None and sleep_secs > 0:
-                sleep_prefix = f"sleep {sleep_secs} && "
-            else:
-                sleep_prefix = ""
+                # Sleep before starting the infinite loop
+                f.write(f"sleep {sleep_secs} && ")
 
             f.write(
-                f'while true; do {sleep_prefix}sudo ffmpeg -i "{stream_url}" '
+                f'while true; do sudo ffmpeg -i "{stream_url}" '
                 '-c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 '
                 '-bsf:a aac_adtstoasc -hls_segment_type mpegts '
                 f'-hls_segment_filename "/var/www/html/index_{team_alias}%d.js" '
