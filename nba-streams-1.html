@@ -99,9 +99,10 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
 	<div class="streamchanger">
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream())">Stream 1</button>
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream())">Stream 2</button>
-</div>
+	<div class="streamchanger">
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('nba.m3u8'))">Stream 1</button>
+ 	 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('nhl.m3u8'))">Stream 2</button>
+	</div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.cc"></iframe>
             </div>
@@ -116,10 +117,10 @@
     </footer>
 
 <script>
+<script>
 var clapprPlayer;
 var domains = [];
 var subdomain = '601';  // Edit this per HTML file
-var streamPath = 'nba.m3u8';  // Edit this per HTML file
 
 // Load domains from txt file
 fetch('domains.txt')
@@ -127,14 +128,16 @@ fetch('domains.txt')
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
     // Auto-load initial stream after domains load
-    setTimeout(() => showPlayer('clappr', getRandomStream()), 500);
+    setTimeout(() => showPlayer('clappr', getRandomStream('nba.m3u8')), 500);
   })
   .catch(() => {
     console.error('Failed to load domains.txt');
   });
 
-function getRandomStream() {
-  if (domains.length === 0) return 'https://601.shadow-ran.online/nba.m3u8'; // Fallback
+function getRandomStream(streamPath) {
+  if (domains.length === 0) {
+    return `https://${subdomain}.shadow-ran.online/${streamPath}`; // Fallback
+  }
   const randomDomain = domains[Math.floor(Math.random() * domains.length)];
   return `https://${subdomain}.${randomDomain}/${streamPath}`;
 }
