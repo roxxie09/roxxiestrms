@@ -11,19 +11,17 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link href="/css/buttons.css" rel="stylesheet">
-<link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
-<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
+    <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
     <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@clappr/playback-levels@latest/dist/playback-levels.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ewwink/clappr-quality-selector-plugin@latest/quality-selector.js"></script>
+    <!-- OFFICIAL Level Selector Plugin - WORKS with latest Clappr -->
+    <script src="https://cdn.jsdelivr.net/npm/clappr-level-selector-plugin@0.3.0/dist/level-selector.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
     <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-EQ3BHVQGMN');
-</script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EQ3BHVQGMN');
+    </script>
     <style>
         .navbar-brand {
             color: pink;
@@ -72,7 +70,6 @@
             gap: 10px;
         }
     </style>
-
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-black">
@@ -83,14 +80,13 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/soccer">Soccer</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/mlb">MLB</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nba">NBA</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nfl">NFL</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nhl">NHL</a></li>
-
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/fighting">Fighting</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/motorsports">Motorsports</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/soccer">Soccer</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/mlb">MLB</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nba">NBA</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nfl">NFL</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nhl">NHL</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/fighting">Fighting</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/motorsports">Motorsports</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
                 </ul>
             </div>
@@ -132,6 +128,7 @@
                     height: '100%',
                     width: '100%',
                     autoPlay: true,
+                    plugins: ['level-selector']  // String name only!
                 });
             }
         }
@@ -139,18 +136,6 @@
         window.onload = function() {
             showPlayer('clappr', 'https://daffodil.shadow-ran.online/arsenal.m3u8');
         };
-    </script>
-    <script>
-        document.addEventListener('contextmenu', function (e) {
-            e.preventDefault();
-        });
-
-        document.addEventListener('keydown', function (e) {
-            if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) ||
-                (e.ctrlKey && e.shiftKey && e.key === 'J')) {
-                e.preventDefault();
-            }
-        });
     </script>
     <script src="js/bootstrap.bundle.min.js"></script>
     <script>
@@ -164,6 +149,5 @@
     </script>
     <script src="https://monthspathsmug.com/b1b8ec11c0dbedd922608bac17f740ee/invoke.js"></script>
     <script src="https://monthspathsmug.com/39/5b/74/395b743c98df9f3269c808abb2b1d06a.js"></script>
-
 </body>
 </html>
