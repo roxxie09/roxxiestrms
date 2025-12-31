@@ -1,5 +1,10 @@
-New Jersey Devils vs Toronto Maple Leafs: No stream found in NHL section 2
-Montreal Canadiens vs Florida Panthers: No stream found in NHL section 2
-Carolina Hurricanes vs Pittsburgh Penguins: No stream found in NHL section 2
-New York Islanders vs Chicago Blackhawks: No stream found in NHL section 2
-Philadelphia Flyers vs Vancouver Canucks: No stream found in NHL section 2
+New York Rangers vs Washington Capitals at 2025-12-31 09:30:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7250
+Nashville Predators vs Vegas Golden Knights at 2025-12-31 12:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7251 (sleep 1325s before start)
+Tampa Bay Lightning vs Anaheim Ducks at 2025-12-31 13:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7252 (sleep 4925s before start)
+Minnesota Wild vs San Jose Sharks at 2025-12-31 13:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7253 (sleep 4925s before start)
+Winnipeg Jets vs Detroit Red Wings at 2025-12-31 15:30:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7254 (sleep 13925s before start)
+New Jersey Devils vs Columbus Blue Jackets at 2025-12-31 16:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7255 (sleep 15725s before start)
+Buffalo Sabres vs Dallas Stars at 2025-12-31 17:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7256 (sleep 19325s before start)
+St. Louis Blues vs Colorado Avalanche at 2025-12-31 18:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7257 (sleep 22925s before start)
+Philadelphia Flyers vs Calgary Flames at 2025-12-31 18:30:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7259 (sleep 24725s before start)
+Boston Bruins vs Edmonton Oilers at 2025-12-31 18:30:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7258 (sleep 24725s before start)
