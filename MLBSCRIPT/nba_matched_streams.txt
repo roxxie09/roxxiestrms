@@ -1,26 +1,14 @@
-Game 1 | 10:00 AM | Delay: 0m 0s
-Golden State Warriors vs Charlotte Hornets: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoAnaIUtcQeRHOIXYGvUA29Y/ts
+Game 1 | 03:00 PM | Delay: 0m 0s
+Houston Rockets vs Brooklyn Nets: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoAnaIUtcQeRHOIXYGvUA29Y/ts
 
-Game 2 | 12:00 PM | Delay: 0m 0s
-Minnesota Timberwolves vs Atlanta Hawks: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoDqVyKWaZmfCOsTZFVQyP3I/ts
+Game 2 | 04:00 PM | Delay: 59m 2s
+Miami Heat vs Detroit Pistons: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoDqVyKWaZmfCOsTZFVQyP3I/ts
 
-Game 3 | 12:00 PM | Delay: 0m 0s
-Orlando Magic vs Indiana Pacers: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoMKtmwG3PJmOcm94_6ZnUS0/ts
+Game 3 | 05:30 PM | Delay: 149m 2s
+Philadelphia 76Ers vs Dallas Mavericks: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoMKtmwG3PJmOcm94_6ZnUS0/ts
 
-Game 4 | 12:30 PM | Delay: 0m 0s
-Phoenix Suns vs Cleveland Cavaliers: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFKUIZKiFd19blJkYG2yJublvLQnfOjtEuDXAkLtwNIln/ts
+Game 4 | 07:00 PM | Delay: 239m 2s
+Boston Celtics vs Sacramento Kings: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFKUIZKiFd19blJkYG2yJublvLQnfOjtEuDXAkLtwNIln/ts
 
-Game 5 | 04:00 PM | Delay: 0m 0s
-New Orleans Pelicans vs Chicago Bulls: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFKUIZKiFd19blJkYG2yJubn1j1I2FpBOz-jQlM2rViio/ts
-
-Game 6 | 04:00 PM | Delay: 0m 0s
-New York Knicks vs San Antonio Spurs: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFBs3tkgrmVpfLqcv7gNXPUFhNkaZrNquk7IviBcLxLEh/ts
-
-Game 7 | 04:30 PM | Delay: 0m 0s
-Denver Nuggets vs Toronto Raptors: http://flashvpn.nl:8080/play/fj3S1tV1JGfU45ipEFQ4ULUUHZtRoWubNIG79YCPo1mb5ULARh6cb6nzBoJB6JCQ/ts
-
-Game 8 | 05:00 PM | Delay: 0m 0s
-Washington Wizards vs Milwaukee Bucks: http://flashvpn.nl:8080/play/fj3S1tV1JGfU45ipEFQ4ULUUHZtRoWubNIG79YCPo1kwXt-OnFgv5rFzH1ib4iTj/ts
-
-Game 9 | 05:00 PM | Delay: 0m 0s
-Portland Trail Blazers vs Oklahoma City Thunder: http://flashvpn.nl:8080/play/fj3S1tV1JGfU45ipEFQ4ULUUHZtRoWubNIG79YCPo1l0n-Yn3jIxEFb4JJRZrbCi/ts
+Game 5 | 07:30 PM | Delay: 269m 2s
+Utah Jazz vs Los Angeles Clippers: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFKUIZKiFd19blJkYG2yJubn1j1I2FpBOz-jQlM2rViio/ts
