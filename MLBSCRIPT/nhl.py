@@ -99,7 +99,7 @@ def generate_ffmpeg_txt(stream_cmds, output_path: Path):
 def extract_nhl_section2_lines(m3u_content: str) -> list[str]:
     """
     Extract lines belonging to 'section 2 of nhl':
-    starting at the marker line that contains
+    starting after the marker line that contains
     '#EXTINF:-1,--- NEXT SECTION ---2' up to but not including
     the next '--- NEXT SECTION ---' marker (or end of file).
     """
@@ -107,17 +107,23 @@ def extract_nhl_section2_lines(m3u_content: str) -> list[str]:
     section_lines = []
     in_section = False
 
-    for line in lines:
-        stripped = line.strip()
-        if not in_section:
-            if stripped.startswith("#EXTINF") and "NEXT SECTION ---2" in stripped:
-                in_section = True
-                section_lines.append(stripped)
-        else:
-            if stripped.startswith("#EXTINF") and "NEXT SECTION ---" in stripped and "NEXT SECTION ---2" not in stripped:
-                # reached the next section marker
-                break
-            section_lines.append(stripped)
+    for raw_line in lines:
+        line = raw_line.strip()
+        if not line:
+            continue
+
+        # Start of section 2
+        if "NEXT SECTION ---2" in line and not in_section:
+            in_section = True
+            # Do NOT include the marker itself
+            continue
+
+        # If already in section 2, check for the next generic section marker
+        if in_section and "NEXT SECTION ---" in line and "NEXT SECTION ---2" not in line:
+            break
+
+        if in_section:
+            section_lines.append(line)
 
     return section_lines
 
@@ -144,16 +150,37 @@ def main():
 
     print("Extracting NHL section 2 from M3U...")
     section_lines = extract_nhl_section2_lines(m3u_content)
+    print(f"Found {len(section_lines)} lines in NHL section 2.")
 
     # Build mapping from normalized matchup ("team_a vs team_b") to URL within section 2
     matchup_streams = {}
-    for i in range(len(section_lines)):
+
+    i = 0
+    while i < len(section_lines):
         line = section_lines[i]
+
+        # Look for NHL entries
         if line.startswith("#EXTINF") and "NHL" in line:
             m = re.search(r"NHL\s*\d+\s*:\s*(.*)", line)
             if m and (i + 1) < len(section_lines):
                 full_title = m.group(1).strip()
-                teams_part = full_title.split(" Dec ")[0].strip()
+
+                # Skip "No Event Scheduled"
+                if "No Event Scheduled" in full_title:
+                    i += 2
+                    continue
+
+                # Remove trailing date/time, e.g. "Jan 2 03:00 PM"
+                full_title_no_dt = re.sub(
+                    r'\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+'
+                    r'\d+\s+\d{1,2}:\d{2}\s*(AM|PM)?',
+                    '',
+                    full_title,
+                    flags=re.IGNORECASE
+                ).strip()
+
+                teams_part = full_title_no_dt
+
                 if " vs " in teams_part:
                     home_raw, away_raw = [t.strip() for t in teams_part.split(" vs ", 1)]
 
@@ -165,8 +192,11 @@ def main():
                     away_norm = normalize_team_name(known_team_aliases.get(away_norm, away_norm))
 
                     key = f"{home_norm} vs {away_norm}"
+
                     url = section_lines[i + 1].strip()
                     matchup_streams[key] = url
+
+        i += 1
 
     print(f"Found {len(matchup_streams)} NHL items in section 2 of the M3U.")
 
@@ -194,7 +224,7 @@ def main():
 
         match_str = a.text.strip()
 
-        # Second <td> contains date/time string in PST, e.g. "December 10, 2025 05:30 PM"
+        # Second <td> contains date/time string in PST, e.g. "January 02, 2026 05:00 PM"
         time_text = tds[1].get_text(strip=True)
 
         start_dt = None
@@ -229,8 +259,9 @@ def main():
         away_norm = normalize_team_name(known_team_aliases.get(away_norm, away_norm))
 
         key = f"{home_norm} vs {away_norm}"
+        reverse_key = f"{away_norm} vs {home_norm}"
 
-        matched_url = matchup_streams.get(key)
+        matched_url = matchup_streams.get(key) or matchup_streams.get(reverse_key)
 
         # Compute sleep seconds (if start time is in the future)
         sleep_secs = None
@@ -240,11 +271,16 @@ def main():
                 sleep_secs = int(delta)
 
         if matched_url:
-            human_readable_results.append(
-                f"{match_str} at {start_dt if start_dt else 'Unknown time'}: {matched_url} "
-                f"(sleep {sleep_secs}s before start)" if sleep_secs else
-                f"{match_str} at {start_dt if start_dt else 'Unknown time'}: {matched_url}"
-            )
+            if sleep_secs:
+                human_readable_results.append(
+                    f"{match_str} at {start_dt if start_dt else 'Unknown time'}: "
+                    f"{matched_url} (sleep {sleep_secs}s before start)"
+                )
+            else:
+                human_readable_results.append(
+                    f"{match_str} at {start_dt if start_dt else 'Unknown time'}: {matched_url}"
+                )
+
             team_alias = team_alias_from_name(match_str.replace(" vs ", "_vs_"))
             ffmpeg_cmds.append((match_str, matched_url, team_alias, sleep_secs))
         else:
