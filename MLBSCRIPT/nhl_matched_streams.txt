@@ -1,4 +1,13 @@
-Vegas Golden Knights vs St. Louis Blues at 2026-01-02 12:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7250
-New York Rangers vs Florida Panthers at 2026-01-02 17:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7251 (sleep 7872s before start)
-Seattle Kraken vs Vancouver Canucks at 2026-01-02 19:30:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7253 (sleep 16872s before start)
-Minnesota Wild vs Anaheim Ducks at 2026-01-02 19:30:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7252 (sleep 16872s before start)
+Pittsburgh Penguins vs Detroit Red Wings at 2026-01-03 09:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7250
+Utah Mammoth vs New Jersey Devils at 2026-01-03 12:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7252
+Buffalo Sabres vs Columbus Blue Jackets at 2026-01-03 12:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7251
+Philadelphia Flyers vs Edmonton Oilers at 2026-01-03 12:30:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7253 (sleep 1744s before start)
+Montreal Canadiens vs St. Louis Blues at 2026-01-03 13:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7254 (sleep 3544s before start)
+Tampa Bay Lightning vs San Jose Sharks at 2026-01-03 13:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7255 (sleep 3544s before start)
+Winnipeg Jets vs Ottawa Senators at 2026-01-03 16:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7257 (sleep 14344s before start)
+Toronto Maple Leafs vs New York Islanders at 2026-01-03 16:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7258 (sleep 14344s before start)
+Chicago Blackhawks vs Washington Capitals at 2026-01-03 16:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7256 (sleep 14344s before start)
+Colorado Avalanche vs Carolina Hurricanes at 2026-01-03 16:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7259 (sleep 14344s before start)
+Nashville Predators vs Calgary Flames at 2026-01-03 16:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7260 (sleep 14344s before start)
+Minnesota Wild vs Los Angeles Kings at 2026-01-03 18:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7261 (sleep 21544s before start)
+Boston Bruins vs Vancouver Canucks at 2026-01-03 19:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7262 (sleep 25144s before start)
