@@ -15,13 +15,17 @@
     <link href="/css/buttons.css" rel="stylesheet">
 <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
 <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
-    <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+
+<!-- Clappr + Multi-quality support -->
+<script src="https://cdn.jsdelivr.net/npm/@clappr/player@0.4.0/dist/clappr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mux.js@5.6.7/dist/mux.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/level-selector@latest/dist/level-selector.min.js"></script>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
     <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-EQ3BHVQGMN');
 </script>
     <style>
@@ -88,7 +92,6 @@
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nba">NBA</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nfl">NFL</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nhl">NHL</a></li>
-
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/fighting">Fighting</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/motorsports">Motorsports</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
@@ -104,6 +107,7 @@
 	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('nfl14.m3u8', '601'))">Stream 1</button>
 	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('main.m3u8', 'daffodil'))">Stream 2</button>
 	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('nflalt.m3u8', 'daffodil'))">Stream 3</button>
+	  <button class="streambutton" onclick="showPlayer('multi', 'https://streams.bitmovin.com/d5ckghu6okvm4g5agkb0/manifest.m3u8')">Stream 4 (Multi Quality)</button>
 	</div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.cc"></iframe>
@@ -144,16 +148,28 @@ function getRandomStream(streamPath, subdomain = '601') {
 }
 
 function showPlayer(playerType, stream) {
-  if (playerType === "clappr") {
-    if (clapprPlayer) {
-      clapprPlayer.destroy();
-    }
+  if (clapprPlayer) {
+    clapprPlayer.destroy();
+  }
+
+  if (playerType === "multi") {
+    // Multi-quality stream with LevelSelector
     clapprPlayer = new Clappr.Player({
       source: stream,
       parentId: "#playerContainer",
       height: '100%',
       width: '100%',
       autoPlay: true,
+      plugins: [LevelSelector]
+    });
+  } else if (playerType === "clappr") {
+    // Regular stream without LevelSelector
+    clapprPlayer = new Clappr.Player({
+      source: stream,
+      parentId: "#playerContainer",
+      height: '100%',
+      width: '100%',
+      autoPlay: true
     });
   }
 }
@@ -172,10 +188,10 @@ function showPlayer(playerType, stream) {
     </script>
     <script src="js/bootstrap.bundle.min.js"></script>
 
-
 <script type="text/javascript">
 aclib.runPop({
 zoneId: '10754426',
 });
-</script></body>
+</script>
+</body>
 </html>
