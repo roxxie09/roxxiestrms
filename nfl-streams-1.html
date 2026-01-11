@@ -101,7 +101,7 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
 	<div class="streamchanger">
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('nfl.m3u8', 'daffodil'))">Stream 1</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('nfl.m3u8', '601'))">Stream 1</button>
 	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('nflalt.m3u8', '601'))">Stream 2</button>
 	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('nflalty.m3u8', '601'))">Stream 3</button>
 	</div>
@@ -121,7 +121,7 @@
 <script>
 var clapprPlayer;
 var domains = [];
-var subdomain = 'daffodil';  // Edit this per HTML file
+var subdomain = '601';  // Edit this per HTML file
 
 // Load domains from txt file
 fetch('domains.txt')
@@ -135,7 +135,7 @@ fetch('domains.txt')
     console.error('Failed to load domains.txt');
   });
 
-function getRandomStream(streamPath, subdomain = 'daffodil') {
+function getRandomStream(streamPath, subdomain = '601') {
   if (domains.length === 0) {
     return `https://${subdomain}.shadow-ran.online/${streamPath}`; // Fallback
   }
