@@ -1,29 +1,17 @@
-Game 1 | 12:00 PM | Delay: 0m 0s
-New Orleans Pelicans vs Orlando Magic: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoAnaIUtcQeRHOIXYGvUA29Y/ts
+Game 1 | 04:00 PM | Delay: 176m 52s
+Utah Jazz vs Cleveland Cavaliers: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoAnaIUtcQeRHOIXYGvUA29Y/ts
 
-Game 2 | 12:30 PM | Delay: 0m 0s
-Brooklyn Nets vs Memphis Grizzlies: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoDqVyKWaZmfCOsTZFVQyP3I/ts
+Game 2 | 04:30 PM | Delay: 206m 52s
+Boston Celtics vs Indiana Pacers: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoDqVyKWaZmfCOsTZFVQyP3I/ts
 
-Game 3 | 03:00 PM | Delay: 0m 0s
+Game 3 | 04:30 PM | Delay: 206m 52s
 Philadelphia 76Ers vs Toronto Raptors: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoMKtmwG3PJmOcm94_6ZnUS0/ts
 
-Game 4 | 03:00 PM | Delay: 0m 0s
-New York Knicks vs Portland Trail Blazers: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFKUIZKiFd19blJkYG2yJublvLQnfOjtEuDXAkLtwNIln/ts
+Game 4 | 05:30 PM | Delay: 266m 52s
+Brooklyn Nets vs Dallas Mavericks: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFKUIZKiFd19blJkYG2yJublvLQnfOjtEuDXAkLtwNIln/ts
 
-Game 5 | 04:00 PM | Delay: 28m 44s
-San Antonio Spurs vs Minnesota Timberwolves: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFKUIZKiFd19blJkYG2yJubn1j1I2FpBOz-jQlM2rViio/ts
+Game 5 | 07:00 PM | Delay: 356m 52s
+Los Angeles Lakers vs Sacramento Kings: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFKUIZKiFd19blJkYG2yJubn1j1I2FpBOz-jQlM2rViio/ts
 
-Game 6 | 04:00 PM | Delay: 28m 44s
-Miami Heat vs Oklahoma City Thunder: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFBs3tkgrmVpfLqcv7gNXPUFhNkaZrNquk7IviBcLxLEh/ts
-
-Game 7 | 05:00 PM | Delay: 88m 44s
-Milwaukee Bucks vs Denver Nuggets: http://flashvpn.nl:8080/play/fj3S1tV1JGfU45ipEFQ4ULUUHZtRoWubNIG79YCPo1mb5ULARh6cb6nzBoJB6JCQ/ts
-
-Game 8 | 05:00 PM | Delay: 88m 44s
-Washington Wizards vs Phoenix Suns: http://flashvpn.nl:8080/play/fj3S1tV1JGfU45ipEFQ4ULUUHZtRoWubNIG79YCPo1kwXt-OnFgv5rFzH1ib4iTj/ts
-
-Game 9 | 05:30 PM | Delay: 118m 44s
-Atlanta Hawks vs Golden State Warriors: http://flashvpn.nl:8080/play/fj3S1tV1JGfU45ipEFQ4ULUUHZtRoWubNIG79YCPo1l0n-Yn3jIxEFb4JJRZrbCi/ts
-
-Game 10 | 06:00 PM | Delay: 148m 44s
-Houston Rockets vs Sacramento Kings: http://flashvpn.nl:8080/play/ssNRU1xydggO9-Bka7_o2FvGjCAHXqLHS3VpPCc1Kn8JAZVo3Wp7AGt2isfnvT2D/ts
+Game 6 | 07:30 PM | Delay: 386m 52s
+Charlotte Hornets vs Los Angeles Clippers: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFBs3tkgrmVpfLqcv7gNXPUFhNkaZrNquk7IviBcLxLEh/ts
