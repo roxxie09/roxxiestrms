@@ -1,8 +1,8 @@
 San Jose Sharks vs Detroit Red Wings at 2026-01-16 16:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7251
 Florida Panthers vs Carolina Hurricanes at 2026-01-16 16:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7250
-Tampa Bay Lightning vs St. Louis Blues at 2026-01-16 17:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7252 (sleep 1875s before start)
-Nashville Predators vs Colorado Avalanche at 2026-01-16 18:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7253 (sleep 5475s before start)
-Anaheim Ducks vs Los Angeles Kings at 2026-01-16 19:30:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7254 (sleep 10875s before start)
+Tampa Bay Lightning vs St. Louis Blues at 2026-01-16 17:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7252
+Nashville Predators vs Colorado Avalanche at 2026-01-16 18:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7253 (sleep 1078s before start)
+Anaheim Ducks vs Los Angeles Kings at 2026-01-16 19:30:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7254 (sleep 6478s before start)
 Minnesota Wild vs Buffalo Sabres: No stream found in NHL section 2
 New York Rangers vs Philadelphia Flyers: No stream found in NHL section 2
 New York Islanders vs Calgary Flames: No stream found in NHL section 2
@@ -15,4 +15,4 @@ Toronto Maple Leafs vs Winnipeg Jets: No stream found in NHL section 2
 Boston Bruins vs Chicago Blackhawks: No stream found in NHL section 2
 Edmonton Oilers vs Vancouver Canucks: No stream found in NHL section 2
 Nashville Predators vs Vegas Golden Knights: No stream found in NHL section 2
-Los Angeles Kings vs Anaheim Ducks at 2026-01-17 19:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7254 (sleep 95475s before start)
+Los Angeles Kings vs Anaheim Ducks at 2026-01-17 19:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7254 (sleep 91078s before start)
