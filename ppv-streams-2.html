@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
+<script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Roxiestreams - Watch Live Sports, F1, UFC, NFL, TV</title>
@@ -11,17 +13,16 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link href="/css/buttons.css" rel="stylesheet">
-<link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
-<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
+    <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
+    <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
     <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-EQ3BHVQGMN');
-</script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-EQ3BHVQGMN');
+    </script>
     <style>
         .navbar-brand {
             color: pink;
@@ -70,7 +71,6 @@
             gap: 10px;
         }
     </style>
-
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-black">
@@ -81,14 +81,13 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/soccer">Soccer</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/mlb">MLB</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nba">NBA</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nfl">NFL</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nhl">NHL</a></li>
-
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/fighting">Fighting</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/motorsports">Motorsports</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/soccer">Soccer</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/mlb">MLB</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nba">NBA</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nfl">NFL</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/nhl">NHL</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/fighting">Fighting</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.cc/motorsports">Motorsports</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
                 </ul>
             </div>
@@ -99,7 +98,11 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
             <div class="streamchanger">
-<button class="streambutton" onclick="showPlayer('iframe', 'https://dlhd.link/watch.php?id=69')">Stream 1</button>
+                <!-- RAF embed -->
+                <button class="streambutton"
+                        onclick="showPlayer('iframe', 'https://dlhd.link/stream/stream-69.php')">
+                    Stream 2
+                </button>
             </div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.cc"></iframe>
@@ -114,51 +117,60 @@
         <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
     </footer>
 
-<script>
-    var clapprPlayer;
+    <script>
+        var clapprPlayer;
 
-    function showPlayer(playerType, url) {
-        const container = document.getElementById('playerContainer');
-        container.innerHTML = ''; 
+        function showPlayer(playerType, url) {
+            const container = document.getElementById('playerContainer');
+            container.innerHTML = '';
 
-        if (playerType === 'clappr') {
-            if (clapprPlayer) {
-                clapprPlayer.destroy();
+            if (playerType === 'clappr') {
+                if (clapprPlayer) {
+                    clapprPlayer.destroy();
+                }
+                clapprPlayer = new Clappr.Player({
+                    source: url,
+                    parentId: '#playerContainer',
+                    height: '100%',
+                    width: '100%',
+                    autoPlay: true
+                });
+            } else if (playerType === 'iframe') {
+                container.innerHTML = `
+                    <iframe src="${url}"
+                            width="100%"
+                            height="100%"
+                            style="border:0; margin:0; padding:0; display:block;"
+                            allow="autoplay; encrypted-media; picture-in-picture"
+                            allowfullscreen>
+                    </iframe>`;
             }
-            clapprPlayer = new Clappr.Player({
-                source: url,
-                parentId: '#playerContainer',
-                height: '100%',
-                width: '100%',
-                autoPlay: true,
-            });
-        } else if (playerType === 'iframe') {
-            container.innerHTML = `
-                <iframe title="RAF 05: Covington vs. Rockhold Player" 
-                        marginheight="0" marginwidth="0" 
-                        src="${url}" 
-                        scrolling="no" allowfullscreen="yes" 
-                        allow="autoplay; encrypted-media; picture-in-picture;" 
-                        width="100%" height="100%" frameborder="0">
-                </iframe>`;
         }
-    }
 
-    window.onload = function() {
-        showPlayer('iframe', 'https://dlhd.link/watch.php?id=69');
-    };
-</script>
-<script>
-    document.addEventListener('contextmenu', function (e) {
-        e.preventDefault();
-    });
+        // Choose which stream autoplays on page load:
+        window.onload = function() {
 
-    document.addEventListener('keydown', function (e) {
-        if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) ||
-            (e.ctrlKey && e.shiftKey && e.key === 'J')) {
+        };
+    </script>
+
+    <script>
+        document.addEventListener('contextmenu', function (e) {
             e.preventDefault();
-        }
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) ||
+                (e.ctrlKey && e.shiftKey && e.key === 'J')) {
+                e.preventDefault();
+            }
+        });
+    </script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+
+    <script type="text/javascript">
+    aclib.runPop({
+        zoneId: '10754426',
     });
-</script>
+    </script>
 </body>
 </html>
