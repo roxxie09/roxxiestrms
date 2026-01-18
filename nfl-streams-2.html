@@ -134,12 +134,10 @@ var twitchEmbed;
 var domains = [];
 var subdomain = '601';  // Edit this per HTML file
 
-// Load domains from txt file
 fetch('domains.txt')
   .then(response => response.text())
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
-    // Auto-load initial stream after domains load
     setTimeout(() => showPlayer('clappr', getRandomStream('nfl2.m3u8')), 500);
   })
   .catch(() => {
@@ -154,26 +152,20 @@ function getRandomStream(streamPath, subdomain = '601') {
   return `https://${subdomain}.${randomDomain}/${streamPath}`;
 }
 
-// Hide Twitch + show Clappr container, destroy Twitch instance
 function hideTwitchShowClappr() {
-  // Hide Twitch container
   const tDiv = document.getElementById('twitch-embed');
   tDiv.style.display = 'none';
 
-  // Destroy Twitch embed content
   if (twitchEmbed) {
     tDiv.innerHTML = '';
     twitchEmbed = null;
   }
 
-  // Show Clappr container
   document.getElementById('playerContainer').style.display = 'block';
 }
 
-// Generic Clappr player switcher
 function showPlayer(playerType, stream) {
   if (playerType === "clappr") {
-    // Ensure Twitch is hidden when switching to Clappr
     hideTwitchShowClappr();
 
     if (clapprPlayer) {
@@ -189,7 +181,6 @@ function showPlayer(playerType, stream) {
   }
 }
 
-// Show Twitch as Stream 4
 function showTwitch() {
   // Destroy Clappr and hide its container
   if (clapprPlayer) {
@@ -198,7 +189,6 @@ function showTwitch() {
   }
   document.getElementById('playerContainer').style.display = 'none';
 
-  // Show Twitch container
   const tDiv = document.getElementById('twitch-embed');
   tDiv.style.display = 'block';
   tDiv.innerHTML = ''; // Clear old iframe if any
@@ -213,9 +203,7 @@ function showTwitch() {
   });
 }
 
-// Popout Twitch stream (Stream 4)
 function openTwitchPopup() {
-  // Twitch player with parent in query [web:2][web:22]
   var url = "https://player.twitch.tv/?channel=rylen4_smile&parent=roxiestreams.cc";
 
   window.open(
