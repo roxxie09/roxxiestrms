@@ -1,10 +1,10 @@
 Buffalo Sabres vs Carolina Hurricanes at 2026-01-19 10:30:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7250
 Washington Capitals vs Colorado Avalanche at 2026-01-19 13:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7251
-Pittsburgh Penguins vs Seattle Kraken at 2026-01-19 14:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7252 (sleep 3415s before start)
-San Jose Sharks vs Florida Panthers at 2026-01-19 15:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7253 (sleep 7015s before start)
-Minnesota Wild vs Toronto Maple Leafs at 2026-01-19 16:30:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7254 (sleep 12415s before start)
-Philadelphia Flyers vs Vegas Golden Knights at 2026-01-19 17:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7255 (sleep 14215s before start)
-Winnipeg Jets vs Chicago Blackhawks at 2026-01-19 17:30:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7256 (sleep 16015s before start)
-New Jersey Devils vs Calgary Flames at 2026-01-19 18:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7257 (sleep 17815s before start)
-New York Islanders vs Vancouver Canucks at 2026-01-19 19:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7259 (sleep 21415s before start)
-New York Rangers vs Anaheim Ducks at 2026-01-19 19:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7258 (sleep 21415s before start)
+Pittsburgh Penguins vs Seattle Kraken at 2026-01-19 14:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7252
+San Jose Sharks vs Florida Panthers at 2026-01-19 15:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7253
+Minnesota Wild vs Toronto Maple Leafs at 2026-01-19 16:30:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7254 (sleep 2316s before start)
+Philadelphia Flyers vs Vegas Golden Knights at 2026-01-19 17:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7255 (sleep 4116s before start)
+Winnipeg Jets vs Chicago Blackhawks at 2026-01-19 17:30:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7256 (sleep 5916s before start)
+New Jersey Devils vs Calgary Flames at 2026-01-19 18:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7257 (sleep 7716s before start)
+New York Islanders vs Vancouver Canucks at 2026-01-19 19:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7259 (sleep 11316s before start)
+New York Rangers vs Anaheim Ducks at 2026-01-19 19:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7258 (sleep 11316s before start)
