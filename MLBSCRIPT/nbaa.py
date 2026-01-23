@@ -33,6 +33,7 @@ fps_60_teams = {
     "new york knicks",
     "philadelphia 76ers",
     "detroit pistons",
+    "new orleans pelicans",
 }
 
 def parse_game_time(game_time_str: str):
