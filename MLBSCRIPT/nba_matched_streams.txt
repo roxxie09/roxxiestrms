@@ -1,17 +1,20 @@
-Game 1 | 12:00 PM | Delay: 584m 54s
-New York Knicks vs Philadelphia 76Ers: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoAnaIUtcQeRHOIXYGvUA29Y/ts
+Game 1 | 12:00 PM | Delay: 144m 7s
+Sacramento Kings vs Detroit Pistons: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoAnaIUtcQeRHOIXYGvUA29Y/ts
 
-Game 2 | 02:30 PM | Delay: 734m 54s
-Golden State Warriors vs Minnesota Timberwolves: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoDqVyKWaZmfCOsTZFVQyP3I/ts
+Game 2 | 12:30 PM | Delay: 174m 7s
+Denver Nuggets vs Memphis Grizzlies: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoDqVyKWaZmfCOsTZFVQyP3I/ts
 
-Game 4 | 04:00 PM | Delay: 824m 54s
-Cleveland Cavaliers vs Orlando Magic: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoCVIcTUd884o6JmA-3jpITo/ts
+Game 3 | 04:00 PM | Delay: 384m 7s
+Dallas Mavericks vs Milwaukee Bucks: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoMKtmwG3PJmOcm94_6ZnUS0/ts
 
-Game 5 | 05:00 PM | Delay: 884m 54s
-Boston Celtics vs Chicago Bulls: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFKUIZKiFd19blJkYG2yJubn1j1I2FpBOz-jQlM2rViio/ts
+Game 4 | 04:00 PM | Delay: 384m 7s
+Toronto Raptors vs Oklahoma City Thunder: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFKUIZKiFd19blJkYG2yJublvLQnfOjtEuDXAkLtwNIln/ts
 
-Game 6 | 05:30 PM | Delay: 914m 54s
-Los Angeles Lakers vs Dallas Mavericks: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFBs3tkgrmVpfLqcv7gNXPUFhNkaZrNquk7IviBcLxLEh/ts
+Game 5 | 04:00 PM | Delay: 384m 7s
+New Orleans Pelicans vs San Antonio Spurs: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFKUIZKiFd19blJkYG2yJubn1j1I2FpBOz-jQlM2rViio/ts
 
-Game 7 | 06:30 PM | Delay: 974m 54s
-Miami Heat vs Utah Jazz: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFMLiBixEf14I1uKxM8McWMcKQiyW56O1j1gRpMn_MbYv/ts
+Game 6 | 05:00 PM | Delay: 444m 7s
+Miami Heat vs Phoenix Suns: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFBs3tkgrmVpfLqcv7gNXPUFhNkaZrNquk7IviBcLxLEh/ts
+
+Game 7 | 06:00 PM | Delay: 504m 7s
+Brooklyn Nets vs Los Angeles Clippers: http://flashvpn.nl:8080/play/fj3S1tV1JGfU45ipEFQ4ULUUHZtRoWubNIG79YCPo1mb5ULARh6cb6nzBoJB6JCQ/ts

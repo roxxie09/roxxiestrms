@@ -1,9 +1,6 @@
-Buffalo Sabres vs New York Islanders at 2026-01-24 10:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7250
-Utah Mammoth vs Nashville Predators at 2026-01-24 10:30:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7251
-Montreal Canadiens vs Boston Bruins at 2026-01-24 16:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7255 (sleep 15441s before start)
-Carolina Hurricanes vs Ottawa Senators at 2026-01-24 16:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7254 (sleep 15441s before start)
-Tampa Bay Lightning vs Columbus Blue Jackets at 2026-01-24 16:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7252 (sleep 15441s before start)
-Detroit Red Wings vs Winnipeg Jets at 2026-01-24 16:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7253 (sleep 15441s before start)
-Los Angeles Kings vs St. Louis Blues at 2026-01-24 17:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7256 (sleep 19041s before start)
-Florida Panthers vs Minnesota Wild at 2026-01-24 18:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7257 (sleep 22641s before start)
-Washington Capitals vs Edmonton Oilers at 2026-01-24 19:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7258 (sleep 26241s before start)
+Colorado Avalanche vs Toronto Maple Leafs at 2026-01-25 10:30:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7250 (sleep 3332s before start)
+New Jersey Devils vs Seattle Kraken at 2026-01-25 12:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7251 (sleep 8732s before start)
+Vegas Golden Knights vs Ottawa Senators at 2026-01-25 14:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7252 (sleep 15932s before start)
+Pittsburgh Penguins vs Vancouver Canucks at 2026-01-25 15:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7253 (sleep 19532s before start)
+Florida Panthers vs Chicago Blackhawks at 2026-01-25 16:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7254 (sleep 23132s before start)
+Anaheim Ducks vs Calgary Flames at 2026-01-25 17:00:00: http://ahostingportal.com:8000/Marky0416/Integra1994/7255 (sleep 26732s before start)
