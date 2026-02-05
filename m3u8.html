@@ -3,13 +3,30 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>RoxieStreams - Grouped Deep Scanner</title>
+    <title>Roxiestreams - M3U8 Extractor</title>
+    <meta name="description" content="Free PPV UFC, TV, NBA, NFL, and F1 streams">
+    <meta name="keywords" content="Roxiestreams, ppv, boxing, dazn, f1, ufc, nba, for, stream, online, free, mrgamingstreams, f1, tv, nfl">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link href="/css/buttons.css" rel="stylesheet">
+    <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
+
+
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@700&display=swap" rel="stylesheet">
-    
+        <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-EQ3BHVQGMN');
+</script>
     <style>
         body { background-color: #000; color: white; font-family: sans-serif; }
         .navbar-brand { color: pink !important; font-family: 'Kanit', sans-serif; font-weight: bold; }
@@ -17,7 +34,6 @@
         .input-group input { background: #1a1a1a; border: 1px solid #333; color: white; padding: 12px; }
         .btn-scan { background-color: pink; color: black; font-weight: bold; border: none; padding: 0 25px; }
         
-        /* New Stream Card Styling */
         .link-item { background: #1a1a1a; padding: 25px; border: 1px solid #333; margin-bottom: 25px; border-radius: 15px; border-left: 6px solid pink; position: relative; }
         .stream-number { font-family: 'Kanit'; font-size: 1.5rem; color: pink; text-transform: uppercase; margin-bottom: 2px; }
         .mirror-count { font-size: 1.1rem; color: #00ff88; font-weight: bold; display: block; margin-bottom: 15px; }
@@ -59,11 +75,11 @@
 
     <div class="container">
         <div class="extractor-wrapper">
-            <h2 style="color: pink; font-family: 'Kanit';">Universal Stream Scanner</h2>
-            <p class="text-secondary mb-4">Mirror grouping active. Hit Enter to scan.</p>
+            <h2 style="color: pink; font-family: 'Kanit';">M3U8 Extractor</h2>
+            <p class="text-secondary mb-4">URL to M3U8. Now grouping M3U8'S.</p>
 
             <div class="input-group mb-3">
-                <input type="text" id="urlInput" class="form-control" placeholder="Paste link here..." value="https://roxiestreams.cc/nba-streams-1" onkeydown="if(event.key==='Enter') extractLinks()" onfocus="this.select()">
+                <input type="text" id="urlInput" class="form-control" placeholder="Paste link here..." value="https://roxiestreams.info/nba-streams-1" onkeydown="if(event.key==='Enter') extractLinks()" onfocus="this.select()">
                 <button class="btn btn-scan" id="scanBtn" onclick="extractLinks()">SCAN URL</button>
             </div>
 
