@@ -33,7 +33,19 @@ fps_60_teams = {
     "new york knicks",
     "philadelphia 76ers",
     "detroit pistons",
-    "new orleans pelicans",
+    "washington wizards",
+    "brooklyn nets",
+    "houston rockets",
+    "oklahoma city thunder",
+    "dallas mavericks",
+    "san antonio spurs",
+    "utah jazz",
+    "orlando magic",
+    "atlanta hawks",
+    "charlotte hornets",
+    "chicago bulls",
+    "phoenix suns",
+
 }
 
 def parse_game_time(game_time_str: str):
