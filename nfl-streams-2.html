@@ -164,9 +164,13 @@ function showPlayer(playerType, stream) {
 function showTSN() {
   const tsnUrl = "https://cdn-live-tv.ru/api/v1/channels/ca-tsn-1/tracks-v1a1/mono.ts.m3u8";
 
+  // Make sure the iframe is gone and any old player is destroyed
   if (clapprPlayer) {
     clapprPlayer.destroy();
+    clapprPlayer = null;
   }
+  document.getElementById("playerContainer").innerHTML = ""; // remove iframe
+
   clapprPlayer = new Clappr.Player({
     source: tsnUrl,
     parentId: "#playerContainer",
