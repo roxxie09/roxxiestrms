@@ -147,9 +147,13 @@ function getRandomStream(streamPath, subdomain = '601') {
 
 function showPlayer(playerType, stream) {
   if (playerType === "clappr") {
+    // Always clear iframe and destroy old player first
     if (clapprPlayer) {
       clapprPlayer.destroy();
+      clapprPlayer = null;
     }
+    document.getElementById("playerContainer").innerHTML = ""; // remove iframe
+
     clapprPlayer = new Clappr.Player({
       source: stream,
       parentId: "#playerContainer",
@@ -160,11 +164,10 @@ function showPlayer(playerType, stream) {
   }
 }
 
-// New: TSN 3 M3U8 stream
 function showTSN() {
   const tsnUrl = "https://cdn-live-tv.ru/api/v1/channels/ca-tsn-1/tracks-v1a1/mono.ts.m3u8";
 
-  // Make sure the iframe is gone and any old player is destroyed
+  // Same cleanup pattern as showPlayer
   if (clapprPlayer) {
     clapprPlayer.destroy();
     clapprPlayer = null;
