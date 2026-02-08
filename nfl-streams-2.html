@@ -99,15 +99,15 @@
     <div class="container container-fluid pt-2 text-white">
         <div class="fullplayer">
             <div id="playerContainer"></div>
-            <div class="streamchanger">
+            <div class="streamchanger" id="streamButtons">
+                <!-- Normal stream buttons -->
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('daffodil.m3u8', '601'))">NBC</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('sky.m3u8', 'daffodil'))">SKY SPORTS MAIN</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', '601'))">TSN</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('channelfive.m3u8', '601'))">Channel 5</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('thedaffodil.m3u8', '602'))">4K UHD</button>
-                <!-- New buttons -->
-                <button class="streambutton" onclick="showTSN()">TSN 3</button>
-                <button class="streambutton" onclick="showNBC()">NBC (Streamed)</button>
+                <!-- Switch Providers button -->
+                <button class="streambutton" onclick="switchProviders()">Switch Providers</button>
             </div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.info"></iframe>
@@ -160,7 +160,7 @@ function showPlayer(playerType, stream) {
   }
 }
 
-// New functions for TSN 3 and NBC (Streamed)
+// New: TSN 3 M3U8 stream
 function showTSN() {
   const tsnUrl = "https://cdn-live-tv.ru/api/v1/channels/ca-tsn-1/tracks-v1a1/mono.ts.m3u8";
 
@@ -176,6 +176,7 @@ function showTSN() {
   });
 }
 
+// New: NBC (Streamed) iframe
 function showNBC() {
   if (clapprPlayer) {
     clapprPlayer.destroy();
@@ -194,6 +195,34 @@ function showNBC() {
   `;
 
   document.getElementById("playerContainer").innerHTML = nbcIframe;
+}
+
+// Toggle between normal streams and special providers
+let isSpecialMode = false;
+
+function switchProviders() {
+  const container = document.getElementById("streamButtons");
+
+  if (isSpecialMode) {
+    // Go back to normal streams
+    container.innerHTML = `
+      <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('daffodil.m3u8', '601'))">NBC</button>
+      <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('sky.m3u8', 'daffodil'))">SKY SPORTS MAIN</button>
+      <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', '601'))">TSN</button>
+      <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('channelfive.m3u8', '601'))">Channel 5</button>
+      <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('thedaffodil.m3u8', '602'))">4K UHD</button>
+      <button class="streambutton" onclick="switchProviders()">Switch Providers</button>
+    `;
+    isSpecialMode = false;
+  } else {
+    // Switch to special providers
+    container.innerHTML = `
+      <button class="streambutton" onclick="showTSN()">TSN 3</button>
+      <button class="streambutton" onclick="showNBC()">NBC (Streamed)</button>
+      <button class="streambutton" onclick="switchProviders()">Back to Normal Streams</button>
+    `;
+    isSpecialMode = true;
+  }
 }
 </script>
 
