@@ -13,8 +13,8 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link href="/css/buttons.css" rel="stylesheet">
-<link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
-<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
+    <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
+    <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
     <script>
@@ -83,14 +83,13 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/soccer">Soccer</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/mlb">MLB</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nfl">NFL</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nhl">NHL</a></li>
-
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/soccer">Soccer</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/mlb">MLB</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nfl">NFL</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nhl">NHL</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
                 </ul>
             </div>
@@ -100,12 +99,16 @@
     <div class="container container-fluid pt-2 text-white">
         <div class="fullplayer">
             <div id="playerContainer"></div>
-	<div class="streamchanger">
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('nfl2.m3u8', 'daffodil'))">Stream 1</button>
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('main.m3u8', 'daffodil'))">Stream 2</button>
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('nflalt.m3u8', '601'))">Stream 3</button>
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('nflalty.m3u8', '601'))">Stream 4</button>
-	</div>
+            <div class="streamchanger">
+                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('daffodil.m3u8', '601'))">NBC</button>
+                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('sky.m3u8', 'daffodil'))">SKY SPORTS MAIN</button>
+                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', '601'))">TSN</button>
+                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('channelfive.m3u8', '601'))">Channel 5</button>
+                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('thedaffodil.m3u8', '602'))">4K UHD</button>
+                <!-- New buttons -->
+                <button class="streambutton" onclick="showTSN()">TSN 3</button>
+                <button class="streambutton" onclick="showNBC()">NBC (Streamed)</button>
+            </div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.info"></iframe>
             </div>
@@ -122,21 +125,19 @@
 <script>
 var clapprPlayer;
 var domains = [];
-var subdomain = 'daffodil';  // Edit this per HTML file
+var subdomain = '601';  // Edit this per HTML file
 
-// Load domains from txt file
-fetch('domains.txt')
+fetch('domains1.txt')
   .then(response => response.text())
   .then(data => {
-    domains = data.trim().split('\n').filter(d => d.trim());
-    // Auto-load initial stream after domains load
-    setTimeout(() => showPlayer('clappr', getRandomStream('nfl2.m3u8')), 500);
+    domains = data.trim().split('\\n').filter(d => d.trim());
+    setTimeout(() => showPlayer('clappr', getRandomStream('daffodil.m3u8')), 500);
   })
   .catch(() => {
     console.error('Failed to load domains.txt');
   });
 
-function getRandomStream(streamPath, subdomain = 'daffodil') {
+function getRandomStream(streamPath, subdomain = '601') {
   if (domains.length === 0) {
     return `https://${subdomain}.shadow-ran.online/${streamPath}`; // Fallback
   }
@@ -158,25 +159,63 @@ function showPlayer(playerType, stream) {
     });
   }
 }
+
+// New functions for TSN 3 and NBC (Streamed)
+function showTSN() {
+  const tsnUrl = "https://cdn-live-tv.ru/api/v1/channels/ca-tsn-1/tracks-v1a1/mono.ts.m3u8";
+
+  if (clapprPlayer) {
+    clapprPlayer.destroy();
+  }
+  clapprPlayer = new Clappr.Player({
+    source: tsnUrl,
+    parentId: "#playerContainer",
+    height: "100%",
+    width: "100%",
+    autoPlay: true,
+  });
+}
+
+function showNBC() {
+  if (clapprPlayer) {
+    clapprPlayer.destroy();
+    clapprPlayer = null;
+  }
+
+  const nbcIframe = `
+    <iframe
+      src="https://embedsports.top/embed/admin/ppv-super-bowl-lx-seattle-seahawks-vs-new-england-patriots/1"
+      width="100%"
+      height="100%"
+      frameborder="0"
+      allowfullscreen
+      scrolling="no">
+    </iframe>
+  `;
+
+  document.getElementById("playerContainer").innerHTML = nbcIframe;
+}
 </script>
-    <script>
-        document.addEventListener('contextmenu', function (e) {
-            e.preventDefault();
-        });
 
-        document.addEventListener('keydown', function (e) {
-            if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) ||
-                (e.ctrlKey && e.shiftKey && e.key === 'J')) {
-                e.preventDefault();
-            }
-        });
-    </script>
-    <script src="js/bootstrap.bundle.min.js"></script>
+<script>
+  document.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+  });
 
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) ||
+        (e.ctrlKey && e.shiftKey && e.key === 'J')) {
+      e.preventDefault();
+    }
+  });
+</script>
+
+<script src="js/bootstrap.bundle.min.js"></script>
 
 <script type="text/javascript">
 aclib.runPop({
-zoneId: '10754426',
+  zoneId: '10754426',
 });
-</script></body>
+</script>
+</body>
 </html>
