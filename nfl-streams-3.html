@@ -14,20 +14,16 @@
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link href="/css/buttons.css" rel="stylesheet">
     <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
-    <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js"></script>
+    <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
-
-    <!-- Twitch embed script -->
-    <script src="https://embed.twitch.tv/embed/v1.js"></script> <!-- [1] -->
-
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-EQ3BHVQGMN');
-    </script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'G-EQ3BHVQGMN');
+</script>
     <style>
         .navbar-brand {
             color: pink;
@@ -102,20 +98,17 @@
 
     <div class="container container-fluid pt-2 text-white">
         <div class="fullplayer">
-            <!-- Clappr container -->
             <div id="playerContainer"></div>
-
-            <!-- Twitch container (Stream 4) -->
-            <div id="twitch-embed" style="width:100%; height:100%; display:none;"></div>
-
-            <div class="streamchanger">
-                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('nfl2.m3u8', '601'))">Stream 1</button>
-                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('main.m3u8', 'daffodil'))">Stream 2</button>
-                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('nflalt.m3u8', '601'))">Stream 3</button>
-                <button class="streambutton" onclick="showTwitch()">Stream 4 (Twitch)</button>
-                <button class="streambutton" onclick="openTwitchPopup()">Popout Stream 4</button>
+            <div class="streamchanger" id="streamButtons">
+                <!-- Normal stream buttons -->
+                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('daffodil.m3u8', '601'))">NBC</button>
+                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('sky.m3u8', 'daffodil'))">SKY SPORTS MAIN</button>
+                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', '601'))">TSN</button>
+                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('channelfive.m3u8', '601'))">Channel 5</button>
+                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('thedaffodil.m3u8', '602'))">4K UHD</button>
+                <!-- Switch Providers button -->
+                <button class="streambutton" onclick="switchProviders()">Switch Providers</button>
             </div>
-
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.info"></iframe>
             </div>
@@ -131,17 +124,14 @@
 
 <script>
 var clapprPlayer;
-var twitchEmbed;
 var domains = [];
 var subdomain = '601';  // Edit this per HTML file
 
-// Load domains from txt file
 fetch('domains.txt')
   .then(response => response.text())
   .then(data => {
-    domains = data.trim().split('\n').filter(d => d.trim());
-    // Auto-load initial stream after domains load
-    setTimeout(() => showPlayer('clappr', getRandomStream('nfl2.m3u8')), 500);
+    domains = data.trim().split('\\n').filter(d => d.trim());
+    setTimeout(() => showPlayer('clappr', getRandomStream('daffodil.m3u8')), 500);
   })
   .catch(() => {
     console.error('Failed to load domains.txt');
@@ -155,31 +145,15 @@ function getRandomStream(streamPath, subdomain = '601') {
   return `https://${subdomain}.${randomDomain}/${streamPath}`;
 }
 
-// Hide Twitch + show Clappr container, destroy Twitch instance
-function hideTwitchShowClappr() {
-  // Hide Twitch container
-  const tDiv = document.getElementById('twitch-embed');
-  tDiv.style.display = 'none';
-
-  // Destroy Twitch embed content
-  if (twitchEmbed) {
-    tDiv.innerHTML = '';
-    twitchEmbed = null;
-  }
-
-  // Show Clappr container
-  document.getElementById('playerContainer').style.display = 'block';
-}
-
-// Generic Clappr player switcher
 function showPlayer(playerType, stream) {
   if (playerType === "clappr") {
-    // Ensure Twitch is hidden when switching to Clappr
-    hideTwitchShowClappr();
-
+    // Always clear iframe and destroy old player first
     if (clapprPlayer) {
       clapprPlayer.destroy();
+      clapprPlayer = null;
     }
+    document.getElementById("playerContainer").innerHTML = ""; // remove iframe
+
     clapprPlayer = new Clappr.Player({
       source: stream,
       parentId: "#playerContainer",
@@ -190,64 +164,94 @@ function showPlayer(playerType, stream) {
   }
 }
 
-// Show Twitch as Stream 4
-function showTwitch() {
-  // Destroy Clappr and hide its container
+function showTSN() {
+  const tsnUrl = "https://cdn-live-tv.ru/api/v1/channels/ca-tsn-1/tracks-v1a1/mono.ts.m3u8";
+
+  // Same cleanup pattern as showPlayer
   if (clapprPlayer) {
     clapprPlayer.destroy();
     clapprPlayer = null;
   }
-  document.getElementById('playerContainer').style.display = 'none';
+  document.getElementById("playerContainer").innerHTML = ""; // remove iframe
 
-  // Show Twitch container
-  const tDiv = document.getElementById('twitch-embed');
-  tDiv.style.display = 'block';
-  tDiv.innerHTML = ''; // Clear old iframe if any
-
-  // Init Twitch embed (channel daissy0s)
-  twitchEmbed = new Twitch.Embed("twitch-embed", {
-    width: "100%",
+  clapprPlayer = new Clappr.Player({
+    source: tsnUrl,
+    parentId: "#playerContainer",
     height: "100%",
-    channel: "daissy0s",
-    layout: "video",
-    autoplay: true,
-    parent: ["roxiestreams.info"] // must match your domain [web:1][web:3]
+    width: "100%",
+    autoPlay: true,
   });
 }
 
-// Popout Twitch stream (Stream 4)
-function openTwitchPopup() {
-  // Twitch player with parent in query [web:2][web:22]
-  var url = "https://player.twitch.tv/?channel=daissy0s&parent=roxiestreams.info";
+// New: NBC (Streamed) iframe
+function showNBC() {
+  if (clapprPlayer) {
+    clapprPlayer.destroy();
+    clapprPlayer = null;
+  }
 
-  window.open(
-    url,
-    "twitchPopout",
-    "width=1024,height=576,menubar=no,toolbar=no,location=no,status=no"
-  );
+  const nbcIframe = `
+    <iframe
+      src="https://embedsports.top/embed/admin/ppv-super-bowl-lx-seattle-seahawks-vs-new-england-patriots/1"
+      width="100%"
+      height="100%"
+      frameborder="0"
+      allowfullscreen
+      scrolling="no">
+    </iframe>
+  `;
+
+  document.getElementById("playerContainer").innerHTML = nbcIframe;
+}
+
+// Toggle between normal streams and special providers
+let isSpecialMode = false;
+
+function switchProviders() {
+  const container = document.getElementById("streamButtons");
+
+  if (isSpecialMode) {
+    // Go back to normal streams
+    container.innerHTML = `
+      <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('daffodil.m3u8', '601'))">NBC</button>
+      <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('sky.m3u8', 'daffodil'))">SKY SPORTS MAIN</button>
+      <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', '601'))">TSN</button>
+      <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('channelfive.m3u8', '601'))">Channel 5</button>
+      <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('thedaffodil.m3u8', '602'))">4K UHD</button>
+      <button class="streambutton" onclick="switchProviders()">Switch Providers</button>
+    `;
+    isSpecialMode = false;
+  } else {
+    // Switch to special providers
+    container.innerHTML = `
+      <button class="streambutton" onclick="showTSN()">TSN 3</button>
+      <button class="streambutton" onclick="showNBC()">NBC (Streamed)</button>
+      <button class="streambutton" onclick="switchProviders()">Back to Normal Streams</button>
+    `;
+    isSpecialMode = true;
+  }
 }
 </script>
 
 <script>
-    document.addEventListener('contextmenu', function (e) {
-        e.preventDefault();
-    });
+  document.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+  });
 
-    document.addEventListener('keydown', function (e) {
-        if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) ||
-            (e.ctrlKey && e.shiftKey && e.key === 'J')) {
-            e.preventDefault();
-        }
-    });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) ||
+        (e.ctrlKey && e.shiftKey && e.key === 'J')) {
+      e.preventDefault();
+    }
+  });
 </script>
 
 <script src="js/bootstrap.bundle.min.js"></script>
 
 <script type="text/javascript">
 aclib.runPop({
-zoneId: '10754426',
+  zoneId: '10754426',
 });
 </script>
-
 </body>
 </html>
