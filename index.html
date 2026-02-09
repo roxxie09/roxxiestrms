@@ -42,27 +42,30 @@
             padding-right: 5px;
         }
 
-        /* Winter Olympics nav link – reddish‑gold */
-        .nav-link-winter {
-            color: #ff4500;
+        /* Winter Olympics nav link – animated blue‑ish gradient */
+        .nav-link-winter-blue {
+            color: #00bfff;
             font-weight: bold;
-            text-shadow: 0 0 4px rgba(255, 215, 0, 0.7);
-            position: relative;
+            background: linear-gradient(
+                90deg,
+                #00bfff,
+                #0066cc,
+                #00bfff
+            );
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: textShine 2s ease-in-out infinite alternate;
         }
 
-        .nav-link-winter::after {
-            content: "";
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, #ff4500, #ffd700);
-        }
-
-        .nav-link-winter:hover {
-            color: #ff6347;
-            text-shadow: 0 0 6px rgba(255, 215, 0, 0.9);
+        @keyframes textShine {
+            0% {
+                background-position: 0% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
         }
 
         table {
@@ -168,7 +171,7 @@
 </button>
 <div class="collapse navbar-collapse" id="navbarSupportedContent">
 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-<li class="nav-item"><a class="nav-link nav-link-winter" href="https://roxiestreams.info/olympics">Winter Olympics</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/olympics">Winter Olympics</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/soccer">Soccer</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/mlb">MLB</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
