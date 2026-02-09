@@ -13,8 +13,8 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link href="/css/buttons.css" rel="stylesheet">
-    <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
-    <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
+<link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
+<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
     <script>
@@ -71,32 +71,6 @@
             display: flex;
             gap: 10px;
         }
-
-        /* Stream buttons base style */
-        .streambutton {
-            background: #222;
-            color: #ddd;
-            border: 1px solid #444;
-            padding: 8px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.2s ease;
-        }
-        .streambutton:hover {
-            background: #333;
-            color: #fff;
-        }
-
-        /* Glowing gold outline with red tint on the 4K UHD button */
-        .streambutton[onclick*="4K UHD"] {
-            outline: 3px solid #FFD700; /* gold */
-            outline-offset: 2px;
-            box-shadow:
-                0 0 10px rgba(255, 215, 0, 0.7),     /* inner gold glow */
-                0 0 20px rgba(255, 100, 0, 0.5);     /* outer red‑tinted glow */
-            filter: brightness(1.1); /* slight brightness boost for extra glow */
-        }
     </style>
 
 </head>
@@ -109,13 +83,14 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/soccer">Soccer</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/mlb">MLB</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nfl">NFL</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nhl">NHL</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/soccer">Soccer</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/mlb">MLB</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nfl">NFL</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nhl">NHL</a></li>
+
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
                 </ul>
             </div>
@@ -125,13 +100,13 @@
     <div class="container container-fluid pt-2 text-white">
         <div class="fullplayer">
             <div id="playerContainer"></div>
-            <div class="streamchanger">
-                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('daffodil.m3u8', '601'))">NBC</button>
-                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('sky.m3u8', 'daffodil'))">SKY SPORTS MAIN</button>
-                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', '601'))">TSN</button>
-                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('channelfive.m3u8', '601'))">Channel 5</button>
-                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('thedaffodil.m3u8', '602'))">4K UHD</button>
-            </div>
+	<div class="streamchanger">
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('daffodil.m3u8', '601'))">NBC</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('sky.m3u8', 'daffodil'))">SKY SPORTS MAIN</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', '601'))">TSN</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('channelfive.m3u8', '601'))">Channel 5</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('thedaffodil.m3u8', '602'))">4K UHD</button>
+	</div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.info"></iframe>
             </div>
@@ -153,7 +128,7 @@ var subdomain = '601';  // Edit this per HTML file
 fetch('domains2.txt')
   .then(response => response.text())
   .then(data => {
-    domains = data.trim().split('\\n').filter(d => d.trim());
+    domains = data.trim().split('\n').filter(d => d.trim());
     setTimeout(() => showPlayer('clappr', getRandomStream('daffodil.m3u8')), 500);
   })
   .catch(() => {
@@ -197,10 +172,10 @@ function showPlayer(playerType, stream) {
     </script>
     <script src="js/bootstrap.bundle.min.js"></script>
 
+
 <script type="text/javascript">
 aclib.runPop({
 zoneId: '10754426',
 });
-</script>
-</body>
+</script></body>
 </html>
