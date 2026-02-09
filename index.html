@@ -41,6 +41,30 @@
             padding-left: 5px;
             padding-right: 5px;
         }
+
+        /* Winter Olympics nav link – reddish‑gold */
+        .nav-link-winter {
+            color: #ff4500;
+            font-weight: bold;
+            text-shadow: 0 0 4px rgba(255, 215, 0, 0.7);
+            position: relative;
+        }
+
+        .nav-link-winter::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #ff4500, #ffd700);
+        }
+
+        .nav-link-winter:hover {
+            color: #ff6347;
+            text-shadow: 0 0 6px rgba(255, 215, 0, 0.9);
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -144,7 +168,7 @@
 </button>
 <div class="collapse navbar-collapse" id="navbarSupportedContent">
 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/olympics">Winter Olympics</a></li>
+<li class="nav-item"><a class="nav-link nav-link-winter" href="https://roxiestreams.info/olympics">Winter Olympics</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/soccer">Soccer</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/mlb">MLB</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
@@ -163,7 +187,7 @@
     PREVIOUS DOMAIN GOT BANNED (.LIVE) USE .INFO & BOOKMARK OUR BACKUP LINKS & JOIN THE DC
     <br/>
 <a class="nhl-link" href="https://roxiestreams.cc/" rel="noopener" target="_blank">
-        https://roxiestreams.cc/
+        [https://roxiestreams.cc/](https://roxiestreams.cc/)
     </a>
 <br/>
     If you’re still having issues, please try refreshing the page or using an incognito window.
@@ -186,7 +210,6 @@
 </thead>
 <tbody>
 <tr>
-<tr>
 <td><a href="https://roxiestreams.info/olympics">WINTER OLYMPICS COVERAGE</a></td>
 <td>February 9, 2026</td>
 <td><span class="countdown-timer" data-end="February 30, 2026 12:00:00 PM" data-start="February 09, 2026 00:01:00 AM"></span></td>
@@ -206,8 +229,7 @@
 <td>February 9, 2026 5:00 PM</td>
 <td><span class="countdown-timer" data-end="February 10, 2026 05:00:00 PM" data-start="February 09, 2026 05:00:00 PM"></span></td>
 </tr>
-<tr>
-</tr></tr></tbody>
+</tbody>
 </table>
 </div>
 <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
