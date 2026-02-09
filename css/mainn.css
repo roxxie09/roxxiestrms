@@ -1,0 +1,78 @@
+
+body {
+    font-family: 'Kanit', sans-serif;
+    --bs-bg-opacity: 1;
+    background-color: rgb(14, 14, 14);
+}
+h2,.card-title,.card-text {
+    color:#e0e0e0;
+}
+.nav-item {
+    font-weight: 300;
+}
+
+a.item-card {
+    text-decoration: none;
+}
+
+a.card-text {
+    text-decoration: none;
+}
+
+a.item-card:hover h5 {
+    text-decoration: underline;
+}
+
+a.card-text:hover {
+    text-decoration: underline;
+}
+
+.cover {
+    object-fit: cover;
+}
+
+.flowvod {
+    width: 50vw !important;
+}
+
+.modal-open .container-fluid, .modal-open  .container {
+    backdrop-filter: blur(5px) grayscale(90%);
+    -webkit-filter: blur(5px) grayscale(90%);
+}
+.bg-darker {
+    background-color: #121212!important;
+}
+
+.card-header-tabs .nav-link.active {
+    border-bottom-color: #00000000!important;
+}
+/* Winter Olympics nav link – animated blue‑ish gradient */
+.nav-link-winter-blue {
+    color: #00bfff;
+    font-weight: bold;
+    background: linear-gradient(
+        90deg,
+        #00bfff,
+        #0066cc,
+        #00bfff
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: textShine 2s ease-in-out infinite alternate;
+    transition: text-shadow 0.3s ease;
+}
+
+.nav-link-winter-blue:hover {
+    text-shadow: 0 0 8px rgba(0, 191, 255, 0.8);
+}
+
+@keyframes textShine {
+    0% {
+        background-position: 0% center;
+    }
+    100% {
+        background-position: 200% center;
+    }
+}
