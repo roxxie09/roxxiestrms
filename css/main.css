@@ -46,33 +46,3 @@ a.card-text:hover {
 .card-header-tabs .nav-link.active {
     border-bottom-color: #00000000!important;
 }
-/* Winter Olympics nav link – animated blue‑ish gradient */
-.nav-link-winter-blue {
-    color: #00bfff;
-    font-weight: bold;
-    background: linear-gradient(
-        90deg,
-        #00bfff,
-        #0066cc,
-        #00bfff
-    );
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: textShine 2s ease-in-out infinite alternate;
-    transition: text-shadow 0.3s ease;
-}
-
-.nav-link-winter-blue:hover {
-    text-shadow: 0 0 8px rgba(0, 191, 255, 0.8);
-}
-
-@keyframes textShine {
-    0% {
-        background-position: 0% center;
-    }
-    100% {
-        background-position: 200% center;
-    }
-}
