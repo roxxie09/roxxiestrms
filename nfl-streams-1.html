@@ -125,7 +125,7 @@ var clapprPlayer;
 var domains = [];
 var subdomain = '601';  // Edit this per HTML file
 
-fetch('domains1.txt')
+fetch('domains2.txt')
   .then(response => response.text())
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
