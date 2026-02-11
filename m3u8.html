@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>RoxieStreams - M3U8 Extractor</title>
+    <title>RoxieStreams - Pro M3U8 Dashboard</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,61 +11,59 @@
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@700&display=swap" rel="stylesheet">
     
     <style>
-        body { background-color: #000; color: white; font-family: sans-serif; }
-        .navbar-brand { color: pink !important; font-family: 'Kanit', sans-serif; font-weight: bold; }
+        body { background-color: #050505; color: white; font-family: sans-serif; }
+        .navbar-brand { color: pink !important; font-family: 'Kanit', sans-serif; font-weight: bold; font-size: 1.5rem; }
         .extractor-wrapper { max-width: 900px; margin: 40px auto; background: #111; border: 1px solid #222; border-radius: 12px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        
+        /* Directory Styles */
+        .category-card { background: #1a1a1a; border: 1px solid #333; border-radius: 8px; margin-bottom: 8px; overflow: hidden; }
+        .category-header { padding: 12px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: #222; transition: 0.3s; }
+        .category-header:hover { background: #282828; }
+        .match-list { display: none; background: #0c0c0c; }
+        .match-item { padding: 10px 25px; border-bottom: 1px solid #1a1a1a; cursor: pointer; font-size: 0.9rem; color: #bbb; }
+        .match-item:hover { color: pink; background: #151515; }
+
+        /* Scanner Styles */
         .input-group input { background: #1a1a1a; border: 1px solid #333; color: white; padding: 12px; }
         .btn-scan { background-color: pink; color: black; font-weight: bold; border: none; padding: 0 25px; }
         
-        .link-item { background: #1a1a1a; padding: 25px; border: 1px solid #333; margin-bottom: 25px; border-radius: 15px; border-left: 6px solid pink; position: relative; }
-        .stream-number { font-family: 'Kanit'; font-size: 1.5rem; color: pink; text-transform: uppercase; margin-bottom: 2px; }
+        .link-item { background: #1a1a1a; padding: 25px; border: 1px solid #333; margin-top: 25px; border-radius: 15px; border-left: 6px solid pink; }
+        .stream-number { font-family: 'Kanit'; font-size: 1.5rem; color: pink; text-transform: uppercase; }
         .mirror-count { font-size: 1.1rem; color: #00ff88; font-weight: bold; display: block; margin-bottom: 15px; }
-        .sub-info { font-size: 12px; color: #666; margin-bottom: 15px; }
-        
-        .server-select { background: #222; border: 1px solid #444; color: #ccc; font-family: monospace; font-size: 12px; padding: 10px; border-radius: 8px; width: 100%; margin-bottom: 15px; }
+        .server-select { background: #222; border: 1px solid #444; color: #ccc; padding: 10px; border-radius: 8px; width: 100%; margin-bottom: 15px; }
         
         .button-group { display: flex; gap: 10px; }
-        .action-btn { font-size: 14px; padding: 12px 20px; border-radius: 8px; border: none; font-weight: bold; text-decoration: none; cursor: pointer; transition: 0.2s; }
+        .action-btn { font-size: 14px; padding: 12px 20px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; transition: 0.2s; }
         .copy-btn { background: #333; color: white; }
-        .play-btn { background: #28a745; color: white; flex-grow: 1; text-align: center; }
-        .play-btn:hover { background: #218838; transform: scale(1.02); }
+        .play-btn { background: #28a745; color: white; flex-grow: 1; text-align: center; text-decoration: none; }
         
-        .status-box { color: #888; font-size: 0.9rem; font-style: italic; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .status-box { color: #888; font-size: 0.9rem; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
     </style>
 </head>
 <body>
 
     <nav class="navbar navbar-expand-lg bg-black border-bottom border-secondary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="https://roxiestreams.info/">RoxieStreams</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/soccer">Soccer</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/mlb">MLB</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nfl">NFL</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nhl">NHL</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
-                </ul>
-            </div>
+            <a class="navbar-brand" href="#">ROXIESTREAMS PRO</a>
+            <button class="btn btn-sm btn-outline-secondary" onclick="initDashboard()">REFRESH SITE LIST</button>
         </div>
     </nav>
 
     <div class="container">
         <div class="extractor-wrapper">
-            <h2 style="color: pink; font-family: 'Kanit';">M3U8 Extractor</h2>
-            <p class="text-secondary mb-4">Finding live streams. Grouping mirrors for efficiency.</p>
+            
+            <div id="dashboardArea" class="mb-4">
+                <p class="text-secondary small">Click a category to see live matches:</p>
+            </div>
+
+            <hr style="border-color: #333;">
 
             <div class="input-group mb-3">
-                <input type="text" id="urlInput" class="form-control" placeholder="Paste link here..." value="https://roxiestreams.info/soccer-streams-1" onkeydown="if(event.key==='Enter') extractLinks()" onfocus="this.select()">
+                <input type="text" id="urlInput" class="form-control" placeholder="Select a match above or paste URL..." onkeydown="if(event.key==='Enter') extractLinks()">
                 <button class="btn btn-scan" id="scanBtn" onclick="extractLinks()">SCAN URL</button>
             </div>
 
-            <div id="status" class="status-box">Ready to scan.</div>
+            <div id="status" class="status-box">Ready to extract.</div>
             <div id="results"></div>
         </div>
     </div>
@@ -73,8 +71,61 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        const proxy = "https://api.allorigins.win/get?url=";
+        const PROXY = "https://api.allorigins.win/get?url=";
+        const BASE_SITE = "https://roxiestreams.info/";
+        const CATEGORIES = ["soccer", "nba", "nfl", "nhl", "fighting", "motorsports"];
 
+        // 1. DASHBOARD: Fetch categories and matches
+        async function initDashboard() {
+            const dashboard = document.getElementById('dashboardArea');
+            dashboard.innerHTML = '<div class="text-center text-secondary p-3">Syncing categories...</div>';
+            
+            let content = "";
+            for (let cat of CATEGORIES) {
+                try {
+                    const response = await fetch(PROXY + encodeURIComponent(BASE_SITE + cat));
+                    const data = await response.json();
+                    const doc = new DOMParser().parseFromString(data.contents, 'text/html');
+                    
+                    const links = Array.from(doc.querySelectorAll('a'))
+                        .filter(a => a.href.includes('streams-') || a.href.includes('f1-') || a.href.includes('ufc-'))
+                        .map(a => ({
+                            name: a.innerText.trim() || a.href.split('/').pop().replace(/-/g, ' '),
+                            url: a.href.startsWith('http') ? a.href : BASE_SITE + a.getAttribute('href').replace(/^\//, '')
+                        }));
+
+                    const uniqueLinks = [...new Map(links.map(item => [item.url, item])).values()];
+
+                    content += `
+                        <div class="category-card">
+                            <div class="category-header" onclick="toggleCat('${cat}')">
+                                <span style="font-family:Kanit; text-transform:uppercase;">${cat}</span>
+                                <span class="badge bg-pink text-dark">${uniqueLinks.length} LIVE</span>
+                            </div>
+                            <div id="list-${cat}" class="match-list">
+                                ${uniqueLinks.map(l => `<div class="match-item" onclick="selectMatch('${l.url}')">📺 ${l.name.toUpperCase()}</div>`).join('')}
+                                ${uniqueLinks.length === 0 ? '<div class="match-item text-muted">No matches found.</div>' : ''}
+                            </div>
+                        </div>
+                    `;
+                } catch (e) { console.error("Error loading " + cat); }
+            }
+            dashboard.innerHTML = content;
+        }
+
+        function toggleCat(cat) {
+            const el = document.getElementById(`list-${cat}`);
+            const isVisible = el.style.display === "block";
+            document.querySelectorAll('.match-list').forEach(l => l.style.display = 'none');
+            el.style.display = isVisible ? "none" : "block";
+        }
+
+        function selectMatch(url) {
+            document.getElementById('urlInput').value = url;
+            extractLinks();
+        }
+
+        // 2. EXTRACTION: Optimized for same-domain vs external
         async function extractLinks() {
             const resultsDiv = document.getElementById('results');
             const statusDiv = document.getElementById('status');
@@ -82,43 +133,52 @@
             
             if (!targetUrl) return;
             resultsDiv.innerHTML = '';
-            statusDiv.innerHTML = `<div class="spinner-border spinner-border-sm text-pink"></div> Syncing Node configurations...`;
+            statusDiv.innerHTML = `<div class="spinner-border spinner-border-sm text-pink"></div> Fetching data...`;
 
             try {
-                const response = await fetch(targetUrl);
-                const data = await response.json();
-                const html = data.contents;
-                
+                // Determine if Internal or External
+                const isInternal = targetUrl.includes(window.location.hostname);
+                let html = "";
+
+                if (isInternal) {
+                    const response = await fetch(targetUrl);
+                    html = await response.text();
+                } else {
+                    const response = await fetch(PROXY + encodeURIComponent(targetUrl));
+                    const data = await response.json();
+                    html = data.contents;
+                }
+
                 let rawStreams = [];
 
-                // 1. Detect default subdomain (daffodil/601)
-                let detectedDefaultSub = '601'; 
-                const subVarMatch = html.match(/var\s+subdomain\s*=\s*['"]([^'"]+)['"]/);
-                if (subVarMatch) detectedDefaultSub = subVarMatch[1];
+                // Detect Subdomain Variable in HTML
+                let detectedSub = '601'; 
+                const subMatch = html.match(/var\s+subdomain\s*=\s*['"]([^'"]+)['"]/);
+                if (subMatch) detectedSub = subMatch[1];
 
-                // 2. Fetch mirror domains
+                // Load mirror domains
                 let domains = ['shadow-ran.online']; 
                 try {
                     const urlBase = targetUrl.substring(0, targetUrl.lastIndexOf('/') + 1);
-                    const domResp = await fetch(proxy + encodeURIComponent(urlBase + 'domains.txt'));
-                    const domData = await domResp.json();
-                    if (domData.contents) {
-                        domains = domData.contents.trim().split('\n').map(d => d.trim()).filter(d => d);
-                    }
+                    const domResp = await fetch(isInternal ? urlBase + 'domains.txt' : PROXY + encodeURIComponent(urlBase + 'domains.txt'));
+                    const domData = isInternal ? await domResp.text() : (await domResp.json()).contents;
+                    if (domData) domains = domData.trim().split('\n').map(d => d.trim()).filter(d => d);
                 } catch(e) {}
 
-                // 3. Scan for JS Stream functions
+                // Regex for getRandomStream('file', 'sub')
                 const jsRegex = /getRandomStream\(['"]([^'"]+)['"](?:\s*,\s*['"]([^'"]+)['"])?\)/g;
-                let jsMatch;
-                while ((jsMatch = jsRegex.exec(html)) !== null) {
-                    const fileName = jsMatch[1];
-                    const streamSub = jsMatch[2] || detectedDefaultSub; 
-                    domains.forEach(dom => {
-                        rawStreams.push(`https://${streamSub}.${dom}/${fileName}`);
-                    });
+                let match;
+                while ((match = jsRegex.exec(html)) !== null) {
+                    const file = match[1];
+                    const sub = match[2] || detectedSub; 
+                    domains.forEach(dom => rawStreams.push(`https://${sub}.${dom}/${file}`));
                 }
 
-                // 4. Grouping Logic
+                // Standard M3U8 scan
+                const staticMatches = html.match(/(https?:\/\/[^\s"']+\.m3u8(\?[^\s"']*)?)/g);
+                if (staticMatches) staticMatches.forEach(link => rawStreams.push(link));
+
+                // Grouping Logic
                 const groups = {};
                 rawStreams.forEach(url => {
                     try {
@@ -133,44 +193,42 @@
 
                 const groupKeys = Object.keys(groups);
                 if (groupKeys.length > 0) {
-                    statusDiv.innerHTML = `✅ Found ${groupKeys.length} Unique Stream Feeds.`;
+                    statusDiv.innerHTML = `✅ Successfully mapped ${groupKeys.length} stream feeds.`;
                     groupKeys.forEach((key, index) => {
-                        const group = groups[key];
-                        const selectId = `sel-${index}`;
+                        const g = groups[key];
+                        const selId = `sel-${index}`;
                         resultsDiv.innerHTML += `
                             <div class="link-item">
                                 <div class="stream-number">STREAM ${index + 1}</div>
-                                <span class="mirror-count">${group.urls.length} MIRRORS AVAILABLE</span>
-                                <div class="sub-info">Source: ${group.file} | Node: ${group.sub}</div>
-                                <select id="${selectId}" class="server-select">
-                                    ${group.urls.map(u => `<option value="${u}">${u}</option>`).join('')}
+                                <span class="mirror-count">${g.urls.length} MIRRORS ONLINE</span>
+                                <div class="small text-secondary mb-2">Node: ${g.sub} | Resource: ${g.file}</div>
+                                <select id="${selId}" class="server-select">
+                                    ${g.urls.map(u => `<option value="${u}">${u}</option>`).join('')}
                                 </select>
                                 <div class="button-group">
-                                    <button class="action-btn play-btn" onclick="playSelected('${selectId}')">▶ WATCH NOW</button>
-                                    <button class="action-btn copy-btn" onclick="copySelected('${selectId}', this)">COPY LINK</button>
+                                    <button class="action-btn play-btn" onclick="play('${selId}')">▶ WATCH NOW</button>
+                                    <button class="action-btn copy-btn" onclick="copy('${selId}', this)">COPY LINK</button>
                                 </div>
                             </div>
                         `;
                     });
-                } else {
-                    statusDiv.innerHTML = "❌ No active streams detected.";
-                }
-            } catch (err) {
-                statusDiv.innerHTML = "❌ Scan failed.";
-            }
+                } else { statusDiv.innerHTML = "❌ No streams detected."; }
+            } catch (err) { statusDiv.innerHTML = "❌ Error: Could not reach domain."; }
         }
 
-        function playSelected(id) {
+        function play(id) {
             const url = document.getElementById(id).value;
             window.open(`https://hlsplayer.net/embed?type=m3u8&src=${encodeURIComponent(url)}`, '_blank');
         }
 
-        function copySelected(id, btn) {
-            const url = document.getElementById(id).value;
-            navigator.clipboard.writeText(url);
+        function copy(id, btn) {
+            navigator.clipboard.writeText(document.getElementById(id).value);
             btn.textContent = "COPIED!";
             setTimeout(() => btn.textContent = "COPY LINK", 2000);
         }
+
+        // Run dashboard on load
+        window.onload = initDashboard;
     </script>
 </body>
 </html>
