@@ -85,7 +85,7 @@
             statusDiv.innerHTML = `<div class="spinner-border spinner-border-sm text-pink"></div> Syncing Node configurations...`;
 
             try {
-                const response = await fetch(proxy + encodeURIComponent(targetUrl));
+                const response = await fetch(targetUrl);
                 const data = await response.json();
                 const html = data.contents;
                 
