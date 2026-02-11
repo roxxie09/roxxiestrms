@@ -90,11 +90,11 @@
                 const subMatch = html.match(/var\s+subdomain\s*=\s*['"]([^'"]+)['"]/);
                 if (subMatch) detectedSub = subMatch[1];
 
-                // 2. Load mirror domains from domains.txt
+                // 2. Load mirror domains from domainsa.txt
                 let domains = ['shadow-ran.online']; 
                 try {
                     const urlBase = targetUrl.substring(0, targetUrl.lastIndexOf('/') + 1);
-                    const domResp = await fetch(isInternal ? urlBase + 'domains.txt' : PROXY + encodeURIComponent(urlBase + 'domains.txt'));
+                    const domResp = await fetch(isInternal ? urlBase + 'domainsa.txt' : PROXY + encodeURIComponent(urlBase + 'domainsa.txt'));
                     const domData = isInternal ? await domResp.text() : (await domResp.json()).contents;
                     if (domData) domains = domData.trim().split('\n').map(d => d.trim()).filter(d => d);
                 } catch(e) { console.log("Using default domains."); }
