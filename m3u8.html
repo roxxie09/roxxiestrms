@@ -1,62 +1,122 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
+    <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
+    <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
+    
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>RoxieStreams - Pro M3U8 Scanner</title>
+    <title>Roxiestreams - M3U8 Extractor</title>
     
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="description" content="Free PPV UFC, TV, NBA, NFL, and F1 streams">
+    <meta name="keywords" content="Roxiestreams, ppv, boxing, dazn, f1, ufc, nba, for, stream, online, free, mrgamingstreams, f1, tv, nfl">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@700&display=swap" rel="stylesheet">
-    
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/mainn.css">
+    <link href="/css/buttons.css" rel="stylesheet">
+    <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
+
+    <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-EQ3BHVQGMN');
+    </script>
+
     <style>
-        body { background-color: #050505; color: white; font-family: sans-serif; min-height: 100vh; margin: 0; }
+        /* Blending the Scanner with your mainn.css */
+        body { background-color: #000 !important; }
         
-        /* Navbar Styling */
-        .navbar-brand { color: pink !important; font-family: 'Kanit', sans-serif; font-weight: bold; font-size: 1.5rem; }
-        .nav-link { color: #ccc !important; font-size: 0.9rem; }
-        .nav-link:hover { color: pink !important; }
+        .main-content { padding: 50px 15px; display: flex; justify-content: center; }
+        
+        .extractor-wrapper { 
+            width: 100%; 
+            max-width: 750px; 
+            background: rgba(17, 17, 17, 0.95); 
+            border: 1px solid #222; 
+            border-radius: 15px; 
+            padding: 35px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+        }
 
-        /* Scanner Container */
-        .main-content { display: flex; align-items: center; justify-content: center; padding: 40px 15px; }
-        .extractor-wrapper { width: 100%; max-width: 750px; background: #111; border: 1px solid #222; border-radius: 16px; padding: 40px; box-shadow: 0 15px 40px rgba(0,0,0,0.7); }
-        
-        .scanner-title { color: pink !important; font-family: 'Kanit', sans-serif; font-weight: bold; font-size: 1.8rem; text-align: center; margin-bottom: 25px; }
+        .scanner-title { 
+            color: pink; 
+            font-family: 'Kanit', sans-serif; 
+            font-weight: bold; 
+            text-align: center; 
+            margin-bottom: 25px;
+            font-size: 2rem;
+        }
 
-        .input-group { border-radius: 12px; overflow: hidden; border: 1px solid #333; }
-        .input-group input { background: #1a1a1a; border: none; color: white; padding: 15px; font-size: 1.1rem; }
-        .input-group input:focus { background: #222; box-shadow: none; color: white; }
-        
-        .btn-scan { background-color: pink; color: black; font-weight: bold; border: none; padding: 0 30px; transition: 0.3s; }
-        .btn-scan:hover { background-color: #ffb6c1; transform: scale(1.02); }
-        
-        #status { color: #888; font-size: 0.95rem; margin: 15px 0; text-align: center; min-height: 24px; }
-        
-        /* Result Items */
-        .link-item { background: #1a1a1a; padding: 20px; border: 1px solid #333; margin-top: 20px; border-radius: 12px; border-left: 5px solid pink; animation: fadeIn 0.4s ease-out; }
+        .input-group input { 
+            background: #1a1a1a !important; 
+            border: 1px solid #333 !important; 
+            color: white !important; 
+            padding: 12px; 
+        }
+
+        .btn-scan { 
+            background: pink !important; 
+            color: black !important; 
+            font-family: 'Kanit', sans-serif; 
+            font-weight: bold; 
+            border: none; 
+            padding: 0 25px; 
+        }
+
+        #status { color: #888; font-size: 0.9rem; margin-top: 15px; text-align: center; }
+
+        .link-item { 
+            background: #0d0d0d; 
+            padding: 20px; 
+            border: 1px solid #222; 
+            margin-top: 20px; 
+            border-radius: 12px; 
+            border-left: 5px solid pink; 
+        }
+
         .stream-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .stream-number { font-family: 'Kanit'; font-size: 1.2rem; color: pink; text-transform: uppercase; }
-        .mirror-count { font-size: 0.9rem; color: #00ff88; font-weight: bold; }
-        
-        .server-select { background: #222; border: 1px solid #444; color: #ccc; padding: 10px; border-radius: 8px; width: 100%; margin-bottom: 15px; cursor: pointer; font-family: monospace; font-size: 0.85rem; }
-        
-        .button-group { display: flex; gap: 8px; flex-wrap: wrap; }
-        .action-btn { font-size: 12px; padding: 10px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; transition: 0.2s; flex: 1; min-width: 90px; text-align: center; text-decoration: none; color: white; }
-        
-        .btn-embed { background: #28a745; }
-        .btn-embed:hover { background: #218838; }
-        .btn-native { background: #007bff; }
-        .btn-native:hover { background: #0069d9; }
-        .btn-copy { background: #333; }
-        .btn-copy:hover { background: #444; }
+        .stream-num { color: pink; font-family: 'Kanit', sans-serif; font-size: 1.2rem; }
+        .mirror-tag { color: #00ff88; font-size: 0.8rem; font-weight: bold; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .server-select { 
+            background: #1a1a1a; 
+            border: 1px solid #333; 
+            color: #bbb; 
+            padding: 8px; 
+            width: 100%; 
+            border-radius: 5px; 
+            margin-bottom: 15px; 
+            font-size: 0.85rem;
+            font-family: monospace;
+        }
+
+        .button-group { display: flex; gap: 8px; flex-wrap: wrap; }
+        .action-btn { 
+            flex: 1; 
+            padding: 10px; 
+            border-radius: 5px; 
+            border: none; 
+            font-weight: bold; 
+            font-size: 11px; 
+            cursor: pointer; 
+            color: white;
+            transition: 0.2s;
+        }
+
+        .btn-emb { background: #28a745; }
+        .btn-nav { background: #007bff; }
+        .btn-cpy { background: #333; }
+        .action-btn:hover { opacity: 0.8; transform: translateY(-1px); }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg bg-black border-bottom border-secondary">
+    <nav class="navbar navbar-expand-lg bg-black">
         <div class="container-fluid">
             <a class="navbar-brand" href="https://roxiestreams.info/">RoxieStreams</a>
             <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button">
@@ -72,7 +132,7 @@
                     <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nhl">NHL</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Discord</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn" target="_blank">Discord</a></li>
                 </ul>
             </div>
         </div>
@@ -80,19 +140,19 @@
 
     <div class="main-content">
         <div class="extractor-wrapper">
-            <div class="scanner-title">M3U8 EXTRACTOR</div>
+            <h1 class="scanner-title">M3U8 EXTRACTOR</h1>
             
-            <div class="input-group mb-2">
-                <input type="text" id="urlInput" class="form-control" placeholder="Paste link here (e.g. /nba-streams-1)" onkeydown="if(event.key==='Enter') extractLinks()">
+            <div class="input-group">
+                <input type="text" id="urlInput" class="form-control" placeholder="Enter stream path (e.g. soccer-streams-1)" onkeydown="if(event.key==='Enter') extractLinks()">
                 <button class="btn btn-scan" onclick="extractLinks()">SCAN</button>
             </div>
 
-            <div id="status">Enter a match URL to identify stream feeds.</div>
+            <div id="status">Ready for extraction.</div>
             <div id="results"></div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
 
     <script>
         const PROXY = "https://api.allorigins.win/get?url=";
@@ -100,111 +160,99 @@
         async function extractLinks() {
             const resultsDiv = document.getElementById('results');
             const statusDiv = document.getElementById('status');
-            const targetUrl = document.getElementById('urlInput').value.trim();
+            const inputVal = document.getElementById('urlInput').value.trim();
             
-            if (!targetUrl) return;
-
+            if (!inputVal) return;
             resultsDiv.innerHTML = '';
-            statusDiv.innerHTML = `<div class="spinner-border spinner-border-sm text-pink"></div> Extracting stream data...`;
+            statusDiv.innerHTML = "Processing source...";
 
             try {
-                const isInternal = targetUrl.includes(window.location.hostname) || !targetUrl.startsWith('http');
-                let html = "";
-                let fullPath = targetUrl.startsWith('http') ? targetUrl : window.location.origin + (targetUrl.startsWith('/') ? '' : '/') + targetUrl;
+                // Determine internal vs external
+                const isInternal = inputVal.includes(window.location.hostname) || !inputVal.startsWith('http');
+                let fullUrl = inputVal.startsWith('http') ? inputVal : window.location.origin + (inputVal.startsWith('/') ? '' : '/') + inputVal;
 
+                let html = "";
                 if (isInternal) {
-                    const response = await fetch(fullPath);
-                    html = await response.text();
+                    const resp = await fetch(fullUrl);
+                    html = await resp.text();
                 } else {
-                    const response = await fetch(PROXY + encodeURIComponent(fullPath));
-                    const data = await response.json();
+                    const resp = await fetch(PROXY + encodeURIComponent(fullUrl));
+                    const data = await resp.json();
                     html = data.contents;
                 }
 
-                let rawStreams = [];
-                let detectedSub = '601'; 
-                const subMatch = html.match(/var\s+subdomain\s*=\s*['"]([^'"]+)['"]/);
-                if (subMatch) detectedSub = subMatch[1];
+                let raw = [];
+                // 1. Get Node Default
+                let subDefault = '601';
+                const subVar = html.match(/var\s+subdomain\s*=\s*['"]([^'"]+)['"]/);
+                if (subVar) subDefault = subVar[1];
 
-                let domains = ['shadow-ran.online']; 
+                // 2. Get Domains.txt
+                let domains = ['shadow-ran.online'];
                 try {
-                    const urlBase = fullPath.substring(0, fullPath.lastIndexOf('/') + 1);
-                    const domResp = await fetch(isInternal ? urlBase + 'domains.txt' : PROXY + encodeURIComponent(urlBase + 'domains.txt'));
-                    const domData = isInternal ? await domResp.text() : (await domResp.json()).contents;
-                    if (domData) domains = domData.trim().split('\n').map(d => d.trim()).filter(d => d);
+                    const base = fullUrl.substring(0, fullUrl.lastIndexOf('/') + 1);
+                    const dResp = await fetch(isInternal ? base + 'domains.txt' : PROXY + encodeURIComponent(base + 'domains.txt'));
+                    const dText = isInternal ? await dResp.text() : (await dResp.json()).contents;
+                    if (dText) domains = dText.trim().split('\n').map(d => d.trim()).filter(d => d);
                 } catch(e) {}
 
+                // 3. Regex Scanner
                 const jsRegex = /getRandomStream\(['"]([^'"]+)['"](?:\s*,\s*['"]([^'"]+)['"])?\)/g;
-                let match;
-                while ((match = jsRegex.exec(html)) !== null) {
-                    const file = match[1];
-                    const sub = match[2] || detectedSub; 
-                    domains.forEach(dom => rawStreams.push(`https://${sub}.${dom}/${file}`));
+                let m;
+                while ((m = jsRegex.exec(html)) !== null) {
+                    const f = m[1], s = m[2] || subDefault;
+                    domains.forEach(d => raw.push(`https://${s}.${d}/${f}`));
                 }
+                const staticM = html.match(/(https?:\/\/[^\s"']+\.m3u8)/g);
+                if (staticM) staticM.forEach(l => raw.push(l));
 
-                const staticMatches = html.match(/(https?:\/\/[^\s"']+\.m3u8(\?[^\s"']*)?)/g);
-                if (staticMatches) staticMatches.forEach(link => rawStreams.push(link));
-
+                // 4. Grouping
                 const groups = {};
-                rawStreams.forEach(url => {
+                raw.forEach(u => {
                     try {
-                        const urlObj = new URL(url);
-                        const sub = urlObj.hostname.split('.')[0];
-                        const file = urlObj.pathname.split('/').pop();
-                        const key = `${sub}-${file}`;
-                        if (!groups[key]) groups[key] = { sub, file, urls: [] };
-                        if (!groups[key].urls.includes(url)) groups[key].urls.push(url);
+                        const o = new URL(u);
+                        const s = o.hostname.split('.')[0], f = o.pathname.split('/').pop();
+                        const k = `${s}-${f}`;
+                        if (!groups[k]) groups[k] = { s, f, urls: [] };
+                        if (!groups[k].urls.includes(u)) groups[k].urls.push(u);
                     } catch(e) {}
                 });
 
-                const groupKeys = Object.keys(groups);
-                if (groupKeys.length > 0) {
-                    statusDiv.innerHTML = `✅ Found ${groupKeys.length} unique stream feeds.`;
-                    groupKeys.forEach((key, index) => {
-                        const g = groups[key];
-                        const selId = `sel-${index}`;
+                const keys = Object.keys(groups);
+                if (keys.length > 0) {
+                    statusDiv.innerHTML = `✅ Found ${keys.length} Feeds.`;
+                    keys.forEach((k, i) => {
+                        const g = groups[k], id = `s-${i}`;
                         resultsDiv.innerHTML += `
                             <div class="link-item">
                                 <div class="stream-header">
-                                    <div class="stream-number">STREAM ${index + 1}</div>
-                                    <span class="mirror-count">${g.urls.length} MIRRORS</span>
+                                    <span class="stream-num">FEED ${i+1}</span>
+                                    <span class="mirror-tag">${g.urls.length} MIRRORS</span>
                                 </div>
-                                <div class="small text-secondary mb-2">Node: ${g.sub} | File: ${g.file}</div>
-                                <select id="${selId}" class="server-select">
+                                <div class="small text-muted mb-2">${g.f} (${g.s})</div>
+                                <select id="${id}" class="server-select">
                                     ${g.urls.map(u => `<option value="${u}">${u}</option>`).join('')}
                                 </select>
                                 <div class="button-group">
-                                    <button class="action-btn btn-embed" onclick="playEmbed('${selId}')">EMBED</button>
-                                    <button class="action-btn btn-native" onclick="playNative('${selId}')">IOS/ANDROID</button>
-                                    <button class="action-btn btn-copy" onclick="copy('${selId}', this)">COPY</button>
+                                    <button class="action-btn btn-emb" onclick="window.open('https://hlsplayer.net/embed?type=m3u8&src='+encodeURIComponent(document.getElementById('${id}').value),'_blank')">EMBED</button>
+                                    <button class="action-btn btn-nav" onclick="window.open(document.getElementById('${id}').value,'_blank')">IOS/ANDROID</button>
+                                    <button class="action-btn btn-cpy" onclick="copy('${id}', this)">COPY</button>
                                 </div>
-                            </div>
-                        `;
+                            </div>`;
                     });
-                } else {
-                    statusDiv.innerHTML = "❌ No active streams found.";
-                }
-            } catch (err) {
-                statusDiv.innerHTML = "❌ Connection failed.";
-            }
-        }
-
-        function playEmbed(id) {
-            const url = document.getElementById(id).value;
-            window.open(`https://hlsplayer.net/embed?type=m3u8&src=${encodeURIComponent(url)}`, '_blank');
-        }
-
-        function playNative(id) {
-            const url = document.getElementById(id).value;
-            window.open(url, '_blank');
+                } else { statusDiv.innerHTML = "❌ No streams found."; }
+            } catch(e) { statusDiv.innerHTML = "❌ Scan failed."; }
         }
 
         function copy(id, btn) {
             navigator.clipboard.writeText(document.getElementById(id).value);
-            const original = btn.textContent;
             btn.textContent = "COPIED!";
-            setTimeout(() => btn.textContent = original, 1500);
+            setTimeout(() => btn.textContent = "COPY", 1500);
         }
+    </script>
+
+    <script type="text/javascript">
+        aclib.runPop({ zoneId: '10754426' });
     </script>
 </body>
 </html>
