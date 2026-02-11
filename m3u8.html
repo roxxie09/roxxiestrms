@@ -36,7 +36,7 @@
         }
         .navbar-brand:hover { text-decoration: underline; }
         
-        /* Scanner Specific Styling */
+        /* Scanner Container */
         .scanner-container {
             max-width: 800px;
             margin: 60px auto;
@@ -67,42 +67,53 @@
             border: none; 
             padding: 0 25px; 
         }
-        #status { color: #888; margin-top: 15px; font-size: 0.9rem; font-style: italic; }
-        
+
+        /* Results Formatting */
         .link-item { 
             background: #0a0a0a; 
-            padding: 20px; 
+            padding: 25px; 
             border: 1px solid #222; 
-            margin-top: 20px; 
-            border-radius: 10px; 
-            border-left: 5px solid pink; 
+            margin-top: 25px; 
+            border-radius: 12px; 
+            border-left: 6px solid pink; 
         }
-        .stream-name { color: pink; font-family: 'Kanit'; font-size: 1.1rem; margin-bottom: 10px; }
+        .stream-number { font-family: 'Kanit'; font-size: 1.5rem; color: pink; text-transform: uppercase; line-height: 1; }
+        .mirror-count { font-size: 1rem; color: #00ff88; font-weight: bold; display: block; margin-bottom: 12px; }
+        .sub-info { font-size: 12px; color: #666; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px; }
+        
         .server-select { 
             background: #111; 
             border: 1px solid #333; 
             color: #ccc; 
-            padding: 8px; 
+            padding: 10px; 
             width: 100%; 
             margin-bottom: 15px; 
-            border-radius: 5px; 
+            border-radius: 8px; 
             font-family: monospace; 
+            font-size: 13px;
         }
+        
         .button-group { display: flex; gap: 10px; }
         .action-btn { 
             flex: 1; 
-            padding: 10px; 
-            border-radius: 5px; 
+            padding: 12px; 
+            border-radius: 8px; 
             border: none; 
             font-weight: bold; 
             cursor: pointer; 
-            font-size: 0.8rem; 
+            font-size: 13px; 
             text-decoration: none; 
             text-align: center;
+            transition: 0.2s;
         }
         .btn-emb { background: #28a745; color: white; }
+        .btn-emb:hover { background: #218838; }
         .btn-ios { background: #007bff; color: white; }
+        .btn-ios:hover { background: #0069d9; }
         .btn-cpy { background: #333; color: white; }
+        .btn-cpy:hover { background: #444; }
+
+        #status { color: #888; margin-top: 20px; font-size: 0.95rem; font-style: italic; }
     </style>
 </head>
 <body>
@@ -132,14 +143,14 @@
     <div class="container">
         <div class="scanner-container text-center">
             <div class="scanner-title">M3U8 Extractor</div>
-            <p class="text-secondary mb-4">Paste a match link to extract all available stream mirrors.</p>
+            <p class="text-secondary mb-4">Paste internal or external links to group all stream mirrors.</p>
             
             <div class="input-group">
                 <input type="text" id="urlInput" class="form-control" placeholder="URL here (e.g. /nba-streams-1)" onkeydown="if(event.key==='Enter') extractLinks()">
                 <button class="btn btn-scan" onclick="extractLinks()">SCAN URL</button>
             </div>
             
-            <div id="status">Ready to scan...</div>
+            <div id="status">Ready to extract stream nodes...</div>
             <div id="results" class="text-start"></div>
         </div>
     </div>
@@ -162,7 +173,7 @@
             if (!targetUrl) return;
 
             resultsDiv.innerHTML = '';
-            statusDiv.innerHTML = `<div class="spinner-border spinner-border-sm text-pink"></div> Extracting Nodes...`;
+            statusDiv.innerHTML = `<div class="spinner-border spinner-border-sm text-pink"></div> Syncing Node Configurations...`;
 
             try {
                 const isInternal = targetUrl.includes(window.location.hostname) || !targetUrl.startsWith('http');
@@ -216,19 +227,20 @@
 
                 const groupKeys = Object.keys(groups);
                 if (groupKeys.length > 0) {
-                    statusDiv.innerHTML = `✅ Extracted ${groupKeys.length} stream feeds.`;
+                    statusDiv.innerHTML = `✅ Successfully mapped ${groupKeys.length} Unique Feeds.`;
                     groupKeys.forEach((key, index) => {
                         const g = groups[key];
                         const selId = `sel-${index}`;
                         resultsDiv.innerHTML += `
                             <div class="link-item">
-                                <div class="stream-name">STREAM FEED ${index + 1} (${g.urls.length} Mirrors)</div>
-                                <div class="small text-secondary mb-2">Resource: ${g.file}</div>
+                                <div class="stream-number">STREAM ${index + 1}</div>
+                                <span class="mirror-count">${g.urls.length} MIRRORS AVAILABLE</span>
+                                <div class="sub-info">NODE: ${g.sub} | RESOURCE: ${g.file}</div>
                                 <select id="${selId}" class="server-select">
                                     ${g.urls.map(u => `<option value="${u}">${u}</option>`).join('')}
                                 </select>
                                 <div class="button-group">
-                                    <button class="action-btn btn-emb" onclick="window.open('https://hlsplayer.net/embed?type=m3u8&src=' + encodeURIComponent(document.getElementById('${selId}').value), '_blank')">EMBED PLAYER</button>
+                                    <button class="action-btn btn-emb" onclick="window.open('https://hlsplayer.net/embed?type=m3u8&src=' + encodeURIComponent(document.getElementById('${selId}').value), '_blank')">EMBED</button>
                                     <button class="action-btn btn-ios" onclick="window.open(document.getElementById('${selId}').value, '_blank')">IOS/ANDROID</button>
                                     <button class="action-btn btn-cpy" onclick="copy('${selId}', this)">COPY LINK</button>
                                 </div>
@@ -236,10 +248,10 @@
                         `;
                     });
                 } else {
-                    statusDiv.innerHTML = "❌ No streams detected.";
+                    statusDiv.innerHTML = "❌ No active streams detected.";
                 }
             } catch (err) {
-                statusDiv.innerHTML = "❌ Connection error.";
+                statusDiv.innerHTML = "❌ Connection failed. Check URL.";
             }
         }
 
@@ -250,7 +262,7 @@
             setTimeout(() => btn.textContent = old, 1500);
         }
 
-        // Right click protection
+        // Standard site protection
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.addEventListener('keydown', e => {
             if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C'))) e.preventDefault();
