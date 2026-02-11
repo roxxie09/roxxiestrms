@@ -16,7 +16,6 @@
     <link href="/css/buttons.css" rel="stylesheet">
     <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
     
-    <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -68,7 +67,6 @@
             padding: 0 25px; 
         }
 
-        /* Results Formatting */
         .link-item { 
             background: #0a0a0a; 
             padding: 25px; 
@@ -143,14 +141,14 @@
     <div class="container">
         <div class="scanner-container text-center">
             <div class="scanner-title">M3U8 Extractor</div>
-            <p class="text-secondary mb-4">Paste internal or external links to group all stream mirrors.</p>
+            <p class="text-secondary mb-4">Paste internal or external links to extract m3u8's</p>
             
             <div class="input-group">
                 <input type="text" id="urlInput" class="form-control" placeholder="URL here (e.g. /nba-streams-1)" onkeydown="if(event.key==='Enter') extractLinks()">
                 <button class="btn btn-scan" onclick="extractLinks()">SCAN URL</button>
             </div>
             
-            <div id="status">Ready to extract stream nodes...</div>
+            <div id="status">Ready...</div>
             <div id="results" class="text-start"></div>
         </div>
     </div>
@@ -262,7 +260,6 @@
             setTimeout(() => btn.textContent = old, 1500);
         }
 
-        // Standard site protection
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.addEventListener('keydown', e => {
             if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C'))) e.preventDefault();
