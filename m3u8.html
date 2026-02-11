@@ -14,7 +14,7 @@
         body { background-color: #050505; color: white; font-family: sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
         .navbar-brand { color: pink !important; font-family: 'Kanit', sans-serif; font-weight: bold; font-size: 1.8rem; text-align: center; width: 100%; display: block; margin-bottom: 20px; }
         
-        .extractor-wrapper { width: 100%; max-width: 700px; background: #111; border: 1px solid #222; border-radius: 16px; padding: 40px; box-shadow: 0 15px 40px rgba(0,0,0,0.7); }
+        .extractor-wrapper { width: 100%; max-width: 750px; background: #111; border: 1px solid #222; border-radius: 16px; padding: 40px; box-shadow: 0 15px 40px rgba(0,0,0,0.7); }
         
         .input-group { border-radius: 12px; overflow: hidden; border: 1px solid #333; }
         .input-group input { background: #1a1a1a; border: none; color: white; padding: 15px; font-size: 1.1rem; }
@@ -27,14 +27,17 @@
         .link-item { background: #1a1a1a; padding: 20px; border: 1px solid #333; margin-top: 20px; border-radius: 12px; border-left: 5px solid pink; animation: fadeIn 0.4s ease-out; }
         .stream-number { font-family: 'Kanit'; font-size: 1.3rem; color: pink; text-transform: uppercase; letter-spacing: 1px; }
         .mirror-count { font-size: 1rem; color: #00ff88; font-weight: bold; display: block; margin-bottom: 12px; }
-        .server-select { background: #222; border: 1px solid #444; color: #ccc; padding: 10px; border-radius: 8px; width: 100%; margin-bottom: 15px; cursor: pointer; }
+        .server-select { background: #222; border: 1px solid #444; color: #ccc; padding: 10px; border-radius: 8px; width: 100%; margin-bottom: 15px; cursor: pointer; font-family: monospace; font-size: 0.85rem; }
         
-        .button-group { display: flex; gap: 10px; }
-        .action-btn { font-size: 14px; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; transition: 0.2s; flex: 1; text-align: center; text-decoration: none; }
-        .copy-btn { background: #333; color: white; }
-        .copy-btn:hover { background: #444; }
-        .play-btn { background: #28a745; color: white; }
-        .play-btn:hover { background: #218838; }
+        .button-group { display: flex; gap: 8px; flex-wrap: wrap; }
+        .action-btn { font-size: 12px; padding: 10px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; transition: 0.2s; flex: 1; min-width: 80px; text-align: center; text-decoration: none; color: white; }
+        
+        .btn-embed { background: #28a745; }
+        .btn-embed:hover { background: #218838; }
+        .btn-native { background: #007bff; }
+        .btn-native:hover { background: #0069d9; }
+        .btn-copy { background: #333; }
+        .btn-copy:hover { background: #444; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -67,10 +70,9 @@
             }
 
             resultsDiv.innerHTML = '';
-            statusDiv.innerHTML = `<div class="spinner-border spinner-border-sm text-pink"></div> Analyzing source code...`;
+            statusDiv.innerHTML = `<div class="spinner-border spinner-border-sm text-pink"></div> Syncing Node Data...`;
 
             try {
-                // Check if target is on the same domain (roxiestreams.info)
                 const isInternal = targetUrl.includes(window.location.hostname);
                 let html = "";
 
@@ -84,22 +86,18 @@
                 }
 
                 let rawStreams = [];
-
-                // 1. Detect default subdomain variable
                 let detectedSub = '601'; 
                 const subMatch = html.match(/var\s+subdomain\s*=\s*['"]([^'"]+)['"]/);
                 if (subMatch) detectedSub = subMatch[1];
 
-                // 2. Load mirror domains from domainsa.txt
                 let domains = ['shadow-ran.online']; 
                 try {
                     const urlBase = targetUrl.substring(0, targetUrl.lastIndexOf('/') + 1);
-                    const domResp = await fetch(isInternal ? urlBase + 'domainsa.txt' : PROXY + encodeURIComponent(urlBase + 'domainsa.txt'));
+                    const domResp = await fetch(isInternal ? urlBase + 'domains.txt' : PROXY + encodeURIComponent(urlBase + 'domains.txt'));
                     const domData = isInternal ? await domResp.text() : (await domResp.json()).contents;
                     if (domData) domains = domData.trim().split('\n').map(d => d.trim()).filter(d => d);
-                } catch(e) { console.log("Using default domains."); }
+                } catch(e) {}
 
-                // 3. Extract getRandomStream() links
                 const jsRegex = /getRandomStream\(['"]([^'"]+)['"](?:\s*,\s*['"]([^'"]+)['"])?\)/g;
                 let match;
                 while ((match = jsRegex.exec(html)) !== null) {
@@ -108,11 +106,9 @@
                     domains.forEach(dom => rawStreams.push(`https://${sub}.${dom}/${file}`));
                 }
 
-                // 4. Extract standard .m3u8 URLs
                 const staticMatches = html.match(/(https?:\/\/[^\s"']+\.m3u8(\?[^\s"']*)?)/g);
                 if (staticMatches) staticMatches.forEach(link => rawStreams.push(link));
 
-                // 5. Grouping Logic
                 const groups = {};
                 rawStreams.forEach(url => {
                     try {
@@ -133,42 +129,43 @@
                         const selId = `sel-${index}`;
                         resultsDiv.innerHTML += `
                             <div class="link-item">
-                                <div class="stream-number">STREAM FEED ${index + 1}</div>
-                                <span class="mirror-count">${g.urls.length} MIRRORS DETECTED</span>
-                                <div class="small text-secondary mb-2">Resource: ${g.file}</div>
+                                <div class="stream-number">STREAM ${index + 1}</div>
+                                <span class="mirror-count">${g.urls.length} MIRRORS AVAILABLE</span>
+                                <div class="small text-secondary mb-2">Node: ${g.sub} | File: ${g.file}</div>
                                 <select id="${selId}" class="server-select">
                                     ${g.urls.map(u => `<option value="${u}">${u}</option>`).join('')}
                                 </select>
                                 <div class="button-group">
-                                    <button class="action-btn play-btn" onclick="play('${selId}')">▶ WATCH</button>
-                                    <button class="action-btn copy-btn" onclick="copy('${selId}', this)">COPY</button>
+                                    <button class="action-btn btn-embed" onclick="playEmbed('${selId}')">EMBED</button>
+                                    <button class="action-btn btn-native" onclick="playNative('${selId}')">IOS/ANDROID</button>
+                                    <button class="action-btn btn-copy" onclick="copy('${selId}', this)">COPY</button>
                                 </div>
                             </div>
                         `;
                     });
                 } else {
-                    statusDiv.innerHTML = "❌ No active streams found on that page.";
+                    statusDiv.innerHTML = "❌ No active streams found.";
                 }
             } catch (err) {
-                statusDiv.innerHTML = "❌ Error: Could not access the page.";
-                console.error(err);
+                statusDiv.innerHTML = "❌ Error reaching domain.";
             }
         }
 
-        function play(id) {
+        function playEmbed(id) {
             const url = document.getElementById(id).value;
             window.open(`https://hlsplayer.net/embed?type=m3u8&src=${encodeURIComponent(url)}`, '_blank');
         }
 
+        function playNative(id) {
+            const url = document.getElementById(id).value;
+            window.open(url, '_blank');
+        }
+
         function copy(id, btn) {
             navigator.clipboard.writeText(document.getElementById(id).value);
-            const oldText = btn.textContent;
-            btn.textContent = "COPIED!";
-            btn.style.backgroundColor = "#555";
-            setTimeout(() => {
-                btn.textContent = oldText;
-                btn.style.backgroundColor = "#333";
-            }, 1500);
+            const original = btn.textContent;
+            btn.textContent = "DONE!";
+            setTimeout(() => btn.textContent = original, 1500);
         }
     </script>
 </body>
