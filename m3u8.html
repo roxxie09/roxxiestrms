@@ -1,70 +1,121 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
+    <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>RoxieStreams - Pro M3U8 Scanner</title>
+    <title>Roxiestreams - M3U8 Extractor Tool</title>
+    <meta name="description" content="Free PPV UFC, TV, NBA, NFL, and F1 streams">
+    <meta name="keywords" content="Roxiestreams, ppv, boxing, dazn, f1, ufc, nba, for, stream, online, free, mrgamingstreams, f1, tv, nfl">
     
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/mainn.css">
+    <link href="/css/buttons.css" rel="stylesheet">
+    <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
     
+    <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-EQ3BHVQGMN');
+    </script>
+
     <style>
-        body { background-color: #050505; color: white; font-family: sans-serif; min-height: 100vh; margin: 0; }
+        .navbar-brand {
+            color: pink;
+            font-size: 1.3rem;
+            text-decoration: none;
+            margin-top: -3px;
+            font-family: 'Kanit', sans-serif;
+            font-weight: bold;
+        }
+        .navbar-brand:hover { text-decoration: underline; }
         
-        /* Navbar Styling */
-        .navbar-brand { color: pink !important; font-family: 'Kanit', sans-serif; font-weight: bold; font-size: 1.5rem; }
-        .nav-link { color: #ccc !important; font-size: 0.9rem; }
-        .nav-link:hover { color: pink !important; }
-
-        /* Scanner Container */
-        .main-content { display: flex; align-items: center; justify-content: center; padding: 40px 15px; }
-        .extractor-wrapper { width: 100%; max-width: 750px; background: #111; border: 1px solid #222; border-radius: 16px; padding: 40px; box-shadow: 0 15px 40px rgba(0,0,0,0.7); }
+        /* Scanner Specific Styling */
+        .scanner-container {
+            max-width: 800px;
+            margin: 60px auto;
+            background: rgba(17, 17, 17, 0.95);
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .scanner-title {
+            color: pink;
+            font-family: 'Kanit', sans-serif;
+            font-weight: bold;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .input-group input { 
+            background: #000; 
+            border: 1px solid #444; 
+            color: white; 
+            padding: 12px; 
+        }
+        .btn-scan { 
+            background-color: pink; 
+            color: black; 
+            font-weight: bold; 
+            border: none; 
+            padding: 0 25px; 
+        }
+        #status { color: #888; margin-top: 15px; font-size: 0.9rem; font-style: italic; }
         
-        .scanner-title { color: pink !important; font-family: 'Kanit', sans-serif; font-weight: bold; font-size: 1.8rem; text-align: center; margin-bottom: 25px; }
-
-        .input-group { border-radius: 12px; overflow: hidden; border: 1px solid #333; }
-        .input-group input { background: #1a1a1a; border: none; color: white; padding: 15px; font-size: 1.1rem; }
-        .input-group input:focus { background: #222; box-shadow: none; color: white; }
-        
-        .btn-scan { background-color: pink; color: black; font-weight: bold; border: none; padding: 0 30px; transition: 0.3s; }
-        .btn-scan:hover { background-color: #ffb6c1; transform: scale(1.02); }
-        
-        #status { color: #888; font-size: 0.95rem; margin: 15px 0; text-align: center; min-height: 24px; }
-        
-        /* Result Items */
-        .link-item { background: #1a1a1a; padding: 20px; border: 1px solid #333; margin-top: 20px; border-radius: 12px; border-left: 5px solid pink; animation: fadeIn 0.4s ease-out; }
-        .stream-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .stream-number { font-family: 'Kanit'; font-size: 1.2rem; color: pink; text-transform: uppercase; }
-        .mirror-count { font-size: 0.9rem; color: #00ff88; font-weight: bold; }
-        
-        .server-select { background: #222; border: 1px solid #444; color: #ccc; padding: 10px; border-radius: 8px; width: 100%; margin-bottom: 15px; cursor: pointer; font-family: monospace; font-size: 0.85rem; }
-        
-        .button-group { display: flex; gap: 8px; flex-wrap: wrap; }
-        .action-btn { font-size: 12px; padding: 10px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; transition: 0.2s; flex: 1; min-width: 90px; text-align: center; text-decoration: none; color: white; }
-        
-        .btn-embed { background: #28a745; }
-        .btn-embed:hover { background: #218838; }
-        .btn-native { background: #007bff; }
-        .btn-native:hover { background: #0069d9; }
-        .btn-copy { background: #333; }
-        .btn-copy:hover { background: #444; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .link-item { 
+            background: #0a0a0a; 
+            padding: 20px; 
+            border: 1px solid #222; 
+            margin-top: 20px; 
+            border-radius: 10px; 
+            border-left: 5px solid pink; 
+        }
+        .stream-name { color: pink; font-family: 'Kanit'; font-size: 1.1rem; margin-bottom: 10px; }
+        .server-select { 
+            background: #111; 
+            border: 1px solid #333; 
+            color: #ccc; 
+            padding: 8px; 
+            width: 100%; 
+            margin-bottom: 15px; 
+            border-radius: 5px; 
+            font-family: monospace; 
+        }
+        .button-group { display: flex; gap: 10px; }
+        .action-btn { 
+            flex: 1; 
+            padding: 10px; 
+            border-radius: 5px; 
+            border: none; 
+            font-weight: bold; 
+            cursor: pointer; 
+            font-size: 0.8rem; 
+            text-decoration: none; 
+            text-align: center;
+        }
+        .btn-emb { background: #28a745; color: white; }
+        .btn-ios { background: #007bff; color: white; }
+        .btn-cpy { background: #333; color: white; }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg bg-black border-bottom border-secondary">
+    <nav class="navbar navbar-expand-lg bg-black">
         <div class="container-fluid">
             <a class="navbar-brand" href="https://roxiestreams.info/">RoxieStreams</a>
-            <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/olympics">Winter Olympics</a></li>
+                    <li class="nav-item"><a class="nav-link nav-link-winter-blue" href="https://roxiestreams.info/olympics">Winter Olympics</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/soccer">Soccer</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/mlb">MLB</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
@@ -72,27 +123,33 @@
                     <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nhl">NHL</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Discord</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="main-content">
-        <div class="extractor-wrapper">
-            <div class="scanner-title">M3U8 EXTRACTOR</div>
+    <div class="container">
+        <div class="scanner-container text-center">
+            <div class="scanner-title">M3U8 Extractor</div>
+            <p class="text-secondary mb-4">Paste a match link to extract all available stream mirrors.</p>
             
-            <div class="input-group mb-2">
-                <input type="text" id="urlInput" class="form-control" placeholder="Paste link here (e.g. /nba-streams-1)" onkeydown="if(event.key==='Enter') extractLinks()">
-                <button class="btn btn-scan" onclick="extractLinks()">SCAN</button>
+            <div class="input-group">
+                <input type="text" id="urlInput" class="form-control" placeholder="URL here (e.g. /nba-streams-1)" onkeydown="if(event.key==='Enter') extractLinks()">
+                <button class="btn btn-scan" onclick="extractLinks()">SCAN URL</button>
             </div>
-
-            <div id="status">Enter a match URL to identify stream feeds.</div>
-            <div id="results"></div>
+            
+            <div id="status">Ready to scan...</div>
+            <div id="results" class="text-start"></div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
+        <ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
+            <li class="nav-item"><a href="https://discord.gg/JhkVmejRmn" class="nav-link px-2 text-body-secondary">Stream Request (Discord)</a></li>
+        </ul>
+        <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
+    </footer>
 
     <script>
         const PROXY = "https://api.allorigins.win/get?url=";
@@ -105,7 +162,7 @@
             if (!targetUrl) return;
 
             resultsDiv.innerHTML = '';
-            statusDiv.innerHTML = `<div class="spinner-border spinner-border-sm text-pink"></div> Extracting stream data...`;
+            statusDiv.innerHTML = `<div class="spinner-border spinner-border-sm text-pink"></div> Extracting Nodes...`;
 
             try {
                 const isInternal = targetUrl.includes(window.location.hostname) || !targetUrl.startsWith('http');
@@ -159,52 +216,50 @@
 
                 const groupKeys = Object.keys(groups);
                 if (groupKeys.length > 0) {
-                    statusDiv.innerHTML = `✅ Found ${groupKeys.length} unique stream feeds.`;
+                    statusDiv.innerHTML = `✅ Extracted ${groupKeys.length} stream feeds.`;
                     groupKeys.forEach((key, index) => {
                         const g = groups[key];
                         const selId = `sel-${index}`;
                         resultsDiv.innerHTML += `
                             <div class="link-item">
-                                <div class="stream-header">
-                                    <div class="stream-number">STREAM ${index + 1}</div>
-                                    <span class="mirror-count">${g.urls.length} MIRRORS</span>
-                                </div>
-                                <div class="small text-secondary mb-2">Node: ${g.sub} | File: ${g.file}</div>
+                                <div class="stream-name">STREAM FEED ${index + 1} (${g.urls.length} Mirrors)</div>
+                                <div class="small text-secondary mb-2">Resource: ${g.file}</div>
                                 <select id="${selId}" class="server-select">
                                     ${g.urls.map(u => `<option value="${u}">${u}</option>`).join('')}
                                 </select>
                                 <div class="button-group">
-                                    <button class="action-btn btn-embed" onclick="playEmbed('${selId}')">EMBED</button>
-                                    <button class="action-btn btn-native" onclick="playNative('${selId}')">IOS/ANDROID</button>
-                                    <button class="action-btn btn-copy" onclick="copy('${selId}', this)">COPY</button>
+                                    <button class="action-btn btn-emb" onclick="window.open('https://hlsplayer.net/embed?type=m3u8&src=' + encodeURIComponent(document.getElementById('${selId}').value), '_blank')">EMBED PLAYER</button>
+                                    <button class="action-btn btn-ios" onclick="window.open(document.getElementById('${selId}').value, '_blank')">IOS/ANDROID</button>
+                                    <button class="action-btn btn-cpy" onclick="copy('${selId}', this)">COPY LINK</button>
                                 </div>
                             </div>
                         `;
                     });
                 } else {
-                    statusDiv.innerHTML = "❌ No active streams found.";
+                    statusDiv.innerHTML = "❌ No streams detected.";
                 }
             } catch (err) {
-                statusDiv.innerHTML = "❌ Connection failed.";
+                statusDiv.innerHTML = "❌ Connection error.";
             }
-        }
-
-        function playEmbed(id) {
-            const url = document.getElementById(id).value;
-            window.open(`https://hlsplayer.net/embed?type=m3u8&src=${encodeURIComponent(url)}`, '_blank');
-        }
-
-        function playNative(id) {
-            const url = document.getElementById(id).value;
-            window.open(url, '_blank');
         }
 
         function copy(id, btn) {
             navigator.clipboard.writeText(document.getElementById(id).value);
-            const original = btn.textContent;
+            const old = btn.textContent;
             btn.textContent = "COPIED!";
-            setTimeout(() => btn.textContent = original, 1500);
+            setTimeout(() => btn.textContent = old, 1500);
         }
+
+        // Right click protection
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', e => {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C'))) e.preventDefault();
+        });
+    </script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+
+    <script type="text/javascript">
+        aclib.runPop({ zoneId: '10754426' });
     </script>
 </body>
 </html>
