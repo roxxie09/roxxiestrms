@@ -3,30 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Roxiestreams - M3U8 Extractor</title>
-    <meta name="description" content="Free PPV UFC, TV, NBA, NFL, and F1 streams">
-    <meta name="keywords" content="Roxiestreams, ppv, boxing, dazn, f1, ufc, nba, for, stream, online, free, mrgamingstreams, f1, tv, nfl">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/mainn.css">
-    <link href="/css/buttons.css" rel="stylesheet">
-    <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
-
-
+    <title>RoxieStreams - M3U8 Extractor</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@700&display=swap" rel="stylesheet">
-        <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-EQ3BHVQGMN');
-</script>
+    
     <style>
         body { background-color: #000; color: white; font-family: sans-serif; }
         .navbar-brand { color: pink !important; font-family: 'Kanit', sans-serif; font-weight: bold; }
@@ -60,8 +43,6 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link nav-link-winter-blue" href="https://roxiestreams.info/olympics">Winter Olympics</a></li>
-
                     <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/soccer">Soccer</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/mlb">MLB</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
@@ -69,7 +50,6 @@
                     <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nhl">NHL</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn" target="_blank">Discord</a></li>
                 </ul>
             </div>
         </div>
@@ -78,14 +58,14 @@
     <div class="container">
         <div class="extractor-wrapper">
             <h2 style="color: pink; font-family: 'Kanit';">M3U8 Extractor</h2>
-            <p class="text-secondary mb-4">URL to M3U8. Now grouping M3U8'S.</p>
+            <p class="text-secondary mb-4">Finding live streams. Grouping mirrors for efficiency.</p>
 
             <div class="input-group mb-3">
-                <input type="text" id="urlInput" class="form-control" placeholder="Paste link here..." value="https://roxiestreams.info/nba-streams-1" onkeydown="if(event.key==='Enter') extractLinks()" onfocus="this.select()">
+                <input type="text" id="urlInput" class="form-control" placeholder="Paste link here..." value="https://roxiestreams.info/soccer-streams-1" onkeydown="if(event.key==='Enter') extractLinks()" onfocus="this.select()">
                 <button class="btn btn-scan" id="scanBtn" onclick="extractLinks()">SCAN URL</button>
             </div>
 
-            <div id="status" class="status-box">Ready.</div>
+            <div id="status" class="status-box">Ready to scan.</div>
             <div id="results"></div>
         </div>
     </div>
@@ -98,13 +78,11 @@
         async function extractLinks() {
             const resultsDiv = document.getElementById('results');
             const statusDiv = document.getElementById('status');
-            const scanBtn = document.getElementById('scanBtn');
             const targetUrl = document.getElementById('urlInput').value.trim();
             
             if (!targetUrl) return;
             resultsDiv.innerHTML = '';
-            scanBtn.disabled = true;
-            statusDiv.innerHTML = `<div class="spinner-border text-pink" role="status"></div> Grouping identical streams...`;
+            statusDiv.innerHTML = `<div class="spinner-border spinner-border-sm text-pink"></div> Syncing Node configurations...`;
 
             try {
                 const response = await fetch(proxy + encodeURIComponent(targetUrl));
@@ -112,78 +90,73 @@
                 const html = data.contents;
                 
                 let rawStreams = [];
-                const staticRegex = /(https?:\/\/[^\s"']+\.m3u8(\?[^\s"']*)?)/g;
-                const staticMatches = html.match(staticRegex);
-                if (staticMatches) staticMatches.forEach(link => rawStreams.push(link));
 
-                const jsRegex = /getRandomStream\(['"]([^'"]+)['"](?:,\s*['"]([^'"]+)['"])?\)/g;
-                let jsMatch;
+                // 1. Detect default subdomain (daffodil/601)
+                let detectedDefaultSub = '601'; 
+                const subVarMatch = html.match(/var\s+subdomain\s*=\s*['"]([^'"]+)['"]/);
+                if (subVarMatch) detectedDefaultSub = subVarMatch[1];
+
+                // 2. Fetch mirror domains
                 let domains = ['shadow-ran.online']; 
                 try {
-                    const baseUrl = targetUrl.substring(0, targetUrl.lastIndexOf('/') + 1);
-                    const domResp = await fetch(proxy + encodeURIComponent(baseUrl + 'domains.txt'));
+                    const urlBase = targetUrl.substring(0, targetUrl.lastIndexOf('/') + 1);
+                    const domResp = await fetch(proxy + encodeURIComponent(urlBase + 'domains.txt'));
                     const domData = await domResp.json();
-                    if (domData.contents) domains = domData.contents.trim().split('\n').map(d => d.trim());
+                    if (domData.contents) {
+                        domains = domData.contents.trim().split('\n').map(d => d.trim()).filter(d => d);
+                    }
                 } catch(e) {}
 
+                // 3. Scan for JS Stream functions
+                const jsRegex = /getRandomStream\(['"]([^'"]+)['"](?:\s*,\s*['"]([^'"]+)['"])?\)/g;
+                let jsMatch;
                 while ((jsMatch = jsRegex.exec(html)) !== null) {
-                    const streamPath = jsMatch[1];
-                    const subdomain = jsMatch[2] || '601'; 
-                    domains.forEach(dom => rawStreams.push(`https://${subdomain}.${dom}/${streamPath}`));
+                    const fileName = jsMatch[1];
+                    const streamSub = jsMatch[2] || detectedDefaultSub; 
+                    domains.forEach(dom => {
+                        rawStreams.push(`https://${streamSub}.${dom}/${fileName}`);
+                    });
                 }
 
-                // GROUPING LOGIC
+                // 4. Grouping Logic
                 const groups = {};
                 rawStreams.forEach(url => {
                     try {
                         const urlObj = new URL(url);
-                        const subdomain = urlObj.hostname.split('.')[0];
-                        const filename = urlObj.pathname.split('/').pop();
-                        const key = `${subdomain}-${filename}`;
-                        
-                        if (!groups[key]) {
-                            groups[key] = {
-                                originalFile: filename,
-                                subdomain: subdomain,
-                                urls: []
-                            };
-                        }
+                        const sub = urlObj.hostname.split('.')[0];
+                        const file = urlObj.pathname.split('/').pop();
+                        const key = `${sub}-${file}`;
+                        if (!groups[key]) groups[key] = { sub, file, urls: [] };
                         if (!groups[key].urls.includes(url)) groups[key].urls.push(url);
                     } catch(e) {}
                 });
 
                 const groupKeys = Object.keys(groups);
                 if (groupKeys.length > 0) {
-                    statusDiv.innerHTML = `✅ Found ${groupKeys.length} unique stream feeds.`;
+                    statusDiv.innerHTML = `✅ Found ${groupKeys.length} Unique Stream Feeds.`;
                     groupKeys.forEach((key, index) => {
                         const group = groups[key];
-                        const card = document.createElement('div');
-                        card.className = 'link-item';
-                        const selectId = `select-${index}`;
-                        
-                        card.innerHTML = `
-                            <div class="stream-number">STREAM ${index + 1}</div>
-                            <span class="mirror-count">${group.urls.length} MIRRORS AVAILABLE</span>
-                            <div class="sub-info">Source: ${group.originalFile} | Node: ${group.subdomain}</div>
-                            
-                            <select id="${selectId}" class="server-select">
-                                ${group.urls.map(u => `<option value="${u}">${u}</option>`).join('')}
-                            </select>
-
-                            <div class="button-group">
-                                <button class="action-btn play-btn" onclick="playSelected('${selectId}')">▶ WATCH NOW</button>
-                                <button class="action-btn copy-btn" onclick="copySelected('${selectId}', this)">COPY LINK</button>
+                        const selectId = `sel-${index}`;
+                        resultsDiv.innerHTML += `
+                            <div class="link-item">
+                                <div class="stream-number">STREAM ${index + 1}</div>
+                                <span class="mirror-count">${group.urls.length} MIRRORS AVAILABLE</span>
+                                <div class="sub-info">Source: ${group.file} | Node: ${group.sub}</div>
+                                <select id="${selectId}" class="server-select">
+                                    ${group.urls.map(u => `<option value="${u}">${u}</option>`).join('')}
+                                </select>
+                                <div class="button-group">
+                                    <button class="action-btn play-btn" onclick="playSelected('${selectId}')">▶ WATCH NOW</button>
+                                    <button class="action-btn copy-btn" onclick="copySelected('${selectId}', this)">COPY LINK</button>
+                                </div>
                             </div>
                         `;
-                        resultsDiv.appendChild(card);
                     });
                 } else {
                     statusDiv.innerHTML = "❌ No active streams detected.";
                 }
             } catch (err) {
-                statusDiv.innerHTML = "❌ Connection error.";
-            } finally {
-                scanBtn.disabled = false;
+                statusDiv.innerHTML = "❌ Scan failed.";
             }
         }
 
@@ -193,7 +166,8 @@
         }
 
         function copySelected(id, btn) {
-            navigator.clipboard.writeText(document.getElementById(id).value);
+            const url = document.getElementById(id).value;
+            navigator.clipboard.writeText(url);
             btn.textContent = "COPIED!";
             setTimeout(() => btn.textContent = "COPY LINK", 2000);
         }
