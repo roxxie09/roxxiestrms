@@ -11,26 +11,38 @@
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@700&display=swap" rel="stylesheet">
     
     <style>
-        body { background-color: #050505; color: white; font-family: sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
-        .navbar-brand { color: pink !important; font-family: 'Kanit', sans-serif; font-weight: bold; font-size: 1.8rem; text-align: center; width: 100%; display: block; margin-bottom: 20px; }
+        body { background-color: #050505; color: white; font-family: sans-serif; min-height: 100vh; margin: 0; }
         
+        /* Navbar Styling */
+        .navbar-brand { color: pink !important; font-family: 'Kanit', sans-serif; font-weight: bold; font-size: 1.5rem; }
+        .nav-link { color: #ccc !important; font-size: 0.9rem; }
+        .nav-link:hover { color: pink !important; }
+
+        /* Scanner Container */
+        .main-content { display: flex; align-items: center; justify-content: center; padding: 40px 15px; }
         .extractor-wrapper { width: 100%; max-width: 750px; background: #111; border: 1px solid #222; border-radius: 16px; padding: 40px; box-shadow: 0 15px 40px rgba(0,0,0,0.7); }
         
+        .scanner-title { color: pink !important; font-family: 'Kanit', sans-serif; font-weight: bold; font-size: 1.8rem; text-align: center; margin-bottom: 25px; }
+
         .input-group { border-radius: 12px; overflow: hidden; border: 1px solid #333; }
         .input-group input { background: #1a1a1a; border: none; color: white; padding: 15px; font-size: 1.1rem; }
         .input-group input:focus { background: #222; box-shadow: none; color: white; }
+        
         .btn-scan { background-color: pink; color: black; font-weight: bold; border: none; padding: 0 30px; transition: 0.3s; }
         .btn-scan:hover { background-color: #ffb6c1; transform: scale(1.02); }
         
         #status { color: #888; font-size: 0.95rem; margin: 15px 0; text-align: center; min-height: 24px; }
         
+        /* Result Items */
         .link-item { background: #1a1a1a; padding: 20px; border: 1px solid #333; margin-top: 20px; border-radius: 12px; border-left: 5px solid pink; animation: fadeIn 0.4s ease-out; }
-        .stream-number { font-family: 'Kanit'; font-size: 1.3rem; color: pink; text-transform: uppercase; letter-spacing: 1px; }
-        .mirror-count { font-size: 1rem; color: #00ff88; font-weight: bold; display: block; margin-bottom: 12px; }
+        .stream-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .stream-number { font-family: 'Kanit'; font-size: 1.2rem; color: pink; text-transform: uppercase; }
+        .mirror-count { font-size: 0.9rem; color: #00ff88; font-weight: bold; }
+        
         .server-select { background: #222; border: 1px solid #444; color: #ccc; padding: 10px; border-radius: 8px; width: 100%; margin-bottom: 15px; cursor: pointer; font-family: monospace; font-size: 0.85rem; }
         
         .button-group { display: flex; gap: 8px; flex-wrap: wrap; }
-        .action-btn { font-size: 12px; padding: 10px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; transition: 0.2s; flex: 1; min-width: 80px; text-align: center; text-decoration: none; color: white; }
+        .action-btn { font-size: 12px; padding: 10px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; transition: 0.2s; flex: 1; min-width: 90px; text-align: center; text-decoration: none; color: white; }
         
         .btn-embed { background: #28a745; }
         .btn-embed:hover { background: #218838; }
@@ -44,17 +56,43 @@
 </head>
 <body>
 
-    <div class="extractor-wrapper">
-        <div class="navbar-brand">ROXIESTREAMS SCANNER</div>
-        
-        <div class="input-group mb-2">
-            <input type="text" id="urlInput" class="form-control" placeholder="Paste match URL here..." onkeydown="if(event.key==='Enter') extractLinks()">
-            <button class="btn btn-scan" onclick="extractLinks()">SCAN</button>
+    <nav class="navbar navbar-expand-lg bg-black border-bottom border-secondary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="https://roxiestreams.info/">RoxieStreams</a>
+            <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/olympics">Winter Olympics</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/soccer">Soccer</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/mlb">MLB</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nfl">NFL</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nhl">NHL</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Discord</a></li>
+                </ul>
+            </div>
         </div>
+    </nav>
 
-        <div id="status">Enter a URL to begin extraction.</div>
-        <div id="results"></div>
+    <div class="main-content">
+        <div class="extractor-wrapper">
+            <div class="scanner-title">M3U8 EXTRACTOR</div>
+            
+            <div class="input-group mb-2">
+                <input type="text" id="urlInput" class="form-control" placeholder="Paste link here (e.g. /nba-streams-1)" onkeydown="if(event.key==='Enter') extractLinks()">
+                <button class="btn btn-scan" onclick="extractLinks()">SCAN</button>
+            </div>
+
+            <div id="status">Enter a match URL to identify stream feeds.</div>
+            <div id="results"></div>
+        </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
         const PROXY = "https://api.allorigins.win/get?url=";
@@ -64,23 +102,21 @@
             const statusDiv = document.getElementById('status');
             const targetUrl = document.getElementById('urlInput').value.trim();
             
-            if (!targetUrl) {
-                statusDiv.innerHTML = "⚠️ Please enter a URL first.";
-                return;
-            }
+            if (!targetUrl) return;
 
             resultsDiv.innerHTML = '';
-            statusDiv.innerHTML = `<div class="spinner-border spinner-border-sm text-pink"></div> Syncing Node Data...`;
+            statusDiv.innerHTML = `<div class="spinner-border spinner-border-sm text-pink"></div> Extracting stream data...`;
 
             try {
-                const isInternal = targetUrl.includes(window.location.hostname);
+                const isInternal = targetUrl.includes(window.location.hostname) || !targetUrl.startsWith('http');
                 let html = "";
+                let fullPath = targetUrl.startsWith('http') ? targetUrl : window.location.origin + (targetUrl.startsWith('/') ? '' : '/') + targetUrl;
 
                 if (isInternal) {
-                    const response = await fetch(targetUrl);
+                    const response = await fetch(fullPath);
                     html = await response.text();
                 } else {
-                    const response = await fetch(PROXY + encodeURIComponent(targetUrl));
+                    const response = await fetch(PROXY + encodeURIComponent(fullPath));
                     const data = await response.json();
                     html = data.contents;
                 }
@@ -92,7 +128,7 @@
 
                 let domains = ['shadow-ran.online']; 
                 try {
-                    const urlBase = targetUrl.substring(0, targetUrl.lastIndexOf('/') + 1);
+                    const urlBase = fullPath.substring(0, fullPath.lastIndexOf('/') + 1);
                     const domResp = await fetch(isInternal ? urlBase + 'domains.txt' : PROXY + encodeURIComponent(urlBase + 'domains.txt'));
                     const domData = isInternal ? await domResp.text() : (await domResp.json()).contents;
                     if (domData) domains = domData.trim().split('\n').map(d => d.trim()).filter(d => d);
@@ -123,14 +159,16 @@
 
                 const groupKeys = Object.keys(groups);
                 if (groupKeys.length > 0) {
-                    statusDiv.innerHTML = `✅ Found ${groupKeys.length} stream sources.`;
+                    statusDiv.innerHTML = `✅ Found ${groupKeys.length} unique stream feeds.`;
                     groupKeys.forEach((key, index) => {
                         const g = groups[key];
                         const selId = `sel-${index}`;
                         resultsDiv.innerHTML += `
                             <div class="link-item">
-                                <div class="stream-number">STREAM ${index + 1}</div>
-                                <span class="mirror-count">${g.urls.length} MIRRORS AVAILABLE</span>
+                                <div class="stream-header">
+                                    <div class="stream-number">STREAM ${index + 1}</div>
+                                    <span class="mirror-count">${g.urls.length} MIRRORS</span>
+                                </div>
                                 <div class="small text-secondary mb-2">Node: ${g.sub} | File: ${g.file}</div>
                                 <select id="${selId}" class="server-select">
                                     ${g.urls.map(u => `<option value="${u}">${u}</option>`).join('')}
@@ -147,7 +185,7 @@
                     statusDiv.innerHTML = "❌ No active streams found.";
                 }
             } catch (err) {
-                statusDiv.innerHTML = "❌ Error reaching domain.";
+                statusDiv.innerHTML = "❌ Connection failed.";
             }
         }
 
@@ -164,7 +202,7 @@
         function copy(id, btn) {
             navigator.clipboard.writeText(document.getElementById(id).value);
             const original = btn.textContent;
-            btn.textContent = "DONE!";
+            btn.textContent = "COPIED!";
             setTimeout(() => btn.textContent = original, 1500);
         }
     </script>
