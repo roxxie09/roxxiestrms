@@ -102,10 +102,10 @@
     <div class="container container-fluid pt-2 text-white">
         <div class="fullplayer">
             <div id="playerContainer"></div>
-	<div class="streamchanger">
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tnt.m3u8', '601'))">Stream 1</button>
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('arsenal.m3u8', '601'))">Stream 2</button>
-	</div>
+            <div class="streamchanger">
+                <button class="streambutton" onclick="showPlayer('clappr', 'https://601.833577.xyz/tnt.m3u8')">Stream 1</button>
+                <button class="streambutton" onclick="showPlayer('clappr', 'https://601.833577.xyz/arsenal.m3u8')">Stream 2</button>
+            </div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.info"></iframe>
             </div>
@@ -119,46 +119,29 @@
         <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
     </footer>
 
-<script>
-var clapprPlayer;
-var domains = [];
-var subdomain = '601';  // Edit this per HTML file
+    <script>
+        var clapprPlayer;
 
-// Load domains from txt file
-fetch('domains.txt')
-  .then(response => response.text())
-  .then(data => {
-    domains = data.trim().split('\n').filter(d => d.trim());
-    // Auto-load initial stream after domains load
-    setTimeout(() => showPlayer('clappr', getRandomStream('tnt.m3u8')), 500);
-  })
-  .catch(() => {
-    console.error('Failed to load domains.txt');
-  });
+        function showPlayer(playerType, stream) {
+            if (playerType === "clappr") {
+                if (clapprPlayer) {
+                    clapprPlayer.destroy();
+                }
 
-function getRandomStream(streamPath, subdomain = '601') {
-  if (domains.length === 0) {
-    return `https://${subdomain}.shadow-ran.online/${streamPath}`; // Fallback
-  }
-  const randomDomain = domains[Math.floor(Math.random() * domains.length)];
-  return `https://${subdomain}.${randomDomain}/${streamPath}`;
-}
+                clapprPlayer = new Clappr.Player({
+                    source: stream,
+                    parentId: "#playerContainer",
+                    height: '100%',
+                    width: '100%',
+                    autoPlay: true,
+                });
+            }
+        }
 
-function showPlayer(playerType, stream) {
-  if (playerType === "clappr") {
-    if (clapprPlayer) {
-      clapprPlayer.destroy();
-    }
-    clapprPlayer = new Clappr.Player({
-      source: stream,
-      parentId: "#playerContainer",
-      height: '100%',
-      width: '100%',
-      autoPlay: true,
-    });
-  }
-}
-</script>
+        window.onload = function() {
+            showPlayer('clappr', 'https://601.833577.xyz/tnt.m3u8');
+        };
+    </script>
     <script>
         document.addEventListener('contextmenu', function (e) {
             e.preventDefault();
