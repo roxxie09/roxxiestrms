@@ -103,8 +103,8 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
 	<div class="streamchanger">
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('bein.m3u8', '601'))">Stream 1</button>
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('golazo.m3u8', 'daffodil'))">Stream 2</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tnt.m3u8', '601'))">Stream 1</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('astro.m3u8', 'daffodil'))">Stream 2</button>
 	</div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.info"></iframe>
@@ -130,7 +130,7 @@ fetch('domains.txt')
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
     // Auto-load initial stream after domains load
-    setTimeout(() => showPlayer('clappr', getRandomStream('bein.m3u8')), 500);
+    setTimeout(() => showPlayer('clappr', getRandomStream('tnt.m3u8')), 500);
   })
   .catch(() => {
     console.error('Failed to load domains.txt');
