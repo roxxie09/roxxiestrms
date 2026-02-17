@@ -103,7 +103,8 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
 	<div class="streamchanger">
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('main.m3u8', 'daffodil'))">Stream 1</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('madrid.m3u8', '601'))">Stream 1</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tudn.m3u8', '601'))">Stream 2 (ES)</button>
 	</div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.info"></iframe>
@@ -121,7 +122,7 @@
 <script>
 var clapprPlayer;
 var domains = [];
-var subdomain = 'daffodil';  // Edit this per HTML file
+var subdomain = '601';  // Edit this per HTML file
 
 // Load domains from txt file
 fetch('domains.txt')
@@ -129,13 +130,13 @@ fetch('domains.txt')
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
     // Auto-load initial stream after domains load
-    setTimeout(() => showPlayer('clappr', getRandomStream('main.m3u8')), 500);
+    setTimeout(() => showPlayer('clappr', getRandomStream('madrid.m3u8')), 500);
   })
   .catch(() => {
     console.error('Failed to load domains.txt');
   });
 
-function getRandomStream(streamPath, subdomain = 'daffodil') {
+function getRandomStream(streamPath, subdomain = '601') {
   if (domains.length === 0) {
     return `https://${subdomain}.shadow-ran.online/${streamPath}`; // Fallback
   }
