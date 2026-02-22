@@ -192,7 +192,7 @@
                 let domains = ['shadow-ran.online']; 
                 try {
                     const urlBase = fullPath.substring(0, fullPath.lastIndexOf('/') + 1);
-                    const domResp = await fetch(isInternal ? urlBase + 'domainsd.txt' : PROXY + encodeURIComponent(urlBase + 'domainsd.txt'));
+                    const domResp = await fetch(isInternal ? urlBase + 'domains.txt' : PROXY + encodeURIComponent(urlBase + 'domains.txt'));
                     const domData = isInternal ? await domResp.text() : (await domResp.json()).contents;
                     if (domData) domains = domData.trim().split('\n').map(d => d.trim()).filter(d => d);
                 } catch(e) {}
