@@ -1,8 +1,32 @@
-Game 1 | 04:00 PM | Delay: 0m 0s
-San Antonio Spurs vs Detroit Pistons: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoAnaIUtcQeRHOIXYGvUA29Y/ts
+Game 1 | 04:00 PM | Delay: 72m 30s
+Philadelphia 76Ers vs Indiana Pacers: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoAnaIUtcQeRHOIXYGvUA29Y/ts
 
-Game 2 | 05:00 PM | Delay: 37m 55s
-Sacramento Kings vs Memphis Grizzlies: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoDqVyKWaZmfCOsTZFVQyP3I/ts
+Game 2 | 04:30 PM | Delay: 102m 30s
+Washington Wizards vs Atlanta Hawks: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoDqVyKWaZmfCOsTZFVQyP3I/ts
 
-Game 3 | 06:30 PM | Delay: 127m 55s
-Utah Jazz vs Houston Rockets: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoMKtmwG3PJmOcm94_6ZnUS0/ts
+Game 3 | 04:30 PM | Delay: 102m 30s
+Dallas Mavericks vs Brooklyn Nets: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoMKtmwG3PJmOcm94_6ZnUS0/ts
+
+Game 4 | 04:30 PM | Delay: 102m 30s
+Oklahoma City Thunder vs Toronto Raptors: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFKUIZKiFd19blJkYG2yJublvLQnfOjtEuDXAkLtwNIln/ts
+
+Game 5 | 04:30 PM | Delay: 102m 30s
+New York Knicks vs Cleveland Cavaliers: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFKUIZKiFd19blJkYG2yJubn1j1I2FpBOz-jQlM2rViio/ts
+
+Game 6 | 05:00 PM | Delay: 132m 30s
+Charlotte Hornets vs Chicago Bulls: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFBs3tkgrmVpfLqcv7gNXPUFhNkaZrNquk7IviBcLxLEh/ts
+
+Game 7 | 05:00 PM | Delay: 132m 30s
+Miami Heat vs Milwaukee Bucks: http://flashvpn.nl:8080/play/fj3S1tV1JGfU45ipEFQ4ULUUHZtRoWubNIG79YCPo1mb5ULARh6cb6nzBoJB6JCQ/ts
+
+Game 8 | 05:00 PM | Delay: 132m 30s
+Golden State Warriors vs New Orleans Pelicans: http://flashvpn.nl:8080/play/fj3S1tV1JGfU45ipEFQ4ULUUHZtRoWubNIG79YCPo1kwXt-OnFgv5rFzH1ib4iTj/ts
+
+Game 9 | 06:00 PM | Delay: 192m 30s
+Boston Celtics vs Phoenix Suns: http://flashvpn.nl:8080/play/fj3S1tV1JGfU45ipEFQ4ULUUHZtRoWubNIG79YCPo1l0n-Yn3jIxEFb4JJRZrbCi/ts
+
+Game 10 | 07:00 PM | Delay: 252m 30s
+Minnesota Timberwolves vs Portland Trail Blazers: http://flashvpn.nl:8080/play/ssNRU1xydggO9-Bka7_o2FvGjCAHXqLHS3VpPCc1Kn8JAZVo3Wp7AGt2isfnvT2D/ts
+
+Game 11 | 07:30 PM | Delay: 282m 30s
+Orlando Magic vs Los Angeles Lakers: http://flashvpn.nl:8080/play/ssNRU1xydggO9-Bka7_o2FvGjCAHXqLHS3VpPCc1Kn-vZSBIaWUHhMGnP0KcVUFt/ts
