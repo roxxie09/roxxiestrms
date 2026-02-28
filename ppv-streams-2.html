@@ -1,178 +1,45 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en">
 <head>
-<script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Roxiestreams - Watch Live Sports, F1, UFC, NFL, TV</title>
-    <meta name="description" content="Free PPV UFC, TV, NBA, NFL, and F1 streams">
-    <meta name="keywords" content="Roxiestreams, ppv, boxing, dazn, f1, ufc, nba, for, stream, online, free, mrgamingstreams, f1, tv, nfl">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-    <link href="/css/buttons.css" rel="stylesheet">
-<link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
-<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
-    <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
-    <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-EQ3BHVQGMN');
-</script>
-    <style>
-        .navbar-brand {
-            color: pink;
-            font-size: 1.3rem;
-            text-decoration: none;
-            margin-top: -3px;
-            font-family: 'Kanit', sans-serif;
-            font-weight: bold;
-        }
-        .navbar-brand:hover {
-            text-decoration: underline;
-        }
-        .navbar-nav .nav-link {
-            padding-left: 5px;
-            padding-right: 5px;
-        }
-        .fullplayer {
-            display: flex;
-            justify-content: center;
-            position: relative;
-            height: 80vh;
-            margin-top: 50px;
-        }
-        #playerContainer {
-            width: 100%;
-            height: 100%;
-        }
-        .embedchat {
-            width: 30%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            margin-left: 10px;
-        }
-        .embedchat iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        .streamchanger {
-            position: absolute;
-            top: -40px;
-            left: 10px;
-            display: flex;
-            gap: 10px;
-        }
-    </style>
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stream 2 Embed</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background: #000;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+    .embed-container {
+      position: relative;
+      width: 100%;
+      max-width: 1280px;
+      aspect-ratio: 16 / 9;
+      margin: 0 auto;
+    }
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-black">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="https://roxiestreams.info/">RoxieStreams</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/soccer">Soccer</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/mlb">MLB</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nfl">NFL</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nhl">NHL</a></li>
+  <h1>Stream 2: twitch.tv/nayagx</h1>
 
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+  <div class="embed-container">
+    <iframe
+      src="https://player.twitch.tv/?channel=nayagx&parent=yourdomain.com"
+      allowfullscreen
+      scrolling="no"
+    ></iframe>
+  </div>
 
-    <div class="container container-fluid pt-2 text-white">
-        <div class="fullplayer">
-            <div id="playerContainer"></div>
-	<div class="streamchanger">
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('ppv2.m3u8', '601'))">Stream 1</button>
-	</div>
-            <div class="embedchat">
-                <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.info"></iframe>
-            </div>
-        </div>
-    </div>
-
-    <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-        <ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
-            <li class="nav-item"><a href="https://discord.gg/JhkVmejRmn" class="nav-link px-2 text-body-secondary">Stream Request (Discord)</a></li>
-        </ul>
-        <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
-    </footer>
-
-<script>
-var clapprPlayer;
-var domains = [];
-var subdomain = '601';  // Edit this per HTML file
-
-// Load domains from txt file
-fetch('domains.txt')
-  .then(response => response.text())
-  .then(data => {
-    domains = data.trim().split('\n').filter(d => d.trim());
-    // Auto-load initial stream after domains load
-    setTimeout(() => showPlayer('clappr', getRandomStream('ppv2.m3u8')), 500);
-  })
-  .catch(() => {
-    console.error('Failed to load domains.txt');
-  });
-
-function getRandomStream(streamPath, subdomain = '601') {
-  if (domains.length === 0) {
-    return `https://${subdomain}.shadow-ran.online/${streamPath}`; // Fallback
-  }
-  const randomDomain = domains[Math.floor(Math.random() * domains.length)];
-  return `https://${subdomain}.${randomDomain}/${streamPath}`;
-}
-
-function showPlayer(playerType, stream) {
-  if (playerType === "clappr") {
-    if (clapprPlayer) {
-      clapprPlayer.destroy();
-    }
-    clapprPlayer = new Clappr.Player({
-      source: stream,
-      parentId: "#playerContainer",
-      height: '100%',
-      width: '100%',
-      autoPlay: true,
-    });
-  }
-}
-</script>
-    <script>
-        document.addEventListener('contextmenu', function (e) {
-            e.preventDefault();
-        });
-
-        document.addEventListener('keydown', function (e) {
-            if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) ||
-                (e.ctrlKey && e.shiftKey && e.key === 'J')) {
-                e.preventDefault();
-            }
-        });
-    </script>
-    <script src="js/bootstrap.bundle.min.js"></script>
-
-<script type="text/javascript">
-aclib.runPop({
-zoneId: '10754426',
-});
-</script></body>
+  <p>This page is hosted on: <code>yourdomain.com</code>.</p>
+</body>
 </html>
