@@ -50,6 +50,16 @@
         #playerContainer {
             width: 100%;
             height: 100%;
+            position: relative;
+        }
+        #clapprContainer {
+            width: 100%;
+            height: 100%;
+        }
+        #twitchContainer {
+            width: 100%;
+            height: 100%;
+            display: none;
         }
         .embedchat {
             width: 30%;
@@ -70,6 +80,7 @@
             left: 10px;
             display: flex;
             gap: 10px;
+            z-index: 10;
         }
     </style>
 
@@ -99,9 +110,21 @@
 
     <div class="container container-fluid pt-2 text-white">
         <div class="fullplayer">
-            <div id="playerContainer"></div>
+            <div id="playerContainer">
+                <div id="clapprContainer"></div>
+                <div id="twitchContainer">
+                    <iframe id="twitchIframe" 
+                            src="https://player.twitch.tv/?channel=nayagx&parent=roxiestreams.info&autoplay=true" 
+                            height="100%" 
+                            width="100%" 
+                            frameborder="0" 
+                            allowfullscreen="true">
+                    </iframe>
+                </div>
+            </div>
 	<div class="streamchanger">
 	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('ppv.m3u8', '602'))">Stream 1</button>
+	  <button class="streambutton" onclick="showPlayer('twitch')">Stream 2</button>
 	</div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.info"></iframe>
@@ -141,18 +164,29 @@ function getRandomStream(streamPath, subdomain = '602') {
   return `https://${subdomain}.${randomDomain}/${streamPath}`;
 }
 
-function showPlayer(playerType, stream) {
+function showPlayer(playerType, streamUrl) {
+  const clapprContainer = document.getElementById('clapprContainer');
+  const twitchContainer = document.getElementById('twitchContainer');
+  
   if (playerType === "clappr") {
+    // Hide Twitch, show Clappr
+    twitchContainer.style.display = 'none';
+    clapprContainer.style.display = 'block';
+    
     if (clapprPlayer) {
       clapprPlayer.destroy();
     }
     clapprPlayer = new Clappr.Player({
-      source: stream,
-      parentId: "#playerContainer",
+      source: streamUrl,
+      parentId: "#clapprContainer",
       height: '100%',
       width: '100%',
       autoPlay: true,
     });
+  } else if (playerType === "twitch") {
+    // Hide Clappr, show Twitch
+    clapprContainer.style.display = 'none';
+    twitchContainer.style.display = 'block';
   }
 }
 </script>
