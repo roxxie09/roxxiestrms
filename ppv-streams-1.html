@@ -55,11 +55,16 @@
         #clapprContainer {
             width: 100%;
             height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
         #twitchContainer {
             width: 100%;
             height: 100%;
-            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
         .embedchat {
             width: 30%;
@@ -114,7 +119,7 @@
                 <div id="clapprContainer"></div>
                 <div id="twitchContainer">
                     <iframe id="twitchIframe" 
-                            src="https://player.twitch.tv/?channel=nayagx&parent=roxiestreams.info&autoplay=true" 
+                            src="https://player.twitch.tv/?channel=adapt&parent=roxiestreams.cc&autoplay=true" 
                             height="100%" 
                             width="100%" 
                             frameborder="0" 
@@ -124,7 +129,7 @@
             </div>
 	<div class="streamchanger">
 	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('ppv.m3u8', '602'))">Stream 1</button>
-	  <button class="streambutton" onclick="showPlayer('twitch')">Stream 2 (Twitch)</button>
+	  <button class="streambutton" onclick="showPlayer('twitch')">Stream 2</button>
 	</div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.info"></iframe>
@@ -167,12 +172,23 @@ function getRandomStream(streamPath, subdomain = '602') {
 function showPlayer(playerType, streamUrl) {
   const clapprContainer = document.getElementById('clapprContainer');
   const twitchContainer = document.getElementById('twitchContainer');
+  const twitchIframe = document.getElementById('twitchIframe');
+  
+  // Always hide both containers first
+  clapprContainer.style.display = 'none';
+  twitchContainer.style.display = 'none';
   
   if (playerType === "clappr") {
-    // Hide Twitch, show Clappr
-    twitchContainer.style.display = 'none';
+    // Show Clappr container
     clapprContainer.style.display = 'block';
     
+    // Force stop Twitch iframe by changing src
+    twitchIframe.src = '';
+    setTimeout(() => {
+      twitchIframe.src = 'https://player.twitch.tv/?channel=nayagx&parent=roxiestreams.info&autoplay=true';
+    }, 100);
+    
+    // Destroy existing Clappr and create new one
     if (clapprPlayer) {
       clapprPlayer.destroy();
     }
@@ -184,9 +200,14 @@ function showPlayer(playerType, streamUrl) {
       autoPlay: true,
     });
   } else if (playerType === "twitch") {
-    // Hide Clappr, show Twitch
-    clapprContainer.style.display = 'none';
+    // Show Twitch container
     twitchContainer.style.display = 'block';
+    
+    // Destroy Clappr player
+    if (clapprPlayer) {
+      clapprPlayer.destroy();
+      clapprPlayer = null;
+    }
   }
 }
 </script>
