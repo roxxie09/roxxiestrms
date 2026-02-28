@@ -148,7 +148,7 @@ var subdomain = '602';  // Edit this per HTML file
 fetch('domains.txt')
   .then(response => response.text())
   .then(data => {
-    domains = data.trim().split('\\n').filter(d => d.trim());
+    domains = data.trim().split('\n').filter(d => d.trim());
     // Auto-load initial stream after domains load
     setTimeout(() => showPlayer('clappr', getRandomStream('ppv.m3u8')), 500);
   })
