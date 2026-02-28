@@ -48,21 +48,9 @@
             margin-top: 50px;
         }
         #playerContainer {
-            width: 65%;  /* Reduced from 100% to make room for Stream 2 */
+            width: 70%;
             height: 100%;
-        }
-        .stream2-twitch {
-            width: 30%;  /* New column for Twitch Stream 2 */
-            height: 100%;
-            margin-left: 10px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(255,0,255,0.3);
-        }
-        .stream2-twitch iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
+            position: relative;
         }
         .embedchat {
             width: 30%;
@@ -84,15 +72,11 @@
             display: flex;
             gap: 10px;
         }
-        .stream-label {
-            position: absolute;
-            top: -30px;
-            left: 10px;
-            background: rgba(0,0,0,0.8);
-            color: pink;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.9rem;
+        #twitchIframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: none;
         }
     </style>
 
@@ -123,19 +107,13 @@
     <div class="container container-fluid pt-2 text-white">
         <div class="fullplayer">
             <div id="playerContainer">
-                <div class="stream-label">Stream 1</div>
+                <div id="clapprContainer"></div>
+                <iframe id="twitchIframe" src="https://player.twitch.tv/?channel=nayagx&parent=roxiestreams.info&autoplay=true" allowfullscreen></iframe>
             </div>
-            
-            <!-- NEW: Stream 2 Twitch embed -->
-            <div class="stream2-twitch">
-                <div class="stream-label">Stream 2</div>
-                <iframe
-                    src="https://player.twitch.tv/?channel=nayagx&parent=roxiestreams.info"
-                    allowfullscreen="true"
-                    scrolling="no">
-                </iframe>
-            </div>
-            
+	<div class="streamchanger">
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('ppv.m3u8', '602'))">Stream 1</button>
+	  <button class="streambutton" onclick="showPlayer('twitch')">Stream 2</button>
+	</div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.info"></iframe>
             </div>
@@ -160,7 +138,7 @@ fetch('domains.txt')
   .then(data => {
     domains = data.trim().split('\\n').filter(d => d.trim());
     // Auto-load initial stream after domains load
-    setTimeout(() => showPlayer('clappr', getRandomStream('ppv.m3u8', '602')), 500);
+    setTimeout(() => showPlayer('clappr', getRandomStream('ppv.m3u8')), 500);
   })
   .catch(() => {
     console.error('Failed to load domains.txt');
@@ -175,17 +153,28 @@ function getRandomStream(streamPath, subdomain = '602') {
 }
 
 function showPlayer(playerType, stream) {
+  const clapprContainer = document.getElementById('clapprContainer');
+  const twitchIframe = document.getElementById('twitchIframe');
+  
   if (playerType === "clappr") {
+    // Show Clappr container and hide Twitch iframe
+    clapprContainer.style.display = 'block';
+    twitchIframe.style.display = 'none';
+    
     if (clapprPlayer) {
       clapprPlayer.destroy();
     }
     clapprPlayer = new Clappr.Player({
       source: stream,
-      parentId: "#playerContainer",
+      parentId: "#clapprContainer",
       height: '100%',
       width: '100%',
       autoPlay: true,
     });
+  } else if (playerType === "twitch") {
+    // Hide Clappr container and show Twitch iframe
+    clapprContainer.style.display = 'none';
+    twitchIframe.style.display = 'block';
   }
 }
 </script>
