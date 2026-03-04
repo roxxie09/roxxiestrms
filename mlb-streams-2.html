@@ -13,21 +13,21 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link href="/css/buttons.css" rel="stylesheet">
-<link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
-<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
+    <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
+    <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js"></script>
 
-<!-- Clappr core + Chromecast plugin -->
-<script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/clappr-chromecast-plugin@latest/dist/clappr-chromecast-plugin.min.js"></script>
+    <!-- Clappr core + Chromecast plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clappr-chromecast-plugin@latest/dist/clappr-chromecast-plugin.min.js"></script>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
     <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-EQ3BHVQGMN');
+    </script>
 
-  gtag('config', 'G-EQ3BHVQGMN');
-</script>
     <style>
         .navbar-brand {
             color: pink;
@@ -74,9 +74,18 @@
             left: 10px;
             display: flex;
             gap: 10px;
+            z-index: 100;
+        }
+
+        /* Custom cast icon button inside Clappr controls */
+        .clappr-cast-button {
+            background: transparent url('https://files.catbox.moe/2in3jc.png') center center / 18px 18px no-repeat !important;
+            outline: none;
+        }
+        .clappr-cast-button:hover {
+            opacity: 0.8;
         }
     </style>
-
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-black">
@@ -87,14 +96,13 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/soccer">Soccer</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/mlb">MLB</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nfl">NFL</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nhl">NHL</a></li>
-
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/soccer">Soccer</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/mlb">MLB</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nfl">NFL</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nhl">NHL</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
                 </ul>
             </div>
@@ -122,52 +130,63 @@
 
     <script>
         var clapprPlayer;
-        var castButton;
-        var isCasting = false;
 
-        // Custom Cast Control Plugin - injects near volume slider
-        const CastControl = Clappr.UICorePlugin.extend({
-            name: 'cast_control',
-            bindEvents: function() {
-                this.listenToOnce(this.core, Clappr.Events.CORE_READY, () => {
-                    this.listenTo(this.core.mediaControl, Clappr.Events.MEDIACONTROL_RENDERED, this._renderCastButton);
-                });
-            },
+        // Custom UI plugin that injects a button into the media-control right panel
+        // and positions it next to the volume icon. [web:57]
+        var CastButtonPlugin = Clappr.UICorePlugin.extend({
+          name: 'cast_button',
 
-            _renderCastButton: function() {
-                if (castButton) return;
-
-                // Create transparent PNG cast button (24x24px)
-                castButton = $('<img src="https://files.catbox.moe/2in3jc.png" style="width:24px;height:24px;cursor:pointer;opacity:0.8;margin-left:5px;float:right;" title="Cast to TV">');
-
-                // Position near volume slider (right panel)
-                this.core.mediaControl.$('.media-control-right-panel').append(castButton);
-
-                // Cast handler
-                castButton.on('click', () => {
-                    if (window.chrome && chrome.cast && chrome.cast.requestSession) {
-                        if (isCasting) {
-                            chrome.cast.requestSession(() => {
-                                castButton.css('filter', ''); // Reset
-                                isCasting = false;
-                            }, console.error);
-                        } else {
-                            chrome.cast.requestSession(
-                                () => {
-                                    castButton.css('filter', 'hue-rotate(0deg) brightness(1.2)'); // Active glow
-                                    isCasting = true;
-                                },
-                                (error) => {
-                                    console.error('Cast error:', error);
-                                    alert('No Chromecast found');
-                                }
-                            );
-                        }
-                    } else {
-                        alert('Use Chrome desktop');
-                    }
-                });
+          bindEvents: function () {
+            if (this.core && this.core.mediaControl) {
+              this.listenTo(this.core.mediaControl, Clappr.Events.MEDIACONTROL_RENDERED, this.render);
             }
+          },
+
+          render: function () {
+            this.renderButton();
+            var rightPanel = this.core.mediaControl.$('.media-control-right-panel');
+            var volumeBtn = rightPanel.find('.volume-icon').closest('button');
+
+            if (volumeBtn.length) {
+              // Insert our button just before the volume button
+              this.$el.insertBefore(volumeBtn);
+            } else {
+              // Fallback: add at the end of the right panel
+              rightPanel.append(this.el);
+            }
+            return this;
+          },
+
+          renderButton: function () {
+            if (this.$button) return;
+
+            this.$el.css({
+              'display': 'inline-block',
+              'width': '32px',
+              'height': '32px'
+            });
+
+            this.$button = $('<button/>', { type: 'button' })
+              .addClass('media-control-button media-control-icon clappr-cast-button')
+              .on('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                if (window.chrome && chrome.cast && chrome.cast.requestSession) {
+                  chrome.cast.requestSession(
+                    function () { /* success: user picks device */ },
+                    function (error) {
+                      console.error('Cast error:', error);
+                      alert('No Chromecast found – make sure it is on the same WiFi.');
+                    }
+                  );
+                } else {
+                  alert('Open in Chrome desktop with Cast enabled to use casting.');
+                }
+              });
+
+            this.$el.append(this.$button);
+          }
         });
 
         function showPlayer(playerType, stream) {
@@ -183,8 +202,8 @@
                     width: '100%',
                     autoPlay: true,
 
-                    // Chromecast plugin + Custom Cast button
-                    plugins: {core: [CastControl], container: [ChromecastPlugin]},
+                    // Chromecast plugin + our custom cast button plugin
+                    plugins: [ChromecastPlugin, CastButtonPlugin],
 
                     chromecast: {
                         appId: "9DFB77C0",
@@ -203,6 +222,7 @@
             showPlayer('clappr', 'https://602.xn--1000-ugoa0hsb9a0hb.com/mlb2.m3u8');
         };
     </script>
+
     <script>
         document.addEventListener('contextmenu', function (e) {
             e.preventDefault();
@@ -215,11 +235,12 @@
             }
         });
     </script>
+
     <script src="js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript">
-    aclib.runPop({
-        zoneId: '10754426',
-    });
-</script>
+    <script type="text/javascript">
+        aclib.runPop({
+            zoneId: '10754426',
+        });
+    </script>
 </body>
 </html>
