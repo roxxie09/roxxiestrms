@@ -54,6 +54,7 @@
         #playerContainer {
             width: 100%;
             height: 100%;
+            position: relative;
         }
         .embedchat {
             width: 30%;
@@ -70,17 +71,63 @@
         }
         .streamchanger {
             position: absolute;
-            top: -40px;
+            top: -50px;
             left: 10px;
             display: flex;
             gap: 10px;
+            z-index: 100;
         }
-        #castBtn {
-            background: #4285f4 !important;
-            color: white !important;
+        
+        /* Sleek floating Cast button overlay */
+        .cast-overlay {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+            background: linear-gradient(135deg, #4285f4, #34a853);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(66,133,244,0.4);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
-        #castBtn.casting {
-            background: #ea4335 !important;
+        .cast-overlay:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(66,133,244,0.6);
+        }
+        .cast-overlay.casting {
+            background: linear-gradient(135deg, #ea4335, #fbbc04);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 8px 25px rgba(234,67,53,0.4); }
+            50% { box-shadow: 0 8px 25px rgba(234,67,53,0.8); }
+            100% { box-shadow: 0 8px 25px rgba(234,67,53,0.4); }
+        }
+        .cast-tooltip {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .cast-overlay:hover .cast-tooltip {
+            opacity: 1;
         }
     </style>
 
@@ -110,11 +157,15 @@
 
     <div class="container container-fluid pt-2 text-white">
         <div class="fullplayer">
-            <div id="playerContainer"></div>
+            <div id="playerContainer">
+                <!-- Smooth floating Cast button overlay -->
+                <button class="cast-overlay" id="castBtn">
+                    <span class="cast-tooltip">Cast to TV</span>
+                    📱
+                </button>
+            </div>
             <div class="streamchanger">
                 <button class="streambutton" onclick="showPlayer('clappr', 'https://602.xn--1000-ugoa0hsb9a0hb.com/mlb2.m3u8')">Stream 1</button>
-                <!-- Custom Cast Button -->
-                <button id="castBtn" class="streambutton">📱 Cast</button>
             </div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.info"></iframe>
@@ -133,27 +184,33 @@
         var clapprPlayer;
         var isCasting = false;
 
-        // Custom Cast Button Handler
+        // Floating Cast Button Handler
         document.getElementById('castBtn').addEventListener('click', function() {
             const btn = this;
             if (window.chrome && chrome.cast && chrome.cast.requestSession) {
                 if (isCasting) {
-                    chrome.cast.requestSession(() => {}, console.error); // Stop session
+                    // Stop casting
+                    chrome.cast.requestSession(() => {
+                        btn.innerHTML = '<span class="cast-tooltip">Cast to TV</span>📱';
+                        btn.classList.remove('casting');
+                        isCasting = false;
+                    }, console.error);
                 } else {
+                    // Start casting
                     chrome.cast.requestSession(
-                        function() {
-                            btn.textContent = '⏹️ Stop Cast';
+                        () => {
+                            btn.innerHTML = '<span class="cast-tooltip">Stop Casting</span>⏹️';
                             btn.classList.add('casting');
                             isCasting = true;
                         },
-                        function(error) {
+                        (error) => {
                             console.error('Cast error:', error);
-                            alert('No Chromecast found - check WiFi');
+                            alert('No Chromecast found—ensure same WiFi');
                         }
                     );
                 }
             } else {
-                alert('Open in Chrome desktop with Cast extension pinned');
+                alert('Use Chrome desktop with Cast pinned (⋮ > More tools > Extensions)');
             }
         });
 
@@ -170,9 +227,7 @@
                     width: '100%',
                     autoPlay: true,
 
-                    // Chromecast plugin (enables toolbar cast)
                     plugins: [ChromecastPlugin],
-
                     chromecast: {
                         appId: "9DFB77C0",
                         contentType: "application/x-mpegURL",
