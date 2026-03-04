@@ -128,100 +128,101 @@
         <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
     </footer>
 
-    <script>
-        var clapprPlayer;
+<script>
+  var clapprPlayer;
 
-        // Custom UI plugin that injects a button into the media-control right panel
-        // and positions it next to the volume icon. [web:57]
-        var CastButtonPlugin = Clappr.UICorePlugin.extend({
-          name: 'cast_button',
+  // UI Core Plugin: adds a cast button into Clappr's media controls [web:57]
+  var CastButtonPlugin = Clappr.UICorePlugin.extend({
+    name: 'cast_button',
 
-          bindEvents: function () {
-            if (this.core && this.core.mediaControl) {
-              this.listenTo(this.core.mediaControl, Clappr.Events.MEDIACONTROL_RENDERED, this.render);
-            }
-          },
+    bindEvents: function () {
+      this.listenTo(this.core, Clappr.Events.CORE_READY, this.onCoreReady);
+    },
 
-          render: function () {
-            this.renderButton();
-            var rightPanel = this.core.mediaControl.$('.media-control-right-panel');
-            var volumeBtn = rightPanel.find('.volume-icon').closest('button');
+    onCoreReady: function () {
+      var mediaControl = this.core.mediaControl;
+      if (!mediaControl) return;
 
-            if (volumeBtn.length) {
-              // Insert our button just before the volume button
-              this.$el.insertBefore(volumeBtn);
+      this.listenTo(mediaControl, Clappr.Events.MEDIACONTROL_RENDERED, this.render);
+    },
+
+    render: function () {
+      var mediaControl = this.core.mediaControl;
+      if (!mediaControl) return;
+
+      // Build button once
+      if (!this.$button) {
+        this.$button = $('<button/>', { type: 'button' })
+          .addClass('media-control-button media-control-icon clappr-cast-button')
+          .on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (window.chrome && chrome.cast && chrome.cast.requestSession) {
+              chrome.cast.requestSession(
+                function () { /* user picked device */ },
+                function (error) {
+                  console.error('Cast error:', error);
+                  alert('No Chromecast found – make sure it is on the same WiFi.');
+                }
+              );
             } else {
-              // Fallback: add at the end of the right panel
-              rightPanel.append(this.el);
+              alert('Use Chrome desktop with Cast enabled to cast.');
             }
-            return this;
-          },
+          });
 
-          renderButton: function () {
-            if (this.$button) return;
+        this.$el.append(this.$button);
+      }
 
-            this.$el.css({
-              'display': 'inline-block',
-              'width': '32px',
-              'height': '32px'
-            });
+      var $rightPanel = mediaControl.$('.media-control-right-panel');
+      var $volumeBtn = $rightPanel.find('.volume-icon').closest('button');
 
-            this.$button = $('<button/>', { type: 'button' })
-              .addClass('media-control-button media-control-icon clappr-cast-button')
-              .on('click', function (e) {
-                e.preventDefault();
-                e.stopPropagation();
+      if ($volumeBtn.length) {
+        this.$el.insertBefore($volumeBtn);
+      } else {
+        $rightPanel.append(this.el);
+      }
 
-                if (window.chrome && chrome.cast && chrome.cast.requestSession) {
-                  chrome.cast.requestSession(
-                    function () { /* success: user picks device */ },
-                    function (error) {
-                      console.error('Cast error:', error);
-                      alert('No Chromecast found – make sure it is on the same WiFi.');
-                    }
-                  );
-                } else {
-                  alert('Open in Chrome desktop with Cast enabled to use casting.');
-                }
-              });
+      return this;
+    }
+  });
 
-            this.$el.append(this.$button);
+  function showPlayer(playerType, stream) {
+    if (playerType === "clappr") {
+      if (clapprPlayer) {
+        clapprPlayer.destroy();
+      }
+
+      clapprPlayer = new Clappr.Player({
+        source: stream,
+        parentId: "#playerContainer",
+        height: "100%",
+        width: "100%",
+        autoPlay: true,
+
+        // Playback/plugins (Chromecast engine)
+        plugins: [ChromecastPlugin],
+
+        // UI plugins (control bar customizations) [web:57]
+        corePlugins: [CastButtonPlugin],
+
+        chromecast: {
+          appId: "9DFB77C0",
+          contentType: "application/x-mpegURL",
+          media: {
+            type: ChromecastPlugin.Movie,
+            title: "RoxieStreams Live Stream",
+            subtitle: "MLB Stream"
           }
-        });
-
-        function showPlayer(playerType, stream) {
-            if (playerType === "clappr") {
-                if (clapprPlayer) {
-                    clapprPlayer.destroy();
-                }
-
-                clapprPlayer = new Clappr.Player({
-                    source: stream,
-                    parentId: "#playerContainer",
-                    height: '100%',
-                    width: '100%',
-                    autoPlay: true,
-
-                    // Chromecast plugin + our custom cast button plugin
-                    plugins: [ChromecastPlugin, CastButtonPlugin],
-
-                    chromecast: {
-                        appId: "9DFB77C0",
-                        contentType: "application/x-mpegURL",
-                        media: {
-                            type: ChromecastPlugin.Movie,
-                            title: "RoxieStreams Live Stream",
-                            subtitle: "MLB Stream"
-                        }
-                    }
-                });
-            }
         }
+      });
+    }
+  }
 
-        window.onload = function() {
-            showPlayer('clappr', 'https://602.xn--1000-ugoa0hsb9a0hb.com/mlb2.m3u8');
-        };
-    </script>
+  window.onload = function () {
+    showPlayer("clappr", "https://602.xn--1000-ugoa0hsb9a0hb.com/mlb2.m3u8");
+  };
+</script>
 
     <script>
         document.addEventListener('contextmenu', function (e) {
