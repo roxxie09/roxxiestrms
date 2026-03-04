@@ -15,7 +15,11 @@
     <link href="/css/buttons.css" rel="stylesheet">
 <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
 <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
-    <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+
+<!-- Clappr core + Chromecast plugin -->
+<script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clappr-chromecast-plugin@latest/dist/clappr-chromecast-plugin.min.js"></script>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
     <script>
   window.dataLayer = window.dataLayer || [];
@@ -131,6 +135,20 @@
                     height: '100%',
                     width: '100%',
                     autoPlay: true,
+
+                    // Enable Chromecast plugin
+                    plugins: [ChromecastPlugin],
+
+                    // Chromecast configuration for HLS streams
+                    chromecast: {
+                        appId: "9DFB77C0",
+                        contentType: "application/x-mpegURL",
+                        media: {
+                            type: ChromecastPlugin.Movie,
+                            title: "RoxieStreams Live Stream",
+                            subtitle: "MLB Stream"
+                        }
+                    }
                 });
             }
         }
