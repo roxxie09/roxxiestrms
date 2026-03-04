@@ -8,12 +8,12 @@
     <title>Roxiestreams - Watch Live Sports, F1, UFC, NFL, TV</title>
     <meta name="description" content="Free PPV UFC, TV, NBA, NFL, and F1 streams">
     <meta name="keywords" content="Roxiestreams, ppv, boxing, dazn, f1, ufc, nba, for, stream, online, free, mrgamingstreams, f1, tv, nfl">
-    //fonts.googleapis.com">
-    //fonts.gstatic.com" crossorigin>
-    /css" href="css/bootstrap.min.css">
-    /css" href="css/main.css">
-    /css/buttons.css" rel="stylesheet">
-/iconn.png" rel="shortcut icon" type="x-icon"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link href="/css/buttons.css" rel="stylesheet">
+<link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
 <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
 
 <!-- Clappr core + Chromecast plugin -->
@@ -54,7 +54,6 @@
         #playerContainer {
             width: 100%;
             height: 100%;
-            position: relative;
         }
         .embedchat {
             width: 30%;
@@ -71,82 +70,10 @@
         }
         .streamchanger {
             position: absolute;
-            top: -50px;
+            top: -40px;
             left: 10px;
             display: flex;
             gap: 10px;
-            z-index: 100;
-        }
-        
-        /* Chromecast icon button with your image */
-        .cast-overlay {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            z-index: 50;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(20px);
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            width: 70px;
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-        }
-        .cast-overlay:hover {
-            transform: scale(1.15) rotate(5deg);
-            background: rgba(66,133,244,0.3);
-            border-color: #4285f4;
-            box-shadow: 0 12px 40px rgba(66,133,244,0.5);
-        }
-        .cast-overlay:active {
-            transform: scale(0.95);
-        }
-        .cast-overlay.casting {
-            background: rgba(234,67,53,0.4);
-            border-color: #ea4335;
-            animation: pulse-glow 1.5s infinite;
-        }
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 8px 32px rgba(234,67,53,0.4); }
-            50% { box-shadow: 0 8px 32px rgba(234,67,53,0.8), 0 0 20px rgba(234,67,53,0.5); }
-        }
-        .cast-icon {
-            width: 36px;
-            height: 36px;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-            transition: filter 0.3s;
-        }
-        .cast-overlay:hover .cast-icon {
-            filter: drop-shadow(0 2px 8px rgba(255,255,255,0.5)) brightness(1.1);
-        }
-        .cast-tooltip {
-            position: absolute;
-            bottom: 80px;
-            right: 0;
-            background: rgba(0,0,0,0.9);
-            color: white;
-            padding: 8px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 500;
-            white-space: nowrap;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.3s ease;
-            pointer-events: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-        .cast-overlay:hover .cast-tooltip {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .cast-overlay.casting .cast-tooltip {
-            content: "Stop Casting";
         }
     </style>
 
@@ -160,15 +87,15 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                ><a class="nav-link" href="https://roxiestreams.info/soccer">Soccer</a></li>
-><a class="nav-link" href="https://roxiestreams.info/mlb">MLB</a></li>
-><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
-><a class="nav-link" href="https://roxiestreams.info/nfl">NFL</a></li>
-><a class="nav-link" href="https://roxiestreams.info/nhl">NHL</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/soccer">Soccer</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/mlb">MLB</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nfl">NFL</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nhl">NHL</a></li>
 
-><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
-><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
-                    ><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
                 </ul>
             </div>
         </div>
@@ -176,13 +103,7 @@
 
     <div class="container container-fluid pt-2 text-white">
         <div class="fullplayer">
-            <div id="playerContainer">
-                <!-- Premium Chromecast overlay button -->
-                <button class="cast-overlay" id="castBtn">
-                    <img src="https://files.catbox.moe/2in3jc.png" alt="Cast" class="cast-icon">
-                    <span class="cast-tooltip">Cast to Chromecast</span>
-                </button>
-            </div>
+            <div id="playerContainer"></div>
             <div class="streamchanger">
                 <button class="streambutton" onclick="showPlayer('clappr', 'https://602.xn--1000-ugoa0hsb9a0hb.com/mlb2.m3u8')">Stream 1</button>
             </div>
@@ -194,60 +115,66 @@
 
     <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
         <ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
-            ><a href="https://discord.gg/JhkVmejRmn" class="nav-link px-2 text-body-secondary">Stream Request (Discord)</a></li>
+            <li class="nav-item"><a href="https://discord.gg/JhkVmejRmn" class="nav-link px-2 text-body-secondary">Stream Request (Discord)</a></li>
         </ul>
         <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
     </footer>
 
     <script>
         var clapprPlayer;
+        var castButton;
         var isCasting = false;
-        const castBtn = document.getElementById('castBtn');
 
-        castBtn.addEventListener('click', function() {
-            if (window.chrome && chrome.cast && chrome.cast.requestSession) {
-                if (isCasting) {
-                    chrome.cast.requestSession(() => {
-                        resetCastButton();
-                    }, console.error);
-                } else {
-                    chrome.cast.requestSession(
-                        () => {
-                            setCastingState(true);
-                        },
-                        (error) => {
-                            console.error('Cast error:', error);
-                            alert('No Chromecast found—check WiFi & devices');
+        // Custom Cast Control Plugin - injects near volume slider
+        const CastControl = Clappr.UICorePlugin.extend({
+            name: 'cast_control',
+            bindEvents: function() {
+                this.listenToOnce(this.core, Clappr.Events.CORE_READY, () => {
+                    this.listenTo(this.core.mediaControl, Clappr.Events.MEDIACONTROL_RENDERED, this._renderCastButton);
+                });
+            },
+
+            _renderCastButton: function() {
+                if (castButton) return;
+
+                // Create transparent PNG cast button (24x24px)
+                castButton = $('<img src="https://files.catbox.moe/2in3jc.png" style="width:24px;height:24px;cursor:pointer;opacity:0.8;margin-left:5px;float:right;" title="Cast to TV">');
+
+                // Position near volume slider (right panel)
+                this.core.mediaControl.$('.media-control-right-panel').append(castButton);
+
+                // Cast handler
+                castButton.on('click', () => {
+                    if (window.chrome && chrome.cast && chrome.cast.requestSession) {
+                        if (isCasting) {
+                            chrome.cast.requestSession(() => {
+                                castButton.css('filter', ''); // Reset
+                                isCasting = false;
+                            }, console.error);
+                        } else {
+                            chrome.cast.requestSession(
+                                () => {
+                                    castButton.css('filter', 'hue-rotate(0deg) brightness(1.2)'); // Active glow
+                                    isCasting = true;
+                                },
+                                (error) => {
+                                    console.error('Cast error:', error);
+                                    alert('No Chromecast found');
+                                }
+                            );
                         }
-                    );
-                }
-            } else {
-                alert('Chrome desktop required (⋮ > More tools > Extensions > Cast)');
+                    } else {
+                        alert('Use Chrome desktop');
+                    }
+                });
             }
         });
-
-        function setCastingState(casting) {
-            isCasting = casting;
-            if (casting) {
-                castBtn.classList.add('casting');
-                castBtn.querySelector('.cast-tooltip').textContent = 'Stop Casting';
-            } else {
-                resetCastButton();
-            }
-        }
-
-        function resetCastButton() {
-            isCasting = false;
-            castBtn.classList.remove('casting');
-            castBtn.querySelector('.cast-tooltip').textContent = 'Cast to Chromecast';
-        }
 
         function showPlayer(playerType, stream) {
             if (playerType === "clappr") {
                 if (clapprPlayer) {
                     clapprPlayer.destroy();
                 }
-                resetCastButton(); // Reset on stream change
 
                 clapprPlayer = new Clappr.Player({
                     source: stream,
@@ -255,7 +182,10 @@
                     height: '100%',
                     width: '100%',
                     autoPlay: true,
-                    plugins: [ChromecastPlugin],
+
+                    // Chromecast plugin + Custom Cast button
+                    plugins: {core: [CastControl], container: [ChromecastPlugin]},
+
                     chromecast: {
                         appId: "9DFB77C0",
                         contentType: "application/x-mpegURL",
