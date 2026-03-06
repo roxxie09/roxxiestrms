@@ -1,17 +1,26 @@
-Game 1 | 04:00 PM | Delay: 12m 10s
-Oklahoma City Thunder vs New York Knicks: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoAnaIUtcQeRHOIXYGvUA29Y/ts
+Game 1 | 04:00 PM | Delay: 3m 0s
+Dallas Mavericks vs Orlando Magic: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoAnaIUtcQeRHOIXYGvUA29Y/ts
 
-Game 2 | 04:30 PM | Delay: 42m 10s
-Charlotte Hornets vs Boston Celtics: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoDqVyKWaZmfCOsTZFVQyP3I/ts
+Game 2 | 04:00 PM | Delay: 3m 0s
+Utah Jazz vs Washington Wizards: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoDqVyKWaZmfCOsTZFVQyP3I/ts
 
-Game 3 | 04:30 PM | Delay: 42m 10s
-Utah Jazz vs Philadelphia 76Ers: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoMKtmwG3PJmOcm94_6ZnUS0/ts
+Game 3 | 04:30 PM | Delay: 33m 0s
+Brooklyn Nets vs Miami Heat: http://flashvpn.nl:8080/play/zjmP9z8iUJwZbQfshWkEoMKtmwG3PJmOcm94_6ZnUS0/ts
 
-Game 4 | 05:00 PM | Delay: 72m 10s
-Portland Trail Blazers vs Memphis Grizzlies: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFKUIZKiFd19blJkYG2yJublvLQnfOjtEuDXAkLtwNIln/ts
+Game 4 | 04:30 PM | Delay: 33m 0s
+Golden State Warriors vs Houston Rockets: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFKUIZKiFd19blJkYG2yJublvLQnfOjtEuDXAkLtwNIln/ts
 
-Game 5 | 06:30 PM | Delay: 162m 10s
-Atlanta Hawks vs Milwaukee Bucks: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFKUIZKiFd19blJkYG2yJubn1j1I2FpBOz-jQlM2rViio/ts
+Game 5 | 05:00 PM | Delay: 63m 0s
+Toronto Raptors vs Minnesota Timberwolves: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFKUIZKiFd19blJkYG2yJubn1j1I2FpBOz-jQlM2rViio/ts
 
-Game 6 | 07:30 PM | Delay: 222m 10s
-Indiana Pacers vs Los Angeles Clippers: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFBs3tkgrmVpfLqcv7gNXPUFhNkaZrNquk7IviBcLxLEh/ts
+Game 6 | 05:00 PM | Delay: 63m 0s
+Detroit Pistons vs San Antonio Spurs: http://flashvpn.nl:8080/play/JqTAWLB7k5TVOBv2I7AjFBs3tkgrmVpfLqcv7gNXPUFhNkaZrNquk7IviBcLxLEh/ts
+
+Game 7 | 06:00 PM | Delay: 123m 0s
+Chicago Bulls vs Phoenix Suns: http://flashvpn.nl:8080/play/fj3S1tV1JGfU45ipEFQ4ULUUHZtRoWubNIG79YCPo1mb5ULARh6cb6nzBoJB6JCQ/ts
+
+Game 8 | 07:00 PM | Delay: 183m 0s
+Los Angeles Lakers vs Denver Nuggets: http://flashvpn.nl:8080/play/fj3S1tV1JGfU45ipEFQ4ULUUHZtRoWubNIG79YCPo1kwXt-OnFgv5rFzH1ib4iTj/ts
+
+Game 9 | 07:00 PM | Delay: 183m 0s
+New Orleans Pelicans vs Sacramento Kings: http://flashvpn.nl:8080/play/fj3S1tV1JGfU45ipEFQ4ULUUHZtRoWubNIG79YCPo1l0n-Yn3jIxEFb4JJRZrbCi/ts
