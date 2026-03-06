@@ -101,10 +101,10 @@
             <div id="playerContainer"></div>
             <div class="streamchanger" id="streamButtons">
                 <!-- Normal stream buttons -->
-                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('daffodil.m3u8', '601'))">NBC</button>
+                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('daffodil.m3u8', '602'))">NBC</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('sky.m3u8', 'daffodil'))">SKY SPORTS MAIN</button>
-                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', '601'))">TSN</button>
-                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('channelfive.m3u8', '601'))">Channel 5</button>
+                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', '602'))">TSN</button>
+                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('channelfive.m3u8', '602'))">Channel 5</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('thedaffodil.m3u8', '602'))">4K UHD</button>
                 <!-- Switch Providers button -->
                 <button class="streambutton" onclick="switchProviders()">Switch Providers</button>
@@ -125,7 +125,7 @@
 <script>
 var clapprPlayer;
 var domains = [];
-var subdomain = '601';  // Edit this per HTML file
+var subdomain = '602';  // Edit this per HTML file
 
 fetch('domains.txt')
   .then(response => response.text())
@@ -137,7 +137,7 @@ fetch('domains.txt')
     console.error('Failed to load domains.txt');
   });
 
-function getRandomStream(streamPath, subdomain = '601') {
+function getRandomStream(streamPath, subdomain = '602') {
   if (domains.length === 0) {
     return `https://${subdomain}.shadow-ran.online/${streamPath}`; // Fallback
   }
@@ -213,10 +213,10 @@ function switchProviders() {
   if (isSpecialMode) {
     // Go back to normal streams
     container.innerHTML = `
-      <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('daffodil.m3u8', '601'))">NBC</button>
+      <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('daffodil.m3u8', '602'))">NBC</button>
       <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('sky.m3u8', 'daffodil'))">SKY SPORTS MAIN</button>
-      <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', '601'))">TSN</button>
-      <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('channelfive.m3u8', '601'))">Channel 5</button>
+      <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', '602'))">TSN</button>
+      <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('channelfive.m3u8', '602'))">Channel 5</button>
       <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('thedaffodil.m3u8', '602'))">4K UHD</button>
       <button class="streambutton" onclick="switchProviders()">Switch Providers</button>
     `;
