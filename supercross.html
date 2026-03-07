@@ -13,17 +13,21 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link href="/css/buttons.css" rel="stylesheet">
-<link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
-<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
+    <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
+    <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js"></script>
+
+    <!-- Clappr core + Chromecast plugin -->
     <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clappr-chromecast-plugin@latest/dist/clappr-chromecast-plugin.min.js"></script>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
     <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-EQ3BHVQGMN');
+    </script>
 
-  gtag('config', 'G-EQ3BHVQGMN');
-</script>
     <style>
         .navbar-brand {
             color: pink;
@@ -70,9 +74,18 @@
             left: 10px;
             display: flex;
             gap: 10px;
+            z-index: 100;
+        }
+
+        /* Custom cast icon button inside Clappr controls */
+        .clappr-cast-button {
+            background: transparent url('https://files.catbox.moe/2in3jc.png') center center / 18px 18px no-repeat !important;
+            outline: none;
+        }
+        .clappr-cast-button:hover {
+            opacity: 0.8;
         }
     </style>
-
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-black">
@@ -83,14 +96,13 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/soccer">Soccer</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/mlb">MLB</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nfl">NFL</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nhl">NHL</a></li>
-
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
-<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/soccer">Soccer</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/mlb">MLB</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nfl">NFL</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nhl">NHL</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
                 </ul>
             </div>
@@ -100,10 +112,10 @@
     <div class="container container-fluid pt-2 text-white">
         <div class="fullplayer">
             <div id="playerContainer"></div>
-	<div class="streamchanger">
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('sx.m3u8', '602'))">Stream 1</button>
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('sxalt.m3u8', 'daffodil'))">Stream 2</button>
-	</div>
+            <div class="streamchanger">
+                <button class="streambutton" onclick="showPlayer('clappr', 'https://602.xn--1000-ugoa0hsb9a0hb.com/sx.m3u8')">Stream 1</button>
+                <button class="streambutton" onclick="showPlayer('clappr', 'https://daffodil.xn--1000-ugoa0hsb9a0hb.com/sxalt.m3u8')">Stream 2</button>
+            </div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.info"></iframe>
             </div>
@@ -118,45 +130,101 @@
     </footer>
 
 <script>
-var clapprPlayer;
-var domains = [];
-var subdomain = '602';  // Edit this per HTML file
+  var clapprPlayer;
 
-// Load domains from txt file
-fetch('domains.txt')
-  .then(response => response.text())
-  .then(data => {
-    domains = data.trim().split('\n').filter(d => d.trim());
-    // Auto-load initial stream after domains load
-    setTimeout(() => showPlayer('clappr', getRandomStream('sx.m3u8')), 500);
-  })
-  .catch(() => {
-    console.error('Failed to load domains.txt');
+  // UI Core Plugin: adds a cast button into Clappr's media controls [web:57]
+  var CastButtonPlugin = Clappr.UICorePlugin.extend({
+    name: 'cast_button',
+
+    bindEvents: function () {
+      this.listenTo(this.core, Clappr.Events.CORE_READY, this.onCoreReady);
+    },
+
+    onCoreReady: function () {
+      var mediaControl = this.core.mediaControl;
+      if (!mediaControl) return;
+
+      this.listenTo(mediaControl, Clappr.Events.MEDIACONTROL_RENDERED, this.render);
+    },
+
+    render: function () {
+      var mediaControl = this.core.mediaControl;
+      if (!mediaControl) return;
+
+      // Build button once
+      if (!this.$button) {
+        this.$button = $('<button/>', { type: 'button' })
+          .addClass('media-control-button media-control-icon clappr-cast-button')
+          .on('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (window.chrome && chrome.cast && chrome.cast.requestSession) {
+              chrome.cast.requestSession(
+                function () { /* user picked device */ },
+                function (error) {
+                  console.error('Cast error:', error);
+                  alert('No Chromecast found – make sure it is on the same WiFi.');
+                }
+              );
+            } else {
+              alert('Use Chrome desktop with Cast enabled to cast.');
+            }
+          });
+
+        this.$el.append(this.$button);
+      }
+
+      var $rightPanel = mediaControl.$('.media-control-right-panel');
+      var $volumeBtn = $rightPanel.find('.volume-icon').closest('button');
+
+      if ($volumeBtn.length) {
+        this.$el.insertBefore($volumeBtn);
+      } else {
+        $rightPanel.append(this.el);
+      }
+
+      return this;
+    }
   });
 
-function getRandomStream(streamPath, subdomain = '602') {
-  if (domains.length === 0) {
-    return `https://${subdomain}.shadow-ran.online/${streamPath}`; // Fallback
-  }
-  const randomDomain = domains[Math.floor(Math.random() * domains.length)];
-  return `https://${subdomain}.${randomDomain}/${streamPath}`;
-}
+  function showPlayer(playerType, stream) {
+    if (playerType === "clappr") {
+      if (clapprPlayer) {
+        clapprPlayer.destroy();
+      }
 
-function showPlayer(playerType, stream) {
-  if (playerType === "clappr") {
-    if (clapprPlayer) {
-      clapprPlayer.destroy();
+      clapprPlayer = new Clappr.Player({
+        source: stream,
+        parentId: "#playerContainer",
+        height: "100%",
+        width: "100%",
+        autoPlay: true,
+
+        // Playback/plugins (Chromecast engine)
+        plugins: [ChromecastPlugin],
+
+        // UI plugins (control bar customizations) [web:57]
+        corePlugins: [CastButtonPlugin],
+
+        chromecast: {
+          appId: "9DFB77C0",
+          contentType: "application/x-mpegURL",
+          media: {
+            type: ChromecastPlugin.Movie,
+            title: "RoxieStreams Live Stream",
+            subtitle: "MLB Stream"
+          }
+        }
+      });
     }
-    clapprPlayer = new Clappr.Player({
-      source: stream,
-      parentId: "#playerContainer",
-      height: '100%',
-      width: '100%',
-      autoPlay: true,
-    });
   }
-}
+
+  window.onload = function () {
+    showPlayer("clappr", "https://602.xn--1000-ugoa0hsb9a0hb.com/sx.m3u8");
+  };
 </script>
+
     <script>
         document.addEventListener('contextmenu', function (e) {
             e.preventDefault();
@@ -169,11 +237,12 @@ function showPlayer(playerType, stream) {
             }
         });
     </script>
-    <script src="js/bootstrap.bundle.min.js"></script>
 
-<script type="text/javascript">
-aclib.runPop({
-zoneId: '10754426',
-});
-</script></body>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript">
+        aclib.runPop({
+            zoneId: '10754426',
+        });
+    </script>
+</body>
 </html>
