@@ -49,6 +49,7 @@ fps_60_teams = {
     "new orleans pelicans",
     "portland trail blazers",
     "indiana pacers",
+    "toronto raptors",
 
 
 }
