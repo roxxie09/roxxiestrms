@@ -118,26 +118,26 @@
 
 <script>
 var clapprPlayer;
-var domains = [];
+var domainsc.txt = [];
 var subdomain = 'daffodil'  // Edit this per HTML file
 
-// Load domains from txt file
-fetch('domains.txt')
+// Load domainsc.txt from txt file
+fetch('domainsc.txt.txt')
   .then(response => response.text())
   .then(data => {
-    domains = data.trim().split('\n').filter(d => d.trim());
-    // Auto-load initial stream after domains load
+    domainsc.txt = data.trim().split('\n').filter(d => d.trim());
+    // Auto-load initial stream after domainsc.txt load
     setTimeout(() => showPlayer('clappr', getRandomStream('beines.m3u8')), 500);
   })
   .catch(() => {
-    console.error('Failed to load domains.txt');
+    console.error('Failed to load domainsc.txt.txt');
   });
 
 function getRandomStream(streamPath, subdomain = 'daffodil') {
-  if (domains.length === 0) {
+  if (domainsc.txt.length === 0) {
     return `https://${subdomain}.shadow-ran.online/${streamPath}`; // Fallback
   }
-  const randomDomain = domains[Math.floor(Math.random() * domains.length)];
+  const randomDomain = domainsc.txt[Math.floor(Math.random() * domainsc.txt.length)];
   return `https://${subdomain}.${randomDomain}/${streamPath}`;
 }
 
