@@ -188,12 +188,12 @@
                 const subMatch = html.match(/var\s+subdomain\s*=\s*['"]([^'"]+)['"]/);
                 if (subMatch) detectedSub = subMatch[1];
 
-                let domainsc.txt = ['shadow-ran.online']; 
+                let domains = ['shadow-ran.online']; 
                 try {
                     const urlBase = fullPath.substring(0, fullPath.lastIndexOf('/') + 1);
-                    const domResp = await fetch(isInternal ? urlBase + 'domainsc.txt.txt' : PROXY + encodeURIComponent(urlBase + 'domainsc.txt.txt'));
+                    const domResp = await fetch(isInternal ? urlBase + 'domains.txt' : PROXY + encodeURIComponent(urlBase + 'domains.txt'));
                     const domData = isInternal ? await domResp.text() : (await domResp.json()).contents;
-                    if (domData) domainsc.txt = domData.trim().split('\n').map(d => d.trim()).filter(d => d);
+                    if (domData) domains = domData.trim().split('\n').map(d => d.trim()).filter(d => d);
                 } catch(e) {}
 
                 const jsRegex = /getRandomStream\(['"]([^'"]+)['"](?:\s*,\s*['"]([^'"]+)['"])?\)/g;
@@ -201,7 +201,7 @@
                 while ((match = jsRegex.exec(html)) !== null) {
                     const file = match[1];
                     const sub = match[2] || detectedSub; 
-                    domainsc.txt.forEach(dom => rawStreams.push(`https://${sub}.${dom}/${file}`));
+                    domains.forEach(dom => rawStreams.push(`https://${sub}.${dom}/${file}`));
                 }
 
                 const staticMatches = html.match(/(https?:\/\/[^\s"']+\.m3u8(\?[^\s"']*)?)/g);
