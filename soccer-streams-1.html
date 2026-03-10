@@ -103,6 +103,7 @@
 	<div class="streamchanger">
 	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tnt.m3u8', '602'))">Stream 1</button>
 	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('rush.m3u8', '602'))">Stream 2</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tntalt.m3u8', '602'))">Stream 3</button>
 	</div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.info"></iframe>
@@ -123,7 +124,7 @@ var domains = [];
 var subdomain = '602'  // Edit this per HTML file
 
 // Load domains from txt file
-fetch('domainsc.txt')
+fetch('domainsd.txt')
   .then(response => response.text())
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
@@ -131,7 +132,7 @@ fetch('domainsc.txt')
     setTimeout(() => showPlayer('clappr', getRandomStream('tnt.m3u8')), 500);
   })
   .catch(() => {
-    console.error('Failed to load domainsc.txt');
+    console.error('Failed to load domainsd.txt');
   });
 
 function getRandomStream(streamPath, subdomain = '602') {
