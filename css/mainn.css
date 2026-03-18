@@ -46,29 +46,36 @@ a.card-text:hover {
 .card-header-tabs .nav-link.active {
     border-bottom-color: #00000000!important;
 }
-/* Winter Olympics nav link – animated blue‑ish gradient */
-.nav-link-winter-blue {
-    color: #00bfff;
+/* March Madness nav link – glowing orange text */
+.nav-link-march-madness {
     font-weight: bold;
+    color: #ffb347;
     background: linear-gradient(
         90deg,
-        #00bfff,
-        #0066cc,
-        #00bfff
+        #ffb347,
+        #ff9100,
+        #ffd27f
     );
     background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: textShine 2s ease-in-out infinite alternate;
+    animation: marchMadnessShine 2s ease-in-out infinite alternate;
     transition: text-shadow 0.3s ease;
+    text-shadow:
+        0 0 4px rgba(255, 145, 0, 0.7),
+        0 0 8px rgba(255, 145, 0, 0.6),
+        0 0 12px rgba(255, 145, 0, 0.5);
 }
 
-.nav-link-winter-blue:hover {
-    text-shadow: 0 0 8px rgba(0, 191, 255, 0.8);
+.nav-link-march-madness:hover {
+    text-shadow:
+        0 0 6px rgba(255, 191, 71, 1),
+        0 0 12px rgba(255, 145, 0, 0.9),
+        0 0 18px rgba(255, 145, 0, 0.8);
 }
 
-@keyframes textShine {
+@keyframes marchMadnessShine {
     0% {
         background-position: 0% center;
     }
@@ -76,3 +83,4 @@ a.card-text:hover {
         background-position: 200% center;
     }
 }
+
