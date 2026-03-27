@@ -7,24 +7,18 @@ from bs4 import BeautifulSoup
 # --- Constants - Adjust as Needed ---
 USERNAME = "Marky0416"
 PASSWORD = "Integra1994"
-M3U_URL = f"http://ahostingportal.com:2095/get.php?username={USERNAME}&password={PASSWORD}&type=m3u"
+M3U_URL = f"http://ahostingportal.com:2095/get.php?username=Marky0416&password=Integra1994&type=m3u"
 
-# New Sling M3U sources (only 3 as requested)
-SLING_M3U_URLS = [
-    "http://madjokersqaud.nl:8080/get.php?username=ronvett07&password=june232007&type=m3u",
-    "http://madjokersqaud.nl:8080/get.php?username=Ozzie123&password=Boobie123&type=m3u",
-    "http://madjokersqaud.nl:8080/get.php?username=mrquicc&password=Slickrick213&type=m3u"
-]
+SLING_M3U_URL = "http://ahostingportal.com:2095/get.php?username=Marky0416&password=Integra1994&type=m3u"
 
 # Folder definitions
-DOWNLOADS_FOLDER = Path.home() / "Downloads" # For M3U file search & saving
-CURRENT_DIR = Path.cwd() # For output files (mlb_matched_streams.txt, ffmpeg.txt)
+DOWNLOADS_FOLDER = Path.home() / "Downloads"
+CURRENT_DIR = Path.cwd()
 
 MLB_HTML_FILE = Path(r"G:\\MY LEGIT EVERYTRHING FOLDER\\RANDOM\\rxxiestrms.live\\mlb.html")
-OUTPUT_FILE = CURRENT_DIR / "mlb_matched_streams.txt" # Human-readable output
-FFMPEG_TXT_PATH = CURRENT_DIR / "ffmpeg.txt" # ffmpeg commands output
+OUTPUT_FILE = CURRENT_DIR / "mlb_matched_streams.txt"
+FFMPEG_TXT_PATH = CURRENT_DIR / "ffmpeg.txt"
 
-# --- Team Aliases and Normalization ---
 known_team_aliases = {
     'athletics': 'oakland athletics',
     'st. louis cardinals': 'st louis cardinals',
@@ -39,58 +33,41 @@ known_team_aliases = {
     'chicago white sox': 'white sox',
     'milwaukee brewers': 'brewers',
     'los angeles dodgers': 'dodgers',
-    # Add more as needed
 }
 
 def normalize_team_name(name: str) -> str:
-    """Normalize team names: lowercase, remove dots and leading 'the'."""
     name = name.lower().replace('.', '').replace('-', ' ')
     if name.startswith('the '):
         name = name[4:]
     return name.strip()
 
 def team_alias_from_name(name: str) -> str:
-    """Create normalized alias suitable for filenames."""
     alias = normalize_team_name(name).replace(' ', '_').replace('.', '')
-    # Special cases
     if alias in ('the_athletics', 'athletics'):
         alias = 'athletics'
     if alias == 'st_louis_cardinals':
         alias = 'cardinals'
     return alias
 
-# Global for rotation (like NBA.py)
-sling_url_index = 0
-sling_matches_on_current = 0
-SLING_CHUNKSIZE = 3
-
 def get_sling_sources(team_norm: str) -> str | None:
-    """Fetch from current rotated Sling M3U, find matching US (MLB) {team} (S) stream."""
-    global sling_url_index, sling_matches_on_current
-    # Rotate every 3 games
-    if sling_matches_on_current == 0 or sling_matches_on_current >= SLING_CHUNKSIZE:
-        sling_url_index = (sling_url_index + 1) % len(SLING_M3U_URLS)
-        sling_matches_on_current = 0
-        print(f"Switching to Sling M3U #{sling_url_index + 1}: {SLING_M3U_URLS[sling_url_index]}")
-
-    m3u_url = SLING_M3U_URLS[sling_url_index]
     try:
-        resp = requests.get(m3u_url, timeout=10)
+        resp = requests.get(SLING_M3U_URL, timeout=10)
         resp.raise_for_status()
         lines = resp.text.splitlines()
+
+        target = f"US (MLB) {team_norm.title()} (S)"
         for i in range(len(lines) - 1):
             line = lines[i].strip()
-            if line.startswith('#EXTINF') and f'US (MLB) {team_norm.title()} (S)' in line:
+            if line.startswith("#EXTINF") and target.lower() in line.lower():
                 url = lines[i + 1].strip()
-                if '/ts' in url:
-                    print(f"Found Sling source for {team_norm} from M3U #{sling_url_index + 1}: {url[:80]}...")
-                    sling_matches_on_current += 1  # Count per team stream found
+                if url.startswith("http"):
+                    print(f"Found Sling source for {team_norm}: {url[:80]}...")
                     return url
     except Exception as e:
-        print(f"Error fetching {m3u_url}: {e}")
+        print(f"Error fetching Sling M3U: {e}")
+
     return None
 
-# --- Functions for M3U file searching/saving ---
 def get_today_files_with_pattern(folder: Path, base_name: str, ext: str) -> list[Path]:
     today = datetime.date.today()
     matches = []
@@ -111,48 +88,43 @@ def save_new_m3u_file(content: str, folder: Path, username: str) -> Path:
     base_name = f"playlist_{username}"
     ext = ".m3u"
     for idx in range(1, 100):
-        if idx == 1:
-            filepath = folder / f"{base_name}{ext}"
-        else:
-            filepath = folder / f"{base_name} ({idx}){ext}"
+        filepath = folder / (f"{base_name}{ext}" if idx == 1 else f"{base_name} ({idx}){ext}")
         if not filepath.exists():
             filepath.write_text(content, encoding="utf-8")
             return filepath
     raise RuntimeError("Too many playlist files; cannot save new M3U.")
 
-# --- FFmpeg command generator with HOME/AWAY separation ---
 def generate_ffmpeg_txt_separated(home_cmds, away_cmds, output_path: Path):
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write("# --- HOME Teams ---\n\n")
         for idx, (match_str, stream_url, team_alias) in enumerate(home_cmds, start=1):
             playlist_name = "mlb.m3u8" if idx == 1 else f"mlb{idx}.m3u8"
-            f.write(f'while true; do sudo ffmpeg -i "{stream_url}" '
-                    '-c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 '
-                    '-bsf:a aac_adtstoasc -hls_segment_type mpegts '
-                    f'-hls_segment_filename "/var/www/html/index_{team_alias}%d.js" '
-                    '-hls_list_size 5 -hls_time 4 '
-                    '-hls_flags delete_segments+append_list+omit_endlist '
-                    f'/var/www/html/{playlist_name}; done\n\n')
+            f.write(
+                f'while true; do sudo ffmpeg -i "{stream_url}" '
+                '-c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 '
+                '-bsf:a aac_adtstoasc -hls_segment_type mpegts '
+                f'-hls_segment_filename "/var/www/html/index_{team_alias}%d.js" '
+                '-hls_list_size 5 -hls_time 4 '
+                '-hls_flags delete_segments+append_list+omit_endlist '
+                f'/var/www/html/{playlist_name}; done\n\n'
+            )
 
         f.write("# --- AWAY Teams ---\n\n")
         for idx, (match_str, stream_url, team_alias) in enumerate(away_cmds, start=1):
             playlist_name = "mlb.m3u8" if idx == 1 else f"mlb{idx}.m3u8"
-            f.write(f'while true; do sudo ffmpeg -i "{stream_url}" '
-                    '-c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 '
-                    '-bsf:a aac_adtstoasc -hls_segment_type mpegts '
-                    f'-hls_segment_filename "/var/www/html/index_{team_alias}%d.js" '
-                    '-hls_list_size 5 -hls_time 4 '
-                    '-hls_flags delete_segments+append_list+omit_endlist '
-                    f'/var/www/html/{playlist_name}; done\n\n')
+            f.write(
+                f'while true; do sudo ffmpeg -i "{stream_url}" '
+                '-c:v copy -c:a aac -ar 44100 -ab 320k -ac 2 '
+                '-bsf:a aac_adtstoasc -hls_segment_type mpegts '
+                f'-hls_segment_filename "/var/www/html/index_{team_alias}%d.js" '
+                '-hls_list_size 5 -hls_time 4 '
+                '-hls_flags delete_segments+append_list+omit_endlist '
+                f'/var/www/html/{playlist_name}; done\n\n'
+            )
 
     print(f"ffmpeg commands with HOME and AWAY teams written to {output_path}")
 
-# --- Main program ---
 def main():
-    global sling_url_index, sling_matches_on_current
-    sling_url_index = -1  # Start before first rotation
-    sling_matches_on_current = 0
-
     print("Checking for existing M3U file downloaded today in Downloads folder...")
     m3u_file = get_available_m3u_file(DOWNLOADS_FOLDER, USERNAME)
 
@@ -193,7 +165,6 @@ def main():
     html_content = MLB_HTML_FILE.read_text(encoding='utf-8')
     soup = BeautifulSoup(html_content, 'html.parser')
 
-    # FIXED: Use NBA-style table parsing for <tr><td><a href="mlb-streams-X">Match</a></td><td>Time</td>...
     html_matches = []
     for tr in soup.find_all('tr'):
         tds = tr.find_all('td')
@@ -207,7 +178,7 @@ def main():
                     text = a_tag.text.strip()
                     html_matches.append((match_num, text))
     html_matches.sort(key=lambda x: x[0])
-    html_matches = [match[1] for match in html_matches]  # Just the match strings
+    html_matches = [match[1] for match in html_matches]
     print(f"Found {len(html_matches)} matchups in HTML.")
 
     human_readable_results = []
@@ -222,12 +193,10 @@ def main():
 
         home_team_raw, away_team_raw = teams
 
-        # Find home team stream URL (Sling first, then original M3U)
         home_norm = normalize_team_name(home_team_raw)
         home_url = get_sling_sources(home_norm)
         if not home_url and home_norm in known_team_aliases:
-            alias_norm = normalize_team_name(known_team_aliases[home_norm])
-            home_url = get_sling_sources(alias_norm)
+            home_url = get_sling_sources(normalize_team_name(known_team_aliases[home_norm]))
         if not home_url:
             home_url = team_streams.get(home_norm)
         if not home_url and home_norm in known_team_aliases:
@@ -236,12 +205,10 @@ def main():
             home_url = team_streams.get(home_norm.replace('the ', '').replace('.', '').strip())
         home_alias = team_alias_from_name(home_team_raw)
 
-        # Find away team stream URL (Sling first, then original M3U)
         away_norm = normalize_team_name(away_team_raw)
         away_url = get_sling_sources(away_norm)
         if not away_url and away_norm in known_team_aliases:
-            alias_norm = normalize_team_name(known_team_aliases[away_norm])
-            away_url = get_sling_sources(alias_norm)
+            away_url = get_sling_sources(normalize_team_name(known_team_aliases[away_norm]))
         if not away_url:
             away_url = team_streams.get(away_norm)
         if not away_url and away_norm in known_team_aliases:
@@ -250,28 +217,20 @@ def main():
             away_url = team_streams.get(away_norm.replace('the ', '').replace('.', '').strip())
         away_alias = team_alias_from_name(away_team_raw)
 
-        # Append human-readable output
         human_readable_results.append(f"{home_team_raw} (Home): {home_url if home_url else 'No stream found'}")
         human_readable_results.append(f"{away_team_raw} (Away): {away_url if away_url else 'No stream found'}")
         human_readable_results.append("-" * 30)
 
-        # Record for ffmpeg commands
         if home_url:
             home_ffmpeg_cmds.append((match_str, home_url, home_alias))
         if away_url:
             away_ffmpeg_cmds.append((match_str, away_url, away_alias))
 
-    # Reset globals after run
-    sling_url_index = -1
-    sling_matches_on_current = 0
-
-    # Write human-readable results to current working directory
     with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
         for line in human_readable_results:
             f.write(line + "\n")
     print(f"Matching streams written to {OUTPUT_FILE}")
 
-    # Generate ffmpeg commands file in current directory
     generate_ffmpeg_txt_separated(home_ffmpeg_cmds, away_ffmpeg_cmds, FFMPEG_TXT_PATH)
 
 if __name__ == "__main__":
