@@ -132,7 +132,7 @@ fetch('domainsf.txt')
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
     // Auto-load initial stream after domains load
-    setTimeout(() => showPlayer('clappr', getRandomStream('tnt2.m3u8')), 601);
+    setTimeout(() => showPlayer('clappr', getRandomStream('tnt2.m3u8')), 602);
   })
   .catch(() => {
     console.error('Failed to load domainsf.txt');
