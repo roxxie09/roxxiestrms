@@ -146,8 +146,6 @@
 </script>
 
 <script type="module">
-console.log("=== MODULE SCRIPT STARTED ===");
-
 import { HlsJsP2PEngine } from "p2p-media-loader-hlsjs";
 
 let clapprPlayer = null;
@@ -157,7 +155,6 @@ window.showPlayer = function(streamUrl) {
   if (clapprPlayer) {
     clapprPlayer.destroy();
     clapprPlayer = null;
-    window.__p2pSetupDone = false;
   }
 
   engine = new HlsJsP2PEngine({
@@ -181,27 +178,8 @@ window.showPlayer = function(streamUrl) {
     }
   });
 
-  // Listen to multiple events to find which one actually fires
   clapprPlayer.on(Clappr.Events.PLAYER_READY, () => {
-    console.log("PLAYER_READY fired");
-    runP2PSetup();
-  });
-
-  clapprPlayer.on(Clappr.Events.PLAYBACK_PLAY, () => {
-    console.log("PLAYBACK_PLAY fired");
-    runP2PSetup();
-  });
-
-  clapprPlayer.on(Clappr.Events.PLAYBACK_LOADED, () => {
-    console.log("PLAYBACK_LOADED fired");
-    runP2PSetup();
-  });
-
-  function runP2PSetup() {
-    if (window.__p2pSetupDone) return;
-    window.__p2pSetupDone = true;
-
-    console.log("Clappr ready (via any event)");
+    console.log("Clappr ready");
 
     const playback = clapprPlayer?.core?.getCurrentPlayback();
     console.log("Playback object:", playback);
@@ -229,14 +207,21 @@ window.showPlayer = function(streamUrl) {
       } else {
         console.log("No P2P engine found on Clappr HLS instance yet");
       }
-    }, 2000);
-  }
+    }, 3000);
+  });
 };
 
 window.addEventListener("load", () => {
   showPlayer("https://603.premiumjh.shop/test3/index.m3u8");
 });
 </script>
+
     <script src="js/bootstrap.bundle.min.js"></script>
+
+<script type="text/javascript">
+aclib.runPop({
+zoneId: '10754426',
+});
+</script>
 </body>
 </html>
