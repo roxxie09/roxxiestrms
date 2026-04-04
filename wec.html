@@ -13,15 +13,17 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/mainn.css">
     <link href="/css/buttons.css" rel="stylesheet">
-    <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
+<link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
+<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-EQ3BHVQGMN');
-    </script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'G-EQ3BHVQGMN');
+</script>
     <style>
         .navbar-brand {
             color: pink;
@@ -48,12 +50,6 @@
         #playerContainer {
             width: 100%;
             height: 100%;
-            background: #000;
-        }
-        #video {
-            width: 100%;
-            height: 100%;
-            background: #000;
         }
         .embedchat {
             width: 30%;
@@ -74,20 +70,9 @@
             left: 10px;
             display: flex;
             gap: 10px;
-            z-index: 10;
-        }
-        #p2pStats {
-            position: absolute;
-            top: -40px;
-            right: 10px;
-            font-size: 14px;
-            color: #fff;
-            background: rgba(0,0,0,0.6);
-            padding: 6px 10px;
-            border-radius: 8px;
-            z-index: 10;
         }
     </style>
+
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-black">
@@ -98,14 +83,19 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link nav-link-march-madness" href="https://roxiestreams.info/march-madness">March Madness</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/soccer">Soccer</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/mlb">MLB</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nfl">NFL</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nhl">NHL</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
+                <li class="nav-item">
+  <a class="nav-link nav-link-march-madness" href="https://roxiestreams.info/march-madness">
+    March Madness
+  </a>
+</li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/soccer">Soccer</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/mlb">MLB</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nfl">NFL</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nhl">NHL</a></li>
+
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
                 </ul>
             </div>
@@ -114,16 +104,10 @@
 
     <div class="container container-fluid pt-2 text-white">
         <div class="fullplayer">
-            <div id="playerContainer">
-                <video id="video" controls autoplay playsinline muted></video>
-            </div>
-
-            <div class="streamchanger">
-                <button class="streambutton" onclick="loadStream('https://603.premiumjh.shop/test3/index.m3u8', 'test3-stream')">Stream 1</button>
-            </div>
-
-            <div id="p2pStats">Peers: 0 | P2P: 0%</div>
-
+            <div id="playerContainer"></div>
+	<div class="streamchanger">
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('sbs.m3u8', '602'))">Stream 1</button>
+	</div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.info"></iframe>
             </div>
@@ -137,6 +121,46 @@
         <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
     </footer>
 
+<script>
+var clapprPlayer;
+var domains = [];
+var subdomain = '602'  // Edit this per HTML file
+
+// Load domains from txt file
+fetch('domainsc.txt')
+  .then(response => response.text())
+  .then(data => {
+    domains = data.trim().split('\n').filter(d => d.trim());
+    // Auto-load initial stream after domains load
+    setTimeout(() => showPlayer('clappr', getRandomStream('sbs.m3u8')), 500);
+  })
+  .catch(() => {
+    console.error('Failed to load domainsc.txt');
+  });
+
+function getRandomStream(streamPath, subdomain = '602') {
+  if (domains.length === 0) {
+    return `https://${subdomain}.shadow-ran.online/${streamPath}`; // Fallback
+  }
+  const randomDomain = domains[Math.floor(Math.random() * domains.length)];
+  return `https://${subdomain}.${randomDomain}/${streamPath}`;
+}
+
+function showPlayer(playerType, stream) {
+  if (playerType === "clappr") {
+    if (clapprPlayer) {
+      clapprPlayer.destroy();
+    }
+    clapprPlayer = new Clappr.Player({
+      source: stream,
+      parentId: "#playerContainer",
+      height: '100%',
+      width: '100%',
+      autoPlay: true,
+    });
+  }
+}
+</script>
     <script>
         document.addEventListener('contextmenu', function (e) {
             e.preventDefault();
@@ -149,135 +173,11 @@
             }
         });
     </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@~1/dist/hls.min.js"></script>
-
-    <script type="importmap">
-    {
-      "imports": {
-        "p2p-media-loader-core": "https://cdn.jsdelivr.net/npm/p2p-media-loader-core@^1/dist/p2p-media-loader-core.es.min.js",
-        "p2p-media-loader-hlsjs": "https://cdn.jsdelivr.net/npm/p2p-media-loader-hlsjs@^1/dist/p2p-media-loader-hlsjs.es.min.js"
-      }
-    }
-    </script>
-
-<script type="module">
-import { HlsJsP2PEngine } from "p2p-media-loader-hlsjs";
-
-const video = document.getElementById("video");
-const statsBox = document.getElementById("p2pStats");
-
-let hls = null;
-let statsTimer = null;
-
-const HlsWithP2P = HlsJsP2PEngine.injectMixin(window.Hls);
-
-window.loadStream = function(streamUrl, swarmId) {
-  if (hls) {
-    hls.destroy();
-    hls = null;
-  }
-
-  if (statsTimer) {
-    clearInterval(statsTimer);
-    statsTimer = null;
-  }
-
-  statsBox.textContent = "Peers: 0 | P2P: 0%";
-
-  hls = new HlsWithP2P({
-    liveSyncDurationCount: 3,
-    maxBufferLength: 30,
-    p2p: {
-      core: {
-        swarmId: swarmId,
-        trackerAnnounce: [
-          "wss://tracker.novage.com.ua",
-          "wss://tracker.webtorrent.dev",
-          "wss://tracker.openwebtorrent.com"
-        ]
-      },
-      onHlsJsCreated: (instance) => {
-        console.log("Hls.js with P2P created");
-        console.log("Trackers:", [
-          "wss://tracker.novage.com.ua",
-          "wss://tracker.webtorrent.dev",
-          "wss://tracker.openwebtorrent.com"
-        ]);
-
-        if (instance.p2pEngine) {
-          const peerSet = new Set();
-
-          instance.p2pEngine.addEventListener("onPeerConnect", (evt) => {
-            const peerId = evt?.peerId || evt?.detail?.peerId;
-            if (peerId) peerSet.add(peerId);
-            console.log("Peer connected", evt, "Total peers:", peerSet.size);
-          });
-
-          instance.p2pEngine.addEventListener("onPeerClose", (evt) => {
-            const peerId = evt?.peerId || evt?.detail?.peerId;
-            if (peerId) peerSet.delete(peerId);
-            console.log("Peer disconnected", evt, "Total peers:", peerSet.size);
-          });
-
-          statsTimer = setInterval(() => {
-            try {
-              const stats = instance.p2pEngine.getStats ? instance.p2pEngine.getStats() : null;
-
-              const p2pBytes =
-                stats?.p2pDownloadedBytes ??
-                stats?.downloadedP2PBytes ??
-                stats?.p2pDownloadBytes ??
-                0;
-
-              const httpBytes =
-                stats?.httpDownloadedBytes ??
-                stats?.downloadedHTTPBytes ??
-                stats?.httpDownloadBytes ??
-                0;
-
-              const total = p2pBytes + httpBytes;
-              const p2pPercent = total > 0 ? ((p2pBytes / total) * 100).toFixed(1) : "0.0";
-
-              statsBox.textContent = `Peers: ${peerSet.size} | P2P: ${p2pPercent}%`;
-              console.log("P2P stats:", {
-                peerCount: peerSet.size,
-                p2pBytes,
-                httpBytes,
-                p2pPercent,
-                rawStats: stats
-              });
-            } catch (e) {
-              console.log("Stats read error:", e);
-            }
-          }, 5000);
-        }
-      }
-    }
-  });
-
-  hls.loadSource(streamUrl);
-  hls.attachMedia(video);
-
-  hls.on(window.Hls.Events.MANIFEST_PARSED, () => {
-    video.play().catch((e) => console.log("Autoplay blocked", e));
-  });
-
-  hls.on(window.Hls.Events.ERROR, (event, data) => {
-    console.error("HLS error", data);
-  });
-};
-
-window.addEventListener("load", () => {
-  loadStream("https://603.premiumjh.shop/test3/index.m3u8", "test3-stream");
-});
-</script>
     <script src="js/bootstrap.bundle.min.js"></script>
 
-    <script type="text/javascript">
-    aclib.runPop({
-      zoneId: '10754426',
-    });
-    </script>
-</body>
+<script type="text/javascript">
+aclib.runPop({
+zoneId: '10754426',
+});
+</script></body>
 </html>
