@@ -147,6 +147,7 @@
 
 <script type="module">
 console.log("=== MODULE SCRIPT STARTED ===");
+
 import { HlsJsP2PEngine } from "p2p-media-loader-hlsjs";
 
 let clapprPlayer = null;
@@ -156,6 +157,7 @@ window.showPlayer = function(streamUrl) {
   if (clapprPlayer) {
     clapprPlayer.destroy();
     clapprPlayer = null;
+    window.__p2pSetupDone = false;
   }
 
   engine = new HlsJsP2PEngine({
@@ -179,62 +181,62 @@ window.showPlayer = function(streamUrl) {
     }
   });
 
-clapprPlayer.on(Clappr.Events.PLAYER_READY, () => {
-  console.log("PLAYER_READY fired");
-  runP2PSetup();
-});
+  // Listen to multiple events to find which one actually fires
+  clapprPlayer.on(Clappr.Events.PLAYER_READY, () => {
+    console.log("PLAYER_READY fired");
+    runP2PSetup();
+  });
 
-clapprPlayer.on(Clappr.Events.PLAYBACK_PLAY, () => {
-  console.log("PLAYBACK_PLAY fired");
-  runP2PSetup();
-});
+  clapprPlayer.on(Clappr.Events.PLAYBACK_PLAY, () => {
+    console.log("PLAYBACK_PLAY fired");
+    runP2PSetup();
+  });
 
-clapprPlayer.on(Clappr.Events.PLAYBACK_LOADED, () => {
-  console.log("PLAYBACK_LOADED fired");
-  runP2PSetup();
-});
+  clapprPlayer.on(Clappr.Events.PLAYBACK_LOADED, () => {
+    console.log("PLAYBACK_LOADED fired");
+    runP2PSetup();
+  });
 
-function runP2PSetup() {
-  // Only run once
-  if (window.__p2pSetupDone) return;
-  window.__p2pSetupDone = true;
+  function runP2PSetup() {
+    if (window.__p2pSetupDone) return;
+    window.__p2pSetupDone = true;
 
-  console.log("Clappr ready (via any event)");
+    console.log("Clappr ready (via any event)");
 
-  const playback = clapprPlayer?.core?.getCurrentPlayback();
-  console.log("Playback object:", playback);
+    const playback = clapprPlayer?.core?.getCurrentPlayback();
+    console.log("Playback object:", playback);
 
-  const hls = playback?._hls;
-  console.log("HLS instance:", hls);
+    const hls = playback?._hls;
+    console.log("HLS instance:", hls);
 
-  engine.bindHls(() => clapprPlayer?.core?.getCurrentPlayback()?._hls);
+    engine.bindHls(() => clapprPlayer?.core?.getCurrentPlayback()?._hls);
 
-  setTimeout(() => {
-    const boundHls = clapprPlayer?.core?.getCurrentPlayback()?._hls;
-    console.log("Bound HLS instance:", boundHls);
-    console.log("P2P engine on HLS:", boundHls?.p2pEngine);
+    setTimeout(() => {
+      const boundHls = clapprPlayer?.core?.getCurrentPlayback()?._hls;
+      console.log("Bound HLS instance:", boundHls);
+      console.log("P2P engine on HLS:", boundHls?.p2pEngine);
 
-    if (boundHls?.p2pEngine) {
-      console.log("P2P engine attached");
+      if (boundHls?.p2pEngine) {
+        console.log("P2P engine attached");
 
-      boundHls.p2pEngine.addEventListener("onPeerConnect", (params) => {
-        console.log("Peer connected", params);
-      });
+        boundHls.p2pEngine.addEventListener("onPeerConnect", (params) => {
+          console.log("Peer connected", params);
+        });
 
-      boundHls.p2pEngine.addEventListener("onPeerClose", (params) => {
-        console.log("Peer disconnected", params);
-      });
-    } else {
-      console.log("No P2P engine found on Clappr HLS instance yet");
-    }
-  }, 2000);
-}
+        boundHls.p2pEngine.addEventListener("onPeerClose", (params) => {
+          console.log("Peer disconnected", params);
+        });
+      } else {
+        console.log("No P2P engine found on Clappr HLS instance yet");
+      }
+    }, 2000);
+  }
+};
 
 window.addEventListener("load", () => {
   showPlayer("https://603.premiumjh.shop/test3/index.m3u8");
 });
 </script>
-
     <script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
