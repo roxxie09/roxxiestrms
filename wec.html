@@ -102,9 +102,7 @@
 
     <div class="container container-fluid pt-2 text-white">
 <div class="fullplayer">
-    <div id="playerContainer">
-        <video id="video" controls autoplay playsinline></video>
-    </div>
+<div id="playerContainer"></div>
     <div class="streamchanger">
         <button class="streambutton" onclick="loadStream('https://603.premiumjh.shop/test2/index.m3u8')">Stream 1</button>
     </div>
@@ -112,12 +110,6 @@
         <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.info"></iframe>
     </div>
 </div>
-            <div class="embedchat">
-                <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.info"></iframe>
-            </div>
-        </div>
-    </div>
-
     <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
         <ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
             <li class="nav-item"><a href="https://discord.gg/JhkVmejRmn" class="nav-link px-2 text-body-secondary">Stream Request (Discord)</a></li>
@@ -176,23 +168,31 @@ window.showPlayer = function(streamUrl) {
     mute: false,
     playback: {
       hlsjsConfig: {
-        ...engine.getConfigForHlsJs()
+        ...engine.getConfigForHlsJs(),
+        liveSyncDurationCount: 3
       }
     }
   });
 
   clapprPlayer.on(Clappr.Events.PLAYER_READY, () => {
     console.log("Clappr ready");
+
     engine.bindHls(() => clapprPlayer?.core?.getCurrentPlayback()?._hls);
-  });
 
-  const peerEvents = engine.getCore();
-  peerEvents.addEventListener("onPeerConnect", (event) => {
-    console.log("Peer connected", event.detail || event);
-  });
+    const hls = clapprPlayer?.core?.getCurrentPlayback()?._hls;
+    if (hls?.p2pEngine) {
+      console.log("P2P engine attached");
 
-  peerEvents.addEventListener("onPeerClose", (event) => {
-    console.log("Peer disconnected", event.detail || event);
+      hls.p2pEngine.addEventListener("onPeerConnect", (params) => {
+        console.log("Peer connected", params);
+      });
+
+      hls.p2pEngine.addEventListener("onPeerClose", (params) => {
+        console.log("Peer disconnected", params);
+      });
+    } else {
+      console.log("No P2P engine found on Clappr HLS instance yet");
+    }
   });
 };
 
