@@ -174,8 +174,23 @@ window.showPlayer = function(streamUrl) {
     }
   });
 
-  clapprPlayer.on(Clappr.Events.PLAYER_READY, () => {
-    console.log("Clappr ready");
+clapprPlayer.on(Clappr.Events.PLAYER_READY, () => {
+  console.log("Clappr ready");
+
+  const playback = clapprPlayer?.core?.getCurrentPlayback();
+  console.log("Playback object:", playback);
+
+  const hls = playback?._hls;
+  console.log("HLS instance:", hls);
+
+  engine.bindHls(() => clapprPlayer?.core?.getCurrentPlayback()?._hls);
+
+  setTimeout(() => {
+    const boundHls = clapprPlayer?.core?.getCurrentPlayback()?._hls;
+    console.log("Bound HLS instance:", boundHls);
+    console.log("P2P engine on HLS:", boundHls?.p2pEngine);
+  }, 3000);
+});
 
     engine.bindHls(() => clapprPlayer?.core?.getCurrentPlayback()?._hls);
 
