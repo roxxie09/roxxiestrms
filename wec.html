@@ -148,8 +148,12 @@
 <script type="module">
 import { HlsJsP2PEngine } from "p2p-media-loader-hlsjs";
 
+console.log("=== MODULE SCRIPT STARTED ===");
+
 let clapprPlayer = null;
 let engine = null;
+let statsTimer = null;
+let lastPeerCount = -1;
 
 window.showPlayer = function(streamUrl) {
   if (clapprPlayer) {
@@ -157,11 +161,27 @@ window.showPlayer = function(streamUrl) {
     clapprPlayer = null;
   }
 
+  if (statsTimer) {
+    clearInterval(statsTimer);
+    statsTimer = null;
+  }
+
   engine = new HlsJsP2PEngine({
     core: {
-      swarmId: streamUrl
+      swarmId: streamUrl,
+      trackerAnnounce: [
+        "wss://tracker.novage.com.ua",
+        "wss://tracker.webtorrent.dev",
+        "wss://tracker.openwebtorrent.com"
+      ]
     }
   });
+
+  console.log("Trackers:", [
+    "wss://tracker.novage.com.ua",
+    "wss://tracker.webtorrent.dev",
+    "wss://tracker.openwebtorrent.com"
+  ]);
 
   clapprPlayer = new Clappr.Player({
     source: streamUrl,
@@ -178,14 +198,12 @@ window.showPlayer = function(streamUrl) {
     }
   });
 
-  clapprPlayer.on(Clappr.Events.PLAYER_READY, () => {
-    console.log("Clappr ready");
-
+  const bindAndMonitor = () => {
     const playback = clapprPlayer?.core?.getCurrentPlayback();
-    console.log("Playback object:", playback);
-
     const hls = playback?._hls;
-    console.log("HLS instance:", hls);
+
+    console.log("Playback object:", playback);
+    console.log("HLS instance before bind:", hls);
 
     engine.bindHls(() => clapprPlayer?.core?.getCurrentPlayback()?._hls);
 
@@ -194,28 +212,81 @@ window.showPlayer = function(streamUrl) {
       console.log("Bound HLS instance:", boundHls);
       console.log("P2P engine on HLS:", boundHls?.p2pEngine);
 
-      if (boundHls?.p2pEngine) {
-        console.log("P2P engine attached");
-
-        boundHls.p2pEngine.addEventListener("onPeerConnect", (params) => {
-          console.log("Peer connected", params);
-        });
-
-        boundHls.p2pEngine.addEventListener("onPeerClose", (params) => {
-          console.log("Peer disconnected", params);
-        });
-      } else {
+      if (!boundHls?.p2pEngine) {
         console.log("No P2P engine found on Clappr HLS instance yet");
+        return;
       }
+
+      console.log("P2P engine attached");
+
+      const p2pEngine = boundHls.p2pEngine;
+
+      p2pEngine.addEventListener("onPeerConnect", (params) => {
+        console.log("Peer connected", params);
+      });
+
+      p2pEngine.addEventListener("onPeerClose", (params) => {
+        console.log("Peer disconnected", params);
+      });
+
+      statsTimer = setInterval(() => {
+        try {
+          const stats = p2pEngine.getStats ? p2pEngine.getStats() : null;
+          console.log("P2P stats object:", stats);
+
+          const peers =
+            stats?.peerIdToStats
+              ? Object.keys(stats.peerIdToStats).length
+              : (stats?.peers?.length ?? stats?.peerCount ?? 0);
+
+          if (peers !== lastPeerCount) {
+            lastPeerCount = peers;
+            console.log("Current peer count:", peers);
+          }
+
+          const trackers =
+            stats?.trackerAnnounce ??
+            stats?.trackers ??
+            [
+              "wss://tracker.novage.com.ua",
+              "wss://tracker.webtorrent.dev",
+              "wss://tracker.openwebtorrent.com"
+            ];
+
+          console.log("Current trackers:", trackers);
+
+          if (stats?.httpDownloaded !== undefined || stats?.p2pDownloaded !== undefined) {
+            console.log("Downloaded via HTTP:", stats.httpDownloaded);
+            console.log("Downloaded via P2P:", stats.p2pDownloaded);
+          }
+
+        } catch (e) {
+          console.log("Stats read error:", e);
+        }
+      }, 5000);
     }, 3000);
+  };
+
+  clapprPlayer.on(Clappr.Events.PLAYER_READY, () => {
+    console.log("PLAYER_READY fired");
+    bindAndMonitor();
   });
+
+  clapprPlayer.on(Clappr.Events.PLAYBACK_PLAY, () => {
+    console.log("PLAYBACK_PLAY fired");
+    bindAndMonitor();
+  });
+
+  setTimeout(() => {
+    console.log("Fallback bind attempt");
+    bindAndMonitor();
+  }, 5000);
 };
 
 window.addEventListener("load", () => {
   showPlayer("https://603.premiumjh.shop/test3/index.m3u8");
 });
 </script>
-
     <script src="js/bootstrap.bundle.min.js"></script>
 
 <script type="text/javascript">
