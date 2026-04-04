@@ -102,20 +102,23 @@
 
     <div class="container container-fluid pt-2 text-white">
 <div class="fullplayer">
-<div id="playerContainer"></div>
+    <div id="playerContainer"></div>
     <div class="streamchanger">
-        <button class="streambutton" onclick="loadStream('https://603.premiumjh.shop/test3/index.m3u8')">Stream 1</button>
+        <button class="streambutton" onclick="showPlayer('https://603.premiumjh.shop/test3/index.m3u8')">Stream 1</button>
     </div>
     <div class="embedchat">
         <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.info"></iframe>
     </div>
 </div>
+    </div>
+
     <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
         <ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
             <li class="nav-item"><a href="https://discord.gg/JhkVmejRmn" class="nav-link px-2 text-body-secondary">Stream Request (Discord)</a></li>
         </ul>
         <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
     </footer>
+
     <script>
         document.addEventListener('contextmenu', function (e) {
             e.preventDefault();
@@ -128,6 +131,7 @@
             }
         });
     </script>
+
 <!-- HLS.js -->
 <script src="https://cdn.jsdelivr.net/npm/hls.js@~1/dist/hls.min.js"></script>
 
@@ -159,68 +163,51 @@ window.showPlayer = function(streamUrl) {
     }
   });
 
-clapprPlayer = new Clappr.Player({
-  source: streamUrl,
-  parentId: "#playerContainer",
-  width: "100%",
-  height: "100%",
-  autoPlay: true,
-  mute: false,
-  playback: {
-    hlsjsConfig: {
-      ...engine.getConfigForHlsJs(),
-      liveSyncDurationCount: 3
+  clapprPlayer = new Clappr.Player({
+    source: streamUrl,
+    parentId: "#playerContainer",
+    width: "100%",
+    height: "100%",
+    autoPlay: true,
+    mute: false,
+    playback: {
+      hlsjsConfig: {
+        ...engine.getConfigForHlsJs(),
+        liveSyncDurationCount: 3
+      }
     }
-  }
-});
+  });
 
-clapprPlayer.on(Clappr.Events.PLAYER_READY, () => {
-  console.log("Clappr ready");
+  clapprPlayer.on(Clappr.Events.PLAYER_READY, () => {
+    console.log("Clappr ready");
 
-  const playback = clapprPlayer?.core?.getCurrentPlayback();
-  console.log("Playback object:", playback);
+    const playback = clapprPlayer?.core?.getCurrentPlayback();
+    console.log("Playback object:", playback);
 
-  const hls = playback?._hls;
-  console.log("HLS instance:", hls);
+    const hls = playback?._hls;
+    console.log("HLS instance:", hls);
 
-  engine.bindHls(() => clapprPlayer?.core?.getCurrentPlayback()?._hls);
-
-  setTimeout(() => {
-    const boundHls = clapprPlayer?.core?.getCurrentPlayback()?._hls;
-    console.log("Bound HLS instance:", boundHls);
-    console.log("P2P engine on HLS:", boundHls?.p2pEngine);
-
-    if (boundHls?.p2pEngine) {
-      console.log("P2P engine attached");
-
-      boundHls.p2pEngine.addEventListener("onPeerConnect", (params) => {
-        console.log("Peer connected", params);
-      });
-
-      boundHls.p2pEngine.addEventListener("onPeerClose", (params) => {
-        console.log("Peer disconnected", params);
-      });
-    } else {
-      console.log("No P2P engine found on Clappr HLS instance yet");
-    }
-  }, 3000);
-});
     engine.bindHls(() => clapprPlayer?.core?.getCurrentPlayback()?._hls);
 
-    const hls = clapprPlayer?.core?.getCurrentPlayback()?._hls;
-    if (hls?.p2pEngine) {
-      console.log("P2P engine attached");
+    setTimeout(() => {
+      const boundHls = clapprPlayer?.core?.getCurrentPlayback()?._hls;
+      console.log("Bound HLS instance:", boundHls);
+      console.log("P2P engine on HLS:", boundHls?.p2pEngine);
 
-      hls.p2pEngine.addEventListener("onPeerConnect", (params) => {
-        console.log("Peer connected", params);
-      });
+      if (boundHls?.p2pEngine) {
+        console.log("P2P engine attached");
 
-      hls.p2pEngine.addEventListener("onPeerClose", (params) => {
-        console.log("Peer disconnected", params);
-      });
-    } else {
-      console.log("No P2P engine found on Clappr HLS instance yet");
-    }
+        boundHls.p2pEngine.addEventListener("onPeerConnect", (params) => {
+          console.log("Peer connected", params);
+        });
+
+        boundHls.p2pEngine.addEventListener("onPeerClose", (params) => {
+          console.log("Peer disconnected", params);
+        });
+      } else {
+        console.log("No P2P engine found on Clappr HLS instance yet");
+      }
+    }, 3000);
   });
 };
 
@@ -228,11 +215,13 @@ window.addEventListener("load", () => {
   showPlayer("https://603.premiumjh.shop/test3/index.m3u8");
 });
 </script>
+
     <script src="js/bootstrap.bundle.min.js"></script>
 
 <script type="text/javascript">
 aclib.runPop({
 zoneId: '10754426',
 });
-</script></body>
+</script>
+</body>
 </html>
