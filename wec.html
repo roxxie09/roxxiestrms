@@ -15,6 +15,7 @@
     <link href="/css/buttons.css" rel="stylesheet">
 <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
+<script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
     <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -91,7 +92,6 @@
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nfl">NFL</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nhl">NHL</a></li>
-
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
@@ -152,58 +152,52 @@
 <script type="module">
 import { HlsJsP2PEngine } from "p2p-media-loader-hlsjs";
 
-const video = document.getElementById("video");
-let hls = null;
+let clapprPlayer = null;
+let engine = null;
 
-// Inject P2P into Hls.js
-const HlsWithP2P = HlsJsP2PEngine.injectMixin(window.Hls);
-
-// Expose a function for your button to call
-window.loadStream = function(streamUrl) {
-  if (!window.Hls || !window.Hls.isSupported()) {
-    console.error("Hls.js is not supported in this browser");
-    video.src = streamUrl; // fallback (Safari/iOS)
-    return;
+window.showPlayer = function(streamUrl) {
+  if (clapprPlayer) {
+    clapprPlayer.destroy();
+    clapprPlayer = null;
   }
 
-  if (hls) {
-    hls.destroy();
-  }
+  engine = new HlsJsP2PEngine({
+    core: {
+      swarmId: streamUrl
+    }
+  });
 
-  hls = new HlsWithP2P({
-    liveSyncDurationCount: 3,
-    maxBufferLength: 30,
-    p2p: {
-      core: {
-        swarmId: streamUrl, // unique per stream
-      },
-      onHlsJsCreated: (instance) => {
-        console.log("Hls.js with P2P created for", streamUrl);
-        // Optional: log P2P events
-        if (instance.p2pEngine) {
-          instance.p2pEngine.addEventListener("onPeerConnect", (evt) => {
-            console.log("Peer connected", evt);
-          });
-        }
+  clapprPlayer = new Clappr.Player({
+    source: streamUrl,
+    parentId: "#playerContainer",
+    width: "100%",
+    height: "100%",
+    autoPlay: true,
+    mute: false,
+    playback: {
+      hlsjsConfig: {
+        ...engine.getConfigForHlsJs()
       }
     }
   });
 
-  hls.loadSource(streamUrl);
-  hls.attachMedia(video);
-
-  hls.on(window.Hls.Events.MANIFEST_PARSED, () => {
-    video.play().catch((e) => console.log("Autoplay blocked", e));
+  clapprPlayer.on(Clappr.Events.PLAYER_READY, () => {
+    console.log("Clappr ready");
+    engine.bindHls(() => clapprPlayer?.core?.getCurrentPlayback()?._hls);
   });
 
-  hls.on(window.Hls.Events.ERROR, (event, data) => {
-    console.error("HLS error", data);
+  const peerEvents = engine.getCore();
+  peerEvents.addEventListener("onPeerConnect", (event) => {
+    console.log("Peer connected", event.detail || event);
+  });
+
+  peerEvents.addEventListener("onPeerClose", (event) => {
+    console.log("Peer disconnected", event.detail || event);
   });
 };
 
-// Auto-load Stream 1 on page load
 window.addEventListener("load", () => {
-  loadStream("https://603.premiumjh.shop/test2/index.m3u8");
+  showPlayer("https://603.premiumjh.shop/test2/index.m3u8");
 });
 </script>
     <script src="js/bootstrap.bundle.min.js"></script>
