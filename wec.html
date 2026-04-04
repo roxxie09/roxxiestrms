@@ -207,34 +207,53 @@
               "wss://tracker.openwebtorrent.com"
             ]);
 
-            if (instance.p2pEngine) {
-              instance.p2pEngine.addEventListener("onPeerConnect", (evt) => {
-                peerCount++;
-                console.log("Peer connected", evt, "Total peers:", peerCount);
-              });
+if (instance.p2pEngine) {
+  const peerSet = new Set();
 
-              instance.p2pEngine.addEventListener("onPeerClose", (evt) => {
-                peerCount = Math.max(0, peerCount - 1);
-                console.log("Peer disconnected", evt, "Total peers:", peerCount);
-              });
+  instance.p2pEngine.addEventListener("onPeerConnect", (evt) => {
+    const peerId = evt?.peerId || evt?.detail?.peerId;
+    if (peerId) peerSet.add(peerId);
+    console.log("Peer connected", evt, "Total peers:", peerSet.size);
+  });
 
-              statsTimer = setInterval(() => {
-                try {
-                  const stats = instance.p2pEngine.getStats ? instance.p2pEngine.getStats() : null;
-                  const p2pBytes = stats?.p2pDownloadedBytes || 0;
-                  const httpBytes = stats?.httpDownloadedBytes || 0;
-                  const total = p2pBytes + httpBytes;
-                  const p2pPercent = total > 0 ? ((p2pBytes / total) * 100).toFixed(1) : "0.0";
+  instance.p2pEngine.addEventListener("onPeerClose", (evt) => {
+    const peerId = evt?.peerId || evt?.detail?.peerId;
+    if (peerId) peerSet.delete(peerId);
+    console.log("Peer disconnected", evt, "Total peers:", peerSet.size);
+  });
 
-                  statsBox.textContent = `Peers: ${peerCount} | P2P: ${p2pPercent}%`;
-                  console.log("P2P stats:", { peerCount, p2pBytes, httpBytes, p2pPercent });
-                } catch (e) {
-                  console.log("Stats read error:", e);
-                }
-              }, 5000);
-            }
-          }
-        }
+  statsTimer = setInterval(() => {
+    try {
+      const stats = instance.p2pEngine.getStats ? instance.p2pEngine.getStats() : null;
+
+      const p2pBytes =
+        stats?.p2pDownloadedBytes ??
+        stats?.downloadedP2PBytes ??
+        stats?.p2pDownloadBytes ??
+        0;
+
+      const httpBytes =
+        stats?.httpDownloadedBytes ??
+        stats?.downloadedHTTPBytes ??
+        stats?.httpDownloadBytes ??
+        0;
+
+      const total = p2pBytes + httpBytes;
+      const p2pPercent = total > 0 ? ((p2pBytes / total) * 100).toFixed(1) : "0.0";
+
+      statsBox.textContent = `Peers: ${peerSet.size} | P2P: ${p2pPercent}%`;
+      console.log("P2P stats:", {
+        peerCount: peerSet.size,
+        p2pBytes,
+        httpBytes,
+        p2pPercent,
+        rawStats: stats
+      });
+    } catch (e) {
+      console.log("Stats read error:", e);
+    }
+  }, 5000);
+}
       });
 
       hls.loadSource(streamUrl);
