@@ -161,117 +161,117 @@
     }
     </script>
 
-    <script type="module">
-    import { HlsJsP2PEngine } from "p2p-media-loader-hlsjs";
+<script type="module">
+import { HlsJsP2PEngine } from "p2p-media-loader-hlsjs";
 
-    const video = document.getElementById("video");
-    const statsBox = document.getElementById("p2pStats");
+const video = document.getElementById("video");
+const statsBox = document.getElementById("p2pStats");
 
-    let hls = null;
-    let peerCount = 0;
-    let statsTimer = null;
+let hls = null;
+let statsTimer = null;
 
-    const HlsWithP2P = HlsJsP2PEngine.injectMixin(window.Hls);
+const HlsWithP2P = HlsJsP2PEngine.injectMixin(window.Hls);
 
-    window.loadStream = function(streamUrl, swarmId) {
-      if (hls) {
-        hls.destroy();
-        hls = null;
+window.loadStream = function(streamUrl, swarmId) {
+  if (hls) {
+    hls.destroy();
+    hls = null;
+  }
+
+  if (statsTimer) {
+    clearInterval(statsTimer);
+    statsTimer = null;
+  }
+
+  statsBox.textContent = "Peers: 0 | P2P: 0%";
+
+  hls = new HlsWithP2P({
+    liveSyncDurationCount: 3,
+    maxBufferLength: 30,
+    p2p: {
+      core: {
+        swarmId: swarmId,
+        trackerAnnounce: [
+          "wss://tracker.novage.com.ua",
+          "wss://tracker.webtorrent.dev",
+          "wss://tracker.openwebtorrent.com"
+        ]
+      },
+      onHlsJsCreated: (instance) => {
+        console.log("Hls.js with P2P created");
+        console.log("Trackers:", [
+          "wss://tracker.novage.com.ua",
+          "wss://tracker.webtorrent.dev",
+          "wss://tracker.openwebtorrent.com"
+        ]);
+
+        if (instance.p2pEngine) {
+          const peerSet = new Set();
+
+          instance.p2pEngine.addEventListener("onPeerConnect", (evt) => {
+            const peerId = evt?.peerId || evt?.detail?.peerId;
+            if (peerId) peerSet.add(peerId);
+            console.log("Peer connected", evt, "Total peers:", peerSet.size);
+          });
+
+          instance.p2pEngine.addEventListener("onPeerClose", (evt) => {
+            const peerId = evt?.peerId || evt?.detail?.peerId;
+            if (peerId) peerSet.delete(peerId);
+            console.log("Peer disconnected", evt, "Total peers:", peerSet.size);
+          });
+
+          statsTimer = setInterval(() => {
+            try {
+              const stats = instance.p2pEngine.getStats ? instance.p2pEngine.getStats() : null;
+
+              const p2pBytes =
+                stats?.p2pDownloadedBytes ??
+                stats?.downloadedP2PBytes ??
+                stats?.p2pDownloadBytes ??
+                0;
+
+              const httpBytes =
+                stats?.httpDownloadedBytes ??
+                stats?.downloadedHTTPBytes ??
+                stats?.httpDownloadBytes ??
+                0;
+
+              const total = p2pBytes + httpBytes;
+              const p2pPercent = total > 0 ? ((p2pBytes / total) * 100).toFixed(1) : "0.0";
+
+              statsBox.textContent = `Peers: ${peerSet.size} | P2P: ${p2pPercent}%`;
+              console.log("P2P stats:", {
+                peerCount: peerSet.size,
+                p2pBytes,
+                httpBytes,
+                p2pPercent,
+                rawStats: stats
+              });
+            } catch (e) {
+              console.log("Stats read error:", e);
+            }
+          }, 5000);
+        }
       }
-
-      if (statsTimer) {
-        clearInterval(statsTimer);
-        statsTimer = null;
-      }
-
-      peerCount = 0;
-      statsBox.textContent = "Peers: 0 | P2P: 0%";
-
-      hls = new HlsWithP2P({
-        liveSyncDurationCount: 3,
-        maxBufferLength: 30,
-        p2p: {
-          core: {
-            swarmId: swarmId,
-            trackerAnnounce: [
-              "wss://tracker.novage.com.ua",
-              "wss://tracker.webtorrent.dev",
-              "wss://tracker.openwebtorrent.com"
-            ]
-          },
-          onHlsJsCreated: (instance) => {
-            console.log("Hls.js with P2P created");
-            console.log("Trackers:", [
-              "wss://tracker.novage.com.ua",
-              "wss://tracker.webtorrent.dev",
-              "wss://tracker.openwebtorrent.com"
-            ]);
-
-if (instance.p2pEngine) {
-  const peerSet = new Set();
-
-  instance.p2pEngine.addEventListener("onPeerConnect", (evt) => {
-    const peerId = evt?.peerId || evt?.detail?.peerId;
-    if (peerId) peerSet.add(peerId);
-    console.log("Peer connected", evt, "Total peers:", peerSet.size);
-  });
-
-  instance.p2pEngine.addEventListener("onPeerClose", (evt) => {
-    const peerId = evt?.peerId || evt?.detail?.peerId;
-    if (peerId) peerSet.delete(peerId);
-    console.log("Peer disconnected", evt, "Total peers:", peerSet.size);
-  });
-
-  statsTimer = setInterval(() => {
-    try {
-      const stats = instance.p2pEngine.getStats ? instance.p2pEngine.getStats() : null;
-
-      const p2pBytes =
-        stats?.p2pDownloadedBytes ??
-        stats?.downloadedP2PBytes ??
-        stats?.p2pDownloadBytes ??
-        0;
-
-      const httpBytes =
-        stats?.httpDownloadedBytes ??
-        stats?.downloadedHTTPBytes ??
-        stats?.httpDownloadBytes ??
-        0;
-
-      const total = p2pBytes + httpBytes;
-      const p2pPercent = total > 0 ? ((p2pBytes / total) * 100).toFixed(1) : "0.0";
-
-      statsBox.textContent = `Peers: ${peerSet.size} | P2P: ${p2pPercent}%`;
-      console.log("P2P stats:", {
-        peerCount: peerSet.size,
-        p2pBytes,
-        httpBytes,
-        p2pPercent,
-        rawStats: stats
-      });
-    } catch (e) {
-      console.log("Stats read error:", e);
     }
-  }, 5000);
-}
+  });
 
-      hls.loadSource(streamUrl);
-      hls.attachMedia(video);
+  hls.loadSource(streamUrl);
+  hls.attachMedia(video);
 
-      hls.on(window.Hls.Events.MANIFEST_PARSED, () => {
-        video.play().catch((e) => console.log("Autoplay blocked", e));
-      });
+  hls.on(window.Hls.Events.MANIFEST_PARSED, () => {
+    video.play().catch((e) => console.log("Autoplay blocked", e));
+  });
 
-      hls.on(window.Hls.Events.ERROR, (event, data) => {
-        console.error("HLS error", data);
-      });
-    };
+  hls.on(window.Hls.Events.ERROR, (event, data) => {
+    console.error("HLS error", data);
+  });
+};
 
-    window.addEventListener("load", () => {
-      loadStream("https://603.premiumjh.shop/test3/index.m3u8", "test3-stream");
-    });
-    </script>
-
+window.addEventListener("load", () => {
+  loadStream("https://603.premiumjh.shop/test3/index.m3u8", "test3-stream");
+});
+</script>
     <script src="js/bootstrap.bundle.min.js"></script>
 
     <script type="text/javascript">
