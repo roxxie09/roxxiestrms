@@ -14,8 +14,6 @@
     <link rel="stylesheet" type="text/css" href="css/mainn.css">
     <link href="/css/buttons.css" rel="stylesheet">
 <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
-<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
-    <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
     <script>
   window.dataLayer = window.dataLayer || [];
@@ -103,11 +101,17 @@
     </nav>
 
     <div class="container container-fluid pt-2 text-white">
-        <div class="fullplayer">
-            <div id="playerContainer"></div>
-            <div class="streamchanger">
-                <button class="streambutton" onclick="showPlayer('clappr', 'https://602.premiumjh.shop/nbc.m3u8')">Stream 1</button>
-            </div>
+<div class="fullplayer">
+    <div id="playerContainer">
+        <video id="video" controls autoplay playsinline></video>
+    </div>
+    <div class="streamchanger">
+        <button class="streambutton" onclick="loadStream('https://603.premiumjh.shop/test2/index.m3u8')">Stream 1</button>
+    </div>
+    <div class="embedchat">
+        <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.info"></iframe>
+    </div>
+</div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.info"></iframe>
             </div>
@@ -120,30 +124,6 @@
         </ul>
         <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
     </footer>
-
-    <script>
-        var clapprPlayer;
-
-        function showPlayer(playerType, stream) {
-            if (playerType === "clappr") {
-                if (clapprPlayer) {
-                    clapprPlayer.destroy();
-                }
-
-                clapprPlayer = new Clappr.Player({
-                    source: stream,
-                    parentId: "#playerContainer",
-                    height: '100%',
-                    width: '100%',
-                    autoPlay: true,
-                });
-            }
-        }
-
-        window.onload = function() {
-            showPlayer('clappr', 'https://602.premiumjh.shop/nbc.m3u8');
-        };
-    </script>
     <script>
         document.addEventListener('contextmenu', function (e) {
             e.preventDefault();
@@ -156,6 +136,76 @@
             }
         });
     </script>
+<!-- HLS.js -->
+<script src="https://cdn.jsdelivr.net/npm/hls.js@~1/dist/hls.min.js"></script>
+
+<!-- Import map for P2P Media Loader (official pattern) -->
+<script type="importmap">
+{
+  "imports": {
+    "p2p-media-loader-core": "https://cdn.jsdelivr.net/npm/p2p-media-loader-core@^1/dist/p2p-media-loader-core.es.min.js",
+    "p2p-media-loader-hlsjs": "https://cdn.jsdelivr.net/npm/p2p-media-loader-hlsjs@^1/dist/p2p-media-loader-hlsjs.es.min.js"
+  }
+}
+</script>
+
+<script type="module">
+import { HlsJsP2PEngine } from "p2p-media-loader-hlsjs";
+
+const video = document.getElementById("video");
+let hls = null;
+
+// Inject P2P into Hls.js
+const HlsWithP2P = HlsJsP2PEngine.injectMixin(window.Hls);
+
+// Expose a function for your button to call
+window.loadStream = function(streamUrl) {
+  if (!window.Hls || !window.Hls.isSupported()) {
+    console.error("Hls.js is not supported in this browser");
+    video.src = streamUrl; // fallback (Safari/iOS)
+    return;
+  }
+
+  if (hls) {
+    hls.destroy();
+  }
+
+  hls = new HlsWithP2P({
+    liveSyncDurationCount: 3,
+    maxBufferLength: 30,
+    p2p: {
+      core: {
+        swarmId: streamUrl, // unique per stream
+      },
+      onHlsJsCreated: (instance) => {
+        console.log("Hls.js with P2P created for", streamUrl);
+        // Optional: log P2P events
+        if (instance.p2pEngine) {
+          instance.p2pEngine.addEventListener("onPeerConnect", (evt) => {
+            console.log("Peer connected", evt);
+          });
+        }
+      }
+    }
+  });
+
+  hls.loadSource(streamUrl);
+  hls.attachMedia(video);
+
+  hls.on(window.Hls.Events.MANIFEST_PARSED, () => {
+    video.play().catch((e) => console.log("Autoplay blocked", e));
+  });
+
+  hls.on(window.Hls.Events.ERROR, (event, data) => {
+    console.error("HLS error", data);
+  });
+};
+
+// Auto-load Stream 1 on page load
+window.addEventListener("load", () => {
+  loadStream("https://603.premiumjh.shop/test2/index.m3u8");
+});
+</script>
     <script src="js/bootstrap.bundle.min.js"></script>
 
 <script type="text/javascript">
