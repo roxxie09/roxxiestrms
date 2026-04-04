@@ -159,20 +159,20 @@ window.showPlayer = function(streamUrl) {
     }
   });
 
-  clapprPlayer = new Clappr.Player({
-    source: streamUrl,
-    parentId: "#playerContainer",
-    width: "100%",
-    height: "100%",
-    autoPlay: true,
-    mute: false,
-    playback: {
-      hlsjsConfig: {
-        ...engine.getConfigForHlsJs(),
-        liveSyncDurationCount: 3
-      }
+clapprPlayer = new Clappr.Player({
+  source: streamUrl,
+  parentId: "#playerContainer",
+  width: "100%",
+  height: "100%",
+  autoPlay: true,
+  mute: false,
+  playback: {
+    hlsjsConfig: {
+      ...engine.getConfigForHlsJs(),
+      liveSyncDurationCount: 3
     }
-  });
+  }
+});
 
 clapprPlayer.on(Clappr.Events.PLAYER_READY, () => {
   console.log("Clappr ready");
@@ -189,9 +189,22 @@ clapprPlayer.on(Clappr.Events.PLAYER_READY, () => {
     const boundHls = clapprPlayer?.core?.getCurrentPlayback()?._hls;
     console.log("Bound HLS instance:", boundHls);
     console.log("P2P engine on HLS:", boundHls?.p2pEngine);
+
+    if (boundHls?.p2pEngine) {
+      console.log("P2P engine attached");
+
+      boundHls.p2pEngine.addEventListener("onPeerConnect", (params) => {
+        console.log("Peer connected", params);
+      });
+
+      boundHls.p2pEngine.addEventListener("onPeerClose", (params) => {
+        console.log("Peer disconnected", params);
+      });
+    } else {
+      console.log("No P2P engine found on Clappr HLS instance yet");
+    }
   }, 3000);
 });
-
     engine.bindHls(() => clapprPlayer?.core?.getCurrentPlayback()?._hls);
 
     const hls = clapprPlayer?.core?.getCurrentPlayback()?._hls;
