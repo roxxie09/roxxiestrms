@@ -138,7 +138,7 @@ fetch('domainsc.txt')
     console.error('Failed to load domainsc.txt');
   });
 
-function getRandomStream(streamPath, subdomain = '602') {
+function getRandomStream(streamPath, subdomain = 'daffodil') {
   if (domains.length === 0) {
     return `https://${subdomain}.shadow-ran.online/${streamPath}`; // Fallback
   }
