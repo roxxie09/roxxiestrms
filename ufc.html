@@ -114,9 +114,9 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
 	<div class="streamchanger">
-	  <button id="btn-stream-1" class="streambutton" onclick="playStream1()">Stream 1 (FIGHT PASS)</button>
+	  <button id="btn-stream-1" class="streambutton" onclick="playStream1()">Stream 1 (SAT)</button>
 	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('sn.m3u8', 'daffodil'))">Stream 2 (Sportsnet)</button>
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tnt2.m3u8', '602'))">Stream 3 (TNT)</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tnt.m3u8', '602'))">Stream 3 (TNT)</button>
 	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('para.m3u8', '602'))">Stream 4 (PARA)</button>
 	  <button id="btn-stream-5" class="streambutton" onclick="playStream5()">PC ONLY (DIRECT)</button>
 	</div>
@@ -155,7 +155,7 @@ fetch('domainsg.txt')
       const btn1 = document.getElementById('btn-stream-1');
       const btn5 = document.getElementById('btn-stream-5');
       if (btn1) btn1.innerText = 'PC ONLY (DIRECT)';
-      if (btn5) btn5.innerText = 'Stream 5 (FIGHT PASS)';
+      if (btn5) btn5.innerText = 'Stream 1 (SAT)';
     }
 
     // Auto-load initial stream after domains load
