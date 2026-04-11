@@ -115,8 +115,7 @@
             <div id="playerContainer"></div>
 	<div class="streamchanger">
 	  <button id="btn-stream-1" class="streambutton" onclick="playStream1()">Stream 1</button>
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('sn.m3u8', 'daffodil'))">Stream 2 (Sportsnet)</button>
-	  <button id="btn-stream-3" class="streambutton" onclick="playStream3()">PC ONLY (DIRECT)</button>
+	  <button id="btn-stream-5" class="streambutton" onclick="playStream5()">PC ONLY (DIRECT)</button>
 	</div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.info"></iframe>
@@ -136,7 +135,7 @@ var clapprPlayer;
 var shakaPlayer;
 var shakaUI;
 var domains = [];
-var subdomain = '602';  // Edit this per HTML file
+var subdomain = 'daffodil';  // Edit this per HTML file
 
 function isDesktop() {
   return !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
@@ -151,9 +150,9 @@ fetch('domainse.txt')
     // Update button labels for Desktop
     if (isDesktop()) {
       const btn1 = document.getElementById('btn-stream-1');
-      const btn3 = document.getElementById('btn-stream-3');
-      if (btn1) btn1.innerText = 'PC ONLY (DIRECT';
-      if (btn3) btn3.innerText = 'Stream 1';
+      const btn5 = document.getElementById('btn-stream-5');
+      if (btn1) btn1.innerText = 'PC ONLY (DIRECT)';
+      if (btn5) btn5.innerText = 'Stream 5';
     }
 
     // Auto-load initial stream after domains load
@@ -165,7 +164,7 @@ fetch('domainse.txt')
     console.error('Failed to load domainse.txt');
   });
 
-function getRandomStream(streamPath, subdomain = '602') {
+function getRandomStream(streamPath, subdomain = 'daffodil') {
   if (domains.length === 0) {
     return `https://${subdomain}.shadow-ran.online/${streamPath}`; // Fallback
   }
@@ -180,13 +179,13 @@ function playStream1() {
   if (isDesktop()) {
     showPlayer('clappr', dashStream, dashKeys);
   } else {
-    showPlayer('clappr', getRandomStream('ataide.m3u8', '602'));
+    showPlayer('clappr', getRandomStream('usa.m3u8', 'daffodil'));
   }
 }
 
 function playStream5() {
   if (isDesktop()) {
-    showPlayer('clappr', getRandomStream('ataide.m3u8', '602'));
+    showPlayer('clappr', getRandomStream('usa.m3u8', 'daffodil'));
   } else {
     showPlayer('clappr', dashStream, dashKeys);
   }
