@@ -114,11 +114,11 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
 	<div class="streamchanger">
-	  <button class="streambutton" onclick="playStream1()">Stream 1 (FIGHT PASS)</button>
+	  <button id="btn-stream-1" class="streambutton" onclick="playStream1()">Stream 1 (FIGHT PASS)</button>
 	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('sn.m3u8', 'daffodil'))">Stream 2 (Sportsnet)</button>
 	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tnt2.m3u8', '602'))">Stream 3 (TNT)</button>
 	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('para.m3u8', '602'))">Stream 4 (PARA)</button>
-	  <button class="streambutton" onclick="playStream5()">Stream 5 (DASH)</button>
+	  <button id="btn-stream-5" class="streambutton" onclick="playStream5()">Stream 5 (DASH)</button>
 	</div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.info"></iframe>
@@ -149,6 +149,15 @@ fetch('domainse.txt')
   .then(response => response.text())
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
+    
+    // Update button labels for Desktop
+    if (isDesktop()) {
+      const btn1 = document.getElementById('btn-stream-1');
+      const btn5 = document.getElementById('btn-stream-5');
+      if (btn1) btn1.innerText = 'Stream 1 (DASH)';
+      if (btn5) btn5.innerText = 'Stream 5 (FIGHT PASS)';
+    }
+
     // Auto-load initial stream after domains load
     setTimeout(() => {
       playStream1();
