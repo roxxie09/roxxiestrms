@@ -18,7 +18,8 @@
     <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dash-shaka-playback@latest/dist/dash-shaka-playback.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/clappr-level-selector-plugin@latest/dist/level-selector.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@clappr/playback-levels@latest/dist/playback-levels.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css">
+    <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
     <script>
   window.dataLayer = window.dataLayer || [];
@@ -73,6 +74,10 @@
             left: 10px;
             display: flex;
             gap: 10px;
+        }
+        [data-shaka-player-container] {
+            width: 100% !important;
+            height: 100% !important;
         }
     </style>
 
@@ -130,6 +135,8 @@
 
 <script>
 var clapprPlayer;
+var shakaPlayer;
+var shakaUI;
 var domains = [];
 var subdomain = '602';  // Edit this per HTML file
 
@@ -153,18 +160,76 @@ function getRandomStream(streamPath, subdomain = '602') {
   return `https://${subdomain}.${randomDomain}/${streamPath}`;
 }
 
-function showPlayer(playerType, stream, drmConfig) {
-  if (playerType === "clappr") {
-    if (clapprPlayer) {
-      clapprPlayer.destroy();
+async function initShaka(container, video, stream, drmConfig) {
+  const player = new shaka.Player(video);
+  const ui = new shaka.ui.Overlay(player, container, video);
+  
+  player.configure({
+    drm: {
+      clearKeys: drmConfig || {}
     }
+  });
+
+  try {
+    await player.load(stream);
+    console.log('The video has now been loaded!');
+  } catch (e) {
+    console.error('Error code', e.code, 'object', e);
+  }
+  
+  return { player, ui };
+}
+
+function showPlayer(playerType, stream, drmConfig) {
+  const container = document.getElementById('playerContainer');
+  
+  // Clean up existing players
+  if (clapprPlayer) {
+    clapprPlayer.destroy();
+    clapprPlayer = null;
+  }
+  if (shakaPlayer) {
+    shakaPlayer.destroy();
+    shakaPlayer = null;
+  }
+  if (shakaUI) {
+    shakaUI.destroy();
+    shakaUI = null;
+  }
+  container.innerHTML = '';
+
+  // For Stream 5 (DASH with ClearKey), use Shaka Player directly for better UI/Quality support
+  if (stream.includes('.mpd')) {
+    const videoWrapper = document.createElement('div');
+    videoWrapper.setAttribute('data-shaka-player-container', '');
+    videoWrapper.style.width = '100%';
+    videoWrapper.style.height = '100%';
+    
+    const video = document.createElement('video');
+    video.setAttribute('data-shaka-player', '');
+    video.id = 'shaka-video';
+    video.style.width = '100%';
+    video.style.height = '100%';
+    video.autoplay = true;
+    
+    videoWrapper.appendChild(video);
+    container.appendChild(videoWrapper);
+    
+    initShaka(videoWrapper, video, stream, drmConfig).then(res => {
+      shakaPlayer = res.player;
+      shakaUI = res.ui;
+    });
+    return;
+  }
+
+  if (playerType === "clappr") {
     clapprPlayer = new Clappr.Player({
       source: stream,
       parentId: "#playerContainer",
       height: '100%',
       width: '100%',
       autoPlay: true,
-      plugins: [window.DashShakaPlayback, window.LevelSelector, Clappr.PlaybackLevels, QualitySelector].filter(Boolean),
+      plugins: [window.DashShakaPlayback, window.LevelSelector].filter(Boolean),
       levelSelectorConfig: {
         title: 'Quality',
         labels: {
