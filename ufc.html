@@ -164,7 +164,7 @@ function showPlayer(playerType, stream, drmConfig) {
       height: '100%',
       width: '100%',
       autoPlay: true,
-      plugins: [window.DashShakaPlayback, window.LevelSelector].filter(Boolean),
+      plugins: [window.DashShakaPlayback, window.LevelSelector, Clappr.PlaybackLevels, QualitySelector].filter(Boolean),
       levelSelectorConfig: {
         title: 'Quality',
         labels: {
