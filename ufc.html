@@ -17,6 +17,7 @@
 <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dash-shaka-playback@latest/dist/dash-shaka-playback.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/clappr-level-selector-plugin@latest/dist/level-selector.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
     <script>
   window.dataLayer = window.dataLayer || [];
@@ -162,7 +163,18 @@ function showPlayer(playerType, stream, drmConfig) {
       height: '100%',
       width: '100%',
       autoPlay: true,
-      plugins: [DashShakaPlayback],
+      plugins: [DashShakaPlayback, LevelSelector],
+      levelSelectorConfig: {
+        title: 'Quality',
+        labels: {
+          2: 'High',
+          1: 'Medium',
+          0: 'Low',
+        },
+        labelCallback: function(playbackLevel, customLabel) {
+          return customLabel || playbackLevel.level.height + 'p';
+        }
+      },
       shakaConfiguration: {
         drm: {
           clearKeys: drmConfig || {}
