@@ -16,10 +16,6 @@
 <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
 <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dash-shaka-playback@latest/dist/dash-shaka-playback.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/clappr-level-selector-plugin@latest/dist/level-selector.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css">
-    <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
     <script>
   window.dataLayer = window.dataLayer || [];
@@ -75,10 +71,6 @@
             display: flex;
             gap: 10px;
         }
-        [data-shaka-player-container] {
-            width: 100% !important;
-            height: 100% !important;
-        }
     </style>
 
 </head>
@@ -114,9 +106,7 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
 	<div class="streamchanger">
-	  <button id="btn-stream-1" class="streambutton" onclick="playStream1()">Stream 1</button>
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tnt.m3u8', '601'))">Stream 2</button>
-	  <button id="btn-stream-5" class="streambutton" onclick="playStream5()">PC ONLY (DIRECT)</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('bein.m3u8', 'daffodil'))">Stream 1</button>
 	</div>
             <div class="embedchat">
                 <iframe src="https://www.youtube.com/live_chat?v=ZS9KXyH7Qjc&amp;embed_domain=roxiestreams.info"></iframe>
@@ -133,33 +123,16 @@
 
 <script>
 var clapprPlayer;
-var shakaPlayer;
-var shakaUI;
 var domains = [];
-var subdomain = 'daffodil';  // Edit this per HTML file
-
-function isDesktop() {
-  return !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
-}
+var subdomain = 'daffodil'  // Edit this per HTML file
 
 // Load domains from txt file
 fetch('domainsh.txt')
   .then(response => response.text())
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
-    
-    // Update button labels for Desktop
-    if (isDesktop()) {
-      const btn1 = document.getElementById('btn-stream-1');
-      const btn5 = document.getElementById('btn-stream-5');
-      if (btn1) btn1.innerText = 'PC ONLY (DIRECT)';
-      if (btn5) btn5.innerText = 'Stream 1';
-    }
-
     // Auto-load initial stream after domains load
-    setTimeout(() => {
-      playStream1();
-    }, 500);
+    setTimeout(() => showPlayer('clappr', getRandomStream('bein.m3u8')), 500);
   })
   .catch(() => {
     console.error('Failed to load domainsh.txt');
@@ -173,111 +146,17 @@ function getRandomStream(streamPath, subdomain = 'daffodil') {
   return `https://${subdomain}.${randomDomain}/${streamPath}`;
 }
 
-const dashStream = 'https://otte.cache.aiv-cdn.net/bom-nitro/live/clients/dash/enc/cllekigzzn/out/v1/bd3b0c314fff4bb1ab4693358f3cd2d3/cenc.mpd';
-const dashKeys = {'294b5761cefc22d0c6312939e13d8278': '52148f1042d238849f0a7813f1da8a7b'};
-
-function playStream1() {
-  if (isDesktop()) {
-    showPlayer('clappr', dashStream, dashKeys);
-  } else {
-    showPlayer('clappr', getRandomStream('usa.m3u8', 'daffodil'));
-  }
-}
-
-function playStream5() {
-  if (isDesktop()) {
-    showPlayer('clappr', getRandomStream('usa.m3u8', 'daffodil'));
-  } else {
-    showPlayer('clappr', dashStream, dashKeys);
-  }
-}
-
-async function initShaka(container, video, stream, drmConfig) {
-  const player = new shaka.Player(video);
-  const ui = new shaka.ui.Overlay(player, container, video);
-  
-  player.configure({
-    drm: {
-      clearKeys: drmConfig || {}
-    }
-  });
-
-  try {
-    await player.load(stream);
-    console.log('The video has now been loaded!');
-  } catch (e) {
-    console.error('Error code', e.code, 'object', e);
-  }
-  
-  return { player, ui };
-}
-
-function showPlayer(playerType, stream, drmConfig) {
-  const container = document.getElementById('playerContainer');
-  
-  // Clean up existing players
-  if (clapprPlayer) {
-    clapprPlayer.destroy();
-    clapprPlayer = null;
-  }
-  if (shakaPlayer) {
-    shakaPlayer.destroy();
-    shakaPlayer = null;
-  }
-  if (shakaUI) {
-    shakaUI.destroy();
-    shakaUI = null;
-  }
-  container.innerHTML = '';
-
-  // For Stream 5 (DASH with ClearKey), use Shaka Player directly for better UI/Quality support
-  if (stream.includes('.mpd')) {
-    const videoWrapper = document.createElement('div');
-    videoWrapper.setAttribute('data-shaka-player-container', '');
-    videoWrapper.style.width = '100%';
-    videoWrapper.style.height = '100%';
-    
-    const video = document.createElement('video');
-    video.setAttribute('data-shaka-player', '');
-    video.id = 'shaka-video';
-    video.style.width = '100%';
-    video.style.height = '100%';
-    video.autoplay = true;
-    
-    videoWrapper.appendChild(video);
-    container.appendChild(videoWrapper);
-    
-    initShaka(videoWrapper, video, stream, drmConfig).then(res => {
-      shakaPlayer = res.player;
-      shakaUI = res.ui;
-    });
-    return;
-  }
-
+function showPlayer(playerType, stream) {
   if (playerType === "clappr") {
+    if (clapprPlayer) {
+      clapprPlayer.destroy();
+    }
     clapprPlayer = new Clappr.Player({
       source: stream,
       parentId: "#playerContainer",
       height: '100%',
       width: '100%',
       autoPlay: true,
-      plugins: [window.DashShakaPlayback, window.LevelSelector].filter(Boolean),
-      levelSelectorConfig: {
-        title: 'Quality',
-        labels: {
-          2: 'High',
-          1: 'Medium',
-          0: 'Low',
-        },
-        labelCallback: function(playbackLevel, customLabel) {
-          return customLabel || playbackLevel.level.height + 'p';
-        }
-      },
-      shakaConfiguration: {
-        drm: {
-          clearKeys: drmConfig || {}
-        }
-      }
     });
   }
 }
