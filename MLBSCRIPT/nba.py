@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 
 M3U_URLS = [
-    "http://madjokersqaud.nl:8080/get.php?username=Flathern2020&password=Sports&type=m3u",
+    "http://madjokersqaud.nl:8080/get.php?username=BruceEwing98&password=10RmDdge&type=m3u",
     "http://madjokersqaud.nl:8080/get.php?username=6588574444&password=7405892934&type=m3u",
     "http://madjokersqaud.nl:8080/get.php?username=9940767554&password=6567348537&type=m3u",
     "http://madjokersqaud.nl:8080/get.php?username=delray288699&password=Kane288699&type=m3u",
