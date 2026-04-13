@@ -131,11 +131,13 @@ fetch('domainsj.txt')
   .then(response => response.text())
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
-    // Auto-load initial stream after domains load
-setTimeout(() => showPlayer(
-  'clappr',
-  'https://customer-fpmmd9cdewmb1wz2.cloudflarestream.com/7b2add8f6c990c9e43454caedce67487/manifest/video.m3u8'
-), 500);
+
+    // Auto-load Stream 1
+    setTimeout(() => showPlayer(
+      'clappr',
+      'https://customer-fpmmd9cdewmb1wz2.cloudflarestream.com/7b2add8f6c990c9e43454caedce67487/manifest/video.m3u8'
+    ), 500);
+  })
   .catch(() => {
     console.error('Failed to load domainsj.txt');
   });
