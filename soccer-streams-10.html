@@ -51,7 +51,51 @@
             width: 100%;
             height: 100%;
         }
+        
+
         .embedchat {
+            width: 30%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            margin-left: 10px;
+            border: 1px solid rgba(255, 192, 203, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .chat-header {
+            padding: 8px;
+            background: #1a1a1a;
+            border-bottom: 1px solid rgba(255, 192, 203, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chat-toggle-btn {
+            background: rgba(255, 192, 203, 0.1);
+            border: 1px solid rgba(255, 192, 203, 0.3);
+            color: pink;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .chat-toggle-btn:hover {
+            background: rgba(255, 192, 203, 0.2);
+        }
+        #chatContent {
+            flex: 1;
+            width: 100%;
+            height: 100%;
+        }
+        #chatContent iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+.embedchat {
             width: 30%;
             height: 100%;
             display: flex;
@@ -109,7 +153,13 @@
 	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('beines.m3u8', '602'))">Stream 1</button>
 	</div>
             <div class="embedchat">
-                <iframe src="https://www.youtube.com/live_chat?v=mpwfjhmyEzw&amp;embed_domain=roxiestreams.info"></iframe>
+                <div class="chat-header">
+                    <span style="font-size: 10px; color: pink; font-weight: bold;">LIVE CHAT</span>
+                    <button class="chat-toggle-btn" id="toggleChat">Switch to Chatango</button>
+                </div>
+                <div id="chatContent">
+                    <iframe src="https://www.youtube.com/live_chat?v=mpwfjhmyEzw&amp;embed_domain=roxiestreams.info"></iframe>
+                </div>
             </div>
         </div>
     </div>
@@ -123,6 +173,7 @@
 
 <script>
 var clapprPlayer;
+var currentChat = 'yt';
 var domains = [];
 var subdomain = '602'  // Edit this per HTML file
 
@@ -160,6 +211,59 @@ function showPlayer(playerType, stream) {
     });
   }
 }
+
+window.onload = function() {
+        var toggleBtn = document.getElementById('toggleChat');
+        var chatContent = document.getElementById('chatContent');
+
+        if (toggleBtn) {
+            toggleBtn.onclick = function() {
+                if (currentChat === 'yt') {
+                    chatContent.innerHTML = '';
+
+                    var script = document.createElement('script');
+                    script.id = 'cid0020000123456789012';
+                    script.async = true;
+                    script.src = 'https://st.chatango.com/js/gz/emb.js';
+
+                    var config = {
+                        handle: 'roxiestreams',
+                        arch: 'js',
+                        styles: {
+                            a: '1a1a1a',
+                            b: 100,
+                            c: 'ffffff',
+                            d: 'ffffff',
+                            e: '1a1a1a',
+                            f: '000000',
+                            g: 'ffffff',
+                            h: '000000',
+                            i: 100,
+                            j: 'ffffff',
+                            k: 'e573b5',
+                            l: '1a1a1a',
+                            m: 'ffffff',
+                            n: 'ffffff',
+                            q: '1a1a1a',
+                            r: 100,
+                            t: 0,
+                            v: 0,
+                            w: 0
+                        }
+                    };
+
+                    script.innerHTML = JSON.stringify(config);
+                    chatContent.appendChild(script);
+                    toggleBtn.innerText = 'Switch to YouTube';
+                    currentChat = 'chatango';
+                } else {
+                    chatContent.innerHTML = '<iframe src="https://www.youtube.com/live_chat?v=mpwfjhmyEzw&amp;embed_domain=roxiestreams.info"></iframe>';
+                    toggleBtn.innerText = 'Switch to Chatango';
+                    currentChat = 'yt';
+                }
+            };
+        }
+    };
 </script>
     <script>
         document.addEventListener('contextmenu', function (e) {
