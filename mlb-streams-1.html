@@ -137,7 +137,7 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
 	<div class="streamchanger">
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('mlb.m3u8', 'daffodil'))">Stream 1</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('mlb.m3u8', '602'))">Stream 1</button>
 	</div>
             <div class="embedchat">
                 <div class="chat-header">
@@ -162,7 +162,7 @@
 var clapprPlayer;
 var currentChat = 'yt';
 var domains = [];
-var subdomain = 'daffodil'  // Edit this per HTML file
+var subdomain = '602'  // Edit this per HTML file
 
 // Load domains from txt file
 fetch('domainsk.txt')
@@ -176,7 +176,7 @@ fetch('domainsk.txt')
     console.error('Failed to load domainsk.txt');
   });
 
-function getRandomStream(streamPath, subdomain = 'daffodil') {
+function getRandomStream(streamPath, subdomain = '602') {
   if (domains.length === 0) {
     return `https://${subdomain}.shadow-ran.online/${streamPath}`; // Fallback
   }
