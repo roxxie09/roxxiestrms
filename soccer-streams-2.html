@@ -150,7 +150,10 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
 	<div class="streamchanger">
-	  <button class="streambutton" onclick="showPlayer('clappr', 'https://customer-fpmmd9cdewmb1wz2.cloudflarestream.com/fa12ae43c62ef78c16617a4fc91fa03a/manifest/video.m3u8')">Stream 1</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('psg.m3u8', '602'))">Stream 1</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', 'https://customer-fpmmd9cdewmb1wz2.cloudflarestream.com/888440f832c675999cba4d810e1462cf/manifest/video.m3u8')">Stream 2</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('liverpool.m3u8', 'daffodil'))">Stream 3</button>
+
 	</div>
             <div class="embedchat">
                 <div class="chat-header">
@@ -175,19 +178,15 @@
 var clapprPlayer;
 var currentChat = 'yt';
 var domains = [];
-var subdomain = '602';  // Edit this per HTML file
+var subdomain = '602'  // Edit this per HTML file
 
 // Load domains from txt file
 fetch('domainsk.txt')
   .then(response => response.text())
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
-
-    // Auto-load Stream 1
-    setTimeout(() => showPlayer(
-      'clappr',
-      'https://customer-fpmmd9cdewmb1wz2.cloudflarestream.com/fa12ae43c62ef78c16617a4fc91fa03a/manifest/video.m3u8'
-    ), 500);
+    // Auto-load initial stream after domains load
+    setTimeout(() => showPlayer('clappr', getRandomStream('bein.m3u8')), 500);
   })
   .catch(() => {
     console.error('Failed to load domainsk.txt');
