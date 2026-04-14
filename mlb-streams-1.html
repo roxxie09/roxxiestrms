@@ -1,202 +1,166 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+<script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Roxiestreams - Watch Live Sports, F1, UFC, NFL, TV</title>
-    <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+    <meta name="description" content="Free PPV UFC, TV, NBA, NFL, and F1 streams">
+    <meta name="keywords" content="Roxiestreams, ppv, boxing, dazn, f1, ufc, nba, for, stream, online, free, mrgamingstreams, f1, tv, nfl">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/mainn.css">
+    <link href="/css/buttons.css" rel="stylesheet">
+<link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
+<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
+    <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-EQ3BHVQGMN');
+</script>
     <style>
-      /* Inline styles for immediate layout */
-      body {
-        margin: 0;
-        padding: 2rem 1rem;
-        background-color: #000;
-        color: #fce4f7;
-        font-family: "SF Pro", ui-sans-serif, system-ui, sans-serif;
-      }
-      .custom-container {
-        margin: 0 auto;
-        width: 100%;
-        max-width: 650px;
-        background-color: #1a1a1a;
-        border: 3px solid #fbb6ce;
-        border-radius: 18px;
-        box-shadow: 0 4px 16px #e573b5;
-        overflow: hidden;
-      }
-      .traffic-lights {
-        display: flex;
-        gap: 6px;
-        padding: 12px;
-        border-bottom: 1px solid rgba(251, 182, 206, 0.2);
-      }
-      .traffic-light {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-      }
-      .traffic-light-red { background-color: #dc143c; }
-      .traffic-light-orange { background-color: #ffa500; }
-      .traffic-light-green { background-color: #32cd32; }
-      
-      nav {
-        padding: 12px 16px;
-        border-bottom: 1px solid rgba(251, 182, 206, 0.2);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .brand {
-        color: #fbb6ce;
-        font-weight: bold;
-        font-size: 1.25rem;
-        text-decoration: none;
-        font-family: 'Kanit', sans-serif;
-      }
-      .main-content {
-        padding: 16px;
-      }
-      .player-area {
-        background: #000;
-        border-radius: 12px;
-        border: 1px solid rgba(251, 182, 206, 0.2);
-        aspect-ratio: 16/9;
-        margin-bottom: 16px;
-        overflow: hidden;
-      }
-      .chat-area {
-        background: rgba(0,0,0,0.2);
-        border-radius: 12px;
-        border: 1px solid rgba(251, 182, 206, 0.2);
-        overflow: hidden;
-        min-height: 400px;
-      }
-      .chat-header {
-        padding: 12px;
-        border-bottom: 1px solid rgba(251, 182, 206, 0.1);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: rgba(229, 115, 181, 0.05);
-      }
-      .chat-title {
-        font-size: 0.75rem;
-        font-weight: bold;
-        color: #fbb6ce;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-      }
-      .chat-toggle-btn {
-        background: rgba(229, 115, 181, 0.1);
-        border: 1px solid rgba(251, 182, 206, 0.2);
-        color: #fbb6ce;
-        padding: 4px 8px;
-        border-radius: 6px;
-        font-size: 10px;
-        font-weight: bold;
-        cursor: pointer;
-        text-transform: uppercase;
-      }
-      .chat-toggle-btn:hover {
-        background: rgba(229, 115, 181, 0.3);
-      }
-      iframe {
-        width: 100%;
-        height: 100%;
-        border: none;
-      }
-      #chatContainer {
-        height: 400px;
-        width: 100%;
-      }
+        .navbar-brand {
+            color: pink;
+            font-size: 1.3rem;
+            text-decoration: none;
+            margin-top: -3px;
+            font-family: 'Kanit', sans-serif;
+            font-weight: bold;
+        }
+        .navbar-brand:hover {
+            text-decoration: underline;
+        }
+        .navbar-nav .nav-link {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+        .fullplayer {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            height: 80vh;
+            margin-top: 50px;
+        }
+        #playerContainer {
+            width: 100%;
+            height: 100%;
+        }
+        .embedchat {
+            width: 30%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin-left: 10px;
+        }
+        .embedchat iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .streamchanger {
+            position: absolute;
+            top: -40px;
+            left: 10px;
+            display: flex;
+            gap: 10px;
+        }
     </style>
-  </head>
-  <body>
-    <div class="custom-container">
-      <div class="traffic-lights">
-        <div class="traffic-light traffic-light-red"></div>
-        <div class="traffic-light traffic-light-orange"></div>
-        <div class="traffic-light traffic-light-green"></div>
-      </div>
-      
-      <nav>
-        <a href="#" class="brand">RoxieStreams</a>
-      </nav>
-      
-      <div class="main-content">
-        <div class="player-area" id="playerContainer"></div>
-        
-        <div class="chat-area">
-          <div class="chat-header">
-            <div class="chat-title">Live Chat</div>
-            <button class="chat-toggle-btn" id="toggleChat">Switch to Chatango</button>
-          </div>
-          <div id="chatContainer">
-            <!-- YouTube Chat by default -->
-            <iframe id="ytChat" src="https://www.youtube.com/live_chat?v=mpwfjhmyEzw&amp;embed_domain=roxiestreams.info"></iframe>
-          </div>
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-black">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="https://roxiestreams.info/">RoxieStreams</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+  <a class="nav-link nav-link-march-madness" href="https://roxiestreams.info/march-madness">
+    March Madness
+  </a>
+</li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/soccer">Soccer</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/mlb">MLB</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nfl">NFL</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nhl">NHL</a></li>
+
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
+                </ul>
+            </div>
         </div>
-      </div>
+    </nav>
+
+    <div class="container container-fluid pt-2 text-white">
+        <div class="fullplayer">
+            <div id="playerContainer"></div>
+            <div class="streamchanger">
+                <button class="streambutton" onclick="showPlayer('clappr', 'https://602.underupturnip.net/mlb.m3u8')">Stream 1</button>
+           </div>
+            <div class="embedchat">
+                <iframe src="https://www.youtube.com/live_chat?v=mpwfjhmyEzw&amp;embed_domain=roxiestreams.info"></iframe>
+            </div>
+        </div>
     </div>
 
+    <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
+        <ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
+            <li class="nav-item"><a href="https://discord.gg/JhkVmejRmn" class="nav-link px-2 text-body-secondary">Stream Request (Discord)</a></li>
+        </ul>
+        <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
+    </footer>
+
     <script>
-      // Clappr Player
-      var player = new Clappr.Player({
-        source: "https://602.underupturnip.net/mlb.m3u8",
-        parentId: "#playerContainer",
-        height: '100%',
-        width: '100%',
-        autoPlay: true,
-        mute: true
-      });
+        var clapprPlayer;
 
-      // Chat Toggle Logic
-      var currentChat = 'yt';
-      var toggleBtn = document.getElementById('toggleChat');
-      var chatContainer = document.getElementById('chatContainer');
+        function showPlayer(playerType, stream) {
+            if (playerType === "clappr") {
+                if (clapprPlayer) {
+                    clapprPlayer.destroy();
+                }
 
-      toggleBtn.onclick = function() {
-        if (currentChat === 'yt') {
-          // Switch to Chatango
-          chatContainer.innerHTML = '';
-          var script = document.createElement('script');
-          script.id = 'cid0020000123456789012';
-          script.async = true;
-          script.src = '//st.chatango.com/js/gz/emb.js';
-          script.style.width = '100%';
-          script.style.height = '100%';
-          
-          var config = {
-            handle: 'roxiestreams',
-            arch: 'js',
-            styles: {
-              a: '1a1a1a', b: 100, c: 'fce4f7', d: 'fce4f7', e: '1a1a1a', 
-              g: 'fce4f7', h: 'fce4f7', i: 100, j: 'fce4f7', k: 'e573b5', 
-              l: '1a1a1a', m: 'fce4f7', n: 'fce4f7', q: '1a1a1a', r: 100, 
-              t: 0, v: 0, w: 0
+                clapprPlayer = new Clappr.Player({
+                    source: stream,
+                    parentId: "#playerContainer",
+                    height: '100%',
+                    width: '100%',
+                    autoPlay: true,
+                });
             }
-          };
-          
-          script.innerHTML = JSON.stringify(config);
-          chatContainer.appendChild(script);
-          
-          toggleBtn.innerText = 'Switch to YouTube';
-          currentChat = 'chatango';
-        } else {
-          // Switch to YouTube
-          chatContainer.innerHTML = '<iframe id="ytChat" src="https://www.youtube.com/live_chat?v=mpwfjhmyEzw&amp;embed_domain=roxiestreams.info"></iframe>';
-          toggleBtn.innerText = 'Switch to Chatango';
-          currentChat = 'yt';
         }
-      };
-    </script>
-    
-    <!-- Keep Vite entry point for build system compatibility -->
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
 
+        window.onload = function() {
+            showPlayer('clappr', 'https://602.underupturnip.net/mlb.m3u8');
+        };
+    </script>
+    <script>
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) ||
+                (e.ctrlKey && e.shiftKey && e.key === 'J')) {
+                e.preventDefault();
+            }
+        });
+    </script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+    aclib.runPop({
+        zoneId: '10754426',
+    });
+</script>
+</body>
+</html>
