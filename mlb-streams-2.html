@@ -13,21 +13,17 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/mainn.css">
     <link href="/css/buttons.css" rel="stylesheet">
-    <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
-    <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js"></script>
-
-    <!-- Clappr core + Chromecast plugin -->
+<link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
+<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/clappr-chromecast-plugin@latest/dist/clappr-chromecast-plugin.min.js"></script>
-
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-EQ3BHVQGMN');
-    </script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'G-EQ3BHVQGMN');
+</script>
     <style>
         .navbar-brand {
             color: pink;
@@ -59,11 +55,40 @@
             width: 30%;
             height: 100%;
             display: flex;
-            justify-content: center;
-            align-items: flex-start;
+            flex-direction: column;
             margin-left: 10px;
+            border: 1px solid rgba(255, 192, 203, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
         }
-        .embedchat iframe {
+        .chat-header {
+            padding: 8px;
+            background: #1a1a1a;
+            border-bottom: 1px solid rgba(255, 192, 203, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chat-toggle-btn {
+            background: rgba(255, 192, 203, 0.1);
+            border: 1px solid rgba(255, 192, 203, 0.3);
+            color: pink;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .chat-toggle-btn:hover {
+            background: rgba(255, 192, 203, 0.2);
+        }
+        #chatContent {
+            flex: 1;
+            width: 100%;
+            height: 100%;
+        }
+        #chatContent iframe {
             width: 100%;
             height: 100%;
             border: none;
@@ -74,18 +99,9 @@
             left: 10px;
             display: flex;
             gap: 10px;
-            z-index: 100;
-        }
-
-        /* Custom cast icon button inside Clappr controls */
-        .clappr-cast-button {
-            background: transparent url('https://files.catbox.moe/2in3jc.png') center center / 18px 18px no-repeat !important;
-            outline: none;
-        }
-        .clappr-cast-button:hover {
-            opacity: 0.8;
         }
     </style>
+
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-black">
@@ -96,17 +112,19 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
   <a class="nav-link nav-link-march-madness" href="https://roxiestreams.info/march-madness">
     March Madness
   </a>
 </li>
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/soccer">Soccer</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/mlb">MLB</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nfl">NFL</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nhl">NHL</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/soccer">Soccer</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/mlb">MLB</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nfl">NFL</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nhl">NHL</a></li>
+
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
                 </ul>
             </div>
@@ -117,14 +135,19 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
             <div class="streamchanger">
-                <button class="streambutton" onclick="showPlayer('clappr', 'https://602.underupturnip.net/mlb2.m3u8')">Stream 1</button>
-            </div>
+                <button class="streambutton" onclick="showPlayer('clappr', 'https://602.underupturnip.net/mlb.m3u8')">Stream 1</button>
+           </div>
             <div class="embedchat">
-                <iframe src="https://www.youtube.com/live_chat?v=mpwfjhmyEzw&amp;embed_domain=roxiestreams.info"></iframe>
+                <div class="chat-header">
+                    <span style="font-size: 10px; color: pink; font-weight: bold;">LIVE CHAT</span>
+                    <button class="chat-toggle-btn" id="toggleChat">Switch to Chatango</button>
+                </div>
+                <div id="chatContent">
+                    <iframe src="https://www.youtube.com/live_chat?v=mpwfjhmyEzw&amp;embed_domain=roxiestreams.info"></iframe>
+                </div>
             </div>
         </div>
     </div>
-
     <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
         <ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
             <li class="nav-item"><a href="https://discord.gg/JhkVmejRmn" class="nav-link px-2 text-body-secondary">Stream Request (Discord)</a></li>
@@ -132,102 +155,62 @@
         <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
     </footer>
 
-<script>
-  var clapprPlayer;
+    <script>
+        var clapprPlayer;
 
-  // UI Core Plugin: adds a cast button into Clappr's media controls [web:57]
-  var CastButtonPlugin = Clappr.UICorePlugin.extend({
-    name: 'cast_button',
-
-    bindEvents: function () {
-      this.listenTo(this.core, Clappr.Events.CORE_READY, this.onCoreReady);
-    },
-
-    onCoreReady: function () {
-      var mediaControl = this.core.mediaControl;
-      if (!mediaControl) return;
-
-      this.listenTo(mediaControl, Clappr.Events.MEDIACONTROL_RENDERED, this.render);
-    },
-
-    render: function () {
-      var mediaControl = this.core.mediaControl;
-      if (!mediaControl) return;
-
-      // Build button once
-      if (!this.$button) {
-        this.$button = $('<button/>', { type: 'button' })
-          .addClass('media-control-button media-control-icon clappr-cast-button')
-          .on('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            if (window.chrome && chrome.cast && chrome.cast.requestSession) {
-              chrome.cast.requestSession(
-                function () { /* user picked device */ },
-                function (error) {
-                  console.error('Cast error:', error);
-                  alert('No Chromecast found – make sure it is on the same WiFi.');
+        function showPlayer(playerType, stream) {
+            if (playerType === "clappr") {
+                if (clapprPlayer) {
+                    clapprPlayer.destroy();
                 }
-              );
-            } else {
-              alert('Use Chrome desktop with Cast enabled to cast.');
+
+                clapprPlayer = new Clappr.Player({
+                    source: stream,
+                    parentId: "#playerContainer",
+                    height: '100%',
+                    width: '100%',
+                    autoPlay: true,
+                });
             }
-          });
-
-        this.$el.append(this.$button);
-      }
-
-      var $rightPanel = mediaControl.$('.media-control-right-panel');
-      var $volumeBtn = $rightPanel.find('.volume-icon').closest('button');
-
-      if ($volumeBtn.length) {
-        this.$el.insertBefore($volumeBtn);
-      } else {
-        $rightPanel.append(this.el);
-      }
-
-      return this;
-    }
-  });
-
-  function showPlayer(playerType, stream) {
-    if (playerType === "clappr") {
-      if (clapprPlayer) {
-        clapprPlayer.destroy();
-      }
-
-      clapprPlayer = new Clappr.Player({
-        source: stream,
-        parentId: "#playerContainer",
-        height: "100%",
-        width: "100%",
-        autoPlay: true,
-
-        // Playback/plugins (Chromecast engine)
-        plugins: [ChromecastPlugin],
-
-        // UI plugins (control bar customizations) [web:57]
-        corePlugins: [CastButtonPlugin],
-
-        chromecast: {
-          appId: "9DFB77C0",
-          contentType: "application/x-mpegURL",
-          media: {
-            type: ChromecastPlugin.Movie,
-            title: "RoxieStreams Live Stream",
-            subtitle: "MLB Stream"
-          }
         }
-      });
-    }
-  }
 
-  window.onload = function () {
-    showPlayer("clappr", "https://602.underupturnip.net/mlb2.m3u8");
-  };
-</script>
+        window.onload = function() {
+            showPlayer('clappr', 'https://602.underupturnip.net/mlb.m3u8');
+        };
+    </script>
+        var currentChat = 'yt';
+        var toggleBtn = document.getElementById('toggleChat');
+        var chatContent = document.getElementById('chatContent');
 
+        toggleBtn.onclick = function() {
+            if (currentChat === 'yt') {
+                chatContent.innerHTML = '';
+                var script = document.createElement('script');
+                script.id = 'cid0020000123456789012';
+                script.async = true;
+                script.src = '//st.chatango.com/js/gz/emb.js';
+                script.style.width = '100%';
+                script.style.height = '100%';
+                var config = {
+                    handle: 'roxiestreams',
+                    arch: 'js',
+                    styles: {
+                        a: '1a1a1a', b: 100, c: 'fce4f7', d: 'fce4f7', e: '1a1a1a', 
+                        g: 'fce4f7', h: 'fce4f7', i: 100, j: 'fce4f7', k: 'e573b5', 
+                        l: '1a1a1a', m: 'fce4f7', n: 'fce4f7', q: '1a1a1a', r: 100, 
+                        t: 0, v: 0, w: 0
+                    }
+                };
+                script.innerHTML = JSON.stringify(config);
+                chatContent.appendChild(script);
+                toggleBtn.innerText = 'Switch to YouTube';
+                currentChat = 'chatango';
+            } else {
+                chatContent.innerHTML = '<iframe src="https://www.youtube.com/live_chat?v=mpwfjhmyEzw&amp;embed_domain=roxiestreams.info"></iframe>';
+                toggleBtn.innerText = 'Switch to Chatango';
+                currentChat = 'yt';
+            }
+        };
     <script>
         document.addEventListener('contextmenu', function (e) {
             e.preventDefault();
@@ -240,12 +223,11 @@
             }
         });
     </script>
-
     <script src="js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript">
-        aclib.runPop({
-            zoneId: '10754426',
-        });
-    </script>
+<script type="text/javascript">
+    aclib.runPop({
+        zoneId: '10754426',
+    });
+</script>
 </body>
 </html>
