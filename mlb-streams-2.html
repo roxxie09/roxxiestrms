@@ -154,29 +154,28 @@
         <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
     </footer>
 
-    <script>
-        var clapprPlayer;
+<script>
+    var clapprPlayer;
 
-        function showPlayer(playerType, stream) {
-            if (playerType === "clappr") {
-                if (clapprPlayer) {
-                    clapprPlayer.destroy();
-                }
-
-                clapprPlayer = new Clappr.Player({
-                    source: stream,
-                    parentId: "#playerContainer",
-                    height: '100%',
-                    width: '100%',
-                    autoPlay: true,
-                });
+    function showPlayer(playerType, stream) {
+        if (playerType === "clappr") {
+            if (clapprPlayer) {
+                clapprPlayer.destroy();
             }
-        }
 
-        window.onload = function() {
-            showPlayer('clappr', 'https://602.underupturnip.net/mlb.m3u8');
-        };
-    </script>
+            clapprPlayer = new Clappr.Player({
+                source: stream,
+                parentId: "#playerContainer",
+                height: '100%',
+                width: '100%',
+                autoPlay: true,
+            });
+        }
+    }
+
+    window.onload = function() {
+        showPlayer('clappr', 'https://602.underupturnip.net/mlb.m3u8');
+
         var currentChat = 'yt';
         var toggleBtn = document.getElementById('toggleChat');
         var chatContent = document.getElementById('chatContent');
@@ -184,22 +183,23 @@
         toggleBtn.onclick = function() {
             if (currentChat === 'yt') {
                 chatContent.innerHTML = '';
+
                 var script = document.createElement('script');
                 script.id = 'cid0020000123456789012';
                 script.async = true;
-                script.src = '//st.chatango.com/js/gz/emb.js';
-                script.style.width = '100%';
-                script.style.height = '100%';
+                script.src = 'https://st.chatango.com/js/gz/emb.js';
+
                 var config = {
                     handle: 'roxiestreams',
                     arch: 'js',
                     styles: {
-                        a: '1a1a1a', b: 100, c: 'fce4f7', d: 'fce4f7', e: '1a1a1a', 
-                        g: 'fce4f7', h: 'fce4f7', i: 100, j: 'fce4f7', k: 'e573b5', 
-                        l: '1a1a1a', m: 'fce4f7', n: 'fce4f7', q: '1a1a1a', r: 100, 
+                        a: '1a1a1a', b: 100, c: 'fce4f7', d: 'fce4f7', e: '1a1a1a',
+                        g: 'fce4f7', h: 'fce4f7', i: 100, j: 'fce4f7', k: 'e573b5',
+                        l: '1a1a1a', m: 'fce4f7', n: 'fce4f7', q: '1a1a1a', r: 100,
                         t: 0, v: 0, w: 0
                     }
                 };
+
                 script.innerHTML = JSON.stringify(config);
                 chatContent.appendChild(script);
                 toggleBtn.innerText = 'Switch to YouTube';
@@ -210,7 +210,8 @@
                 currentChat = 'yt';
             }
         };
-    <script>
+    };
+</script>
         document.addEventListener('contextmenu', function (e) {
             e.preventDefault();
         });
