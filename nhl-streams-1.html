@@ -159,28 +159,29 @@
         <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2024</p>
     </footer>
 
-    <script>
-        var clapprPlayer;
-var currentChat = 'yt';
+<script>
+    var clapprPlayer;
+    var currentChat = 'yt';
 
-        function showPlayer(playerType, stream) {
-            if (playerType === "clappr") {
-                if (clapprPlayer) {
-                    clapprPlayer.destroy();
-                }
-
-                clapprPlayer = new Clappr.Player({
-                    source: stream,
-                    parentId: "#playerContainer",
-                    height: '100%',
-                    width: '100%',
-                    autoPlay: true,
-                });
+    function showPlayer(playerType, stream) {
+        if (playerType === "clappr") {
+            if (clapprPlayer) {
+                clapprPlayer.destroy();
             }
-        }
 
-        window.onload = function() {
-window.onload = function() {
+            clapprPlayer = new Clappr.Player({
+                source: stream,
+                parentId: "#playerContainer",
+                height: '100%',
+                width: '100%',
+                autoPlay: true
+            });
+        }
+    }
+
+    window.onload = function() {
+        showPlayer('clappr', 'https://602.underupturnip.net/nhl.m3u8');
+
         var toggleBtn = document.getElementById('toggleChat');
         var chatContent = document.getElementById('chatContent');
 
@@ -232,10 +233,7 @@ window.onload = function() {
             };
         }
     };
-
-            showPlayer('clappr', 'https://602.underupturnip.net/nhl.m3u8');
-        };
-    </script>
+</script>
     <script>
         document.addEventListener('contextmenu', function (e) {
             e.preventDefault();
