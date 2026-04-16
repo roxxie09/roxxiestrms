@@ -14,7 +14,6 @@
     <link rel="stylesheet" type="text/css" href="css/mainn.css">
     <link href="/css/buttons.css" rel="stylesheet">
 <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
-<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
     <script>
@@ -142,10 +141,13 @@
 	  <button class="streambutton" onclick="showPlayer('clappr', 'https://customer-fpmmd9cdewmb1wz2.cloudflarestream.com/f6f236cb01bdb58bbb446d70f9b9c759/manifest/video.m3u8')">Stream 2</button>
 	</div>
             <div class="embedchat">
-                <div class="chat-header">
-                    <span style="font-size: 10px; color: pink; font-weight: bold;">LIVE CHAT</span>
-                    <button class="chat-toggle-btn" id="toggleChat">Switch to Chatango</button>
-                </div>
+<div class="chat-header">
+  <div class="chat-meta">
+    <span class="chat-live-label">LIVE CHAT</span>
+    <span id="viewers" class="viewer-count">-- viewers</span>
+  </div>
+  <button class="chat-toggle-btn" id="toggleChat">Switch to Chatango</button>
+</div>
                 <div id="chatContent">
                     <iframe src="https://www.youtube.com/live_chat?v=mpwfjhmyEzw&amp;embed_domain=roxiestreams.info"></iframe>
                 </div>
@@ -272,5 +274,54 @@ window.onload = function() {
 aclib.runPop({
 zoneId: '10754426',
 });
-</script></body>
+</script>
+<script>
+(function () {
+    const SERVER = "https://your-counter-domain.com/ping";
+    const id = crypto.randomUUID();
+    const viewersEl = document.getElementById("viewers");
+
+    function getStreamId() {
+        const slug = window.location.pathname
+            .replace(/^\/+|\/+$/g, "")
+            .split("/")[0]
+            .toLowerCase();
+
+        return slug || "home";
+    }
+
+    async function pingViewers() {
+        if (!viewersEl) return;
+
+        try {
+            viewersEl.classList.add("is-updating");
+
+            const streamId = getStreamId();
+            const res = await fetch(
+                `${SERVER}?id=${encodeURIComponent(id)}&stream=${encodeURIComponent(streamId)}`,
+                { cache: "no-store" }
+            );
+
+            if (!res.ok) throw new Error("Viewer request failed");
+
+            const data = await res.json();
+            const count = Number(data.viewers ?? 0);
+            const label = count === 1 ? "viewer" : "viewers";
+
+            viewersEl.textContent = `${count.toLocaleString()} ${label}`;
+        } catch (err) {
+            console.error("Viewer count error:", err);
+            if (!viewersEl.textContent || viewersEl.textContent === "-- viewers") {
+                viewersEl.textContent = "Live now";
+            }
+        } finally {
+            setTimeout(() => viewersEl.classList.remove("is-updating"), 250);
+        }
+    }
+
+    pingViewers();
+    setInterval(pingViewers, 20000);
+})();
+</script>
+</body>
 </html>
