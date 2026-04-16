@@ -16,10 +16,6 @@
 <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
 <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dash-shaka-playback@latest/dist/dash-shaka-playback.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/clappr-level-selector-plugin@latest/dist/level-selector.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css">
-    <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
     <script>
   window.dataLayer = window.dataLayer || [];
@@ -107,10 +103,6 @@
             display: flex;
             gap: 10px;
         }
-        [data-shaka-player-container] {
-            width: 100% !important;
-            height: 100% !important;
-        }
     </style>
 
 </head>
@@ -146,10 +138,7 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
 	<div class="streamchanger">
-	  <button id="btn-stream-1" class="streambutton" onclick="playStream1()">Stream 1</button>
-	  <button class="streambutton" onclick="showPlayer('clappr', 'https://customer-fpmmd9cdewmb1wz2.cloudflarestream.com/888440f832c675999cba4d810e1462cf/manifest/video.m3u8')">Stream 2</button>
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tudn.m3u8', 'daffodil'))">Stream 3 (ES)</button>
-	  <button id="btn-stream-3" class="streambutton" onclick="playStream3()">PC ONLY (DIRECT)</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tnt3.m3u8', 'daffodil'))">Stream 1</button>
 	</div>
             <div class="embedchat">
                 <div class="chat-header">
@@ -173,39 +162,22 @@
 <script>
 var clapprPlayer;
 var currentChat = 'yt';
-var shakaPlayer;
-var shakaUI;
 var domains = [];
-var subdomain = '602';  // Edit this per HTML file
-
-function isDesktop() {
-  return !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
-}
+var subdomain = 'daffodil'  // Edit this per HTML file
 
 // Load domains from txt file
 fetch('domainsk.txt')
   .then(response => response.text())
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
-    
-    // Update button labels for Desktop
-    if (isDesktop()) {
-      const btn1 = document.getElementById('btn-stream-1');
-      const btn3 = document.getElementById('btn-stream-3');
-      if (btn1) btn1.innerText = 'PC ONLY (DIRECT)';
-      if (btn3) btn3.innerText = 'Stream 1';
-    }
-
     // Auto-load initial stream after domains load
-    setTimeout(() => {
-      playStream1();
-    }, 500);
+    setTimeout(() => showPlayer('clappr', getRandomStream('tnt3.m3u8')), 500);
   })
   .catch(() => {
     console.error('Failed to load domainsk.txt');
   });
 
-function getRandomStream(streamPath, subdomain = '602') {
+function getRandomStream(streamPath, subdomain = 'daffodil') {
   if (domains.length === 0) {
     return `https://${subdomain}.shadow-ran.online/${streamPath}`; // Fallback
   }
@@ -213,111 +185,17 @@ function getRandomStream(streamPath, subdomain = '602') {
   return `https://${subdomain}.${randomDomain}/${streamPath}`;
 }
 
-const dashStream = 'https://otte.cache.aiv-cdn.net/bom-nitro/live/clients/dash/enc/fb6jy4pxts/out/v1/f8fa17f087564f51aa4d5c700be43ec4/cenc.mpd';
-const dashKeys = {'f288380ca4cef9ad3f27a92a08e9bb8b': '9f18d26291d9230833501f7f822f6875'};
-
-function playStream1() {
-  if (isDesktop()) {
-    showPlayer('clappr', dashStream, dashKeys);
-  } else {
-    showPlayer('clappr', getRandomStream('tnt2.m3u8', '602'));
-  }
-}
-
-function playStream3() {
-  if (isDesktop()) {
-    showPlayer('clappr', getRandomStream('tnt2.m3u8', '602'));
-  } else {
-    showPlayer('clappr', dashStream, dashKeys);
-  }
-}
-
-async function initShaka(container, video, stream, drmConfig) {
-  const player = new shaka.Player(video);
-  const ui = new shaka.ui.Overlay(player, container, video);
-  
-  player.configure({
-    drm: {
-      clearKeys: drmConfig || {}
-    }
-  });
-
-  try {
-    await player.load(stream);
-    console.log('The video has now been loaded!');
-  } catch (e) {
-    console.error('Error code', e.code, 'object', e);
-  }
-  
-  return { player, ui };
-}
-
-function showPlayer(playerType, stream, drmConfig) {
-  const container = document.getElementById('playerContainer');
-  
-  // Clean up existing players
-  if (clapprPlayer) {
-    clapprPlayer.destroy();
-    clapprPlayer = null;
-  }
-  if (shakaPlayer) {
-    shakaPlayer.destroy();
-    shakaPlayer = null;
-  }
-  if (shakaUI) {
-    shakaUI.destroy();
-    shakaUI = null;
-  }
-  container.innerHTML = '';
-
-  // For Stream 5 (DASH with ClearKey), use Shaka Player directly for better UI/Quality support
-  if (stream.includes('.mpd')) {
-    const videoWrapper = document.createElement('div');
-    videoWrapper.setAttribute('data-shaka-player-container', '');
-    videoWrapper.style.width = '100%';
-    videoWrapper.style.height = '100%';
-    
-    const video = document.createElement('video');
-    video.setAttribute('data-shaka-player', '');
-    video.id = 'shaka-video';
-    video.style.width = '100%';
-    video.style.height = '100%';
-    video.autoplay = true;
-    
-    videoWrapper.appendChild(video);
-    container.appendChild(videoWrapper);
-    
-    initShaka(videoWrapper, video, stream, drmConfig).then(res => {
-      shakaPlayer = res.player;
-      shakaUI = res.ui;
-    });
-    return;
-  }
-
+function showPlayer(playerType, stream) {
   if (playerType === "clappr") {
+    if (clapprPlayer) {
+      clapprPlayer.destroy();
+    }
     clapprPlayer = new Clappr.Player({
       source: stream,
       parentId: "#playerContainer",
       height: '100%',
       width: '100%',
       autoPlay: true,
-      plugins: [window.DashShakaPlayback, window.LevelSelector].filter(Boolean),
-      levelSelectorConfig: {
-        title: 'Quality',
-        labels: {
-          2: 'High',
-          1: 'Medium',
-          0: 'Low',
-        },
-        labelCallback: function(playbackLevel, customLabel) {
-          return customLabel || playbackLevel.level.height + 'p';
-        }
-      },
-      shakaConfiguration: {
-        drm: {
-          clearKeys: drmConfig || {}
-        }
-      }
     });
   }
 }
@@ -379,7 +257,6 @@ window.onload = function() {
         document.addEventListener('contextmenu', function (e) {
             e.preventDefault();
         });
-
         document.addEventListener('keydown', function (e) {
             if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) ||
                 (e.ctrlKey && e.shiftKey && e.key === 'J')) {
