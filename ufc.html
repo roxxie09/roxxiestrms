@@ -183,7 +183,7 @@ function isDesktop() {
 }
 
 // Load domains from txt file
-fetch('domainsl.txt')
+fetch('domainsm.txt')
   .then(response => response.text())
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
@@ -202,7 +202,7 @@ fetch('domainsl.txt')
     }, 500);
   })
   .catch(() => {
-    console.error('Failed to load domainsl.txt');
+    console.error('Failed to load domainsm.txt');
   });
 
 function getRandomStream(streamPath, subdomain = '602') {
