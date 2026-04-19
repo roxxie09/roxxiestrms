@@ -138,7 +138,7 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
 	<div class="streamchanger">
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('nba2.m3u8', 'daffodil'))">Stream 1</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('nba.m3u8', 'daffodil'))">Stream 1</button>
 	  <button class="streambutton" onclick="showPlayer('clappr', 'https://customer-fpmmd9cdewmb1wz2.cloudflarestream.com/cf464ac4daf41050862bb378df16822a/manifest/video.m3u8')">Stream 2</button>
 	</div>
             <div class="embedchat">
@@ -172,7 +172,7 @@ fetch('domainsm.txt')
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
     // Auto-load initial stream after domains load
-    setTimeout(() => showPlayer('clappr', getRandomStream('nba2.m3u8')), 500);
+    setTimeout(() => showPlayer('clappr', getRandomStream('nba.m3u8')), 500);
   })
   .catch(() => {
     console.error('Failed to load domainsm.txt');
