@@ -2,7 +2,6 @@
 <html lang="en" data-bs-theme="dark">
 <head>
 <script id="aclib" type="text/javascript" src="//acscdn.com/script/aclib.js"></script>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Roxiestreams - Watch Live Sports, F1, UFC, NFL, TV</title>
@@ -131,8 +130,8 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
 	<div class="streamchanger">
-	  <button class="streambutton" onclick="showPlayer('clappr', 'https://customer-fpmmd9cdewmb1wz2.cloudflarestream.com/cc47a18316949531b3b60d0f61be47c1/manifest/video.m3u8')">VOD</button>
-	</div>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('ppv3.m3u8', '602'))">Stream 1</button>
+</div>
             <div class="embedchat">
                 <div class="chat-header">
                     <span style="font-size: 10px; color: pink; font-weight: bold;">LIVE CHAT</span>
@@ -156,7 +155,7 @@
 var clapprPlayer;
 var currentChat = 'yt';
 var domains = [];
-var subdomain = 'daffodil'  // Edit this per HTML file
+var subdomain = '602';  // Edit this per HTML file
 
 // Load domains from txt file
 fetch('domainsq.txt')
@@ -164,13 +163,13 @@ fetch('domainsq.txt')
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
     // Auto-load initial stream after domains load
-setTimeout(() => showPlayer('clappr', 'https://customer-fpmmd9cdewmb1wz2.cloudflarestream.com/cc47a18316949531b3b60d0f61be47c1/manifest/video.m3u8'), 500);
+    setTimeout(() => showPlayer('clappr', getRandomStream('ppv3.m3u8')), 500);
   })
   .catch(() => {
     console.error('Failed to load domainsq.txt');
   });
 
-function getRandomStream(streamPath, subdomain = 'daffodil') {
+function getRandomStream(streamPath, subdomain = '602') {
   if (domains.length === 0) {
     return `https://${subdomain}.shadow-ran.online/${streamPath}`; // Fallback
   }
@@ -259,10 +258,10 @@ window.onload = function() {
         });
     </script>
     <script src="js/bootstrap.bundle.min.js"></script>
-
 <script type="text/javascript">
-aclib.runPop({
-zoneId: '10754426',
-});
-</script></body>
+    aclib.runPop({
+        zoneId: '10754426',
+    });
+</script>
+</body>
 </html>
