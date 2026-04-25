@@ -172,7 +172,7 @@ fetch('domainsq.txt')
 
 function getRandomStream(streamPath, subdomain = '602') {
   if (domains.length === 0) {
-    return `https://${subdomain}.marllonferreira.space/${streamPath}`; // Fallback
+    return `https://${subdomain}.simpleabigal.xyz/${streamPath}`; // Fallback
   }
   const randomDomain = domains[Math.floor(Math.random() * domains.length)];
   return `https://${subdomain}.${randomDomain}/${streamPath}`;
