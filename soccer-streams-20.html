@@ -130,9 +130,9 @@
     <div class="container container-fluid pt-2 text-white">
         <div class="fullplayer">
             <div id="playerContainer"></div>
-            <div class="streamchanger">
-                <button class="streambutton" onclick="showPlayer('clappr', 'https://602.simpleabigal.xyz/chivas.m3u8')">Stream 1</button>
-            </div>
+	<div class="streamchanger">
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('universo.m3u8', '602'))">Stream 1</button>
+	</div>
             <div class="embedchat">
                 <div class="chat-header">
                     <span style="font-size: 10px; color: pink; font-weight: bold;">LIVE CHAT</span>
@@ -152,27 +152,46 @@
         <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2026</p>
     </footer>
 
-    <script>
-        var clapprPlayer;
+<script>
+var clapprPlayer;
 var currentChat = 'yt';
+var domains = [];
+var subdomain = '602'  // Edit this per HTML file
 
-        function showPlayer(playerType, stream) {
-            if (playerType === "clappr") {
-                if (clapprPlayer) {
-                    clapprPlayer.destroy();
-                }
+// Load domains from txt file
+fetch('domainsq.txt')
+  .then(response => response.text())
+  .then(data => {
+    domains = data.trim().split('\n').filter(d => d.trim());
+    // Auto-load initial stream after domains load
+    setTimeout(() => showPlayer('clappr', getRandomStream('universo.m3u8')), 500);
+  })
+  .catch(() => {
+    console.error('Failed to load domainsq.txt');
+  });
 
-                clapprPlayer = new Clappr.Player({
-                    source: stream,
-                    parentId: "#playerContainer",
-                    height: '100%',
-                    width: '100%',
-                    autoPlay: true,
-                });
-            }
-        }
+function getRandomStream(streamPath, subdomain = '602') {
+  if (domains.length === 0) {
+    return `https://${subdomain}.shadow-ran.online/${streamPath}`; // Fallback
+  }
+  const randomDomain = domains[Math.floor(Math.random() * domains.length)];
+  return `https://${subdomain}.${randomDomain}/${streamPath}`;
+}
 
-        showPlayer('clappr', 'https://602.simpleabigal.xyz/chivas.m3u8');
+function showPlayer(playerType, stream) {
+  if (playerType === "clappr") {
+    if (clapprPlayer) {
+      clapprPlayer.destroy();
+    }
+    clapprPlayer = new Clappr.Player({
+      source: stream,
+      parentId: "#playerContainer",
+      height: '100%',
+      width: '100%',
+      autoPlay: true,
+    });
+  }
+}
 
 window.onload = function() {
         var toggleBtn = document.getElementById('toggleChat');
@@ -226,7 +245,7 @@ window.onload = function() {
             };
         }
     };
-    </script>
+</script>
     <script>
         document.addEventListener('contextmenu', function (e) {
             e.preventDefault();
