@@ -163,7 +163,7 @@ var domains = [];
 var subdomain = 'daffodil'  // Edit this per HTML file
 
 // Load domains from txt file
-fetch('domainsu.txt')
+fetch('domainsv.txt')
   .then(response => response.text())
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
@@ -171,7 +171,7 @@ fetch('domainsu.txt')
 setTimeout(() => showPlayer('clappr', 'https://customer-fpmmd9cdewmb1wz2.cloudflarestream.com/d6e0bd30861d00a40ef3a010a31c9357/manifest/video.m3u8'), 500);
   })
   .catch(() => {
-    console.error('Failed to load domainsu.txt');
+    console.error('Failed to load domainsv.txt');
   });
 
 function getRandomStream(streamPath, subdomain = 'daffodil') {
