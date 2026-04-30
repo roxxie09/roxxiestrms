@@ -131,10 +131,8 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
 	<div class="streamchanger">
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('arsenal.m3u8', '601'))">Stream 1</button>
-	  <button class="streambutton" onclick="showPlayer('clappr', 'https://customer-fpmmd9cdewmb1wz2.cloudflarestream.com/b5d5801b00e60a1a0a558a488419d2bd/manifest/video.m3u8')">Stream 2</button>
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tnt.m3u8', 'daffodil'))">Stream 3</button>
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tudn.m3u8', '601'))">Stream 4 (ES)</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tnt.m3u8', '601'))">Stream 1</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('cbssn.m3u8', 'daffodil'))">Stream 2</button>
 
 	</div>
             <div class="embedchat">
@@ -168,7 +166,7 @@ fetch('domainsw.txt')
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
     // Auto-load initial stream after domains load
-    setTimeout(() => showPlayer('clappr', getRandomStream('arsenal.m3u8')), 500);
+    setTimeout(() => showPlayer('clappr', getRandomStream('tnt.m3u8')), 500);
   })
   .catch(() => {
     console.error('Failed to load domainsw.txt');
