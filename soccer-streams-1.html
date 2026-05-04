@@ -131,7 +131,7 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
 	<div class="streamchanger">
-	  <button class="streambutton" onclick="showPlayer('clappr', 'https://d1zot22wjrn782.cloudfront.net/c67fc1c4-0491-4fba-a0e0-8f28d5656f00/manifest.m3u8')">Stream 1</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', 'https://d1zot22wjrn782.cloudfront.net/3bcbcde8-fc0a-4fe6-8b44-1d9ab47d63c5/manifest.m3u8')">Stream 1</button>
 	</div>
             <div class="embedchat">
                 <div class="chat-header">
@@ -164,7 +164,7 @@ fetch('domainsy.txt')
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
     // Auto-load initial stream after domains load
-   showPlayer('clappr', 'https://d1zot22wjrn782.cloudfront.net/c67fc1c4-0491-4fba-a0e0-8f28d5656f00/manifest.m3u8');
+   showPlayer('clappr', 'https://d1zot22wjrn782.cloudfront.net/3bcbcde8-fc0a-4fe6-8b44-1d9ab47d63c5/manifest.m3u8');
   })
   .catch(() => {
     console.error('Failed to load domainsy.txt');
