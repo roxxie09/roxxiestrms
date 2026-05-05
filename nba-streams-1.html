@@ -131,8 +131,8 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
 	<div class="streamchanger">
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('main.m3u8', 'daffodil'))">Stream 1</button>
-	  <button class="streambutton" onclick="showPlayer('clappr', 'https://customer-fpmmd9cdewmb1wz2.cloudflarestream.com/7b2add8f6c990c9e43454caedce67487/manifest/video.m3u8')">Stream 2</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('nba.m3u8', 'daffodil'))">Stream 1</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('nba.m3u8', '601'))">Stream 2</button>
 	</div>
             <div class="embedchat">
                 <div class="chat-header">
@@ -165,7 +165,7 @@ fetch('domainsz2.txt')
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
     // Auto-load initial stream after domains load
-    setTimeout(() => showPlayer('clappr', getRandomStream('main.m3u8')), 500);
+    setTimeout(() => showPlayer('clappr', getRandomStream('nba.m3u8')), 500);
   })
   .catch(() => {
     console.error('Failed to load domainsz2.txt');
