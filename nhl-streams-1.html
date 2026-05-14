@@ -131,7 +131,7 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
 	<div class="streamchanger">
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('nhl.m3u8', '601'))">Stream 1</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('nhl1.m3u8', '601'))">Stream 1</button>
 	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('nhl.m3u8', 'daffodil'))">Stream 2</button>
 	</div>
             <div class="embedchat">
@@ -165,7 +165,7 @@ fetch('domainsz14.txt')
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
     // Auto-load initial stream after domains load
-    setTimeout(() => showPlayer('clappr', getRandomStream('nhl.m3u8')), 500);
+    setTimeout(() => showPlayer('clappr', getRandomStream('nhl1.m3u8')), 500);
   })
   .catch(() => {
     console.error('Failed to load domainsz14.txt');
