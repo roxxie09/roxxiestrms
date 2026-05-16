@@ -198,14 +198,14 @@ function showEmbed(url) {
   `;
 }
 
-fetch('domainsz14.txt')
+fetch('domainsz15.txt')
   .then(response => response.text())
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
     setTimeout(() => showEmbed('https://la14hd.com/vivo/canal.php?stream=amazon_prime1'), 500);
   })
   .catch(() => {
-    console.error('Failed to load domainsz14.txt');
+    console.error('Failed to load domainsz15.txt');
     showEmbed('https://la14hd.com/vivo/canal.php?stream=amazon_prime1');
   });
 
