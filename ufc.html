@@ -140,9 +140,8 @@
             <div id="playerContainer"></div>
 	<div class="streamchanger">
 	  <button id="btn-stream-1" class="streambutton" onclick="playStream1()">Stream 1</button>
-	  <button class="streambutton" onclick="showPlayer('clappr', 'https://customer-zbcm6pq2tkb2rho0.cloudflarestream.com/1719e2f2cf8b19a82dad1bdc46fedfa9/manifest/video.m3u8')">Stream 2 (PARA)</button>
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tnt.m3u8', '601'))">Stream 3 (TNT)</button>
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('sn.m3u8', 'daffodil'))">Stream 4 (HUB)</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('sn.m3u8', 'daffodil'))">Stream 2 (SN)</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tnt.m3u8', 'daffodil'))">Stream 3 (TNT)</button>
 	  <button id="btn-stream-5" class="streambutton" onclick="playStream5()">PC ONLY (DIRECT)</button>
 	</div>
             <div class="embedchat">
@@ -214,13 +213,13 @@ function playStream1() {
   if (isDesktop()) {
     showPlayer('clappr', dashStream, dashKeys);
   } else {
-    showPlayer('clappr', getRandomStream('simplyataide.m3u8', '700'));
+    showPlayer('clappr', getRandomStream('simplyataide.m3u8', '601'));
   }
 }
 
 function playStream5() {
   if (isDesktop()) {
-    showPlayer('clappr', getRandomStream('simplyataide.m3u8', '700'));
+    showPlayer('clappr', getRandomStream('simplyataide.m3u8', '601'));
   } else {
     showPlayer('clappr', dashStream, dashKeys);
   }
