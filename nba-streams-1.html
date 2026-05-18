@@ -157,7 +157,7 @@
 var clapprPlayer;
 var currentChat = 'yt';
 var domains = [];
-var subdomain = '601'  // Edit this per HTML file
+var subdomain = 'daffodil'  // Edit this per HTML file
 
 // Load domains from txt file
 fetch('domainsz15.txt')
@@ -171,7 +171,7 @@ setTimeout(() => showPlayer('clappr', 'https://customer-mxuu8vycy79bvede.cloudfl
     console.error('Failed to load domainsz15.txt');
   });
 
-function getRandomStream(streamPath, subdomain = '601') {
+function getRandomStream(streamPath, subdomain = 'daffodil') {
   if (domains.length === 0) {
     return `https://${subdomain}.shadow-ran.online/${streamPath}`; // Fallback
   }
