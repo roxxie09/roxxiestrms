@@ -141,7 +141,7 @@
 	<div class="streamchanger">
 	  <button id="btn-stream-1" class="streambutton" onclick="playStream1()">Stream 1</button>
 	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('wwe.m3u8', 'daffodil'))">Stream 1</button>
-	  <button id="btn-stream-5" class="streambutton" onclick="playStream5()">PC ONLY (DIRECT)</button>
+	  <button id="btn-stream-5" class="streambutton" onclick="playStream5()">PC US ONLY (DIRECT)</button>
 	</div>
             <div class="embedchat">
                 <div class="chat-header">
@@ -206,7 +206,7 @@ function getRandomStream(streamPath, subdomain = '601') {
 }
 
 const dashStream = 'https://g003-sle-us-cmaf-prd-fy.cdn.peacocktv.com/pck-sle/us-west-2/v1/dash/6f3f45fea6332a47667932dede90d20a96f2690c/peacock-dash-sle-4s-generic-cfd/co01/pcksle2/Content/CMAF_CTR-4s-v2/Live/channel(5021679-723537-491336fa411)/master_2hr.mpd?c3.ri=6a1240f9_Q1ZYMDc_1_RkFTVExZ_ad65ca814d83&aws.sessionId=29752015-7604-4ed6-b138-e56a8d98b382&ck=eyIwMDIyNDI4YWQxYmIyNjJmZDg4MzRmOTZkNWUyOTg4NyI6Ijc1OTBhMjYxNjhjY2Q2YWQzNmNlZjlkM2VmYTc5MTc4In0%3D';
-const dashKeys = {'7590a26168ccd6ad36cef9d3efa79178': '0022428ad1bb262fd8834f96d5e29887'};
+const dashKeys = {'0022428ad1bb262fd8834f96d5e29887': '7590a26168ccd6ad36cef9d3efa79178'};
 
 function playStream1() {
   if (isDesktop()) {
