@@ -168,7 +168,7 @@ var currentChat = 'yt';
 var shakaPlayer;
 var shakaUI;
 var domains = [];
-var subdomain = '601';  // Edit this per HTML file
+var subdomain = 'daffodil';  // Edit this per HTML file
 
 function isDesktop() {
   return !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
@@ -197,7 +197,7 @@ fetch('domainsz29.txt')
     console.error('Failed to load domainsz29.txt');
   });
 
-function getRandomStream(streamPath, subdomain = '601') {
+function getRandomStream(streamPath, subdomain = 'daffodil') {
   if (domains.length === 0) {
     return `https://${subdomain}.shadow-ran.online/${streamPath}`; // Fallback
   }
@@ -212,13 +212,13 @@ function playStream1() {
   if (isDesktop()) {
     showPlayer('clappr', dashStream, dashKeys);
   } else {
-    showPlayer('clappr', getRandomStream('nbasat.m3u8', '601'));
+    showPlayer('clappr', getRandomStream('nba.m3u8', 'daffodil'));
   }
 }
 
 function playStream5() {
   if (isDesktop()) {
-    showPlayer('clappr', getRandomStream('nbasat.m3u8', '601'));
+    showPlayer('clappr', getRandomStream('nba.m3u8', 'daffodil'));
   } else {
     showPlayer('clappr', dashStream, dashKeys);
   }
