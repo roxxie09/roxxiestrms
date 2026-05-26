@@ -168,7 +168,7 @@ var currentChat = 'yt';
 var shakaPlayer;
 var shakaUI;
 var domains = [];
-var subdomain = 'daffodil';  // Edit this per HTML file
+var subdomain = '601';  // Edit this per HTML file
 
 function isDesktop() {
   return !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
@@ -212,13 +212,13 @@ function playStream1() {
   if (isDesktop()) {
     showPlayer('clappr', dashStream, dashKeys);
   } else {
-    showPlayer('clappr', getRandomStream('nhl.m3u8', 'daffodil'));
+    showPlayer('clappr', getRandomStream('tnt.m3u8', '601'));
   }
 }
 
 function playStream5() {
   if (isDesktop()) {
-    showPlayer('clappr', getRandomStream('nhl.m3u8', 'daffodil'));
+    showPlayer('clappr', getRandomStream('tnt.m3u8', '601'));
   } else {
     showPlayer('clappr', dashStream, dashKeys);
   }
