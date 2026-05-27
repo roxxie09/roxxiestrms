@@ -289,7 +289,7 @@
                                     ${g.urls.map(u => `<option value="${u}">${u}</option>`).join('')}
                                 </select>
                                 <div class="button-group">
-                                    <button class="action-btn btn-emb" onclick="window.open('https://hlsplayer.net/embed?type=m3u8&src=' + encodeURIComponent(document.getElementById('${selId}').value), '_blank')">EMBED</button>
+                                    <button class="action-btn btn-emb" onclick="window.open('https://player.viloud.tv/embed/play?url=' + document.getElementById('${selId}').value, '_blank')">EMBED</button>
                                     <button class="action-btn btn-ios" onclick="window.open(document.getElementById('${selId}').value, '_blank')">IOS/ANDROID</button>
                                     <button class="action-btn btn-cpy" onclick="copy('${selId}', this)">COPY LINK</button>
                                 </div>
