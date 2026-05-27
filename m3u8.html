@@ -121,11 +121,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-  <a class="nav-link nav-link-march-madness" href="https://roxiestreams.info/march-madness">
-    March Madness
-  </a>
-</li>
+                    <li class="nav-item">
                     <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/soccer">Soccer</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/mlb">MLB</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
@@ -162,50 +158,106 @@
     </footer>
 
     <script>
+        // Primary and fallback site origins
+        const PRIMARY_ORIGIN   = "https://roxiestreams.info";
+        const FALLBACK_ORIGIN  = "https://roxiestreams.su";
         const PROXY = "https://api.allorigins.win/get?url=";
+
+        // Resolve a relative or absolute URL against primary, falling back to secondary
+        function resolveUrl(input) {
+            if (input.startsWith('http')) return { url: input, isInternal: false };
+            const path = input.startsWith('/') ? input : '/' + input;
+            return { url: PRIMARY_ORIGIN + path, isInternal: true };
+        }
+
+        async function fetchHtml(fullPath, isInternal) {
+            if (isInternal) {
+                // Try primary first, then fallback
+                try {
+                    const r = await fetch(fullPath, { signal: AbortSignal.timeout(8000) });
+                    if (!r.ok) throw new Error('non-2xx');
+                    return await r.text();
+                } catch(e) {
+                    // swap primary origin for fallback origin
+                    const fallbackPath = fullPath.replace(PRIMARY_ORIGIN, FALLBACK_ORIGIN);
+                    const r = await fetch(fallbackPath, { signal: AbortSignal.timeout(8000) });
+                    if (!r.ok) throw new Error('fallback also failed');
+                    return await r.text();
+                }
+            } else {
+                // External URL — try proxy; if primary proxy fails try with fallback URL substituted
+                try {
+                    const r = await fetch(PROXY + encodeURIComponent(fullPath));
+                    const d = await r.json();
+                    if (d.contents) return d.contents;
+                    throw new Error('empty proxy response');
+                } catch(e) {
+                    const fallbackPath = fullPath.replace(PRIMARY_ORIGIN, FALLBACK_ORIGIN);
+                    const r = await fetch(PROXY + encodeURIComponent(fallbackPath));
+                    const d = await r.json();
+                    return d.contents;
+                }
+            }
+        }
+
+        async function fetchDomains(baseUrl, isInternal) {
+            try {
+                const domUrl = baseUrl + 'domainsd.txt';
+                let raw;
+                if (isInternal) {
+                    try {
+                        const r = await fetch(domUrl, { signal: AbortSignal.timeout(5000) });
+                        raw = await r.text();
+                    } catch(e) {
+                        const fallback = domUrl.replace(PRIMARY_ORIGIN, FALLBACK_ORIGIN);
+                        const r = await fetch(fallback, { signal: AbortSignal.timeout(5000) });
+                        raw = await r.text();
+                    }
+                } else {
+                    try {
+                        const r = await fetch(PROXY + encodeURIComponent(domUrl));
+                        raw = (await r.json()).contents;
+                    } catch(e) {
+                        const fallback = domUrl.replace(PRIMARY_ORIGIN, FALLBACK_ORIGIN);
+                        const r = await fetch(PROXY + encodeURIComponent(fallback));
+                        raw = (await r.json()).contents;
+                    }
+                }
+                if (raw) return raw.trim().split('\n').map(d => d.trim()).filter(d => d);
+            } catch(e) {}
+            return ['shadow-ran.online'];
+        }
 
         async function extractLinks() {
             const resultsDiv = document.getElementById('results');
-            const statusDiv = document.getElementById('status');
-            const targetUrl = document.getElementById('urlInput').value.trim();
+            const statusDiv  = document.getElementById('status');
+            const targetUrl  = document.getElementById('urlInput').value.trim();
             
             if (!targetUrl) return;
 
             resultsDiv.innerHTML = '';
-            statusDiv.innerHTML = `<div class="spinner-border spinner-border-sm text-pink"></div> Syncing Node Configurations...`;
+            statusDiv.innerHTML  = `<div class="spinner-border spinner-border-sm text-pink"></div> Syncing Node Configurations...`;
 
             try {
-                const isInternal = targetUrl.includes(window.location.hostname) || !targetUrl.startsWith('http');
-                let html = "";
-                let fullPath = targetUrl.startsWith('http') ? targetUrl : window.location.origin + (targetUrl.startsWith('/') ? '' : '/') + targetUrl;
+                const { url: fullPath, isInternal } = resolveUrl(targetUrl);
 
-                if (isInternal) {
-                    const response = await fetch(fullPath);
-                    html = await response.text();
-                } else {
-                    const response = await fetch(PROXY + encodeURIComponent(fullPath));
-                    const data = await response.json();
-                    html = data.contents;
-                }
+                statusDiv.innerHTML = `<div class="spinner-border spinner-border-sm text-pink"></div> Fetching page...`;
+                const html = await fetchHtml(fullPath, isInternal);
 
                 let rawStreams = [];
-                let detectedSub = '602'; 
+                let detectedSub = '602';
                 const subMatch = html.match(/var\s+subdomain\s*=\s*['"]([^'"]+)['"]/);
                 if (subMatch) detectedSub = subMatch[1];
 
-                let domains = ['shadow-ran.online']; 
-                try {
-                    const urlBase = fullPath.substring(0, fullPath.lastIndexOf('/') + 1);
-                    const domResp = await fetch(isInternal ? urlBase + 'domainsd.txt' : PROXY + encodeURIComponent(urlBase + 'domainsd.txt'));
-                    const domData = isInternal ? await domResp.text() : (await domResp.json()).contents;
-                    if (domData) domains = domData.trim().split('\n').map(d => d.trim()).filter(d => d);
-                } catch(e) {}
+                const urlBase = fullPath.substring(0, fullPath.lastIndexOf('/') + 1);
+                statusDiv.innerHTML = `<div class="spinner-border spinner-border-sm text-pink"></div> Loading domain list...`;
+                const domains = await fetchDomains(urlBase, isInternal);
 
                 const jsRegex = /getRandomStream\(['"]([^'"]+)['"](?:\s*,\s*['"]([^'"]+)['"])?\)/g;
                 let match;
                 while ((match = jsRegex.exec(html)) !== null) {
                     const file = match[1];
-                    const sub = match[2] || detectedSub; 
+                    const sub  = match[2] || detectedSub;
                     domains.forEach(dom => rawStreams.push(`https://${sub}.${dom}/${file}`));
                 }
 
@@ -216,9 +268,9 @@
                 rawStreams.forEach(url => {
                     try {
                         const urlObj = new URL(url);
-                        const sub = urlObj.hostname.split('.')[0];
-                        const file = urlObj.pathname.split('/').pop();
-                        const key = `${sub}-${file}`;
+                        const sub    = urlObj.hostname.split('.')[0];
+                        const file   = urlObj.pathname.split('/').pop();
+                        const key    = `${sub}-${file}`;
                         if (!groups[key]) groups[key] = { sub, file, urls: [] };
                         if (!groups[key].urls.includes(url)) groups[key].urls.push(url);
                     } catch(e) {}
@@ -226,14 +278,14 @@
 
                 const groupKeys = Object.keys(groups);
                 if (groupKeys.length > 0) {
-                    statusDiv.innerHTML = `✅ Successfully mapped ${groupKeys.length} Unique Feeds.`;
+                    statusDiv.innerHTML = `✅ Successfully mapped ${groupKeys.length} Unique Feed${groupKeys.length !== 1 ? 's' : ''}.`;
                     groupKeys.forEach((key, index) => {
-                        const g = groups[key];
+                        const g     = groups[key];
                         const selId = `sel-${index}`;
                         resultsDiv.innerHTML += `
                             <div class="link-item">
                                 <div class="stream-number">STREAM ${index + 1}</div>
-                                <span class="mirror-count">${g.urls.length} MIRRORS AVAILABLE</span>
+                                <span class="mirror-count">${g.urls.length} MIRROR${g.urls.length !== 1 ? 'S' : ''} AVAILABLE</span>
                                 <div class="sub-info">NODE: ${g.sub} | RESOURCE: ${g.file}</div>
                                 <select id="${selId}" class="server-select">
                                     ${g.urls.map(u => `<option value="${u}">${u}</option>`).join('')}
@@ -250,7 +302,8 @@
                     statusDiv.innerHTML = "❌ No active streams detected.";
                 }
             } catch (err) {
-                statusDiv.innerHTML = "❌ Connection failed. Check URL.";
+                statusDiv.innerHTML = "❌ Connection failed. Check URL and try again.";
+                console.error(err);
             }
         }
 
