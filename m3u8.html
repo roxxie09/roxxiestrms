@@ -158,73 +158,68 @@
     </footer>
 
     <script>
-        // Primary and fallback site origins
-        const PRIMARY_ORIGIN   = "https://roxiestreams.info";
-        const FALLBACK_ORIGIN  = "https://roxiestreams.su";
+        const PRIMARY_ORIGIN  = "https://roxiestreams.info";
+        const FALLBACK_ORIGIN = "https://roxiestreams.su";
         const PROXY = "https://api.allorigins.win/get?url=";
 
-        // Resolve a relative or absolute URL against primary, falling back to secondary
         function resolveUrl(input) {
             if (input.startsWith('http')) return { url: input, isInternal: false };
             const path = input.startsWith('/') ? input : '/' + input;
             return { url: PRIMARY_ORIGIN + path, isInternal: true };
         }
 
-        async function fetchHtml(fullPath, isInternal) {
+        async function fetchRaw(url, isInternal) {
             if (isInternal) {
-                // Try primary first, then fallback
-                try {
-                    const r = await fetch(fullPath, { signal: AbortSignal.timeout(8000) });
-                    if (!r.ok) throw new Error('non-2xx');
-                    return await r.text();
-                } catch(e) {
-                    // swap primary origin for fallback origin
-                    const fallbackPath = fullPath.replace(PRIMARY_ORIGIN, FALLBACK_ORIGIN);
-                    const r = await fetch(fallbackPath, { signal: AbortSignal.timeout(8000) });
-                    if (!r.ok) throw new Error('fallback also failed');
-                    return await r.text();
-                }
+                const r = await fetch(url, { signal: AbortSignal.timeout(8000) });
+                if (!r.ok) throw new Error('non-2xx');
+                return await r.text();
             } else {
-                // External URL — try proxy; if primary proxy fails try with fallback URL substituted
-                try {
-                    const r = await fetch(PROXY + encodeURIComponent(fullPath));
-                    const d = await r.json();
-                    if (d.contents) return d.contents;
-                    throw new Error('empty proxy response');
-                } catch(e) {
-                    const fallbackPath = fullPath.replace(PRIMARY_ORIGIN, FALLBACK_ORIGIN);
-                    const r = await fetch(PROXY + encodeURIComponent(fallbackPath));
-                    const d = await r.json();
-                    return d.contents;
-                }
+                const r = await fetch(PROXY + encodeURIComponent(url));
+                const d = await r.json();
+                if (!d.contents) throw new Error('empty proxy response');
+                return d.contents;
             }
         }
 
-        async function fetchDomains(baseUrl, isInternal) {
+        async function fetchWithFallback(path, isInternal) {
             try {
-                const domUrl = baseUrl + 'domainsd.txt';
-                let raw;
-                if (isInternal) {
-                    try {
-                        const r = await fetch(domUrl, { signal: AbortSignal.timeout(5000) });
-                        raw = await r.text();
-                    } catch(e) {
-                        const fallback = domUrl.replace(PRIMARY_ORIGIN, FALLBACK_ORIGIN);
-                        const r = await fetch(fallback, { signal: AbortSignal.timeout(5000) });
-                        raw = await r.text();
-                    }
-                } else {
-                    try {
-                        const r = await fetch(PROXY + encodeURIComponent(domUrl));
-                        raw = (await r.json()).contents;
-                    } catch(e) {
-                        const fallback = domUrl.replace(PRIMARY_ORIGIN, FALLBACK_ORIGIN);
-                        const r = await fetch(PROXY + encodeURIComponent(fallback));
-                        raw = (await r.json()).contents;
-                    }
-                }
-                if (raw) return raw.trim().split('\n').map(d => d.trim()).filter(d => d);
-            } catch(e) {}
+                return await fetchRaw(path, isInternal);
+            } catch(e) {
+                const fallbackPath = path.replace(PRIMARY_ORIGIN, FALLBACK_ORIGIN);
+                return await fetchRaw(fallbackPath, isInternal);
+            }
+        }
+
+        // Sniff the domains txt filename directly out of the page's HTML source.
+        // Looks for any reference matching domains*.txt (e.g. domainsz29.txt, domainsd.txt, domains_v3.txt)
+        // so it auto-adapts whenever you rename the file — no hardcoding needed.
+        function sniffDomainsFilename(html) {
+            const match = html.match(/domains[^"'\s]*\.txt/i);
+            return match ? match[0] : null;
+        }
+
+        async function fetchDomains(baseUrl, isInternal, html) {
+            // First: try to detect the filename from the page source
+            const detected = sniffDomainsFilename(html);
+
+            if (detected) {
+                try {
+                    const raw = await fetchWithFallback(baseUrl + detected, isInternal);
+                    if (raw) return raw.trim().split('\n').map(d => d.trim()).filter(d => d);
+                } catch(e) {}
+            }
+
+            // Second: if detection failed or fetch failed, try a few common fallback names
+            const candidates = ['domainsd.txt', 'domains.txt', 'domainslist.txt'];
+            for (const name of candidates) {
+                if (name === detected) continue; // already tried
+                try {
+                    const raw = await fetchWithFallback(baseUrl + name, isInternal);
+                    if (raw && raw.trim()) return raw.trim().split('\n').map(d => d.trim()).filter(d => d);
+                } catch(e) {}
+            }
+
+            // Last resort: hardcoded default domain
             return ['shadow-ran.online'];
         }
 
@@ -232,7 +227,7 @@
             const resultsDiv = document.getElementById('results');
             const statusDiv  = document.getElementById('status');
             const targetUrl  = document.getElementById('urlInput').value.trim();
-            
+
             if (!targetUrl) return;
 
             resultsDiv.innerHTML = '';
@@ -242,17 +237,18 @@
                 const { url: fullPath, isInternal } = resolveUrl(targetUrl);
 
                 statusDiv.innerHTML = `<div class="spinner-border spinner-border-sm text-pink"></div> Fetching page...`;
-                const html = await fetchHtml(fullPath, isInternal);
+                const html = await fetchWithFallback(fullPath, isInternal);
 
-                let rawStreams = [];
                 let detectedSub = '602';
                 const subMatch = html.match(/var\s+subdomain\s*=\s*['"]([^'"]+)['"]/);
                 if (subMatch) detectedSub = subMatch[1];
 
                 const urlBase = fullPath.substring(0, fullPath.lastIndexOf('/') + 1);
-                statusDiv.innerHTML = `<div class="spinner-border spinner-border-sm text-pink"></div> Loading domain list...`;
-                const domains = await fetchDomains(urlBase, isInternal);
 
+                statusDiv.innerHTML = `<div class="spinner-border spinner-border-sm text-pink"></div> Detecting domain list...`;
+                const domains = await fetchDomains(urlBase, isInternal, html);
+
+                let rawStreams = [];
                 const jsRegex = /getRandomStream\(['"]([^'"]+)['"](?:\s*,\s*['"]([^'"]+)['"])?\)/g;
                 let match;
                 while ((match = jsRegex.exec(html)) !== null) {
