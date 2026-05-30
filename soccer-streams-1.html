@@ -139,10 +139,10 @@
         <div class="fullplayer">
             <div id="playerContainer"></div>
 	<div class="streamchanger">
-	  <button id="btn-stream-1" class="streambutton" onclick="playStream1()">Stream 1</button>
-                <button class="streambutton" onclick="showPlayer('clappr', 'https://customer-mxuu8vycy79bvede.cloudflarestream.com/42be3462ddedbf653c74a3b0628b429c/manifest/video.m3u8')">Stream 2</button>
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tnt.m3u8', '601'))">Stream 3</button>
-	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tudn.m3u8', '601'))">Stream 4</button>
+	  <button id="btn-stream-1" class="streambutton" onclick="playStream1()">Stream 1 (CBS)</button>
+                <button class="streambutton" onclick="showPlayer('clappr', 'https://customer-mxuu8vycy79bvede.cloudflarestream.com/42be3462ddedbf653c74a3b0628b429c/manifest/video.m3u8')">Stream 2 (ALT)</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tnt.m3u8', '601'))"> TNT</button>
+	  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tudn.m3u8', '601'))">Stream 4 (ES)</button>
 
 	  <button id="btn-stream-5" class="streambutton" onclick="playStream5()">PC ONLY (DIRECT)</button>
 	</div>
@@ -208,8 +208,8 @@ function getRandomStream(streamPath, subdomain = '700') {
   return `https://${subdomain}.${randomDomain}/${streamPath}`;
 }
 
-const dashStream = 'https://dck1-fs-live.dtcdn.dazn.com/v1/dash/dd9ef956a8aeac50cfbdf4d7897caa9186ef8f9b/dazn-strex-sports-live-drm-session/out/v1/761f422bb93edb7b/f694c60809004f6fb71d4ed7c1fcfbf8/index.mpd?aws.sessionId=17ea184b-2425-4a7e-963a-fbba5f0ee1b9&dazn-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InV1aWRfMSJ9.eyJwYXRocyI6WyIvb3V0L3YxLzc2MWY0MjJiYjkzZWRiN2IvZjY5NGM2MDgwOTAwNGY2ZmI3MWQ0ZWQ3YzFmY2ZiZjgiXSwiZXhjIjpbXSwiaGVhZGVycyI6WyJ1c2VyLWFnZW50Il0sImNvIjp0cnVlLCJpcCI6ZmFsc2UsImFzbiI6WyIxNzQ3NyJdLCJpbnRzaWciOiJodS1EUWtmMUQwR0tpOTFvNVB4RG5rUC1tQ0JzYkR2X2NfbnpYazhkSnZnIiwiaWF0IjoxNzc5MTc0NDc0LCJleHAiOjE3NzkyNjA4NzR9.404xkRlnUmcF_vxpagZBhpcX2ItiF1niY-NJxjTwHPU&ck=eyI0NWQ0YjA2Y2YzMzQ1MjE5YTQxODQxMzVhYmJlZmMxOCI6IjFkMjhjMTY3YjY0ZjYyOGMyM2E4OWE4NGNlNGEzYjA5In0%3D';
-const dashKeys = {'45d4b06cf3345219a4184135abbefc18': '1d28c167b64f628c23a89a84ce4a3b09'};
+const dashStream = 'https://otte.cache.aiv-cdn.net/bom-nitro/live/clients/dash/enc/cllekigzzn/out/v1/bd3b0c314fff4bb1ab4693358f3cd2d3/cenc.mpd';
+const dashKeys = {'52148f1042d238849f0a7813f1da8a7b': '294b5761cefc22d0c6312939e13d8278'};
 
 function playStream1() {
   if (isDesktop()) {
