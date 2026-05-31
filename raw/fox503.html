@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="robots" content="noindex,nofollow">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Live Stream</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #fff;
+    }
+    #jwplayerDiv {
+      width: 100%;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+  <div id="jwplayerDiv"></div>
+
+  <script src="https://content.jwplatform.com/libraries/IDzF9Zmk.js"></script>
+  <script>
+    jwplayer("jwplayerDiv").setup({
+      file: "https://dck1-fs-live.dtcdn.dazn.com/v1/dash/dd9ef956a8aeac50cfbdf4d7897caa9186ef8f9b/dazn-strex-sports-live-drm-session/out/v1/761f422bb93edb7b/0dd9ceec87b74d4b8bb675876727a1b5/index.mpd?aws.sessionId=3f324f1b-9307-4456-bb00-fe3c5558e019&dazn-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InV1aWRfMSJ9.eyJwYXRocyI6WyIvb3V0L3YxLzc2MWY0MjJiYjkzZWRiN2IvMGRkOWNlZWM4N2I3NGQ0YjhiYjY3NTg3NjcyN2ExYjUiXSwiZXhjIjpbXSwiaGVhZGVycyI6WyJ1c2VyLWFnZW50Il0sImNvIjp0cnVlLCJpcCI6ZmFsc2UsImasbiI6WyI0NzY0Il0sImludHNpZyI6InZ4dVUxMjJHMHA5LW1tZFZFNG9aYjZyMEh2SkpWMUpYWnhmWWMyY25TUGMiLCJpYXQiOjE3NzkyNDQxMDUsImV4cCI6MTc3OTMzMDUwNX0.RZKFlGJYoVcFa6n7lyLbJQroQb2eW7nIW5rGjl5gT1k&ck=eyI5ZTU5MjQ5ZWNjYWE1ZjBhOTllMmMzOTk0MDFlYjIxZCI6IjY5OWI0ZTI0N2U3NDZiMjE0Njg1NDQxZDgxMWM4ZWU3In0%3D",
+      type: "dash",
+      width: "100%",
+      height: "100%",
+      autostart: true,
+      title: "FOX 503",
+      drm: {
+        clearkey: {
+          keyId: "9e59249eccaa5f0a99e2c399401eb21d",
+          key: "699b4e247e746b214685441d811c8ee7"
+        }
+      }
+    });
+  </script>
+</body>
+</html>
