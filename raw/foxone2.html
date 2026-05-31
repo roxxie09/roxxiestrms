@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="robots" content="noindex,nofollow">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Live Stream</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #fff;
+      font-family: sans-serif;
+    }
+    #playerContainer {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+    }
+    #jwplayerDiv {
+      width: 100%;
+      height: 100%;
+    }
+    /* Geo-restriction overlay style */
+    #geoNotice {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      color: #fff;
+      z-index: 9999;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    #geoNotice h1 {
+      color: #ff3333;
+      margin-bottom: 10px;
+    }
+    #geoNotice p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="playerContainer">
+    <div id="geoNotice">
+      <h1>Content Unavailable</h1>
+      <p>This stream does not load unless you are physically located in <strong>Mexico</strong> or connected via a <strong>Mexico VPN</strong>.</p>
+    </div>
+    
+    <div id="jwplayerDiv"></div>
+  </div>
+
+  <script src="https://content.jwplatform.com/libraries/IDzF9Zmk.js"></script>
+  <script>
+    const playerInstance = jwplayer("jwplayerDiv");
+
+    playerInstance.setup({
+      file: "https://mxlivechannelsvosdash.clarovideo.com/Content/DASH_DASH_FK/Live/Channel(FOXONE2MX_HD)/manifest.mpd?ip=201.121.48.87&exp=1779328768&hmac=2431b768499b3bfbbd2842e917bb3ec320b30267&ck=eyJjZmQ3N2E4ODU1YjdjY2M5NDEyNDg0NTRmYzEyNjM0MCI6IjE1MTgwMzRjZTE5MThmMjQ5MDA1ZmIyNzBmZjlhMmM5In0%3D",
+      type: "dash",
+      width: "100%",
+      height: "100%",
+      autostart: true,
+      title: "FOX ONE 2",
+      drm: {
+        clearkey: {
+          keyId: "cfd77a8855b7cccm941248454fc126340",
+          key: "1518034ce1918f249005fb270ff9a2c9"
+        }
+      }
+    });
+
+    // Function to trigger the warning message
+    function showGeoNotice() {
+      document.getElementById("geoNotice").style.display = "flex";
+    }
+
+    // Listen for JWPlayer errors (e.g., 403 Forbidden or network failures due to geo-blocking)
+    playerInstance.on('error', function(e) {
+      console.log("Player error:", e.message);
+      showGeoNotice();
+    });
+
+    playerInstance.on('setupError', function(e) {
+      console.log("Setup error:", e.message);
+      showGeoNotice();
+    });
+  </script>
+</body>
+</html>
