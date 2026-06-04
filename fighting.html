@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html data-bs-theme="dark" lang="en">
 <head>
 <meta charset="utf-8"/>
@@ -12,56 +11,32 @@
 <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 <link href="css/mainn.css" rel="stylesheet" type="text/css"/>
 <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
-<style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-EQ3BHVQGMN');
 </script>
-    <style>
-        .navbar-brand {
-            color: pink;
-            font-size: 1.3rem;
-            text-decoration: none;
-            margin-top: -3px;
-            font-family: 'Kanit', sans-serif;
-            font-weight: bold;
-        }
-        .navbar-brand:hover {
-            text-decoration: underline;
-        }
-        .navbar-nav {
-            margin-left: 0;
-        }
-        .navbar-nav .nav-link {
-            padding-left: 5px;
-            padding-right: 5px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        table, th, td {
-            border: 1px solid white;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            cursor: default;
-        }
-        .countdown-timer {
-            font-weight: bold;
-            color: #ff0000;
-        }
-        h2 {
-            color: pink;
-        }
-    </style>
+<style>
+    .navbar-brand {
+        color: pink;
+        font-size: 1.3rem;
+        text-decoration: none;
+        margin-top: -3px;
+        font-family: 'Kanit', sans-serif;
+        font-weight: bold;
+    }
+    .navbar-brand:hover { text-decoration: underline; }
+    .navbar-nav { margin-left: 0; }
+    .navbar-nav .nav-link { padding-left: 5px; padding-right: 5px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    table, th, td { border: 1px solid white; }
+    th, td { padding: 10px; text-align: left; }
+    th { cursor: default; }
+    .countdown-timer { font-weight: bold; color: #ff0000; }
+    h2 { color: pink; }
+</style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-black">
@@ -91,16 +66,15 @@
 <thead>
 <tr>
 <th>Event</th>
-<th>Start Time</th>
+<th>Start Time (Local)</th>
 <th>Countdown</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><a href="https://roxiestreams.info/wwe-streams">WWE Smackdown</a></td>
-<td>June 5, 2026 5:00 PM</td>
-<td><span class="countdown-timer" data-end="June 30, 2026 22:00:00" data-start="June 5, 2026 17:00:00"></span>
-</td>
+<td class="event-start-time">June 5, 2026 5:00 PM</td>
+<td><span class="countdown-timer"></span></td>
 </tr>
 </tbody>
 </table>
@@ -113,36 +87,6 @@
 <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2026</p>
 </footer>
 <script src="js/bootstrap.bundle.min.js"></script>
-<script>
-        function startCountdown() {
-            var countdownElements = document.querySelectorAll('.countdown-timer');
-
-            countdownElements.forEach(function(element) {
-                var startTime = new Date(element.getAttribute('data-start')).getTime();
-                var endTime = new Date(element.getAttribute('data-end')).getTime();
-
-                setInterval(function() {
-                    var now = new Date().getTime();
-                    var timeRemaining = startTime - now;
-
-                    if (now > endTime) {
-                        element.parentElement.parentElement.remove();
-                    } else {
-                        var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                        var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-                        var seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
-
-                        if (timeRemaining <= 0) {
-                            element.innerHTML = "Event Started!";
-                        } else {
-                            element.innerHTML = (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
-                        }
-                    }
-                }, 1000);
-            });
-        }
-
-        window.onload = startCountdown;
-    </script>
+<script src="scripts/countdownfinal2.js"></script>
 </body>
 </html>
