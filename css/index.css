@@ -85,8 +85,8 @@ a.card-text:hover {
 }
 .march-alert {
     position: relative;
-    background-color: #001a33;
-    color: #00bfff;
+    background-color: #140f24; /* dark purple */
+    color: #f0abfc; /* light pink-purple text */
     border: 2px solid transparent;
     border-radius: 6px;
     z-index: 0;
@@ -100,27 +100,30 @@ a.card-text:hover {
     inset: -2px;
     border-radius: 8px;
 
-    /* BLUE version (matches your box) */
     background: linear-gradient(
         90deg,
-        #0066cc,
-        #00bfff,
-        #66d9ff,
-        #00bfff,
-        #0066cc
+        #7c3aed, /* purple */
+        #ec4899, /* pink */
+        #10b981, /* green */
+        #ec4899, /* pink */
+        #7c3aed  /* purple */
     );
 
     background-size: 200% auto;
-    animation: marchMadnessShine 2s linear infinite;
+    animation: marchMadnessShine 3s linear infinite;
     z-index: -1;
 }
 
-/* Inner background (keeps box clean) */
+/* Inner background */
 .march-alert::after {
     content: "";
     position: absolute;
     inset: 2px;
-    background-color: #001a33;
+    background-color: #140f24;
     border-radius: 4px;
     z-index: -1;
+}
+
+.march-alert .btn-close {
+    filter: invert(1);
 }
