@@ -13,47 +13,32 @@
   <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
   <link href="css/mainn.css" rel="stylesheet" type="text/css"/>
   <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN">
+  </script>
+  <script>
+   window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-EQ3BHVQGMN');
+  </script>
   <style>
    .navbar-brand {
-      color: pink;
-      font-size: 1.3rem;
-      text-decoration: none;
-      margin-top: -3px;
-      font-family: 'Kanit', sans-serif;
-      font-weight: bold;
+        color: pink;
+        font-size: 1.3rem;
+        text-decoration: none;
+        margin-top: -3px;
+        font-family: 'Kanit', sans-serif;
+        font-weight: bold;
     }
-    .navbar-brand:hover {
-      text-decoration: underline;
-    }
-    .navbar-nav {
-      margin-left: 0;
-    }
-    .navbar-nav .nav-link {
-      padding-left: 5px;
-      padding-right: 5px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-    table, th, td {
-      border: 1px solid white;
-    }
-    th, td {
-      padding: 10px;
-      text-align: left;
-    }
-    th {
-      cursor: default;
-    }
-    .countdown-timer {
-      font-weight: bold;
-      color: #ff0000;
-    }
-    h2 {
-      color: pink;
-    }
+    .navbar-brand:hover { text-decoration: underline; }
+    .navbar-nav { margin-left: 0; }
+    .navbar-nav .nav-link { padding-left: 5px; padding-right: 5px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    table, th, td { border: 1px solid white; }
+    th, td { padding: 10px; text-align: left; }
+    th { cursor: default; }
+    .countdown-timer { font-weight: bold; color: #ff0000; }
+    h2 { color: pink; }
   </style>
  </head>
  <body>
@@ -68,9 +53,11 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-      <a class="nav-link" href="https://roxiestreams.info/soccer">
-       Soccer
-      </a>
+      <li class="nav-item">
+       <a class="nav-link" href="https://roxiestreams.info/soccer">
+        Soccer
+       </a>
+      </li>
       <li class="nav-item">
        <a class="nav-link" href="https://roxiestreams.info/mlb">
         MLB
@@ -122,7 +109,7 @@
         Event
        </th>
        <th>
-        Start Time
+        Start Time (Local)
        </th>
        <th>
         Countdown
@@ -136,11 +123,11 @@
          San Diego Padres vs Philadelphia Phillies
         </a>
        </td>
-       <td>
+       <td class="event-start-time">
         June 4, 2026 10:05 AM
        </td>
        <td>
-        <span class="countdown-timer" data-end="June 4, 2026 22:05:00" data-start="June 4, 2026 10:05:00">
+        <span class="countdown-timer">
         </span>
        </td>
       </tr>
@@ -150,11 +137,11 @@
          Baltimore Orioles vs Boston Red Sox
         </a>
        </td>
-       <td>
+       <td class="event-start-time">
         June 4, 2026 10:35 AM
        </td>
        <td>
-        <span class="countdown-timer" data-end="June 4, 2026 22:35:00" data-start="June 4, 2026 10:35:00">
+        <span class="countdown-timer">
         </span>
        </td>
       </tr>
@@ -164,11 +151,11 @@
          Cleveland Guardians vs New York Yankees
         </a>
        </td>
-       <td>
+       <td class="event-start-time">
         June 4, 2026 10:35 AM
        </td>
        <td>
-        <span class="countdown-timer" data-end="June 4, 2026 22:35:00" data-start="June 4, 2026 10:35:00">
+        <span class="countdown-timer">
         </span>
        </td>
       </tr>
@@ -178,11 +165,11 @@
          San Francisco Giants vs Milwaukee Brewers
         </a>
        </td>
-       <td>
+       <td class="event-start-time">
         June 4, 2026 11:10 AM
        </td>
        <td>
-        <span class="countdown-timer" data-end="June 4, 2026 23:10:00" data-start="June 4, 2026 11:10:00">
+        <span class="countdown-timer">
         </span>
        </td>
       </tr>
@@ -192,11 +179,11 @@
          Toronto Blue Jays vs Atlanta Braves
         </a>
        </td>
-       <td>
+       <td class="event-start-time">
         June 4, 2026 04:15 PM
        </td>
        <td>
-        <span class="countdown-timer" data-end="June 5, 2026 04:15:00" data-start="June 4, 2026 16:15:00">
+        <span class="countdown-timer">
         </span>
        </td>
       </tr>
@@ -206,11 +193,11 @@
          Kansas City Royals vs Minnesota Twins
         </a>
        </td>
-       <td>
+       <td class="event-start-time">
         June 4, 2026 04:40 PM
        </td>
        <td>
-        <span class="countdown-timer" data-end="June 5, 2026 04:40:00" data-start="June 4, 2026 16:40:00">
+        <span class="countdown-timer">
         </span>
        </td>
       </tr>
@@ -220,11 +207,11 @@
          Athletics vs Chicago Cubs
         </a>
        </td>
-       <td>
+       <td class="event-start-time">
         June 4, 2026 05:05 PM
        </td>
        <td>
-        <span class="countdown-timer" data-end="June 5, 2026 05:05:00" data-start="June 4, 2026 17:05:00">
+        <span class="countdown-timer">
         </span>
        </td>
       </tr>
@@ -234,11 +221,11 @@
          Pittsburgh Pirates vs Houston Astros
         </a>
        </td>
-       <td>
+       <td class="event-start-time">
         June 4, 2026 05:10 PM
        </td>
        <td>
-        <span class="countdown-timer" data-end="June 5, 2026 05:10:00" data-start="June 4, 2026 17:10:00">
+        <span class="countdown-timer">
         </span>
        </td>
       </tr>
@@ -248,11 +235,11 @@
          Los Angeles Dodgers vs Arizona Diamondbacks
         </a>
        </td>
-       <td>
+       <td class="event-start-time">
         June 4, 2026 06:40 PM
        </td>
        <td>
-        <span class="countdown-timer" data-end="June 5, 2026 06:40:00" data-start="June 4, 2026 18:40:00">
+        <span class="countdown-timer">
         </span>
        </td>
       </tr>
@@ -274,44 +261,7 @@
   </footer>
   <script src="js/bootstrap.bundle.min.js">
   </script>
-  <script>
-   function startCountdown() {
-  var countdownElements = document.querySelectorAll('.countdown-timer');
-
-  countdownElements.forEach(function(element) {
-    var startTime = new Date(element.getAttribute('data-start')).getTime();
-    var endTime   = new Date(element.getAttribute('data-end')).getTime();
-
-    var intervalId = setInterval(function() {
-      var now = Date.now();
-
-      // If event is over, remove row and stop this timer
-      if (now > endTime) {
-        var row = element.closest('tr');
-        if (row) row.remove();
-        clearInterval(intervalId);
-        return;
-      }
-
-      var timeRemaining = startTime - now;
-
-      if (timeRemaining <= 0) {
-        element.textContent = "Event Started!";
-      } else {
-        var hours   = Math.floor((timeRemaining / (1000 * 60 * 60)) % 24);
-        var minutes = Math.floor((timeRemaining / (1000 * 60)) % 60);
-        var seconds = Math.floor((timeRemaining / 1000) % 60);
-
-        element.textContent =
-          (hours   < 10 ? "0" + hours   : hours)   + ":" +
-          (minutes < 10 ? "0" + minutes : minutes) + ":" +
-          (seconds < 10 ? "0" + seconds : seconds);
-      }
-    }, 1000);
-  });
-}
-
-window.onload = startCountdown;
+  <script src="scripts/countdownfinal2.js">
   </script>
  </body>
 </html>
