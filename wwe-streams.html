@@ -1,199 +1,271 @@
-<!DOCTYPE html>
+n<!DOCTYPE html>
+
 <html data-bs-theme="dark" lang="en">
 <head>
-  <script id="aclib" src="//acscdn.com/script/aclib.js" type="text/javascript"></script>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1" name="viewport"/>
-  <title>Roxiestreams - Watch Live Sports, F1, UFC, NFL, TV</title>
-  <meta content="Free PPV UFC, TV, NBA, NFL, and F1 streams" name="description"/>
-  <meta content="Roxiestreams, ppv, boxing, dazn, f1, ufc, nba, for, stream, online, free, mrgamingstreams, f1, tv, nfl" name="keywords"/>
-  <link href="https://fonts.googleapis.com" rel="preconnect"/>
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-  <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-  <link href="css/mainn.css" rel="stylesheet" type="text/css"/>
-  <link href="/css/buttons.css" rel="stylesheet"/>
-  <link href="imgs/iconn.png" rel="shortcut icon" type="image/x-icon"/>
-  <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+<script id="aclib" src="//acscdn.com/script/aclib.js" type="text/javascript"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Roxiestreams - Watch Live Sports, F1, UFC, NFL, TV</title>
+<meta content="Free PPV UFC, TV, NBA, NFL, and F1 streams" name="description"/>
+<meta content="Roxiestreams, ppv, boxing, dazn, f1, ufc, nba, for, stream, online, free, mrgamingstreams, f1, tv, nfl" name="keywords"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<link href="css/mainn.css" rel="stylesheet" type="text/css"/>
+<link href="/css/buttons.css" rel="stylesheet"/>
+<link href="imgs/iconn.png" rel="shortcut icon" type="x-icon">
+<script disable-devtool-auto="" src="https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-EQ3BHVQGMN"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-  <style>
-    .navbar-brand {
-      color: pink;
-      font-size: 1.3rem;
-      text-decoration: none;
-      margin-top: -3px;
-      font-family: 'Kanit', sans-serif;
-      font-weight: bold;
-    }
-    .navbar-brand:hover { text-decoration: underline; }
-    .navbar-nav .nav-link { padding-left: 5px; padding-right: 5px; }
-    .fullplayer {
-      display: flex;
-      justify-content: center;
-      position: relative;
-      height: 80vh;
-      margin-top: 50px;
-    }
-    #playerContainer {
-      width: 100%;
-      height: 100%;
-    }
-    .streamchanger {
-      position: absolute;
-      top: -40px;
-      left: 10px;
-      display: flex;
-      gap: 10px;
-    }
-  </style>
-</head>
+  gtag('config', 'G-EQ3BHVQGMN');
+</script>
+<style>
+        .navbar-brand {
+            color: pink;
+            font-size: 1.3rem;
+            text-decoration: none;
+            margin-top: -3px;
+            font-family: 'Kanit', sans-serif;
+            font-weight: bold;
+        }
+        .navbar-brand:hover {
+            text-decoration: underline;
+        }
+        .navbar-nav .nav-link {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+        .fullplayer {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            height: 80vh;
+            margin-top: 50px;
+        }
+        #playerContainer {
+            width: 100%;
+            height: 100%;
+        }
+
+        .embedchat {
+            width: 30%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            margin-left: 10px;
+            border: 1px solid rgba(255, 192, 203, 0.2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .chat-header {
+            padding: 8px;
+            background: #1a1a1a;
+            border-bottom: 1px solid rgba(255, 192, 203, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chat-toggle-btn {
+            background: rgba(255, 192, 203, 0.1);
+            border: 1px solid rgba(255, 192, 203, 0.3);
+            color: pink;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .chat-toggle-btn:hover {
+            background: rgba(255, 192, 203, 0.2);
+        }
+        #chatContent {
+            flex: 1;
+            width: 100%;
+            height: 100%;
+        }
+        #chatContent iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .streamchanger {
+            position: absolute;
+            top: -40px;
+            left: 10px;
+            display: flex;
+            gap: 10px;
+        }
+    </style>
+</link></head>
 <body>
-  <nav class="navbar navbar-expand-lg bg-black">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="https://roxiestreams.info/">RoxieStreams</a>
-      <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/soccer">Soccer</a></li>
-          <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/mlb">MLB</a></li>
-          <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
-          <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nfl">NFL</a></li>
-          <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nhl">NHL</a></li>
-          <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
-          <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
-          <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+<nav class="navbar navbar-expand-lg bg-black">
+<div class="container-fluid">
+<a class="navbar-brand" href="https://roxiestreams.info/">RoxieStreams</a>
+<button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarSupportedContent">
+<ul class="navbar-nav me-auto mb-2 mb-lg-0"><li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/soccer">Soccer</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/mlb">MLB</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nfl">NFL</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nhl">NHL</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
+<li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
+<li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
+</ul><ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+<li class="nav-item">
+<a class="nav-link d-flex align-items-center gap-1" href="https://roxiestreams.info/multiview">
+<svg fill="currentColor" height="16" viewbox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
+<path d="M0 1.5A1.5 1.5 0 0 1 1.5 0h13A1.5 1.5 0 0 1 16 1.5v13a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13zM1.5 1a.5.5 0 0 0-.5.5V7h6V1H1.5zM7 8H1v6.5a.5.5 0 0 0 .5.5H7V8zm1 0v7h6.5a.5.5 0 0 0 .5-.5V8H8zm0-1h7V1.5a.5.5 0 0 0-.5-.5H8v6z"></path>
+</svg>
+        MultiView (NEW)
+    </a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<div class="container container-fluid pt-2 text-white">
+<div class="fullplayer">
+<div id="playerContainer"></div>
+<div class="streamchanger">
+<button class="streambutton" onclick="showPlayer('clappr', getRandomStream('wwe.m3u8', '601'))">Stream 1</button>
+</div>
+<div class="embedchat">
+<div class="chat-header">
+<span style="font-size: 10px; color: pink; font-weight: bold;">LIVE CHAT</span>
+<button class="chat-toggle-btn" id="toggleChat">Switch to Chatango</button>
+</div>
+<div id="chatContent">
+<iframe src="https://www.youtube.com/live_chat?v=mpwfjhmyEzw&amp;embed_domain=roxiestreams.info"></iframe>
+</div>
+</div>
+</div>
+</div>
+<footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
+<ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
+<li class="nav-item"><a class="nav-link px-2 text-body-secondary" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
+</ul>
+<p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2026</p>
+</footer>
+<script>
+var clapprPlayer;
+var currentChat = 'yt';
+var domains = [];
+var subdomain = '601'  // Edit this per HTML file
 
-  <div class="container container-fluid pt-2 text-white">
-    <div class="fullplayer">
-      <div id="playerContainer"></div>
+// Load domains from txt file
+fetch('domainsz29.txt')
+  .then(response => response.text())
+  .then(data => {
+    domains = data.trim().split('\n').filter(d => d.trim());
+    // Auto-load initial stream after domains load
+    setTimeout(() => showPlayer('clappr', getRandomStream('wwe.m3u8')), 500);
+  })
+  .catch(() => {
+    console.error('Failed to load domainsz29.txt');
+  });
 
-      <div class="streamchanger">
-        <button class="streambutton" onclick="showPlayer('iframe', 'https://funplayer.eu/embed/wwe/smackdown/2026-06-05')">Stream 1</button>
-        <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('wwe.m3u8', '601'))">Stream 2</button>
-      </div>
-    </div>
-  </div>
+function getRandomStream(streamPath, subdomain = '601') {
+  if (domains.length === 0) {
+    return `https://${subdomain}.shadow-ran.online/${streamPath}`; // Fallback
+  }
+  const randomDomain = domains[Math.floor(Math.random() * domains.length)];
+  return `https://${subdomain}.${randomDomain}/${streamPath}`;
+}
 
-  <script>
-    var clapprPlayer;
-    var currentChat = 'yt';
-    var domains = [];
-    var subdomain = '601';
-
-    fetch('domainsz29.txt')
-      .then(response => response.text())
-      .then(data => {
-        domains = data.trim().split('\n').filter(d => d.trim());
-        setTimeout(() => showPlayer('iframe', 'https://funplayer.eu/embed/wwe/smackdown/2026-06-05'), 500);
-      })
-      .catch(() => {
-        console.error('Failed to load domainsz29.txt');
-        showPlayer('iframe', 'https://funplayer.eu/embed/wwe/smackdown/2026-06-05');
-      });
-
-    function getRandomStream(streamPath, subdomain = '601') {
-      if (domains.length === 0) {
-        return `https://${subdomain}.shadow-ran.online/${streamPath}`;
-      }
-      const randomDomain = domains[Math.floor(Math.random() * domains.length)];
-      return `https://${subdomain}.${randomDomain}/${streamPath}`;
+function showPlayer(playerType, stream) {
+  if (playerType === "clappr") {
+    if (clapprPlayer) {
+      clapprPlayer.destroy();
     }
+    clapprPlayer = new Clappr.Player({
+      source: stream,
+      parentId: "#playerContainer",
+      height: '100%',
+      width: '100%',
+      autoPlay: true,
+    });
+  }
+}
 
-    function showPlayer(playerType, stream) {
-      const container = document.getElementById('playerContainer');
+window.onload = function() {
+        var toggleBtn = document.getElementById('toggleChat');
+        var chatContent = document.getElementById('chatContent');
 
-      if (clapprPlayer) {
-        clapprPlayer.destroy();
-        clapprPlayer = null;
-      }
+        if (toggleBtn) {
+            toggleBtn.onclick = function() {
+                if (currentChat === 'yt') {
+                    chatContent.innerHTML = '';
 
-      container.innerHTML = '';
+                    var script = document.createElement('script');
+                    script.id = 'cid0020000123456789012';
+                    script.async = true;
+                    script.src = 'https://st.chatango.com/js/gz/emb.js';
 
-      if (playerType === 'iframe') {
-        const iframe = document.createElement('iframe');
-        iframe.src = stream;
-        iframe.style.width = '100%';
-        iframe.style.height = '100%';
-        iframe.style.border = '0';
-        iframe.allow = 'autoplay; fullscreen; picture-in-picture';
-        iframe.loading = 'lazy';
-        container.appendChild(iframe);
-        return;
-      }
+                    var config = {
+                        handle: 'roxiestreams',
+                        arch: 'js',
+                        styles: {
+                            a: '1a1a1a',
+                            b: 100,
+                            c: 'ffffff',
+                            d: 'ffffff',
+                            e: '1a1a1a',
+                            f: '000000',
+                            g: 'ffffff',
+                            h: '000000',
+                            i: 100,
+                            j: 'ffffff',
+                            k: 'e573b5',
+                            l: '1a1a1a',
+                            m: 'ffffff',
+                            n: 'ffffff',
+                            q: '1a1a1a',
+                            r: 100,
+                            t: 0,
+                            v: 0,
+                            w: 0
+                        }
+                    };
 
-      if (playerType === 'clappr') {
-        clapprPlayer = new Clappr.Player({
-          source: stream,
-          parentId: '#playerContainer',
-          height: '100%',
-          width: '100%',
-          autoPlay: true,
-        });
-      }
-    }
-
-    window.onload = function() {
-      var toggleBtn = document.getElementById('toggleChat');
-      var chatContent = document.getElementById('chatContent');
-
-      if (toggleBtn && chatContent) {
-        toggleBtn.onclick = function() {
-          if (currentChat === 'yt') {
-            chatContent.innerHTML = '';
-            var script = document.createElement('script');
-            script.id = 'cid0020000123456789012';
-            script.async = true;
-            script.src = 'https://st.chatango.com/js/gz/emb.js';
-
-            var config = {
-              handle: 'roxiestreams',
-              arch: 'js',
-              styles: {
-                a: '1a1a1a', b: 100, c: 'ffffff', d: 'ffffff',
-                e: '1a1a1a', f: '000000', g: 'ffffff', h: '000000',
-                i: 100, j: 'ffffff', k: 'e573b5', l: '1a1a1a',
-                m: 'ffffff', n: 'ffffff', q: '1a1a1a', r: 100,
-                t: 0, v: 0, w: 0
-              }
+                    script.innerHTML = JSON.stringify(config);
+                    chatContent.appendChild(script);
+                    toggleBtn.innerText = 'Switch to YouTube';
+                    currentChat = 'chatango';
+                } else {
+                    chatContent.innerHTML = '<iframe src="https://www.youtube.com/live_chat?v=mpwfjhmyEzw&amp;embed_domain=roxiestreams.info"></iframe>';
+                    toggleBtn.innerText = 'Switch to Chatango';
+                    currentChat = 'yt';
+                }
             };
-
-            script.innerHTML = JSON.stringify(config);
-            chatContent.appendChild(script);
-            toggleBtn.innerText = 'Switch to YouTube';
-            currentChat = 'chatango';
-          } else {
-            chatContent.innerHTML = '<iframe loading="lazy" src="https://www.youtube.com/live_chat?v=mpwfjhmyEzw&embed_domain=roxiestreams.info"></iframe>';
-            toggleBtn.innerText = 'Switch to Chatango';
-            currentChat = 'yt';
-          }
-        };
-      }
+        }
     };
-  </script>
+</script>
+<script>
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
 
-  <script src="js/bootstrap.bundle.min.js"></script>
-  <script>
-    document.addEventListener('contextmenu', function (e) {
-      e.preventDefault();
-    });
-
-    document.addEventListener('keydown', function (e) {
-      if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) ||
-          (e.ctrlKey && e.shiftKey && e.key === 'J')) {
-        e.preventDefault();
-      }
-    });
-  </script>
-
-  <script>
-    aclib.runPop({
-      zoneId: '10754426',
-    });
-  </script>
-</body>
+        document.addEventListener('keydown', function (e) {
+            if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) ||
+                (e.ctrlKey && e.shiftKey && e.key === 'J')) {
+                e.preventDefault();
+            }
+        });
+    </script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+aclib.runPop({
+zoneId: '10754426',
+});
+</script></body>
 </html>
