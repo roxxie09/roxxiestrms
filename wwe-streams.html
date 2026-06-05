@@ -1,4 +1,4 @@
-n<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html data-bs-theme="dark" lang="en">
 <head>
@@ -137,56 +137,58 @@ n<!DOCTYPE html>
 <div class="fullplayer">
 <div id="playerContainer"></div>
 <div class="streamchanger">
-<button class="streambutton" onclick="showPlayer('clappr', getRandomStream('wwe.m3u8', '601'))">Stream 1</button>
+<div class="streamchanger">
+  <button class="streambutton" onclick="showPlayer('iframe', 'https://funplayer.eu/embed/wwe/smackdown/2026-06-05')">Stream 1</button>
+  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('wwe.m3u8', '601'))">Stream 2</button>
 </div>
-<div class="embedchat">
-<div class="chat-header">
-<span style="font-size: 10px; color: pink; font-weight: bold;">LIVE CHAT</span>
-<button class="chat-toggle-btn" id="toggleChat">Switch to Chatango</button>
-</div>
-<div id="chatContent">
-<iframe src="https://www.youtube.com/live_chat?v=mpwfjhmyEzw&amp;embed_domain=roxiestreams.info"></iframe>
-</div>
-</div>
-</div>
-</div>
-<footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-<ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
-<li class="nav-item"><a class="nav-link px-2 text-body-secondary" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
-</ul>
-<p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2026</p>
-</footer>
+
 <script>
 var clapprPlayer;
 var currentChat = 'yt';
 var domains = [];
-var subdomain = '601'  // Edit this per HTML file
+var subdomain = '601';
 
-// Load domains from txt file
 fetch('domainsz29.txt')
   .then(response => response.text())
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
-    // Auto-load initial stream after domains load
-    setTimeout(() => showPlayer('clappr', getRandomStream('wwe.m3u8')), 500);
+    setTimeout(() => showPlayer('iframe', 'https://funplayer.eu/embed/wwe/smackdown/2026-06-05'), 500);
   })
   .catch(() => {
     console.error('Failed to load domainsz29.txt');
+    showPlayer('iframe', 'https://funplayer.eu/embed/wwe/smackdown/2026-06-05');
   });
 
 function getRandomStream(streamPath, subdomain = '601') {
   if (domains.length === 0) {
-    return `https://${subdomain}.shadow-ran.online/${streamPath}`; // Fallback
+    return `https://${subdomain}.shadow-ran.online/${streamPath}`;
   }
   const randomDomain = domains[Math.floor(Math.random() * domains.length)];
   return `https://${subdomain}.${randomDomain}/${streamPath}`;
 }
 
 function showPlayer(playerType, stream) {
-  if (playerType === "clappr") {
-    if (clapprPlayer) {
-      clapprPlayer.destroy();
-    }
+  const container = document.getElementById('playerContainer');
+
+  if (clapprPlayer) {
+    clapprPlayer.destroy();
+    clapprPlayer = null;
+  }
+
+  container.innerHTML = '';
+
+  if (playerType === 'iframe') {
+    const iframe = document.createElement('iframe');
+    iframe.src = stream;
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = '0';
+    iframe.allow = 'autoplay; fullscreen; picture-in-picture';
+    container.appendChild(iframe);
+    return;
+  }
+
+  if (playerType === 'clappr') {
     clapprPlayer = new Clappr.Player({
       source: stream,
       parentId: "#playerContainer",
@@ -196,7 +198,7 @@ function showPlayer(playerType, stream) {
     });
   }
 }
-
+</script>
 window.onload = function() {
         var toggleBtn = document.getElementById('toggleChat');
         var chatContent = document.getElementById('chatContent');
