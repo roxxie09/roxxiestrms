@@ -148,7 +148,6 @@
             <div id="playerContainer"></div>
 	<div class="streamchanger">
 	  <button id="btn-stream-1" class="streambutton" onclick="playStream1()">Stream 1</button>
-<button class="streambutton" onclick="showPlayer('clappr', getRandomStream('nba.m3u8', '601'))">Stream 2</button>
 	  <button id="btn-stream-5" class="streambutton" onclick="playStream5()">PC ONLY US (DIRECT)</button>
 	</div>
             <div class="embedchat">
@@ -213,8 +212,8 @@ function getRandomStream(streamPath, subdomain = 'daffodil') {
   return `https://${subdomain}.${randomDomain}/${streamPath}`;
 }
 
-const dashStream = 'https://otte.cache.aiv-cdn.net/bom-nitro/live/clients/dash/enc/7janu55dwc/out/v1/69a2a7041395406b970598f61680e7cf/cenc.mpd';
-const dashKeys = {'a12a987fe725a40b6be95cd84b15f689': 'e51aa21f2a0fef9aabc120dfb655b52f'};
+const dashStream = 'https://live1-ott.izzigo.tv//out/u/dash/REY2/ABC-HD/default.mpd';
+const dashKeys = {'f983c348e6bff5a52c39c249dcb9098f': '4333764048f11ff107d0c08ad775636e'};
 
 function playStream1() {
   if (isDesktop()) {
