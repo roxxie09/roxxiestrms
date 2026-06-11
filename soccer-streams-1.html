@@ -143,7 +143,7 @@
 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tele.m3u8', 'daffodil'))">TELEMUNDO</button>
 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fox.m3u8', 'daffodil'))">FOX</button>
 	  <button id="btn-stream-5" class="streambutton" onclick="playStream5()">PC ONLY US (DIRECT)</button>
-	  <button class="streambutton" onclick="playMXIPDirect()">MX IP ONLY (DIRECT)</button>
+	  <button class="streambutton" onclick="playMXIPDirect()">Tele (Peacock)</button>
 	</div>
             <div class="embedchat">
                 <div class="chat-header">
@@ -172,8 +172,8 @@ var shakaUI;
 var domains = [];
 var subdomain = '601';  // Edit this per HTML file
 
-const mxDirectStream = 'https://dish.akamaized.net/Content/DASH/Live/channel(aztecadeporteshd)/variant.mpd?ck=eyJlNDU5MTQyYzQyNmMzN2ExNjMyMjk2OWE1ZGRjYmNhYiI6IjYyYjAwYWI5OTQ0NGFlNTY2YjI2MWRlMWEzNDcyNzAwIn0%3D';
-const mxDirectKeys = {'e459142c426c37a16322969a5ddcbcab': '62b00ab99444ae566b261de1a3472700'};
+const mxDirectStream = 'https://g003-sle-us-cmaf-prd-fy.cdn.peacocktv.com/pck-sle/us-west-2/v1/dash/6f3f45fea6332a47667932dede90d20a96f2690c/peacock-dash-sle-4s-generic-cfd/co01/pcksle2/Content/CMAF_CTR-4s-v2/Live/channel(5021104-722962-4911129d412)/master_2hr.mpd?c3.ri=6a2b0450_Q1ZYMDc_1_RkFTVExZ_f10fe37577d7%3A0&aws.sessionId=4bfab5e4-c69b-4f2e-b329-5157e0fcb0c0&ck=eyIwMDIyN2NlNTMyMjY5OWQ5NGM5YjRlNGY3NTdhZmM5YyI6IjQwYzcxYmM2M2U0NGQ3M2MyYTc3Zjk5OGM3MmNhYTUzIn0%3D';
+const mxDirectKeys = {'40c71bc63e44d73c2a77f998c72caa53': '00227ce5322699d94c9b4e4f757afc9c'};
 
 function isDesktop() {
   return !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
