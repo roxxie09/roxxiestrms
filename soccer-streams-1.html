@@ -142,6 +142,7 @@
 	  <button id="btn-stream-1" class="streambutton" onclick="playStream1()">TSN</button>
 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tele.m3u8', 'daffodil'))">TELEMUNDO</button>
 	  <button id="btn-stream-5" class="streambutton" onclick="playStream5()">PC ONLY US (DIRECT)</button>
+	  <button class="streambutton" onclick="playMXIPDirect()">MX IP ONLY (DIRECT)</button>
 	</div>
             <div class="embedchat">
                 <div class="chat-header">
@@ -169,6 +170,10 @@ var shakaPlayer;
 var shakaUI;
 var domains = [];
 var subdomain = '601';  // Edit this per HTML file
+
+// MX IP ONLY (DIRECT) stream config
+const mxDirectStream = 'https://dish.akamaized.net/Content/DASH/Live/channel(aztecadeporteshd)/variant.mpd?ck=eyJlNDU5MTQyYzQyNmMzN2ExNjMyMjk2OWE1ZGRjYmNhYiI6IjYyYjAwYWI5OTQ0NGFlNTY2YjI2MWRlMWEzNDcyNzAwIn0%3D';
+const mxDirectKeys = {'e459142c426c37a16322969a5ddcbcab': '62b00ab99444ae566b261de1a3472700'};
 
 function isDesktop() {
   return !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
@@ -222,6 +227,11 @@ function playStream5() {
   } else {
     showPlayer('clappr', dashStream, dashKeys);
   }
+}
+
+// MX IP ONLY (DIRECT) — always plays the MX DASH stream regardless of device
+function playMXIPDirect() {
+  showPlayer('clappr', mxDirectStream, mxDirectKeys);
 }
 
 async function initShaka(container, video, stream, drmConfig) {
