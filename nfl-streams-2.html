@@ -207,6 +207,10 @@ function showPlayer(playerType, stream) {
       height: '100%',
       width: '100%',
       autoPlay: true,
+      playback: {
+        playInline: true,
+        recycleVideo: true
+      },
     });
   }
 }
@@ -280,6 +284,10 @@ function showTSN() {
     height: "100%",
     width: "100%",
     autoPlay: true,
+    playback: {
+      playInline: true,
+      recycleVideo: true
+    },
   });
 }
 
