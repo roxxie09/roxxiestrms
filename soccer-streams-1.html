@@ -14,6 +14,28 @@
     <link rel="stylesheet" type="text/css" href="css/main2.css">
     <link href="/css/buttons.css" rel="stylesheet">
 <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
+<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
+    <!-- Shaka >= 4.16.14 calls Map.getOrInsertComputed, which only exists in very
+         new browsers. Polyfill it BEFORE Shaka/Clappr load so older browsers work. -->
+    <script>
+      (function () {
+        function def(name, fn) {
+          if (!Map.prototype[name]) {
+            Object.defineProperty(Map.prototype, name, {
+              value: fn, writable: true, configurable: true, enumerable: false
+            });
+          }
+        }
+        def('getOrInsert', function (key, d) {
+          if (!this.has(key)) this.set(key, d);
+          return this.get(key);
+        });
+        def('getOrInsertComputed', function (key, cb) {
+          if (!this.has(key)) this.set(key, cb(key));
+          return this.get(key);
+        });
+      })();
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dash-shaka-playback@latest/dist/dash-shaka-playback.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/clappr-level-selector-plugin@latest/dist/level-selector.min.js"></script>
@@ -423,5 +445,10 @@ window.onload = function() {
     </script>
     <script src="js/bootstrap.bundle.min.js"></script>
 
+<script type="text/javascript">
+aclib.runPop({
+zoneId: '10754426',
+});
+</script>
 </body>
 </html>
