@@ -199,19 +199,14 @@ fetch('domainsz29.txt')
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
     
-    // Desktop: restore the old swap — PC ONLY becomes the prominent first
-    // button and TSN moves to where PC ONLY was. Each button keeps its own
-    // inline onclick; we only move the elements and adjust the label.
+    // Desktop: move PC ONLY to the front so it's the first button; every other
+    // button just shifts down one. Each button keeps its own inline onclick;
+    // we only move the element and adjust the label. (Mobile is left as-is.)
     if (isDesktop()) {
-      const tsnBtn = document.getElementById('btn-tsn');
       const pcBtn = document.getElementById('btn-pconly');
-      if (tsnBtn && pcBtn) {
-        const marker = document.createComment('');
-        tsnBtn.parentNode.insertBefore(marker, tsnBtn); // remember TSN's spot
-        pcBtn.parentNode.insertBefore(tsnBtn, pcBtn);    // TSN -> PC ONLY's spot
-        marker.parentNode.insertBefore(pcBtn, marker);   // PC ONLY -> TSN's spot
-        marker.remove();
-        pcBtn.innerText = 'PC ONLY (DIRECT)';            // desktop label
+      if (pcBtn && pcBtn.parentNode) {
+        pcBtn.parentNode.insertBefore(pcBtn, pcBtn.parentNode.firstElementChild);
+        pcBtn.innerText = 'PC ONLY (DIRECT)'; // desktop label
       }
     }
 
