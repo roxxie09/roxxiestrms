@@ -255,10 +255,9 @@ function playMXIPDirect() {
 
 // NEW Function: Play TSN using JW Player iframe
 function playTSNJWPlayer() {
-  // Hide Clappr/Shaka, show JW Player iframe
   const container = document.getElementById('playerContainer');
-  
-  // Hide existing players
+
+  // Tear down any active Clappr/Shaka player
   if (clapprPlayer) {
     clapprPlayer.destroy();
     clapprPlayer = null;
@@ -271,12 +270,19 @@ function playTSNJWPlayer() {
     shakaUI.destroy();
     shakaUI = null;
   }
-  
-  // Show JW Player iframe
-  const iframe = document.getElementById('jwplayer-iframe');
-  if (iframe) {
-    iframe.style.display = 'block';
+
+  // showPlayer() runs container.innerHTML = '', which deletes the iframe.
+  // So if it's missing, rebuild it instead of assuming it still exists.
+  let iframe = document.getElementById('jwplayer-iframe');
+  if (!iframe) {
+    container.innerHTML = '';                 // clear any leftover player nodes
+    iframe = document.createElement('iframe');
+    iframe.id = 'jwplayer-iframe';
+    iframe.src = 'https://roxiestreams.info/raw/tsn.html';
+    iframe.allowFullscreen = true;
+    container.appendChild(iframe);
   }
+  iframe.style.display = 'block';
 }
 
 async function initShaka(container, video, stream, drmConfig) {
