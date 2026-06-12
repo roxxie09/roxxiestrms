@@ -250,11 +250,12 @@ function playStream5() {
 }
 
 function playMXIPDirect() {
-  showPlayer('clappr', mxDirectStream, mxDirectKeys);
+  playIframePlayer('https://roxiestreams.info/raw/events1.html');
 }
 
-// NEW Function: Play TSN using JW Player iframe
-function playTSNJWPlayer() {
+// Generic embed player: loads a self-contained player page into the iframe.
+// Used by both TSN (tsn.html) and Peacock (events1.html).
+function playIframePlayer(src) {
   const container = document.getElementById('playerContainer');
 
   // Tear down any active Clappr/Shaka player
@@ -278,11 +279,19 @@ function playTSNJWPlayer() {
     container.innerHTML = '';                 // clear any leftover player nodes
     iframe = document.createElement('iframe');
     iframe.id = 'jwplayer-iframe';
-    iframe.src = 'https://roxiestreams.info/raw/tsn.html';
     iframe.allowFullscreen = true;
     container.appendChild(iframe);
   }
+  // Only (re)load if the src actually changed, to avoid a needless restart
+  if (iframe.src !== src) {
+    iframe.src = src;
+  }
   iframe.style.display = 'block';
+}
+
+// TSN uses the same generic embed player
+function playTSNJWPlayer() {
+  playIframePlayer('https://roxiestreams.info/raw/tsn.html');
 }
 
 async function initShaka(container, video, stream, drmConfig) {
