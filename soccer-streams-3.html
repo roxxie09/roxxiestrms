@@ -26,20 +26,20 @@ gtag('js', new Date());
 gtag('config', 'G-EQ3BHVQGMN');
 </script>
 <style>
-.navbar-brand { color: pink; font-size: 1.3rem; text-decoration: none; margin-top: -3px; font-family: 'Kanit', sans-serif; font-weight: bold; }
-.navbar-brand:hover { text-decoration: underline; }
-.navbar-nav .nav-link { padding-left: 5px; padding-right: 5px; }
-.fullplayer { display: flex; justify-content: center; position: relative; height: 80vh; margin-top: 50px; }
-#playerContainer { width: 100%; height: 100%; position: relative; background: #000; overflow: hidden; }
-.embedchat { width: 30%; height: 100%; display: flex; flex-direction: column; margin-left: 10px; border: 1px solid rgba(255, 192, 203, 0.2); border-radius: 8px; overflow: hidden; }
-.chat-header { padding: 8px; background: #1a1a1a; border-bottom: 1px solid rgba(255, 192, 203, 0.1); display: flex; justify-content: space-between; align-items: center; }
-.chat-toggle-btn { background: rgba(255, 192, 203, 0.1); border: 1px solid rgba(255, 192, 203, 0.3); color: pink; font-size: 10px; padding: 2px 8px; border-radius: 4px; cursor: pointer; text-transform: uppercase; font-weight: bold; }
-.chat-toggle-btn:hover { background: rgba(255, 192, 203, 0.2); }
-#chatContent { flex: 1; width: 100%; height: 100%; }
-#chatContent iframe { width: 100%; height: 100%; border: none; }
-.streamchanger { position: absolute; top: -40px; left: 10px; display: flex; gap: 10px; }
-[data-shaka-player-container] { width: 100% !important; height: 100% !important; background: #000; }
-#tsn-frame { width: 100%; height: 100%; border: none; display: block; }
+    .navbar-brand { color: pink; font-size: 1.3rem; text-decoration: none; margin-top: -3px; font-family: 'Kanit', sans-serif; font-weight: bold; }
+    .navbar-brand:hover { text-decoration: underline; }
+    .navbar-nav .nav-link { padding-left: 5px; padding-right: 5px; }
+    .fullplayer { display: flex; justify-content: center; position: relative; height: 80vh; margin-top: 50px; }
+    #playerContainer { width: 100%; height: 100%; position: relative; background: #000; overflow: hidden; }
+    .embedchat { width: 30%; height: 100%; display: flex; flex-direction: column; margin-left: 10px; border: 1px solid rgba(255, 192, 203, 0.2); border-radius: 8px; overflow: hidden; }
+    .chat-header { padding: 8px; background: #1a1a1a; border-bottom: 1px solid rgba(255, 192, 203, 0.1); display: flex; justify-content: space-between; align-items: center; }
+    .chat-toggle-btn { background: rgba(255, 192, 203, 0.1); border: 1px solid rgba(255, 192, 203, 0.3); color: pink; font-size: 10px; padding: 2px 8px; border-radius: 4px; cursor: pointer; text-transform: uppercase; font-weight: bold; }
+    .chat-toggle-btn:hover { background: rgba(255, 192, 203, 0.2); }
+    #chatContent { flex: 1; width: 100%; height: 100%; }
+    #chatContent iframe { width: 100%; height: 100%; border: none; }
+    .streamchanger { position: absolute; top: -40px; left: 10px; display: flex; gap: 10px; }
+    [data-shaka-player-container] { width: 100% !important; height: 100% !important; background: #000; }
+    #tsn-frame { width: 100%; height: 100%; border: none; display: block; }
 </style>
 </head>
 <body>
@@ -63,6 +63,7 @@ gtag('config', 'G-EQ3BHVQGMN');
     </div>
   </div>
 </nav>
+
 <div class="container container-fluid pt-2 text-white">
   <div class="fullplayer">
     <div id="playerContainer"></div>
@@ -84,12 +85,14 @@ gtag('config', 'G-EQ3BHVQGMN');
     </div>
   </div>
 </div>
+
 <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
   <ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
     <li class="nav-item"><a href="https://discord.gg/JhkVmejRmn" class="nav-link px-2 text-body-secondary">Stream Request (Discord)</a></li>
   </ul>
   <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2026</p>
 </footer>
+
 <script>
 var clapprPlayer;
 var currentChat = 'yt';
@@ -97,24 +100,202 @@ var shakaPlayer;
 var shakaUI;
 var domains = [];
 var subdomain = '601';
+
 const mxDirectStream = 'https://g003-sle-us-cmaf-prd-ns.prd.pck.netskrt.net/pck-sle/us-west-2/v1/dash/6f3f45fea6332a47667932dede90d20a96f2690c/peacock-dash-sle-4s-generic-cfd/co01/pcksle2/Content/CMAF_CTR-4s-v2/Live/channel(5021371-723229-4912113eddd)/master_2hr.mpd?c3.ri=6a2b5aba_Q1ZYMDc_0_TkVUU0tSVA_bfd531c5a572%3A0&aws.sessionId=65b31741-d6c2-467b-b95a-cb9f5d2a60de&ck=eyIwMDIyNmM1ZTQyNThkNjA5Njg4ZDdhNjExZDhjZmFlYiI6IjcwZDk5ZWYzN2M5OTA1MTIxYzc5MDNlY2M4MWE2ODk2In0%3D';
 const mxDirectKeys = {'00226c5e4258d609688d7a611d8cfaeb': '70d99ef37c9905121c7903ecc81a6896'};
 const dashStream = 'https://otte.cache.aiv-cdn.net/bom-nitro/live/clients/dash/enc/7janu55dwc/out/v1/69a2a7041395406b970598f61680e7cf/cenc.mpd';
 const dashKeys = {'e51aa21f2a0fef9aabc120dfb655b52f': 'a12a987fe725a40b6be95cd84b15f689'};
-function isDesktop() { return !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)); }
-function clearPlayers() { if (clapprPlayer) { clapprPlayer.destroy(); clapprPlayer = null; } if (shakaPlayer) { shakaPlayer.destroy(); shakaPlayer = null; } if (shakaUI) { shakaUI.destroy(); shakaUI = null; } var c = document.getElementById('playerContainer'); if (c) c.innerHTML = ''; }
-function getRandomStream(streamPath, subdomain = '601') { if (domains.length === 0) return 'https://' + subdomain + '.shadow-ran.online/' + streamPath; const randomDomain = domains[Math.floor(Math.random() * domains.length)]; return 'https://' + subdomain + '.' + randomDomain + '/' + streamPath; }
-function showTSNFrame() { clearPlayers(); var container = document.getElementById('playerContainer'); var iframe = document.createElement('iframe'); iframe.id = 'tsn-frame'; iframe.src = 'https://roxiestreams.info/raw/tsn.html?ts=' + Date.now(); iframe.allowFullscreen = true; iframe.style.width = '100%'; iframe.style.height = '100%'; iframe.style.border = 'none'; iframe.style.display = 'block'; container.appendChild(iframe); }
-function playStream1() { if (isDesktop()) { showTSNFrame(); } else { showPlayer('clappr', getRandomStream('tsn.m3u8', '601')); } }
-function playStream5() { if (isDesktop()) { showPlayer('clappr', getRandomStream('tsn.m3u8', '601')); } else { showPlayer('clappr', dashStream, dashKeys); } }
-function playMXIPDirect() { showPlayer('clappr', mxDirectStream, mxDirectKeys); }
-async function initShaka(container, video, stream, drmConfig) { const player = new shaka.Player(video); const ui = new shaka.ui.Overlay(player, container, video); player.configure({ drm: { clearKeys: drmConfig || {} } }); try { await player.load(stream); } catch (e) { console.error('Error code', e.code, 'object', e); } return { player, ui }; }
-function showPlayer(playerType, stream, drmConfig) { clearPlayers(); const container = document.getElementById('playerContainer'); if (stream.includes('.mpd')) { const videoWrapper = document.createElement('div'); videoWrapper.setAttribute('data-shaka-player-container', ''); videoWrapper.style.width = '100%'; videoWrapper.style.height = '100%'; const video = document.createElement('video'); video.setAttribute('data-shaka-player', ''); video.id = 'shaka-video'; video.style.width = '100%'; video.style.height = '100%'; video.autoplay = true; videoWrapper.appendChild(video); container.appendChild(videoWrapper); initShaka(videoWrapper, video, stream, drmConfig).then(res => { shakaPlayer = res.player; shakaUI = res.ui; }); return; } if (playerType === 'clappr') { clapprPlayer = new Clappr.Player({ source: stream, parentId: '#playerContainer', height: '100%', width: '100%', autoPlay: true, plugins: [window.DashShakaPlayback, window.LevelSelector].filter(Boolean), levelSelectorConfig: { title: 'Quality', labels: { 2: 'High', 1: 'Medium', 0: 'Low' }, labelCallback: function(playbackLevel, customLabel) { return customLabel || playbackLevel.level.height + 'p'; } }, shakaConfiguration: { drm: { clearKeys: drmConfig || {} } } }); } }
-window.onload = function() { var toggleBtn = document.getElementById('toggleChat'); var chatContent = document.getElementById('chatContent'); if (toggleBtn) { toggleBtn.onclick = function() { if (currentChat === 'yt') { chatContent.innerHTML = ''; var script = document.createElement('script'); script.id = 'cid0020000123456789012'; script.async = true; script.src = 'https://st.chatango.com/js/gz/emb.js'; var config = { handle: 'roxiestreams', arch: 'js', styles: { a: '1a1a1a', b: 100, c: 'ffffff', d: 'ffffff', e: '1a1a1a', f: '000000', g: 'ffffff', h: '000000', i: 100, j: 'ffffff', k: 'e573b5', l: '1a1a1a', m: 'ffffff', n: 'ffffff', q: '1a1a1a', r: 100, t: 0, v: 0, w: 0 } }; script.innerHTML = JSON.stringify(config); chatContent.appendChild(script); toggleBtn.innerText = 'Switch to YouTube'; currentChat = 'chatango'; } else { chatContent.innerHTML = '<iframe src="https://www.youtube.com/live_chat?v=mpwfjhmyEzw&amp;embed_domain=roxiestreams.info"></iframe>'; toggleBtn.innerText = 'Switch to Chatango'; currentChat = 'yt'; } }; } };
+
+function isDesktop() {
+  return !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+}
+
+function clearPlayers() {
+  if (clapprPlayer) {
+    clapprPlayer.destroy();
+    clapprPlayer = null;
+  }
+  if (shakaPlayer) {
+    shakaPlayer.destroy();
+    shakaPlayer = null;
+  }
+  if (shakaUI) {
+    shakaUI.destroy();
+    shakaUI = null;
+  }
+  var c = document.getElementById('playerContainer');
+  if (c) c.innerHTML = '';
+}
+
+function getRandomStream(streamPath, subdomain = '601') {
+  if (domains.length === 0) {
+    return 'https://' + subdomain + '.shadow-ran.online/' + streamPath;
+  }
+  const randomDomain = domains[Math.floor(Math.random() * domains.length)];
+  return 'https://' + subdomain + '.' + randomDomain + '/' + streamPath;
+}
+
+function showTSNFrame() {
+  clearPlayers();
+  var container = document.getElementById('playerContainer');
+  var iframe = document.createElement('iframe');
+  iframe.id = 'tsn-frame';
+  iframe.src = 'https://roxiestreams.info/raw/tsn.html?ts=' + Date.now();
+  iframe.style.width = '100%';
+  iframe.style.height = '100%';
+  iframe.style.border = 'none';
+  iframe.allowFullscreen = true;
+  container.appendChild(iframe);
+}
+
+function playStream1() {
+  if (isDesktop()) {
+    showTSNFrame();
+  } else {
+    showPlayer('clappr', getRandomStream('tsn.m3u8', '601'));
+  }
+}
+
+function playStream5() {
+  if (isDesktop()) {
+    showPlayer('clappr', getRandomStream('tsn.m3u8', '601'));
+  } else {
+    showPlayer('clappr', dashStream, dashKeys);
+  }
+}
+
+function playMXIPDirect() {
+  showPlayer('clappr', mxDirectStream, mxDirectKeys);
+}
+
+async function initShaka(container, video, stream, drmConfig) {
+  const player = new shaka.Player(video);
+  const ui = new shaka.ui.Overlay(player, container, video);
+  player.configure({
+    drm: {
+      clearKeys: drmConfig || {}
+    }
+  });
+  try {
+    await player.load(stream);
+  } catch (e) {
+    console.error('Error code', e.code, 'object', e);
+  }
+  return { player, ui };
+}
+
+function showPlayer(playerType, stream, drmConfig) {
+  clearPlayers();
+  const container = document.getElementById('playerContainer');
+
+  if (stream.includes('.mpd')) {
+    const videoWrapper = document.createElement('div');
+    videoWrapper.setAttribute('data-shaka-player-container', '');
+    videoWrapper.style.width = '100%';
+    videoWrapper.style.height = '100%';
+
+    const video = document.createElement('video');
+    video.setAttribute('data-shaka-player', '');
+    video.id = 'shaka-video';
+    video.style.width = '100%';
+    video.style.height = '100%';
+    video.autoplay = true;
+
+    videoWrapper.appendChild(video);
+    container.appendChild(videoWrapper);
+
+    initShaka(videoWrapper, video, stream, drmConfig).then(res => {
+      shakaPlayer = res.player;
+      shakaUI = res.ui;
+    });
+    return;
+  }
+
+  if (playerType === 'clappr') {
+    clapprPlayer = new Clappr.Player({
+      source: stream,
+      parentId: '#playerContainer',
+      height: '100%',
+      width: '100%',
+      autoPlay: true,
+      plugins: [window.DashShakaPlayback, window.LevelSelector].filter(Boolean),
+      levelSelectorConfig: {
+        title: 'Quality',
+        labels: { 2: 'High', 1: 'Medium', 0: 'Low' },
+        labelCallback: function(playbackLevel, customLabel) {
+          return customLabel || playbackLevel.level.height + 'p';
+        }
+      },
+      shakaConfiguration: {
+        drm: {
+          clearKeys: drmConfig || {}
+        }
+      }
+    });
+  }
+}
+<script>
+window.onload = function() {
+  var toggleBtn = document.getElementById('toggleChat');
+  var chatContent = document.getElementById('chatContent');
+
+  if (toggleBtn) {
+    toggleBtn.onclick = function() {
+      if (currentChat === 'yt') {
+        chatContent.innerHTML = '';
+        var script = document.createElement('script');
+        script.id = 'cid0020000123456789012';
+        script.async = true;
+        script.src = 'https://st.chatango.com/js/gz/emb.js';
+        var config = {
+          handle: 'roxiestreams',
+          arch: 'js',
+          styles: {
+            a: '1a1a1a',
+            b: 100,
+            c: 'ffffff',
+            d: 'ffffff',
+            e: '1a1a1a',
+            f: '000000',
+            g: 'ffffff',
+            h: '000000',
+            i: 100,
+            j: 'ffffff',
+            k: 'e573b5',
+            l: '1a1a1a',
+            m: 'ffffff',
+            n: 'ffffff',
+            q: '1a1a1a',
+            r: 100,
+            t: 0,
+            v: 0,
+            w: 0
+          }
+        };
+        script.innerHTML = JSON.stringify(config);
+        chatContent.appendChild(script);
+        toggleBtn.innerText = 'Switch to YouTube';
+        currentChat = 'chatango';
+      } else {
+        chatContent.innerHTML = '<iframe src="https://www.youtube.com/live_chat?v=mpwfjhmyEzw&amp;embed_domain=roxiestreams.info"></iframe>';
+        toggleBtn.innerText = 'Switch to Chatango';
+        currentChat = 'yt';
+      }
+    };
+  }
+};
+
 document.addEventListener('contextmenu', function (e) { e.preventDefault(); });
-document.addEventListener('keydown', function (e) { if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) || (e.ctrlKey && e.shiftKey && e.key === 'J')) { e.preventDefault(); } });
+document.addEventListener('keydown', function (e) {
+  if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) ||
+      (e.ctrlKey && e.shiftKey && e.key === 'J')) {
+    e.preventDefault();
+  }
+});
 </script>
-<script src="js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript">aclib.runPop({ zoneId: '10754426' });</script>
+<script src="js/bootstrap.bundle.min.js">
+</script>
+<script type="text/javascript">aclib.runPop({ zoneId: '10754426' });
+</script>
 </body>
 </html>
