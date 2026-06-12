@@ -136,7 +136,6 @@
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nfl">NFL</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nhl">NHL</a></li>
-
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
@@ -155,9 +154,9 @@
 
             <div class="streamchanger">
                 <button id="btn-tsn" class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', '601'))">TSN</button>
+                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fox.m3u8', 'daffodil'))">FOX</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tele.m3u8', 'daffodil'))">TELEMUNDO</button>
-                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fox.m3u8', '601'))">FOX</button>
-                <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/tsn.html')">PC ONLY (DIRECT)</button>
+                <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/tsn')">PC ONLY (DIRECT)</button>
                 <button class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/events1')">Tele (Peacock)</button>
             </div>
             <div class="embedchat">
@@ -191,14 +190,12 @@ function isDesktop() {
   return !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
 }
 
+// Load domains from txt file
 fetch('domainsz29.txt')
   .then(response => response.text())
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
     
-    // Desktop: move PC ONLY to the front so it's the first button; every other
-    // button just shifts down one. Each button keeps its own inline onclick;
-    // we only move the element and adjust the label. (Mobile is left as-is.)
     if (isDesktop()) {
       const pcBtn = document.getElementById('btn-pconly');
       if (pcBtn && pcBtn.parentNode) {
@@ -209,8 +206,10 @@ fetch('domainsz29.txt')
 
     setTimeout(() => {
       if (isDesktop()) {
+        // Desktop default: PC ONLY embed
         playIframePlayer('https://roxiestreams.info/raw/tsn');
       } else {
+        // Mobile default: TSN m3u8
         showPlayer('clappr', getRandomStream('tsn.m3u8', '601'));
       }
     }, 500);
