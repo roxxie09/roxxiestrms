@@ -205,6 +205,10 @@ function showPlayer(playerType, stream) {
       height: '100%',
       width: '100%',
       autoPlay: true,
+      playback: {
+        playInline: true,
+        recycleVideo: true
+      },
       plugins: [LevelSelector]
     });
   } else if (playerType === "clappr") {
@@ -214,7 +218,11 @@ function showPlayer(playerType, stream) {
       parentId: "#playerContainer",
       height: '100%',
       width: '100%',
-      autoPlay: true
+      autoPlay: true,
+      playback: {
+        playInline: true,
+        recycleVideo: true
+      },
     });
   }
 }
