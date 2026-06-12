@@ -131,6 +131,7 @@
             height: 100% !important;
         }
         
+        /* Stream 1 PC iframe sizing - matches other players */
         #stream1pc-iframe {
             width: 100% !important;
             height: 100% !important;
@@ -160,6 +161,16 @@
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
                 </ul>
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-1" href="https://roxiestreams.info/multiview">
+                            <svg fill="currentColor" height="16" viewbox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0 1.5A1.5 1.5 0 0 1 1.5 0h13A1.5 1.5 0 0 1 16 1.5v13a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13zM1.5 1a.5.5 0 0 0-.5.5V7h6V1H1.5zM7 8H1v6.5a.5.5 0 0 0 .5.5H7V8zm1 0v7h6.5a.5.5 0 0 0 .5-.5V8H8zm0-1h7V1.5a.5.5 0 0 0-.5-.5H8v6z"></path>
+                            </svg>
+                            MultiView (NEW)
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -177,7 +188,7 @@
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fox.m3u8', 'daffodil'))">FOX</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tele.m3u8', 'daffodil'))">TELEMUNDO</button>
                 <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/tsn')">PC ONLY (DIRECT)</button>
-                <button class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/peacock')">Telemundo (PC)</button>
+                <button class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/peacock')">Tele (Peacock)</button>
             </div>
             <div class="embedchat">
                 <div class="chat-header">
@@ -216,9 +227,6 @@ fetch('domainsz29.txt')
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
     
-    // Desktop: move PC ONLY to the front so it's the first button; every other
-    // button just shifts down one. Each button keeps its own inline onclick;
-    // we only move the element and adjust the label. (Mobile is left as-is.)
     if (isDesktop()) {
       const pcBtn = document.getElementById('btn-pconly');
       if (pcBtn && pcBtn.parentNode) {
@@ -229,10 +237,8 @@ fetch('domainsz29.txt')
 
     setTimeout(() => {
       if (isDesktop()) {
-        // Desktop default: PC ONLY embed
         playIframePlayer('https://roxiestreams.info/raw/tsn');
       } else {
-        // Mobile default: TSN m3u8
         showPlayer('clappr', getRandomStream('tsn.m3u8', '601'));
       }
     }, 500);
@@ -297,6 +303,7 @@ async function initShaka(container, video, stream, drmConfig) {
 function showPlayer(playerType, stream, drmConfig) {
   const container = document.getElementById('playerContainer');
   
+  // Clean up existing players
   if (clapprPlayer) {
     clapprPlayer.destroy();
     clapprPlayer = null;
@@ -311,6 +318,7 @@ function showPlayer(playerType, stream, drmConfig) {
   }
   container.innerHTML = '';
 
+  // For Stream 5 (DASH with ClearKey), use Shaka Player directly for better UI/Quality support
   if (stream.includes('.mpd')) {
     const videoWrapper = document.createElement('div');
     videoWrapper.setAttribute('data-shaka-player-container', '');
