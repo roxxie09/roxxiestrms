@@ -338,6 +338,10 @@ function showPlayer(playerType, stream, drmConfig) {
       height: '100%',
       width: '100%',
       autoPlay: true,
+      playback: {
+        playInline: true,
+        recycleVideo: true
+      },
       plugins: [window.DashShakaPlayback, window.LevelSelector].filter(Boolean),
       levelSelectorConfig: {
         title: 'Quality',
@@ -360,29 +364,6 @@ function showPlayer(playerType, stream, drmConfig) {
 }
 
 window.onload = function() {
-        // --- Mobile fullscreen fix for Clappr ---
-        // On iOS, Clappr's fullscreen button calls the Fullscreen API on its
-        // container <div>, which iOS doesn't support (only <video> can go
-        // fullscreen). So on mobile we intercept the button and trigger the
-        // video element's native fullscreen instead. #playerContainer persists
-        // across stream switches, so this one delegated listener covers every
-        // Clappr player we create. On Android (no webkitEnterFullscreen) we do
-        // nothing and let Clappr's normal handler run.
-        var pc = document.getElementById('playerContainer');
-        if (pc) {
-            pc.addEventListener('click', function(e) {
-                if (isDesktop()) return;
-                var fsBtn = e.target.closest('[data-fullscreen]');
-                if (!fsBtn) return;
-                var video = pc.querySelector('video');
-                if (video && typeof video.webkitEnterFullscreen === 'function') {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    try { video.webkitEnterFullscreen(); } catch (err) {}
-                }
-            }, true); // capture phase: run before Clappr's own (broken) handler
-        }
-
         var toggleBtn = document.getElementById('toggleChat');
         var chatContent = document.getElementById('chatContent');
 
@@ -448,5 +429,11 @@ window.onload = function() {
         });
     </script>
     <script src="js/bootstrap.bundle.min.js"></script>
+
+<script type="text/javascript">
+aclib.runPop({
+zoneId: '10754426',
+});
+</script>
 </body>
 </html>
