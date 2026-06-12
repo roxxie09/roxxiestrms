@@ -171,15 +171,35 @@ var currentChat = 'yt';
         }
 
         function goFullscreen() {
-            var video = document.querySelector('#playerContainer video');
+            // Grab the newest video element (after a stream switch there may
+            // briefly be a stale one; the last one is the current player).
+            var vids = document.querySelectorAll('#playerContainer video');
+            var video = vids[vids.length - 1];
             if (!video) return;
-            // iOS Safari: the only thing that works
-            if (typeof video.webkitEnterFullscreen === 'function') {
-                try { video.webkitEnterFullscreen(); return; } catch (e) {}
+
+            // iOS blocks autoplay, so a freshly-switched stream is paused and
+            // has never played — and iOS refuses webkitEnterFullscreen() on a
+            // video that hasn't started. So start playback inside this tap
+            // gesture first, then enter fullscreen.
+            try {
+                var pr = video.play();
+                if (pr && pr.catch) pr.catch(function () {});
+            } catch (e) {}
+
+            var enter = function () {
+                if (typeof video.webkitEnterFullscreen === 'function') {
+                    try { video.webkitEnterFullscreen(); return; } catch (e) {}
+                }
+                if (video.requestFullscreen) video.requestFullscreen();
+                else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
+            };
+
+            // webkitEnterFullscreen needs at least metadata loaded
+            if (video.readyState >= 1) {
+                enter();
+            } else {
+                video.addEventListener('loadedmetadata', enter, { once: true });
             }
-            // Fallbacks for everything else
-            if (video.requestFullscreen) video.requestFullscreen();
-            else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
         }
 
         function addFullscreenButton() {
@@ -294,6 +314,5 @@ window.onload = function() {
             }
         });
     </script>
-<script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
