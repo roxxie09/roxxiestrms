@@ -137,7 +137,8 @@
 <div class="fullplayer">
 <div id="playerContainer"></div>
 <div class="streamchanger">
-<button class="streambutton" onclick="showPlayer('clappr', 'https://601.formaturamaxi.com.br/mlb3.m3u8')">Stream 1</button>
+<button class="streambutton" onclick="showPlayer('clappr', 'https://601.formaturamaxi.com.br/mlb6.m3u8')">Stream 1</button>
+<button class="streambutton" onclick="showPlayer('clappr', 'https://601.formaturamaxi.com.br/mlb6.m3u8')">Stream 2</button>
 </div>
 <div class="embedchat">
 <div class="chat-header">
@@ -160,6 +161,82 @@
         var clapprPlayer;
 var currentChat = 'yt';
 
+        // --- iOS fullscreen support ---
+        // iPhone Safari only allows fullscreen via the <video> element's
+        // webkitEnterFullscreen() call — the standard Fullscreen API on a
+        // container <div> (what Clappr's own button uses) does nothing on iOS.
+        // So on iOS we add our own button that calls it directly on the video.
+        function isiOS() {
+            return /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+                   (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        }
+
+        function goFullscreen() {
+            // Grab the newest video element (after a stream switch there may
+            // briefly be a stale one; the last one is the current player).
+            var vids = document.querySelectorAll('#playerContainer video');
+            var video = vids[vids.length - 1];
+            if (!video) return;
+
+            // iOS blocks autoplay, so a freshly-switched stream is paused and
+            // has never played — and iOS refuses webkitEnterFullscreen() on a
+            // video that hasn't started. So start playback inside this tap
+            // gesture first, then enter fullscreen.
+            try {
+                var pr = video.play();
+                if (pr && pr.catch) pr.catch(function () {});
+            } catch (e) {}
+
+            var enter = function () {
+                if (typeof video.webkitEnterFullscreen === 'function') {
+                    try { video.webkitEnterFullscreen(); return; } catch (e) {}
+                }
+                if (video.requestFullscreen) video.requestFullscreen();
+                else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
+            };
+
+            // webkitEnterFullscreen needs at least metadata loaded
+            if (video.readyState >= 1) {
+                enter();
+            } else {
+                video.addEventListener('loadedmetadata', enter, { once: true });
+            }
+        }
+
+        function addFullscreenButton() {
+            if (!isiOS()) return; // desktop/Android already work via Clappr
+            var pc = document.getElementById('playerContainer');
+            if (!pc || document.getElementById('iosFsBtn')) return;
+            pc.style.position = 'relative';
+
+            var btn = document.createElement('button');
+            btn.id = 'iosFsBtn';
+            btn.type = 'button';
+            btn.setAttribute('aria-label', 'Fullscreen');
+            btn.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>';
+            Object.assign(btn.style, {
+                position: 'absolute', top: '8px', right: '8px', zIndex: '99999',
+                width: '40px', height: '40px', display: 'flex',
+                alignItems: 'center', justifyContent: 'center',
+                background: 'rgba(0,0,0,0.55)', border: 'none',
+                borderRadius: '6px', cursor: 'pointer', padding: '0'
+            });
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                goFullscreen();
+            });
+            pc.appendChild(btn);
+        }
+
+        // Reuse one <video> element on mobile. iOS only lets you control a
+        // video (play / webkitEnterFullscreen) after it's been unlocked by a
+        // direct tap. Recreating the element on each stream switch makes a
+        // fresh, locked one — which is why fullscreen only worked on the very
+        // first video. recycleVideo keeps reusing the unlocked element.
+        var isMobileDevice = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+                             (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
         function showPlayer(playerType, stream) {
             if (playerType === "clappr") {
                 if (clapprPlayer) {
@@ -172,11 +249,15 @@ var currentChat = 'yt';
                     height: '100%',
                     width: '100%',
                     autoPlay: true,
+                    recycleVideo: isMobileDevice,
                 });
+
+                // (Re)attach our iOS fullscreen button on top of the player
+                addFullscreenButton();
             }
         }
 
-        showPlayer('clappr', 'https://601.formaturamaxi.com.br/mlb3.m3u8');
+        showPlayer('clappr', 'https://601.formaturamaxi.com.br/mlb6.m3u8');
 
 window.onload = function() {
         var toggleBtn = document.getElementById('toggleChat');
