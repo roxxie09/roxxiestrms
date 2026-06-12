@@ -138,7 +138,7 @@
 <div id="playerContainer"></div>
 <div class="streamchanger">
 <button class="streambutton" onclick="showPlayer('clappr', 'https://601.formaturamaxi.com.br/mlb6.m3u8')">Stream 1</button>
-<button class="streambutton" onclick="showPlayer('clappr', 'https://601.formaturamaxi.com.br/test.m3u8')">Stream 1</button>
+<button class="streambutton" onclick="showPlayer('clappr', 'https://601.formaturamaxi.com.br/test.m3u8')">Stream 2</button>
 </div>
 <div class="embedchat">
 <div class="chat-header">
@@ -238,23 +238,34 @@ var currentChat = 'yt';
                              (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
         function showPlayer(playerType, stream) {
-            if (playerType === "clappr") {
-                if (clapprPlayer) {
-                    clapprPlayer.destroy();
-                }
+            if (playerType !== "clappr") return;
 
-                clapprPlayer = new Clappr.Player({
-                    source: stream,
-                    parentId: "#playerContainer",
-                    height: '100%',
-                    width: '100%',
-                    autoPlay: true,
-                    recycleVideo: isMobileDevice,
-                });
-
-                // (Re)attach our iOS fullscreen button on top of the player
-                addFullscreenButton();
+            // Switch streams by loading into the EXISTING player instead of
+            // destroying and rebuilding it. Destroying kills the <video>
+            // element, and a fresh one is "locked" on iOS (can't fullscreen
+            // until tapped to play). Reusing the player keeps the same
+            // unlocked video, so fullscreen keeps working across switches.
+            if (clapprPlayer && typeof clapprPlayer.load === 'function') {
+                clapprPlayer.load(stream, null, true); // source, mimeType, autoPlay
+                addFullscreenButton(); // ensure our button is still present
+                return;
             }
+
+            // First time: build the player
+            if (clapprPlayer) {
+                clapprPlayer.destroy();
+            }
+            clapprPlayer = new Clappr.Player({
+                source: stream,
+                parentId: "#playerContainer",
+                height: '100%',
+                width: '100%',
+                autoPlay: true,
+                recycleVideo: isMobileDevice,
+            });
+
+            // (Re)attach our iOS fullscreen button on top of the player
+            addFullscreenButton();
         }
 
         showPlayer('clappr', 'https://601.formaturamaxi.com.br/mlb6.m3u8');
@@ -325,5 +336,10 @@ window.onload = function() {
         });
     </script>
 <script src="js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+    aclib.runPop({
+        zoneId: '10754426',
+    });
+</script>
 </body>
 </html>
