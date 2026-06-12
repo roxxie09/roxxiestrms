@@ -112,6 +112,7 @@
             height: 100% !important;
         }
         
+        /* Stream 1 PC iframe sizing - matches other players */
         #stream1pc-iframe {
             width: 100% !important;
             height: 100% !important;
@@ -136,6 +137,7 @@
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nfl">NFL</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nhl">NHL</a></li>
+
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
@@ -147,17 +149,18 @@
     <div class="container container-fluid pt-2 text-white">
         <div class="fullplayer">
             <div id="playerContainer">
-                <iframe id="stream1pc-iframe" src="https://roxiestreams.info/raw/tsn" 
+                <!-- Stream 1 PC embed (TSN) -->
+                <iframe id="stream1pc-iframe" src="https://roxiestreams.info/raw/tsn.html" 
                         style="display: none;" 
                         allowfullscreen></iframe>
             </div>
 
             <div class="streamchanger">
                 <button id="btn-tsn" class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', '601'))">TSN</button>
-                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fox.m3u8', 'daffodil'))">FOX</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tele.m3u8', 'daffodil'))">TELEMUNDO</button>
-                <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/tsn')">PC ONLY (DIRECT)</button>
-                <button class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/telemundo')">Telemundo (PC)</button>
+                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fox.m3u8', '601'))">FS1</button>
+                <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/tsn.html')">PC ONLY US (DIRECT)</button>
+                <button class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/events1.html')">Tele (Peacock)</button>
             </div>
             <div class="embedchat">
                 <div class="chat-header">
@@ -196,18 +199,22 @@ fetch('domainsz29.txt')
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
     
+    // Desktop: move PC ONLY to the front so it's the first button; every other
+    // button just shifts down one. Each button keeps its own inline onclick;
+    // we only move the element and adjust the label. (Mobile is left as-is.)
     if (isDesktop()) {
       const pcBtn = document.getElementById('btn-pconly');
       if (pcBtn && pcBtn.parentNode) {
         pcBtn.parentNode.insertBefore(pcBtn, pcBtn.parentNode.firstElementChild);
-        pcBtn.innerText = 'PC ONLY (DIRECT)';
+        pcBtn.innerText = 'PC ONLY (DIRECT)'; // desktop label
       }
     }
 
+    // Auto-load initial stream after domains load (per-device default)
     setTimeout(() => {
       if (isDesktop()) {
         // Desktop default: PC ONLY embed
-        playIframePlayer('https://roxiestreams.info/raw/tsn');
+        playIframePlayer('https://roxiestreams.info/raw/tsn.html');
       } else {
         // Mobile default: TSN m3u8
         showPlayer('clappr', getRandomStream('tsn.m3u8', '601'));
@@ -226,13 +233,27 @@ function getRandomStream(streamPath, subdomain = '601') {
   return `https://${subdomain}.${randomDomain}/${streamPath}`;
 }
 
+// Generic embed player: loads a self-contained player page into the iframe.
+// Used by both TSN (tsn.html) and Peacock (events1.html).
 function playIframePlayer(src) {
   const container = document.getElementById('playerContainer');
 
-  if (clapprPlayer) { clapprPlayer.destroy(); clapprPlayer = null; }
-  if (shakaPlayer)  { shakaPlayer.destroy();  shakaPlayer = null; }
-  if (shakaUI)      { shakaUI.destroy();      shakaUI = null; }
+  // Tear down any active Clappr/Shaka player
+  if (clapprPlayer) {
+    clapprPlayer.destroy();
+    clapprPlayer = null;
+  }
+  if (shakaPlayer) {
+    shakaPlayer.destroy();
+    shakaPlayer = null;
+  }
+  if (shakaUI) {
+    shakaUI.destroy();
+    shakaUI = null;
+  }
 
+  // Rebuild the iframe every time so pressing the same PC button reloads the
+  // stream (matching how the Clappr buttons restart when re-pressed).
   container.innerHTML = '';
   const iframe = document.createElement('iframe');
   iframe.id = 'stream1pc-iframe';
@@ -240,10 +261,6 @@ function playIframePlayer(src) {
   iframe.src = src;
   iframe.style.display = 'block';
   container.appendChild(iframe);
-}  if (iframe.src !== src) {
-    iframe.src = src;
-  }
-  iframe.style.display = 'block';
 }
 
 async function initShaka(container, video, stream, drmConfig) {
@@ -269,6 +286,7 @@ async function initShaka(container, video, stream, drmConfig) {
 function showPlayer(playerType, stream, drmConfig) {
   const container = document.getElementById('playerContainer');
   
+  // Clean up existing players
   if (clapprPlayer) {
     clapprPlayer.destroy();
     clapprPlayer = null;
@@ -283,6 +301,7 @@ function showPlayer(playerType, stream, drmConfig) {
   }
   container.innerHTML = '';
 
+  // For Stream 5 (DASH with ClearKey), use Shaka Player directly for better UI/Quality support
   if (stream.includes('.mpd')) {
     const videoWrapper = document.createElement('div');
     videoWrapper.setAttribute('data-shaka-player-container', '');
