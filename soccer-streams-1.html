@@ -177,7 +177,7 @@
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fox.m3u8', 'daffodil'))">FOX</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tele.m3u8', 'daffodil'))">TELEMUNDO</button>
                 <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/tsn')">PC ONLY (DIRECT)</button>
-                <button class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/peacock')">Peacock (PC)</button>
+                <button class="streambutton" onclick="playMXIPDirect()">Tele (Peacock)</button>
             </div>
             <div class="embedchat">
                 <div class="chat-header">
@@ -206,9 +206,12 @@ var shakaUI;
 var domains = [];
 var subdomain = '601';  // Edit this per HTML file
 
+const mxDirectStream = 'https://g003-sle-us-cmaf-prd-cf.cdn.peacocktv.com/pck-sle/us-east-1/v1/dash/6f3f45fea6332a47667932dede90d20a96f2690c/peacock-dash-sle-4s-generic-cfd/co01/pcksle2/Content/CMAF_CTR-4s-v2/Live/channel(5021372-723230-4912123301e)/master_2hr.mpd?c3.ri=6a2c440e_Q1ZYMDc_0_Q0xPVURGUk9OVA_fa26c4290d46%3A0&aws.sessionId=f4907edb-dffc-44ad-840a-9e5fa6821ffd&ck=eyIwMDIyMDQ2Yzc5MWIzZTNiMjdjMTk4MWQwZTY1MmJiMSI6IjgyNGRhNTdkMzA1NTQ0MWI1NTI0MGRlMDNkNzZkYzllIn0%3D';
+const mxDirectKeys = {'0022046c791b3e3b27c1981d0e652bb1': '824da57d3055441b55240de03d76dc9e'};
+
 function isDesktop() {
   return !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
-}
+
 
 // Load domains from txt file
 fetch('domainsz29.txt')
@@ -234,6 +237,9 @@ fetch('domainsz29.txt')
       } else {
         // Mobile default: TSN m3u8
         showPlayer('clappr', getRandomStream('tsn.m3u8', '601'));
+        function playMXIPDirect() {
+  showPlayer('clappr', mxDirectStream, mxDirectKeys);
+}
       }
     }, 500);
   })
