@@ -150,7 +150,7 @@
         <div class="fullplayer">
             <div id="playerContainer">
                 <!-- Stream 1 PC embed (TSN) -->
-                <iframe id="stream1pc-iframe" src="https://roxiestreams.info/raw/tsn" 
+                <iframe id="stream1pc-iframe" src="https://roxiestreams.info/raw/tsn.html" 
                         style="display: none;" 
                         allowfullscreen></iframe>
             </div>
@@ -160,7 +160,7 @@
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tele.m3u8', 'daffodil'))">TELEMUNDO</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fox.m3u8', '601'))">FS1</button>
                 <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/tsn.html')">PC ONLY US (DIRECT)</button>
-                <button class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/events1')">Tele (Peacock)</button>
+                <button class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/events1.html')">Tele (Peacock)</button>
             </div>
             <div class="embedchat">
                 <div class="chat-header">
@@ -214,7 +214,7 @@ fetch('domainsz29.txt')
     setTimeout(() => {
       if (isDesktop()) {
         // Desktop default: PC ONLY embed
-        playIframePlayer('https://roxiestreams.info/raw/tsn');
+        playIframePlayer('https://roxiestreams.info/raw/tsn.html');
       } else {
         // Mobile default: TSN m3u8
         showPlayer('clappr', getRandomStream('tsn.m3u8', '601'));
@@ -360,6 +360,29 @@ function showPlayer(playerType, stream, drmConfig) {
 }
 
 window.onload = function() {
+        // --- Mobile fullscreen fix for Clappr ---
+        // On iOS, Clappr's fullscreen button calls the Fullscreen API on its
+        // container <div>, which iOS doesn't support (only <video> can go
+        // fullscreen). So on mobile we intercept the button and trigger the
+        // video element's native fullscreen instead. #playerContainer persists
+        // across stream switches, so this one delegated listener covers every
+        // Clappr player we create. On Android (no webkitEnterFullscreen) we do
+        // nothing and let Clappr's normal handler run.
+        var pc = document.getElementById('playerContainer');
+        if (pc) {
+            pc.addEventListener('click', function(e) {
+                if (isDesktop()) return;
+                var fsBtn = e.target.closest('[data-fullscreen]');
+                if (!fsBtn) return;
+                var video = pc.querySelector('video');
+                if (video && typeof video.webkitEnterFullscreen === 'function') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    try { video.webkitEnterFullscreen(); } catch (err) {}
+                }
+            }, true); // capture phase: run before Clappr's own (broken) handler
+        }
+
         var toggleBtn = document.getElementById('toggleChat');
         var chatContent = document.getElementById('chatContent');
 
