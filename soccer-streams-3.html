@@ -111,26 +111,15 @@ function isDesktop() {
 }
 
 function clearPlayers() {
-  if (clapprPlayer) {
-    clapprPlayer.destroy();
-    clapprPlayer = null;
-  }
-  if (shakaPlayer) {
-    shakaPlayer.destroy();
-    shakaPlayer = null;
-  }
-  if (shakaUI) {
-    shakaUI.destroy();
-    shakaUI = null;
-  }
+  if (clapprPlayer) { clapprPlayer.destroy(); clapprPlayer = null; }
+  if (shakaPlayer) { shakaPlayer.destroy(); shakaPlayer = null; }
+  if (shakaUI) { shakaUI.destroy(); shakaUI = null; }
   var c = document.getElementById('playerContainer');
   if (c) c.innerHTML = '';
 }
 
 function getRandomStream(streamPath, subdomain = '601') {
-  if (domains.length === 0) {
-    return 'https://' + subdomain + '.shadow-ran.online/' + streamPath;
-  }
+  if (domains.length === 0) return 'https://' + subdomain + '.shadow-ran.online/' + streamPath;
   const randomDomain = domains[Math.floor(Math.random() * domains.length)];
   return 'https://' + subdomain + '.' + randomDomain + '/' + streamPath;
 }
@@ -141,27 +130,22 @@ function showTSNFrame() {
   var iframe = document.createElement('iframe');
   iframe.id = 'tsn-frame';
   iframe.src = 'https://roxiestreams.info/raw/tsn.html?ts=' + Date.now();
+  iframe.allowFullscreen = true;
   iframe.style.width = '100%';
   iframe.style.height = '100%';
   iframe.style.border = 'none';
-  iframe.allowFullscreen = true;
+  iframe.style.display = 'block';
   container.appendChild(iframe);
 }
 
 function playStream1() {
-  if (isDesktop()) {
-    showTSNFrame();
-  } else {
-    showPlayer('clappr', getRandomStream('tsn.m3u8', '601'));
-  }
+  if (isDesktop()) showTSNFrame();
+  else showPlayer('clappr', getRandomStream('tsn.m3u8', '601'));
 }
 
 function playStream5() {
-  if (isDesktop()) {
-    showPlayer('clappr', getRandomStream('tsn.m3u8', '601'));
-  } else {
-    showPlayer('clappr', dashStream, dashKeys);
-  }
+  if (isDesktop()) showPlayer('clappr', getRandomStream('tsn.m3u8', '601'));
+  else showPlayer('clappr', dashStream, dashKeys);
 }
 
 function playMXIPDirect() {
@@ -171,16 +155,8 @@ function playMXIPDirect() {
 async function initShaka(container, video, stream, drmConfig) {
   const player = new shaka.Player(video);
   const ui = new shaka.ui.Overlay(player, container, video);
-  player.configure({
-    drm: {
-      clearKeys: drmConfig || {}
-    }
-  });
-  try {
-    await player.load(stream);
-  } catch (e) {
-    console.error('Error code', e.code, 'object', e);
-  }
+  player.configure({ drm: { clearKeys: drmConfig || {} } });
+  try { await player.load(stream); } catch (e) { console.error('Error code', e.code, 'object', e); }
   return { player, ui };
 }
 
@@ -226,15 +202,11 @@ function showPlayer(playerType, stream, drmConfig) {
           return customLabel || playbackLevel.level.height + 'p';
         }
       },
-      shakaConfiguration: {
-        drm: {
-          clearKeys: drmConfig || {}
-        }
-      }
+      shakaConfiguration: { drm: { clearKeys: drmConfig || {} } }
     });
   }
 }
-<script>
+
 window.onload = function() {
   var toggleBtn = document.getElementById('toggleChat');
   var chatContent = document.getElementById('chatContent');
@@ -251,25 +223,9 @@ window.onload = function() {
           handle: 'roxiestreams',
           arch: 'js',
           styles: {
-            a: '1a1a1a',
-            b: 100,
-            c: 'ffffff',
-            d: 'ffffff',
-            e: '1a1a1a',
-            f: '000000',
-            g: 'ffffff',
-            h: '000000',
-            i: 100,
-            j: 'ffffff',
-            k: 'e573b5',
-            l: '1a1a1a',
-            m: 'ffffff',
-            n: 'ffffff',
-            q: '1a1a1a',
-            r: 100,
-            t: 0,
-            v: 0,
-            w: 0
+            a: '1a1a1a', b: 100, c: 'ffffff', d: 'ffffff', e: '1a1a1a', f: '000000',
+            g: 'ffffff', h: '000000', i: 100, j: 'ffffff', k: 'e573b5', l: '1a1a1a',
+            m: 'ffffff', n: 'ffffff', q: '1a1a1a', r: 100, t: 0, v: 0, w: 0
           }
         };
         script.innerHTML = JSON.stringify(config);
@@ -293,9 +249,7 @@ document.addEventListener('keydown', function (e) {
   }
 });
 </script>
-<script src="js/bootstrap.bundle.min.js">
-</script>
-<script type="text/javascript">aclib.runPop({ zoneId: '10754426' });
-</script>
+<script src="js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">aclib.runPop({ zoneId: '10754426' });</script>
 </body>
 </html>
