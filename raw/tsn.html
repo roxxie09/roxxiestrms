@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="robots" content="noindex,nofollow">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Live Stream</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #fff;
+    }
+    #jwplayerDiv {
+      width: 100%;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+  <div id="jwplayerDiv"></div>
+
+  <script src="https://content.jwplatform.com/libraries/IDzF9Zmk.js"></script>
+  <script>
+    jwplayer("jwplayerDiv").setup({
+      file: "https://otte.cache.aiv-cdn.net/bom-nitro/live/clients/dash/enc/7janu55dwc/out/v1/69a2a7041395406b970598f61680e7cf/cenc.mpd",
+      type: "dash",
+      width: "100%",
+      height: "100%",
+      autostart: true,
+      title: "FOX 507 (ROXIE)",
+      drm: {
+        clearkey: {
+          keyId: "a12a987fe725a40b6be95cd84b15f689",
+          key: "e51aa21f2a0fef9aabc120dfb655b52f"
+        }
+      }
+    });
+  </script>
+</body>
+</html>
