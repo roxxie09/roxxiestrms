@@ -236,10 +236,10 @@ function showPlayer(playerType, stream, drmConfig) {
   }
 }
 </script>
-
 window.onload = function() {
   var toggleBtn = document.getElementById('toggleChat');
   var chatContent = document.getElementById('chatContent');
+
   if (toggleBtn) {
     toggleBtn.onclick = function() {
       if (currentChat === 'yt') {
@@ -248,7 +248,31 @@ window.onload = function() {
         script.id = 'cid0020000123456789012';
         script.async = true;
         script.src = 'https://st.chatango.com/js/gz/emb.js';
-        var config = { handle: 'roxiestreams', arch: 'js', styles: { a: '1a1a1a', b: 100, c: 'ffffff', d: 'ffffff', e: '1a1a1a', f: '000000', g: 'ffffff', h: '000000', i: 100, j: 'ffffff', k: 'e573b5', l: '1a1a1a', m: 'ffffff', n: 'ffffff', q: '1a1a1a', r: 100, t: 0, v: 0, w: 0 } };
+        var config = {
+          handle: 'roxiestreams',
+          arch: 'js',
+          styles: {
+            a: '1a1a1a',
+            b: 100,
+            c: 'ffffff',
+            d: 'ffffff',
+            e: '1a1a1a',
+            f: '000000',
+            g: 'ffffff',
+            h: '000000',
+            i: 100,
+            j: 'ffffff',
+            k: 'e573b5',
+            l: '1a1a1a',
+            m: 'ffffff',
+            n: 'ffffff',
+            q: '1a1a1a',
+            r: 100,
+            t: 0,
+            v: 0,
+            w: 0
+          }
+        };
         script.innerHTML = JSON.stringify(config);
         chatContent.appendChild(script);
         toggleBtn.innerText = 'Switch to YouTube';
@@ -263,7 +287,12 @@ window.onload = function() {
 };
 
 document.addEventListener('contextmenu', function (e) { e.preventDefault(); });
-document.addEventListener('keydown', function (e) { if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) || (e.ctrlKey && e.shiftKey && e.key === 'J')) { e.preventDefault(); } });
+document.addEventListener('keydown', function (e) {
+  if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) ||
+      (e.ctrlKey && e.shiftKey && e.key === 'J')) {
+    e.preventDefault();
+  }
+});
 </script>
 <script src="js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">aclib.runPop({ zoneId: '10754426' });</script>
