@@ -5,37 +5,58 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Live Stream</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css">
+  <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.js"></script>
   <style>
-    body {
+    html, body {
       margin: 0;
-      background: #000;
-      color: #fff;
-    }
-    #jwplayerDiv {
       width: 100%;
-      height: 100vh;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+    }
+    #video-container {
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      inset: 0;
+      background: #000;
+    }
+    video {
+      width: 100%;
+      height: 100%;
+    }
+    [data-shaka-player-container] {
+      width: 100% !important;
+      height: 100% !important;
+      background: #000;
     }
   </style>
 </head>
 <body>
-  <div id="jwplayerDiv"></div>
+  <div id="video-container" data-shaka-player-container>
+    <video id="video" data-shaka-player autoplay playsinline></video>
+  </div>
 
-  <script src="https://content.jwplatform.com/libraries/IDzF9Zmk.js"></script>
   <script>
-    jwplayer("jwplayerDiv").setup({
-      file: "https://otte.cache.aiv-cdn.net/bom-nitro/live/clients/dash/enc/7janu55dwc/out/v1/69a2a7041395406b970598f61680e7cf/cenc.mpd",
-      type: "dash",
-      width: "100%",
-      height: "100%",
-      autostart: true,
-      title: "TSN",
-      drm: {
-        clearkey: {
-          keyId: "e51aa21f2a0fef9aabc120dfb655b52f",
-          key: "a12a987fe725a40b6be95cd84b15f689"
+    async function init() {
+      const video = document.getElementById('video');
+      const container = document.getElementById('video-container');
+      const player = new shaka.Player(video);
+      const ui = new shaka.ui.Overlay(player, container, video);
+
+      player.configure({
+        drm: {
+          clearKeys: {
+            "e51aa21f2a0fef9aabc120dfb655b52f": "a12a987fe725a40b6be95cd84b15f689"
+          }
         }
-      }
-    });
+      });
+
+      await player.load("https://otte.cache.aiv-cdn.net/bom-nitro/live/clients/dash/enc/7janu55dwc/out/v1/69a2a7041395406b970598f61680e7cf/cenc.mpd");
+    }
+
+    init().catch(console.error);
   </script>
 </body>
 </html>
