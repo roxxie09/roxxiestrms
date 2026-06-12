@@ -138,7 +138,6 @@
 <div id="playerContainer"></div>
 <div class="streamchanger">
 <button class="streambutton" onclick="showPlayer('clappr', 'https://601.formaturamaxi.com.br/mlb6.m3u8')">Stream 1</button>
-<button class="streambutton" onclick="showPlayer('clappr', 'https://601.formaturamaxi.com.br/test.m3u8')">Stream 2</button>
 </div>
 <div class="embedchat">
 <div class="chat-header">
@@ -179,6 +178,7 @@ var currentChat = 'yt';
                     width: "100%",
                     height: "100%",
                     autoPlay: true,
+                    mute: true,
                     playback: {
                         playInline: true,
                         recycleVideo: true
@@ -255,5 +255,10 @@ window.onload = function() {
         });
     </script>
 <script src="js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+    aclib.runPop({
+        zoneId: '10754426',
+    });
+</script>
 </body>
 </html>
