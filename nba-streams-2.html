@@ -293,6 +293,10 @@ parentId: "#playerContainer",
 height: '100%',
 width: '100%',
 autoPlay: true,
+playback: {
+  playInline: true,
+  recycleVideo: true
+},
 plugins: [window.DashShakaPlayback, window.LevelSelector].filter(Boolean),
 levelSelectorConfig: {
 title: 'Quality',
