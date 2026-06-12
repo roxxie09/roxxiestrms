@@ -145,7 +145,7 @@
                     allowfullscreen></iframe>
 
             <div class="streamchanger">
-                <button id="btn-stream-1" class="streambutton" onclick="playTSNJWPlayer()">TSN (JW Player)</button>
+                <button id="btn-stream-1" class="streambutton" onclick="playStream1()">TSN</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tele.m3u8', 'daffodil'))">TELEMUNDO</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fox.m3u8', '601'))">FS1</button>
                 <button id="btn-stream-5" class="streambutton" onclick="playStream5()">PC ONLY US (DIRECT)</button>
@@ -216,13 +216,16 @@ function getRandomStream(streamPath, subdomain = '601') {
   return `https://${subdomain}.${randomDomain}/${streamPath}`;
 }
 
-const dashStream = 'https://otte.cache.aiv-cdn.net/bom-nitro/live/clients/dash/enc/7janu55dwc/out/v1/69a2a7041395406b970598f61680e7cf/cenc.mpd';
+// NEW: TSN JW Player Stream (replaces dashStream)
+const tsnJWStream = 'https://roxiestreams.info/raw/tsn';
 const dashKeys = {'e51aa21f2a0fef9aabc120dfb655b52f': 'a12a987fe725a40b6be95cd84b15f689'};
 
 function playStream1() {
   if (isDesktop()) {
+    // Desktop: Use JW Player iframe for TSN
     playTSNJWPlayer();
   } else {
+    // Mobile: Use Clappr with random domain
     showPlayer('clappr', getRandomStream('tsn.m3u8', '601'));
   }
 }
@@ -239,9 +242,12 @@ function playMXIPDirect() {
   showPlayer('clappr', mxDirectStream, mxDirectKeys);
 }
 
+// NEW Function: Play TSN using JW Player iframe
 function playTSNJWPlayer() {
+  // Hide Clappr/Shaka, show JW Player iframe
   const container = document.getElementById('playerContainer');
   
+  // Hide existing players
   if (clapprPlayer) {
     clapprPlayer.destroy();
     clapprPlayer = null;
@@ -255,11 +261,15 @@ function playTSNJWPlayer() {
     shakaUI = null;
   }
   
+  // Show JW Player iframe
   const iframe = document.getElementById('jwplayer-iframe');
   if (iframe) {
     iframe.style.display = 'block';
   }
 }
+
+// Keep original dashStream for playStream5()
+const dashStream = 'https://otte.cache.aiv-cdn.net/bom-nitro/live/clients/dash/enc/7janu55dwc/out/v1/69a2a7041395406b970598f61680e7cf/cenc.mpd';
 
 async function initShaka(container, video, stream, drmConfig) {
   const player = new shaka.Player(video);
@@ -284,6 +294,7 @@ async function initShaka(container, video, stream, drmConfig) {
 function showPlayer(playerType, stream, drmConfig) {
   const container = document.getElementById('playerContainer');
   
+  // Clean up existing players
   if (clapprPlayer) {
     clapprPlayer.destroy();
     clapprPlayer = null;
@@ -298,6 +309,7 @@ function showPlayer(playerType, stream, drmConfig) {
   }
   container.innerHTML = '';
 
+  // For Stream 5 (DASH with ClearKey), use Shaka Player directly for better UI/Quality support
   if (stream.includes('.mpd')) {
     const videoWrapper = document.createElement('div');
     videoWrapper.setAttribute('data-shaka-player-container', '');
