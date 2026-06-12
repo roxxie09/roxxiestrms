@@ -149,6 +149,7 @@
     <div class="container container-fluid pt-2 text-white">
         <div class="fullplayer">
             <div id="playerContainer">
+                <!-- JW Player Embed for TSN -->
                 <iframe id="jwplayer-iframe" src="https://roxiestreams.info/raw/tsn.html" 
                         style="display: none;" 
                         allowfullscreen></iframe>
@@ -159,7 +160,7 @@
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tele.m3u8', 'daffodil'))">TELEMUNDO</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fox.m3u8', '601'))">FS1</button>
                 <button id="btn-stream-5" class="streambutton" onclick="playStream5()">PC ONLY US (DIRECT)</button>
-                <button class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/events1')">Tele (Peacock)</button>
+                <button class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/events1.html')">Tele (Peacock)</button>
             </div>
             <div class="embedchat">
                 <div class="chat-header">
@@ -224,9 +225,6 @@ function getRandomStream(streamPath, subdomain = '601') {
 }
 
 // TSN JW Player Stream
-const dashStream = 'https://otte.cache.aiv-cdn.net/bom-nitro/live/clients/dash/enc/7janu55dwc/out/v1/69a2a7041395406b970598f61680e7cf/cenc.mpd';
-const dashKeys = {'e51aa21f2a0fef9aabc120dfb655b52f': 'a12a987fe725a40b6be95cd84b15f689'};
-
 function playStream1() {
   if (isDesktop()) {
     // Desktop: Use JW Player iframe for TSN
@@ -241,7 +239,8 @@ function playStream5() {
   if (isDesktop()) {
     showPlayer('clappr', getRandomStream('tsn.m3u8', '601'));
   } else {
-    showPlayer('clappr', dashStream, dashKeys);
+    // Mobile PC ONLY: load the tsn.html embed (mpd + keys live inside it)
+    playIframePlayer('https://roxiestreams.info/raw/tsn.html');
   }
 }
 
