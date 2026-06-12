@@ -138,7 +138,6 @@
 <div id="playerContainer"></div>
 <div class="streamchanger">
 <button class="streambutton" onclick="showPlayer('clappr', 'https://601.formaturamaxi.com.br/mlb6.m3u8')">Stream 1</button>
-<button class="streambutton" onclick="showPlayer('clappr', 'https://601.formaturamaxi.com.br/test.m3u8')">Stream 2</button>
 </div>
 <div class="embedchat">
 <div class="chat-header">
@@ -163,10 +162,10 @@ var currentChat = 'yt';
 
         // --- Clappr config (matches the working iOS reference site) ---
         // The key bits for iOS: playInline + recycleVideo nested INSIDE the
-        // playback object (not top-level), plus mute so autoplay is allowed.
-        // recycleVideo keeps the <video> element in a reuse pool, so even
-        // across stream switches the same element is reused and Clappr's own
-        // fullscreen button keeps working on iPhone.
+        // playback object (not top-level). recycleVideo keeps the <video>
+        // element in a reuse pool, so even across stream switches the same
+        // element is reused and Clappr's own fullscreen button keeps working
+        // on iPhone. (No mute, so iOS won't autostart — it waits for a tap.)
         function showPlayer(playerType, stream) {
             if (playerType === "clappr") {
                 if (clapprPlayer) {
@@ -255,5 +254,10 @@ window.onload = function() {
         });
     </script>
 <script src="js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+    aclib.runPop({
+        zoneId: '10754426',
+    });
+</script>
 </body>
 </html>
