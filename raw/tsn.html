@@ -5,58 +5,155 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Live Stream</title>
+
+  <!-- Shaka -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css">
   <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.js"></script>
+  <!-- Clappr + DASH/ClearKey plugin -->
+  <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dash-shaka-playback@latest/dist/dash-shaka-playback.min.js"></script>
+  <!-- JW Player -->
+  <script src="https://ssl.p.jwpcdn.com/player/v/8.26.0/jwplayer.js"></script>
+  <script>jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';</script>
+
   <style>
-    html, body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      background: #000;
-      overflow: hidden;
+    html, body { margin: 0; width: 100%; height: 100%; background: #000; overflow: hidden; }
+    #stage { position: fixed; inset: 0; }
+    #playerContainer { width: 100%; height: 100%; position: relative; }
+    #playerContainer video,
+    [data-shaka-player-container] { width: 100% !important; height: 100% !important; background: #000; }
+
+    #changePlayerBtn {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 99999;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.45);
+      border-radius: 6px;
+      padding: 6px 10px;
+      font: 600 12px/1 system-ui, sans-serif;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
     }
-    #video-container {
-      width: 100%;
-      height: 100%;
-      position: fixed;
-      inset: 0;
-      background: #000;
-    }
-    video {
-      width: 100%;
-      height: 100%;
-    }
-    [data-shaka-player-container] {
-      width: 100% !important;
-      height: 100% !important;
-      background: #000;
-    }
+    #changePlayerBtn:hover { background: rgba(0,0,0,0.8); }
   </style>
 </head>
 <body>
-  <div id="video-container" data-shaka-player-container>
-    <video id="video" data-shaka-player autoplay playsinline></video>
+  <div id="stage">
+    <div id="playerContainer"></div>
+    <button id="changePlayerBtn" type="button">Change Player</button>
   </div>
 
   <script>
-    async function init() {
-      const video = document.getElementById('video');
-      const container = document.getElementById('video-container');
-      const player = new shaka.Player(video);
-      const ui = new shaka.ui.Overlay(player, container, video);
+    /* =======================================================================
+       EDIT THESE TWO PER STREAM
+       - MPD: the .mpd URL
+       - CLEAR_KEYS: { "<keyId>": "<key>" }  (same format Shaka/Clappr use)
+       ======================================================================= */
+    const MPD = "https://otte.cache.aiv-cdn.net/bom-nitro/live/clients/dash/enc/7janu55dwc/out/v1/69a2a7041395406b970598f61680e7cf/cenc.mpd";
+    const CLEAR_KEYS = { "e51aa21f2a0fef9aabc120dfb655b52f": "a12a987fe725a40b6be95cd84b15f689" };
+    /* ===================================================================== */
 
-      player.configure({
-        drm: {
-          clearKeys: {
-            "e51aa21f2a0fef9aabc120dfb655b52f": "a12a987fe725a40b6be95cd84b15f689"
-          }
-        }
-      });
+    const ENGINES = ['shaka', 'clappr', 'jw'];
+    const LABELS = { shaka: 'Shaka', clappr: 'Clappr', jw: 'JW' };
+    let engineIndex = 0;
 
-      await player.load("https://otte.cache.aiv-cdn.net/bom-nitro/live/clients/dash/enc/7janu55dwc/out/v1/69a2a7041395406b970598f61680e7cf/cenc.mpd");
+    let shakaPlayer = null, shakaUI = null, clapprPlayer = null, jwInstance = null;
+
+    function container() { return document.getElementById('playerContainer'); }
+
+    function cleanup() {
+      try { if (shakaUI) shakaUI.destroy(); } catch (e) {}
+      try { if (shakaPlayer) shakaPlayer.destroy(); } catch (e) {}
+      try { if (clapprPlayer) clapprPlayer.destroy(); } catch (e) {}
+      try { if (jwInstance) jwInstance.remove(); } catch (e) {}
+      shakaUI = shakaPlayer = clapprPlayer = jwInstance = null;
+      container().innerHTML = '';
     }
 
-    init().catch(console.error);
+    async function startShaka() {
+      const wrap = document.createElement('div');
+      wrap.setAttribute('data-shaka-player-container', '');
+      wrap.style.width = '100%';
+      wrap.style.height = '100%';
+
+      const video = document.createElement('video');
+      video.setAttribute('data-shaka-player', '');
+      video.autoplay = true;
+      video.setAttribute('playsinline', '');
+      video.style.width = '100%';
+      video.style.height = '100%';
+
+      wrap.appendChild(video);
+      container().appendChild(wrap);
+
+      const player = new shaka.Player(video);
+      const ui = new shaka.ui.Overlay(player, wrap, video);
+      player.configure({ drm: { clearKeys: CLEAR_KEYS } });
+      shakaPlayer = player;
+      shakaUI = ui;
+      await player.load(MPD);
+    }
+
+    function startClappr() {
+      clapprPlayer = new Clappr.Player({
+        source: MPD,
+        parentId: "#playerContainer",
+        width: '100%',
+        height: '100%',
+        autoPlay: true,
+        playback: {
+          playInline: true,
+          recycleVideo: true
+        },
+        plugins: [window.DashShakaPlayback].filter(Boolean),
+        shakaConfiguration: {
+          drm: { clearKeys: CLEAR_KEYS }
+        }
+      });
+    }
+
+    function startJW() {
+      const target = document.createElement('div');
+      target.id = 'jwTarget';
+      container().appendChild(target);
+
+      // JW wants keyId + key explicitly; pull them from CLEAR_KEYS.
+      const keyId = Object.keys(CLEAR_KEYS)[0];
+      const key = CLEAR_KEYS[keyId];
+
+      jwInstance = jwplayer('jwTarget');
+      jwInstance.setup({
+        playlist: [{
+          file: MPD,
+          type: 'mpd',
+          drm: { clearkey: { keyId: keyId, key: key } }
+        }],
+        width: '100%',
+        height: '100%',
+        autostart: true
+      });
+    }
+
+    function startEngine(name) {
+      cleanup();
+      if (name === 'shaka') startShaka().catch(console.error);
+      else if (name === 'clappr') startClappr();
+      else if (name === 'jw') startJW();
+
+      const btn = document.getElementById('changePlayerBtn');
+      if (btn) btn.textContent = 'Change Player (' + LABELS[name] + ')';
+    }
+
+    document.getElementById('changePlayerBtn').addEventListener('click', function () {
+      engineIndex = (engineIndex + 1) % ENGINES.length;
+      startEngine(ENGINES[engineIndex]);
+    });
+
+    // Start with the first engine (Shaka)
+    startEngine(ENGINES[engineIndex]);
   </script>
 </body>
 </html>
