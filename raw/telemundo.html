@@ -5,6 +5,26 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Live Stream</title>
+  <script>
+    (function () {
+      function def(name, fn) {
+        if (!Map.prototype[name]) {
+          Object.defineProperty(Map.prototype, name, {
+            value: fn, writable: true, configurable: true, enumerable: false
+          });
+        }
+      }
+      def('getOrInsert', function (key, d) {
+        if (!this.has(key)) this.set(key, d);
+        return this.get(key);
+      });
+      def('getOrInsertComputed', function (key, cb) {
+        if (!this.has(key)) this.set(key, cb(key));
+        return this.get(key);
+      });
+    })();
+  </script>
+
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css">
   <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.js"></script>
   <style>
@@ -37,14 +57,12 @@
   <div id="video-container" data-shaka-player-container>
     <video id="video" data-shaka-player autoplay playsinline></video>
   </div>
-
   <script>
     async function init() {
       const video = document.getElementById('video');
       const container = document.getElementById('video-container');
       const player = new shaka.Player(video);
       const ui = new shaka.ui.Overlay(player, container, video);
-
       player.configure({
         drm: {
           clearKeys: {
@@ -52,10 +70,8 @@
           }
         }
       });
-
       await player.load("https://live-oneapp-prd-news.akamaized.net/Content/CMAF_OL2-CTR-4s-v2/Live/channel(kvea)/master.mpd");
     }
-
     init().catch(console.error);
   </script>
 </body>
