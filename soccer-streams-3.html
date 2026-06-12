@@ -156,10 +156,10 @@
             </div>
 
             <div class="streamchanger">
-                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', '601'))">TSN</button>
+                <button id="btn-tsn" class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', '601'))">TSN</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tele.m3u8', 'daffodil'))">TELEMUNDO</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fox.m3u8', '601'))">FS1</button>
-                <button class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/tsn.html')">PC ONLY (DIRECT)</button>
+                <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/tsn.html')">PC ONLY US (DIRECT)</button>
                 <button class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/events1.html')">Tele (Peacock)</button>
             </div>
             <div class="embedchat">
@@ -199,7 +199,22 @@ fetch('domainsz29.txt')
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
     
-    // Update button labels for Desktop
+    // Desktop: restore the old swap — PC ONLY becomes the prominent first
+    // button and TSN moves to where PC ONLY was. Each button keeps its own
+    // inline onclick; we only move the elements and adjust the label.
+    if (isDesktop()) {
+      const tsnBtn = document.getElementById('btn-tsn');
+      const pcBtn = document.getElementById('btn-pconly');
+      if (tsnBtn && pcBtn) {
+        const marker = document.createComment('');
+        tsnBtn.parentNode.insertBefore(marker, tsnBtn); // remember TSN's spot
+        pcBtn.parentNode.insertBefore(tsnBtn, pcBtn);    // TSN -> PC ONLY's spot
+        marker.parentNode.insertBefore(pcBtn, marker);   // PC ONLY -> TSN's spot
+        marker.remove();
+        pcBtn.innerText = 'PC ONLY (DIRECT)';            // desktop label
+      }
+    }
+
     // Auto-load initial stream after domains load (per-device default)
     setTimeout(() => {
       if (isDesktop()) {
