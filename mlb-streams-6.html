@@ -138,7 +138,7 @@
 <div id="playerContainer"></div>
 <div class="streamchanger">
 <button class="streambutton" onclick="showPlayer('clappr', 'https://601.formaturamaxi.com.br/mlb6.m3u8')">Stream 1</button>
-<button class="streambutton" onclick="showPlayer('clappr', 'https://601.formaturamaxi.com.br/test.m3u8')">Stream 2</button>
+<button class="streambutton" onclick="showPlayer('clappr', 'https://601.formaturamaxi.com.br/test.m3u8')">Stream 1</button>
 </div>
 <div class="embedchat">
 <div class="chat-header">
@@ -229,6 +229,14 @@ var currentChat = 'yt';
             pc.appendChild(btn);
         }
 
+        // Reuse one <video> element on mobile. iOS only lets you control a
+        // video (play / webkitEnterFullscreen) after it's been unlocked by a
+        // direct tap. Recreating the element on each stream switch makes a
+        // fresh, locked one — which is why fullscreen only worked on the very
+        // first video. recycleVideo keeps reusing the unlocked element.
+        var isMobileDevice = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+                             (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
         function showPlayer(playerType, stream) {
             if (playerType === "clappr") {
                 if (clapprPlayer) {
@@ -241,6 +249,7 @@ var currentChat = 'yt';
                     height: '100%',
                     width: '100%',
                     autoPlay: true,
+                    recycleVideo: isMobileDevice,
                 });
 
                 // (Re)attach our iOS fullscreen button on top of the player
@@ -315,5 +324,6 @@ window.onload = function() {
             }
         });
     </script>
+<script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
