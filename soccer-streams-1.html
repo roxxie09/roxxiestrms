@@ -229,28 +229,18 @@ function getRandomStream(streamPath, subdomain = '601') {
 function playIframePlayer(src) {
   const container = document.getElementById('playerContainer');
 
-  if (clapprPlayer) {
-    clapprPlayer.destroy();
-    clapprPlayer = null;
-  }
-  if (shakaPlayer) {
-    shakaPlayer.destroy();
-    shakaPlayer = null;
-  }
-  if (shakaUI) {
-    shakaUI.destroy();
-    shakaUI = null;
-  }
+  if (clapprPlayer) { clapprPlayer.destroy(); clapprPlayer = null; }
+  if (shakaPlayer)  { shakaPlayer.destroy();  shakaPlayer = null; }
+  if (shakaUI)      { shakaUI.destroy();      shakaUI = null; }
 
-  let iframe = document.getElementById('stream1pc-iframe');
-  if (!iframe) {
-    container.innerHTML = '';                 // clear any leftover player nodes
-    iframe = document.createElement('iframe');
-    iframe.id = 'stream1pc-iframe';
-    iframe.allowFullscreen = true;
-    container.appendChild(iframe);
-  }
-  if (iframe.src !== src) {
+  container.innerHTML = '';
+  const iframe = document.createElement('iframe');
+  iframe.id = 'stream1pc-iframe';
+  iframe.allowFullscreen = true;
+  iframe.src = src;
+  iframe.style.display = 'block';
+  container.appendChild(iframe);
+}  if (iframe.src !== src) {
     iframe.src = src;
   }
   iframe.style.display = 'block';
