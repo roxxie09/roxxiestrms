@@ -160,6 +160,54 @@
         var clapprPlayer;
 var currentChat = 'yt';
 
+        // --- iOS fullscreen support ---
+        // iPhone Safari only allows fullscreen via the <video> element's
+        // webkitEnterFullscreen() call — the standard Fullscreen API on a
+        // container <div> (what Clappr's own button uses) does nothing on iOS.
+        // So on iOS we add our own button that calls it directly on the video.
+        function isiOS() {
+            return /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+                   (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        }
+
+        function goFullscreen() {
+            var video = document.querySelector('#playerContainer video');
+            if (!video) return;
+            // iOS Safari: the only thing that works
+            if (typeof video.webkitEnterFullscreen === 'function') {
+                try { video.webkitEnterFullscreen(); return; } catch (e) {}
+            }
+            // Fallbacks for everything else
+            if (video.requestFullscreen) video.requestFullscreen();
+            else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
+        }
+
+        function addFullscreenButton() {
+            if (!isiOS()) return; // desktop/Android already work via Clappr
+            var pc = document.getElementById('playerContainer');
+            if (!pc || document.getElementById('iosFsBtn')) return;
+            pc.style.position = 'relative';
+
+            var btn = document.createElement('button');
+            btn.id = 'iosFsBtn';
+            btn.type = 'button';
+            btn.setAttribute('aria-label', 'Fullscreen');
+            btn.innerHTML = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>';
+            Object.assign(btn.style, {
+                position: 'absolute', top: '8px', right: '8px', zIndex: '99999',
+                width: '40px', height: '40px', display: 'flex',
+                alignItems: 'center', justifyContent: 'center',
+                background: 'rgba(0,0,0,0.55)', border: 'none',
+                borderRadius: '6px', cursor: 'pointer', padding: '0'
+            });
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                goFullscreen();
+            });
+            pc.appendChild(btn);
+        }
+
         function showPlayer(playerType, stream) {
             if (playerType === "clappr") {
                 if (clapprPlayer) {
@@ -173,6 +221,9 @@ var currentChat = 'yt';
                     width: '100%',
                     autoPlay: true,
                 });
+
+                // (Re)attach our iOS fullscreen button on top of the player
+                addFullscreenButton();
             }
         }
 
@@ -244,10 +295,5 @@ window.onload = function() {
         });
     </script>
 <script src="js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript">
-    aclib.runPop({
-        zoneId: '10754426',
-    });
-</script>
 </body>
 </html>
