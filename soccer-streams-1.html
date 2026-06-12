@@ -132,7 +132,6 @@
             height: 100% !important;
         }
         
-        /* Stream 1 PC iframe sizing - matches other players */
         #stream1pc-iframe {
             width: 100% !important;
             height: 100% !important;
@@ -169,18 +168,17 @@
     <div class="container container-fluid pt-2 text-white">
         <div class="fullplayer">
             <div id="playerContainer">
-                <!-- Stream 1 PC embed (TSN) -->
-                <iframe id="stream1pc-iframe" src="https://roxiestreams.info/raw/tsn.html" 
+                <iframe id="stream1pc-iframe" src="https://roxiestreams.info/raw/tsn" 
                         style="display: none;" 
                         allowfullscreen></iframe>
             </div>
 
             <div class="streamchanger">
                 <button id="btn-tsn" class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', '601'))">TSN</button>
+                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fox.m3u8', 'daffodil'))">FOX</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tele.m3u8', 'daffodil'))">TELEMUNDO</button>
-                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fox.m3u8', '601'))">FS1</button>
-                <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/tsn.html')">PC ONLY US (DIRECT)</button>
-                <button class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/events1.html')">Tele (Peacock)</button>
+                <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/tsn')">PC ONLY (DIRECT)</button>
+                <button class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/events1')">Telemundo (PC)</button>
             </div>
             <div class="embedchat">
                 <div class="chat-header">
@@ -226,15 +224,14 @@ fetch('domainsz29.txt')
       const pcBtn = document.getElementById('btn-pconly');
       if (pcBtn && pcBtn.parentNode) {
         pcBtn.parentNode.insertBefore(pcBtn, pcBtn.parentNode.firstElementChild);
-        pcBtn.innerText = 'PC ONLY (DIRECT)'; // desktop label
+        pcBtn.innerText = 'PC ONLY (DIRECT)';
       }
     }
 
-    // Auto-load initial stream after domains load (per-device default)
     setTimeout(() => {
       if (isDesktop()) {
         // Desktop default: PC ONLY embed
-        playIframePlayer('https://roxiestreams.info/raw/tsn.html');
+        playIframePlayer('https://roxiestreams.info/raw/tsn');
       } else {
         // Mobile default: TSN m3u8
         showPlayer('clappr', getRandomStream('tsn.m3u8', '601'));
@@ -253,12 +250,9 @@ function getRandomStream(streamPath, subdomain = '601') {
   return `https://${subdomain}.${randomDomain}/${streamPath}`;
 }
 
-// Generic embed player: loads a self-contained player page into the iframe.
-// Used by both TSN (tsn.html) and Peacock (events1.html).
 function playIframePlayer(src) {
   const container = document.getElementById('playerContainer');
 
-  // Tear down any active Clappr/Shaka player
   if (clapprPlayer) {
     clapprPlayer.destroy();
     clapprPlayer = null;
@@ -272,8 +266,6 @@ function playIframePlayer(src) {
     shakaUI = null;
   }
 
-  // Rebuild the iframe every time so pressing the same PC button reloads the
-  // stream (matching how the Clappr buttons restart when re-pressed).
   container.innerHTML = '';
   const iframe = document.createElement('iframe');
   iframe.id = 'stream1pc-iframe';
@@ -306,7 +298,6 @@ async function initShaka(container, video, stream, drmConfig) {
 function showPlayer(playerType, stream, drmConfig) {
   const container = document.getElementById('playerContainer');
   
-  // Clean up existing players
   if (clapprPlayer) {
     clapprPlayer.destroy();
     clapprPlayer = null;
@@ -321,7 +312,6 @@ function showPlayer(playerType, stream, drmConfig) {
   }
   container.innerHTML = '';
 
-  // For Stream 5 (DASH with ClearKey), use Shaka Player directly for better UI/Quality support
   if (stream.includes('.mpd')) {
     const videoWrapper = document.createElement('div');
     videoWrapper.setAttribute('data-shaka-player-container', '');
