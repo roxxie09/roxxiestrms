@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="robots" content="noindex,nofollow">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Live Stream</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css">
+  <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.js"></script>
+  <style>
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+    }
+    #video-container {
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      inset: 0;
+      background: #000;
+    }
+    video {
+      width: 100%;
+      height: 100%;
+    }
+    [data-shaka-player-container] {
+      width: 100% !important;
+      height: 100% !important;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+  <div id="video-container" data-shaka-player-container>
+    <video id="video" data-shaka-player autoplay playsinline></video>
+  </div>
+
+  <script>
+    async function init() {
+      const video = document.getElementById('video');
+      const container = document.getElementById('video-container');
+      const player = new shaka.Player(video);
+      const ui = new shaka.ui.Overlay(player, container, video);
+
+      player.configure({
+        drm: {
+          clearKeys: {
+            "70d99ef37c9905121c7903ecc81a6896": "00226c5e4258d609688d7a611d8cfaeb"
+          }
+        }
+      });
+
+      await player.load("https://g003-sle-us-cmaf-prd-ns.prd.pck.netskrt.net/pck-sle/us-west-2/v1/dash/6f3f45fea6332a47667932dede90d20a96f2690c/peacock-dash-sle-4s-generic-cfd/co01/pcksle2/Content/CMAF_CTR-4s-v2/Live/channel(5021371-723229-4912113eddd)/master_2hr.mpd?c3.ri=6a2b5aba_Q1ZYMDc_0_TkVUU0tSVA_bfd531c5a572%3A0&aws.sessionId=65b31741-d6c2-467b-b95a-cb9f5d2a60de&ck=eyIwMDIyNmM1ZTQyNThkNjA5Njg4ZDdhNjExZDhjZmFlYiI6IjcwZDk5ZWYzN2M5OTA1MTIxYzc5MDNlY2M4MWE2ODk2In0%3D");
+    }
+
+    init().catch(console.error);
+  </script>
+</body>
+</html>
