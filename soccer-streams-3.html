@@ -112,8 +112,8 @@
             height: 100% !important;
         }
         
-        /* JW Player iframe sizing - matches other players */
-        #jwplayer-iframe {
+        /* Stream 1 PC iframe sizing - matches other players */
+        #stream1pc-iframe {
             width: 100% !important;
             height: 100% !important;
             border: none;
@@ -149,17 +149,17 @@
     <div class="container container-fluid pt-2 text-white">
         <div class="fullplayer">
             <div id="playerContainer">
-                <!-- JW Player Embed for TSN -->
-                <iframe id="jwplayer-iframe" src="https://roxiestreams.info/raw/tsn.html" 
+                <!-- Stream 1 PC embed (TSN) -->
+                <iframe id="stream1pc-iframe" src="https://roxiestreams.info/raw/tsn.html" 
                         style="display: none;" 
                         allowfullscreen></iframe>
             </div>
 
             <div class="streamchanger">
-                <button id="btn-stream-1" class="streambutton" onclick="playStream1()">TSN</button>
+                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', '601'))">TSN</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tele.m3u8', 'daffodil'))">TELEMUNDO</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fox.m3u8', '601'))">FS1</button>
-                <button id="btn-stream-5" class="streambutton" onclick="playStream5()">PC ONLY US (DIRECT)</button>
+                <button class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/tsn.html')">PC ONLY (DIRECT)</button>
                 <button class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/events1.html')">Tele (Peacock)</button>
             </div>
             <div class="embedchat">
@@ -200,16 +200,15 @@ fetch('domainsz29.txt')
     domains = data.trim().split('\n').filter(d => d.trim());
     
     // Update button labels for Desktop
-    if (isDesktop()) {
-      const btn1 = document.getElementById('btn-stream-1');
-      const btn5 = document.getElementById('btn-stream-5');
-      if (btn1) btn1.innerText = 'PC ONLY (DIRECT)';
-      if (btn5) btn5.innerText = 'TSN';
-    }
-
-    // Auto-load initial stream after domains load
+    // Auto-load initial stream after domains load (per-device default)
     setTimeout(() => {
-      playStream1();
+      if (isDesktop()) {
+        // Desktop default: PC ONLY embed
+        playIframePlayer('https://roxiestreams.info/raw/tsn.html');
+      } else {
+        // Mobile default: TSN m3u8
+        showPlayer('clappr', getRandomStream('tsn.m3u8', '601'));
+      }
     }, 500);
   })
   .catch(() => {
@@ -222,26 +221,6 @@ function getRandomStream(streamPath, subdomain = '601') {
   }
   const randomDomain = domains[Math.floor(Math.random() * domains.length)];
   return `https://${subdomain}.${randomDomain}/${streamPath}`;
-}
-
-// TSN JW Player Stream
-function playStream1() {
-  if (isDesktop()) {
-    // Desktop: Use JW Player iframe for TSN
-    playTSNJWPlayer();
-  } else {
-    // Mobile: Use Clappr with random domain
-    showPlayer('clappr', getRandomStream('tsn.m3u8', '601'));
-  }
-}
-
-function playStream5() {
-  if (isDesktop()) {
-    showPlayer('clappr', getRandomStream('tsn.m3u8', '601'));
-  } else {
-    // Mobile PC ONLY: load the tsn.html embed (mpd + keys live inside it)
-    playIframePlayer('https://roxiestreams.info/raw/tsn.html');
-  }
 }
 
 // Generic embed player: loads a self-contained player page into the iframe.
@@ -265,11 +244,11 @@ function playIframePlayer(src) {
 
   // showPlayer() runs container.innerHTML = '', which deletes the iframe.
   // So if it's missing, rebuild it instead of assuming it still exists.
-  let iframe = document.getElementById('jwplayer-iframe');
+  let iframe = document.getElementById('stream1pc-iframe');
   if (!iframe) {
     container.innerHTML = '';                 // clear any leftover player nodes
     iframe = document.createElement('iframe');
-    iframe.id = 'jwplayer-iframe';
+    iframe.id = 'stream1pc-iframe';
     iframe.allowFullscreen = true;
     container.appendChild(iframe);
   }
@@ -278,11 +257,6 @@ function playIframePlayer(src) {
     iframe.src = src;
   }
   iframe.style.display = 'block';
-}
-
-// TSN uses the same generic embed player
-function playTSNJWPlayer() {
-  playIframePlayer('https://roxiestreams.info/raw/tsn.html');
 }
 
 async function initShaka(container, video, stream, drmConfig) {
