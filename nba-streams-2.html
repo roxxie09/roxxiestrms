@@ -175,7 +175,7 @@ return !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(n
 }
 
 // Load domains from txt file
-fetch('domainsz29.txt')
+fetch('domainsz30.txt')
 .then(response => response.text())
 .then(data => {
 domains = data.trim().split('\n').filter(d => d.trim());
@@ -194,7 +194,7 @@ playStream1();
 }, 500);
 })
 .catch(() => {
-console.error('Failed to load domainsz29.txt');
+console.error('Failed to load domainsz30.txt');
 });
 
 function getRandomStream(streamPath, subdomain = 'daffodil') {
