@@ -151,8 +151,7 @@
             }
             #playerContainer {
                 width: 100%;
-                height: 56.25vw;   /* clean 16:9, no black bars */
-                max-height: 80vh;
+                height: 72vh;   /* tall, to match the other stream pages */
             }
             /* No room for chat in portrait; it returns in landscape */
             .embedchat {
@@ -263,7 +262,7 @@ function isDesktop() {
 }
 
 // Load domains from txt file
-fetch('domainsz30.txt')
+fetch('domainsz29.txt')
   .then(response => response.text())
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
@@ -285,7 +284,7 @@ fetch('domainsz30.txt')
     }, 500);
   })
   .catch(() => {
-    console.error('Failed to load domainsz30.txt');
+    console.error('Failed to load domainsz29.txt');
   });
 
 function getRandomStream(streamPath, subdomain = '601') {
