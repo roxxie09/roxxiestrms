@@ -21,7 +21,6 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-EQ3BHVQGMN');
 </script>
 <style>
@@ -50,6 +49,7 @@
         #playerContainer {
             width: 100%;
             height: 100%;
+            position: relative; /* FIXED: added position relative */
         }
 
         .embedchat {
@@ -102,8 +102,18 @@
             display: flex;
             gap: 10px;
         }
+
+        /* FIXED: iframe sizing for PC players */
+        #starzplay-iframe {
+            width: 100% !important;
+            height: 100% !important;
+            border: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
     </style>
-</link></head>
+</head>
 <body>
 <nav class="navbar navbar-expand-lg bg-black">
 <div class="container-fluid">
@@ -112,7 +122,8 @@
 <span class="navbar-toggler-icon"></span>
 </button>
 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-<ul class="navbar-nav me-auto mb-2 mb-lg-0"><li class="nav-item"><a class="nav-link nav-link-soccer" href="https://roxiestreams.info/soccer">Soccer (WC 2026)</a></li>
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+<li class="nav-item"><a class="nav-link nav-link-soccer" href="https://roxiestreams.info/soccer">Soccer (WC 2026)</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/mlb">MLB</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nba">NBA</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/nfl">NFL</a></li>
@@ -120,7 +131,8 @@
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/fighting">Fighting</a></li>
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
 <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
-</ul><ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+</ul>
+<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 <li class="nav-item">
 <a class="nav-link d-flex align-items-center gap-1" href="https://roxiestreams.info/multiview">
 <svg fill="currentColor" height="16" viewbox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
@@ -133,6 +145,7 @@
 </div>
 </div>
 </nav>
+
 <div class="container container-fluid pt-2 text-white">
 <div class="fullplayer">
 <div id="playerContainer"></div>
@@ -153,24 +166,25 @@
 </div>
 </div>
 </div>
+
 <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
 <ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
 <li class="nav-item"><a class="nav-link px-2 text-body-secondary" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
 </ul>
 <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2026</p>
 </footer>
+
 <script>
 var clapprPlayer;
 var currentChat = 'yt';
 var domains = [];
-var subdomain = '601'  // Edit this per HTML file
+var subdomain = '601';  // Edit this per HTML file
 
 // Load domains from txt file
 fetch('domainsz29.txt')
   .then(response => response.text())
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
-    // Auto-load initial stream after domains load
     setTimeout(() => showPlayer('clappr', getRandomStream('simplyataide.m3u8')), 500);
   })
   .catch(() => {
@@ -179,17 +193,41 @@ fetch('domainsz29.txt')
 
 function getRandomStream(streamPath, subdomain = '601') {
   if (domains.length === 0) {
-    return `https://${subdomain}.shadow-ran.online/${streamPath}`; // Fallback
+    return `https://${subdomain}.shadow-ran.online/${streamPath}`;
   }
   const randomDomain = domains[Math.floor(Math.random() * domains.length)];
   return `https://${subdomain}.${randomDomain}/${streamPath}`;
 }
 
+// FIXED: Added missing playIframePlayer function
+function playIframePlayer(src) {
+  const container = document.getElementById('playerContainer');
+
+  if (clapprPlayer) {
+    clapprPlayer.destroy();
+    clapprPlayer = null;
+  }
+
+  container.innerHTML = '';
+  const iframe = document.createElement('iframe');
+  iframe.id = 'starzplay-iframe';
+  iframe.allowFullscreen = true;
+  iframe.src = src;
+  iframe.style.cssText = 'width:100%;height:100%;border:none;position:absolute;top:0;left:0;display:block;';
+  container.appendChild(iframe);
+}
+
 function showPlayer(playerType, stream) {
+  const container = document.getElementById('playerContainer');
+
+  if (clapprPlayer) {
+    clapprPlayer.destroy();
+    clapprPlayer = null;
+  }
+
+  container.innerHTML = '';
+
   if (playerType === "clappr") {
-    if (clapprPlayer) {
-      clapprPlayer.destroy();
-    }
     clapprPlayer = new Clappr.Player({
       source: stream,
       parentId: "#playerContainer",
@@ -205,73 +243,62 @@ function showPlayer(playerType, stream) {
 }
 
 window.onload = function() {
-        var toggleBtn = document.getElementById('toggleChat');
-        var chatContent = document.getElementById('chatContent');
+  var toggleBtn = document.getElementById('toggleChat');
+  var chatContent = document.getElementById('chatContent');
 
-        if (toggleBtn) {
-            toggleBtn.onclick = function() {
-                if (currentChat === 'yt') {
-                    chatContent.innerHTML = '';
+  if (toggleBtn) {
+    toggleBtn.onclick = function() {
+      if (currentChat === 'yt') {
+        chatContent.innerHTML = '';
 
-                    var script = document.createElement('script');
-                    script.id = 'cid0020000123456789012';
-                    script.async = true;
-                    script.src = 'https://st.chatango.com/js/gz/emb.js';
+        var script = document.createElement('script');
+        script.id = 'cid0020000123456789012';
+        script.async = true;
+        script.src = 'https://st.chatango.com/js/gz/emb.js';
 
-                    var config = {
-                        handle: 'roxiestreams',
-                        arch: 'js',
-                        styles: {
-                            a: '1a1a1a',
-                            b: 100,
-                            c: 'ffffff',
-                            d: 'ffffff',
-                            e: '1a1a1a',
-                            f: '000000',
-                            g: 'ffffff',
-                            h: '000000',
-                            i: 100,
-                            j: 'ffffff',
-                            k: 'e573b5',
-                            l: '1a1a1a',
-                            m: 'ffffff',
-                            n: 'ffffff',
-                            q: '1a1a1a',
-                            r: 100,
-                            t: 0,
-                            v: 0,
-                            w: 0
-                        }
-                    };
+        var config = {
+          handle: 'roxiestreams',
+          arch: 'js',
+          styles: {
+            a: '1a1a1a', b: 100, c: 'ffffff', d: 'ffffff',
+            e: '1a1a1a', f: '000000', g: 'ffffff', h: '000000',
+            i: 100, j: 'ffffff', k: 'e573b5', l: '1a1a1a',
+            m: 'ffffff', n: 'ffffff', q: '1a1a1a', r: 100,
+            t: 0, v: 0, w: 0
+          }
+        };
 
-                    script.innerHTML = JSON.stringify(config);
-                    chatContent.appendChild(script);
-                    toggleBtn.innerText = 'Switch to YouTube';
-                    currentChat = 'chatango';
-                } else {
-                    chatContent.innerHTML = '<iframe src="https://www.youtube.com/live_chat?v=mpwfjhmyEzw&amp;embed_domain=roxiestreams.info"></iframe>';
-                    toggleBtn.innerText = 'Switch to Chatango';
-                    currentChat = 'yt';
-                }
-            };
-        }
+        script.innerHTML = JSON.stringify(config);
+        chatContent.appendChild(script);
+        toggleBtn.innerText = 'Switch to YouTube';
+        currentChat = 'chatango';
+      } else {
+        chatContent.innerHTML = '<iframe src="https://www.youtube.com/live_chat?v=mpwfjhmyEzw&amp;embed_domain=roxiestreams.info"></iframe>';
+        toggleBtn.innerText = 'Switch to Chatango';
+        currentChat = 'yt';
+      }
     };
+  }
+};
 </script>
+
 <script>
-        document.addEventListener('contextmenu', function (e) {
-            e.preventDefault();
-        });
-        document.addEventListener('keydown', function (e) {
-            if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) ||
-                (e.ctrlKey && e.shiftKey && e.key === 'J')) {
-                e.preventDefault();
-            }
-        });
-    </script>
+  document.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) ||
+        (e.ctrlKey && e.shiftKey && e.key === 'J')) {
+      e.preventDefault();
+    }
+  });
+</script>
+
 <script src="js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
 aclib.runPop({
-zoneId: '10754426',
+  zoneId: '10754426',
 });
-</script></body>
+</script>
+</body>
 </html>
