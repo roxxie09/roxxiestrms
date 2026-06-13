@@ -178,7 +178,7 @@
     <div class="container container-fluid pt-2 text-white">
         <div class="fullplayer">
             <div id="playerContainer">
-                <iframe id="stream1pc-iframe" src="https://roxiestreams.info/raw/tsn" 
+                <iframe id="stream1pc-iframe" src="https://roxiestreams.info/raw/events1" 
                         style="display: none;" 
                         allowfullscreen></iframe>
             </div>
@@ -187,7 +187,7 @@
                 <button id="btn-tsn" class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', '601'))">TSN</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fox.m3u8', 'daffodil'))">FOX</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tele.m3u8', 'daffodil'))">TELEMUNDO</button>
-                <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/tsn')">PC ONLY (DIRECT)</button>
+                <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/events1')">PC ONLY (DIRECT)</button>
                 <button class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/peacock')">Tele (Peacock)</button>
             </div>
             <div class="embedchat">
@@ -237,7 +237,7 @@ fetch('domainsz29.txt')
 
     setTimeout(() => {
       if (isDesktop()) {
-        playIframePlayer('https://roxiestreams.info/raw/tsn');
+        playIframePlayer('https://roxiestreams.info/raw/events1');
       } else {
         showPlayer('clappr', getRandomStream('tsn.m3u8', '601'));
       }
