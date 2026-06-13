@@ -150,8 +150,12 @@
             }
             #playerContainer {
                 width: 100%;
-                height: 56.25vw;   /* 16:9 of the screen width */
-                max-height: 56vh;
+                height: max(56.25vw, 42vh); /* at least 16:9, but taller in portrait */
+                max-height: 62vh;
+            }
+            /* keep the stream from stretching when the box is taller than 16:9 */
+            #playerContainer video {
+                object-fit: contain;
             }
             /* Take the button row out of the absolute strip so it can wrap */
             .streamchanger {
@@ -177,7 +181,7 @@
             }
             .embedchat {
                 width: 100%;
-                height: 60vh;
+                height: 38vh;
                 margin-left: 0;
                 margin-top: 10px;
             }
@@ -229,6 +233,8 @@
                 <button id="btn-tsn" class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', '601'))">TSN</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tele.m3u8', 'daffodil'))">TELEMUNDO</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fox.m3u8', '601'))">FS1</button>
+                <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/tsn')">PC ONLY US (DIRECT)</button>
+                <button class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/events1')">Tele (Peacock)</button>
             </div>
             <div class="embedchat">
                 <div class="chat-header">
@@ -262,7 +268,7 @@ function isDesktop() {
 }
 
 // Load domains from txt file
-fetch('domainsz30.txt')
+fetch('domainsz29.txt')
   .then(response => response.text())
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
@@ -284,7 +290,7 @@ fetch('domainsz30.txt')
     }, 500);
   })
   .catch(() => {
-    console.error('Failed to load domainsz30.txt');
+    console.error('Failed to load domainsz29.txt');
   });
 
 function getRandomStream(streamPath, subdomain = '601') {
