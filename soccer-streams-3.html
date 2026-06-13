@@ -15,6 +15,25 @@
     <link href="/css/buttons.css" rel="stylesheet">
 <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
 <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
+    <script>
+      (function () {
+        function def(name, fn) {
+          if (!Map.prototype[name]) {
+            Object.defineProperty(Map.prototype, name, {
+              value: fn, writable: true, configurable: true, enumerable: false
+            });
+          }
+        }
+        def('getOrInsert', function (key, d) {
+          if (!this.has(key)) this.set(key, d);
+          return this.get(key);
+        });
+        def('getOrInsertComputed', function (key, cb) {
+          if (!this.has(key)) this.set(key, cb(key));
+          return this.get(key);
+        });
+      })();
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dash-shaka-playback@latest/dist/dash-shaka-playback.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/clappr-level-selector-plugin@latest/dist/level-selector.min.js"></script>
@@ -142,6 +161,16 @@
 <li class="nav-item"><a class="nav-link" href="https://roxiestreams.info/motorsports">Motorsports</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
                 </ul>
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-1" href="https://roxiestreams.info/multiview">
+                            <svg fill="currentColor" height="16" viewbox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0 1.5A1.5 1.5 0 0 1 1.5 0h13A1.5 1.5 0 0 1 16 1.5v13a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13zM1.5 1a.5.5 0 0 0-.5.5V7h6V1H1.5zM7 8H1v6.5a.5.5 0 0 0 .5.5H7V8zm1 0v7h6.5a.5.5 0 0 0 .5-.5V8H8zm0-1h7V1.5a.5.5 0 0 0-.5-.5H8v6z"></path>
+                            </svg>
+                            MultiView (NEW)
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -149,18 +178,17 @@
     <div class="container container-fluid pt-2 text-white">
         <div class="fullplayer">
             <div id="playerContainer">
-                <!-- Stream 1 PC embed (TSN) -->
-                <iframe id="stream1pc-iframe" src="https://roxiestreams.info/raw/tsn.html" 
+                <iframe id="stream1pc-iframe" src="https://roxiestreams.info/raw/tsn" 
                         style="display: none;" 
                         allowfullscreen></iframe>
             </div>
 
             <div class="streamchanger">
                 <button id="btn-tsn" class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', '601'))">TSN</button>
+                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fox.m3u8', 'daffodil'))">FOX</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tele.m3u8', 'daffodil'))">TELEMUNDO</button>
-                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fox.m3u8', '601'))">FS1</button>
-                <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/tsn.html')">PC ONLY US (DIRECT)</button>
-                <button class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/events1.html')">Tele (Peacock)</button>
+                <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/tsn')">PC ONLY (DIRECT)</button>
+                <button class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/peacock')">Tele (Peacock)</button>
             </div>
             <div class="embedchat">
                 <div class="chat-header">
@@ -199,24 +227,18 @@ fetch('domainsz29.txt')
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
     
-    // Desktop: move PC ONLY to the front so it's the first button; every other
-    // button just shifts down one. Each button keeps its own inline onclick;
-    // we only move the element and adjust the label. (Mobile is left as-is.)
     if (isDesktop()) {
       const pcBtn = document.getElementById('btn-pconly');
       if (pcBtn && pcBtn.parentNode) {
         pcBtn.parentNode.insertBefore(pcBtn, pcBtn.parentNode.firstElementChild);
-        pcBtn.innerText = 'PC ONLY (DIRECT)'; // desktop label
+        pcBtn.innerText = 'PC ONLY (DIRECT)';
       }
     }
 
-    // Auto-load initial stream after domains load (per-device default)
     setTimeout(() => {
       if (isDesktop()) {
-        // Desktop default: PC ONLY embed
-        playIframePlayer('https://roxiestreams.info/raw/tsn.html');
+        playIframePlayer('https://roxiestreams.info/raw/tsn');
       } else {
-        // Mobile default: TSN m3u8
         showPlayer('clappr', getRandomStream('tsn.m3u8', '601'));
       }
     }, 500);
@@ -233,12 +255,9 @@ function getRandomStream(streamPath, subdomain = '601') {
   return `https://${subdomain}.${randomDomain}/${streamPath}`;
 }
 
-// Generic embed player: loads a self-contained player page into the iframe.
-// Used by both TSN (tsn.html) and Peacock (events1.html).
 function playIframePlayer(src) {
   const container = document.getElementById('playerContainer');
 
-  // Tear down any active Clappr/Shaka player
   if (clapprPlayer) {
     clapprPlayer.destroy();
     clapprPlayer = null;
@@ -252,21 +271,13 @@ function playIframePlayer(src) {
     shakaUI = null;
   }
 
-  // showPlayer() runs container.innerHTML = '', which deletes the iframe.
-  // So if it's missing, rebuild it instead of assuming it still exists.
-  let iframe = document.getElementById('stream1pc-iframe');
-  if (!iframe) {
-    container.innerHTML = '';                 // clear any leftover player nodes
-    iframe = document.createElement('iframe');
-    iframe.id = 'stream1pc-iframe';
-    iframe.allowFullscreen = true;
-    container.appendChild(iframe);
-  }
-  // Only (re)load if the src actually changed, to avoid a needless restart
-  if (iframe.src !== src) {
-    iframe.src = src;
-  }
+  container.innerHTML = '';
+  const iframe = document.createElement('iframe');
+  iframe.id = 'stream1pc-iframe';
+  iframe.allowFullscreen = true;
+  iframe.src = src;
   iframe.style.display = 'block';
+  container.appendChild(iframe);
 }
 
 async function initShaka(container, video, stream, drmConfig) {
