@@ -142,29 +142,7 @@
         }
 
         /* ---- Mobile: stack the layout and let the stream buttons wrap ---- */
-        /* Stream-button scroller arrows (shown on mobile only when buttons overflow) */
-        .stream-nav { display: contents; }   /* desktop: behaves as if not wrapped */
-        .stream-arrow {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 38px;
-            border: none;
-            margin: 0;
-            padding: 0;
-            cursor: pointer;
-            color: #fff;
-            font-size: 24px;
-            line-height: 1;
-            z-index: 5;
-            display: none;            /* shown only when there's overflow (mobile) */
-            align-items: center;
-            justify-content: center;
-        }
-        .stream-arrow-left  { left: 0;  background: linear-gradient(to right, rgba(0,0,0,0.9), rgba(0,0,0,0)); }
-        .stream-arrow-right { right: 0; background: linear-gradient(to left,  rgba(0,0,0,0.9), rgba(0,0,0,0)); }
-
-        /* ---- Phones in PORTRAIT: hide chat, clean player, one-row buttons ---- */
+        /* ---- Phones in PORTRAIT: hide chat, clean player, buttons wrap to fit ---- */
         @media (max-width: 768px) and (orientation: portrait) {
             .fullplayer {
                 flex-direction: column;
@@ -179,40 +157,26 @@
             .embedchat {
                 display: none;
             }
-            /* The wrapper becomes the positioned, ordered container above the player */
-            .stream-nav {
-                display: block;
-                position: relative;
-                order: -1;
-                width: 100%;
-                margin: 0 0 10px;
-            }
-            /* Buttons: single row, swipe sideways if they overflow
-               (never wrap down into the player) */
+            /* Buttons sit above the player and wrap onto as many centered rows as
+               needed, so they all fit no matter how many there are */
             .streamchanger {
                 position: static;
+                order: -1;
                 top: auto;
                 left: auto;
                 width: 100%;
-                margin: 0;
-                flex-wrap: nowrap;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
+                margin: 0 0 10px;
+                flex-wrap: wrap;
+                justify-content: center;
                 gap: 8px;
-                padding-bottom: 4px;
-                scrollbar-width: none;                 /* hide scrollbar (Firefox) */
             }
-            .streamchanger::-webkit-scrollbar { display: none; } /* hide scrollbar (WebKit) */
             .streamchanger .streambutton {
-                flex: 0 0 auto;        /* keep natural size, don't shrink or wrap */
+                flex: 0 0 auto;        /* each button hugs its own label */
                 white-space: nowrap;
                 margin-right: 0;       /* gap handles spacing */
                 padding-left: 12px;
                 padding-right: 12px;
             }
-            /* Arrows appear only when buttons are cut off on that side */
-            .stream-nav.show-left  .stream-arrow-left  { display: flex; }
-            .stream-nav.show-right .stream-arrow-right { display: flex; }
         }
     </style>
 
@@ -448,53 +412,7 @@ function showPlayer(playerType, stream, drmConfig) {
   }
 }
 
-// Wrap the stream-button row and add left/right arrows that appear when the
-// buttons overflow (mobile). Tapping an arrow scrolls to reveal hidden buttons;
-// arrows hide at each end and when everything already fits.
-function setupStreamArrows() {
-  document.querySelectorAll('.streamchanger').forEach(function (sc) {
-    if (sc.parentElement && sc.parentElement.classList.contains('stream-nav')) return;
-
-    var nav = document.createElement('div');
-    nav.className = 'stream-nav';
-    sc.parentNode.insertBefore(nav, sc);
-    nav.appendChild(sc);
-
-    var left = document.createElement('button');
-    left.type = 'button';
-    left.className = 'stream-arrow stream-arrow-left';
-    left.setAttribute('aria-label', 'Show previous streams');
-    left.innerHTML = '\u2039';   // ‹
-    var right = document.createElement('button');
-    right.type = 'button';
-    right.className = 'stream-arrow stream-arrow-right';
-    right.setAttribute('aria-label', 'Show more streams');
-    right.innerHTML = '\u203A';  // ›
-    nav.appendChild(left);
-    nav.appendChild(right);
-
-    function step() { return Math.max(120, sc.clientWidth * 0.7); }
-    left.addEventListener('click', function () { sc.scrollBy({ left: -step(), behavior: 'smooth' }); });
-    right.addEventListener('click', function () { sc.scrollBy({ left: step(), behavior: 'smooth' }); });
-
-    function update() {
-      var overflow = (sc.scrollWidth - sc.clientWidth) > 1;
-      var atStart = sc.scrollLeft <= 1;
-      var atEnd = sc.scrollLeft >= (sc.scrollWidth - sc.clientWidth - 1);
-      nav.classList.toggle('show-left', overflow && !atStart);
-      nav.classList.toggle('show-right', overflow && !atEnd);
-    }
-    sc.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    window.addEventListener('orientationchange', function () { setTimeout(update, 200); });
-    update();
-    setTimeout(update, 300);   // re-check after fonts/layout settle
-  });
-}
-
 window.onload = function() {
-        setupStreamArrows();
-
         var toggleBtn = document.getElementById('toggleChat');
         var chatContent = document.getElementById('chatContent');
 
