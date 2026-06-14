@@ -278,6 +278,35 @@ console.error('Error code', e.code, 'object', e);
 return { player, ui };
 }
 
+function playIframePlayer(src) {
+  var container = document.getElementById('playerContainer');
+
+  if (typeof clapprPlayer !== 'undefined' && clapprPlayer) {
+    clapprPlayer.destroy();
+    clapprPlayer = null;
+  }
+  if (typeof shakaPlayer !== 'undefined' && shakaPlayer) {
+    shakaPlayer.destroy();
+    shakaPlayer = null;
+  }
+  if (typeof shakaUI !== 'undefined' && shakaUI) {
+    shakaUI.destroy();
+    shakaUI = null;
+  }
+
+  // Rebuild the iframe each call so re-pressing the button reloads the stream
+  container.innerHTML = '';
+  var iframe = document.createElement('iframe');
+  iframe.id = 'stream1pc-iframe';
+  iframe.allowFullscreen = true;
+  iframe.src = src;
+  iframe.style.width = '100%';
+  iframe.style.height = '100%';
+  iframe.style.border = 'none';
+  iframe.style.display = 'block';
+  container.appendChild(iframe);
+}
+
 function showPlayer(playerType, stream, drmConfig) {
 const container = document.getElementById('playerContainer');
 
@@ -321,6 +350,8 @@ return;
 }
 
 if (playerType === "clappr") {
+  var __pcFrame = document.getElementById('stream1pc-iframe');
+  if (__pcFrame) __pcFrame.remove();
 clapprPlayer = new Clappr.Player({
 source: stream,
 parentId: "#playerContainer",
