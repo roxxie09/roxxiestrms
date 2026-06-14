@@ -5,37 +5,74 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Live Stream</title>
+  <script>
+    (function () {
+      function def(name, fn) {
+        if (!Map.prototype[name]) {
+          Object.defineProperty(Map.prototype, name, {
+            value: fn, writable: true, configurable: true, enumerable: false
+          });
+        }
+      }
+      def('getOrInsert', function (key, d) {
+        if (!this.has(key)) this.set(key, d);
+        return this.get(key);
+      });
+      def('getOrInsertComputed', function (key, cb) {
+        if (!this.has(key)) this.set(key, cb(key));
+        return this.get(key);
+      });
+    })();
+  </script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css">
+  <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.js"></script>
   <style>
-    body {
+    html, body {
       margin: 0;
-      background: #000;
-      color: #fff;
-    }
-    #jwplayerDiv {
       width: 100%;
-      height: 100vh;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+    }
+    #video-container {
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      inset: 0;
+      background: #000;
+    }
+    video {
+      width: 100%;
+      height: 100%;
+    }
+    [data-shaka-player-container] {
+      width: 100% !important;
+      height: 100% !important;
+      background: #000;
     }
   </style>
 </head>
 <body>
-  <div id="jwplayerDiv"></div>
-
-  <script src="https://content.jwplatform.com/libraries/IDzF9Zmk.js"></script>
+  <div id="video-container" data-shaka-player-container>
+    <video id="video" data-shaka-player autoplay playsinline></video>
+  </div>
   <script>
-    jwplayer("jwplayerDiv").setup({
-      file: "https://dck1-fs-live.dtcdn.dazn.com/v1/dash/dd9ef956a8aeac50cfbdf4d7897caa9186ef8f9b/dazn-strex-sports-live-drm-session/out/v1/814bffb9b389f652/d65feac5647949e6b45b2674d4715398/index.mpd?aws.sessionId=a72ed684-38eb-42e8-b197-68dfc8648376&dazn-token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InV1aWRfMSJ9.eyJwYXRocyI6WyIvb3V0L3YxLzgxNGJmZmI5YjM4OWY2NTIvZDY1ZmVhYzU2NDc5NDllNmI0NWIyNjc0ZDQ3MTUzOTgiXSwiZXhjIjpbXSwiaGVhZGVycyI6WyJ1c2VyLWFnZW50Il0sImNvIjp0cnVlLCJpcCI6ZmFsc2UsImFzbiI6WyI0NzY0Il0sImludHNpZyI6InZ4dVUxMjJHMHA5LW1tZFZFNG9aYjZyMEh2SkpWMUpYWnhmWWMyY25TUGMiLCJpYXQiOjE3NzkyNDMzNzIsImV4cCI6MTc3OTMyOTc3Mn0.HWTWQUWxwlx_uEg_kQmH0BxajlGsHHaYdK3ihsg7psQ&ck=eyIwMWM5YmJmODEzN2U1ODM3OGE1ZWFkNTE0OTk4YTdiNCI6ImZiMDFlNjE4MDllODBlNWU5M2E4ODljZDMxZGFhYjIyIn0%3D",
-      type: "dash",
-      width: "100%",
-      height: "100%",
-      autostart: true,
-      title: "Live Stream",
-      drm: {
-        clearkey: {
-          keyId: "01c9bbf8137e58378a5ead514998a7b4",
-          key: "fb01e61809e80e5e93a889cd31daab22"
+    async function init() {
+      const video = document.getElementById('video');
+      const container = document.getElementById('video-container');
+      const player = new shaka.Player(video);
+      const ui = new shaka.ui.Overlay(player, container, video);
+      player.configure({
+        drm: {
+          clearKeys: {
+            "c620c93c60c04999eb9ddc28ecfb70a8": "e76a709c251313190e76cb3c3d3a5824"
+          }
         }
-      }
-    });
+      });
+      await player.load("https://abgfgo7aaaaaaaammo4qlji7ci5df.ta.bia-cf.live.pv-cdn.net/pdx-nitro/live/clients/dash/enc/ap5wz1ofsp/out/v1/7fa6feef143747beaa186ebb6dfb2532/cenc.mpd");
+    }
+    init().catch(console.error);
   </script>
 </body>
 </html>
