@@ -64,17 +64,17 @@
       const player = new shaka.Player(video);
       const ui = new shaka.ui.Overlay(player, container, video);
       
-      // Configured with Starzplay Sports 2 50FPS ClearKey mapping
+      // Configured with updated Peacock us-east-1 ClearKey mapping
       player.configure({
         drm: {
           clearKeys: {
-            "00220998c990b23a28cc3bb27d0b5959": "cc56fb5a104424001c4fea1f86b5ce46"
+            "002288cccdf804afaf9fea036bb7a3f1": "dbe8c4231d9af8bc707f85383765ef7a"
           }
         }
       });
       
-      // Loaded with the 50fps high-frame-rate target manifest
-      await player.load("https://g003-sle-us-cmaf-prd-fy.cdn.peacocktv.com/pck-sle/us-west-2/v1/dash/6f3f45fea6332a47667932dede90d20a96f2690c/peacock-dash-sle-4s-generic-cfd/co01/pcksle2/Content/CMAF_CTR-4s-v2/Live/channel(5021900-723758-491409bd62e)/master_2hr.mpd?c3.ri=6a2db8cb_Q1ZYMDc_1_RkFTVExZ_d605c16345e4%3A0&aws.sessionId=6387ee6a-ba89-4004-9545-348bd7778bc8&ck=eyIwMDIyMDk5OGM5OTBiMjNhMjhjYzNiYjI3ZDBiNTk1OSI6ImNjNTZmYjVhMTA0NDI0MDAxYzRmZWExZjg2YjVjZTQ2In0%3D");
+      // Loaded with the new dynamic master_2hr.mpd target manifest
+      await player.load("https://g003-sle-us-cmaf-prd-cf.cdn.peacocktv.com/pck-sle/us-east-1/v1/dash/6f3f45fea6332a47667932dede90d20a96f2690c/peacock-dash-sle-4s-generic-cfd/co01/pcksle2/Content/CMAF_CTR-4s-v2/Live/channel(5021113-722971-49111b3285b)/master_2hr.mpd?c3.ri=6a3066d3_Q1ZYMDc_1_Q0xPVURGUk9OVA_07869fa5aec4%3A0&aws.sessionId=60561321-79d2-4862-862d-5b8a76f7716c&ck=eyIwMDIyODhjY2NkZjgwNGFmYWY5ZmVhMDM2YmI3YTNmMSI6ImRiZThjNDIzMWQ5YWY4YmM3MDdmODUzODM3NjVlZjdhIn0%3D");
     }
     init().catch(console.error);
   </script>
