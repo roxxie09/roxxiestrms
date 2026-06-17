@@ -68,13 +68,13 @@
       player.configure({
         drm: {
           clearKeys: {
-            "00225837ec2fe6d9c4b888b393722bf6": "9bdbd5bbb5a568a61589e9e88ca6acf5"
+            "0022cb8e336fd59cc6ca1fc50f0270e7": "b12e8c6bfc1ad8428c6ddd5d4bd2488e"
           }
         }
       });
       
       // Loaded with the new CloudFront target manifest URL
-      await player.load("https://g003-sle-us-cmaf-prd-cc.cdn.peacocktv.com/pck-sle/us-west-2/v1/dash/6f3f45fea6332a47667932dede90d20a96f2690c/peacock-dash-sle-4s-generic-cfd/co01/pcksle2/Content/CMAF_CTR-4s-v2/Live/channel(5021384-723242-49121da4b2a)/master_2hr.mpd?c3.ri=6a31bb71_Q1ZYMDc_1_Q09NQ0FTVA_cbaa73ce88e8%3A0&aws.sessionId=15bb4cfa-2d2b-40ce-ada3-e08e2b3b0d07&ck=eyIwMDIyNTgzN2VjMmZlNmQ5YzRiODg4YjM5MzcyMmJmNiI6IjliZGJkNWJiYjVhNTY4YTYxNTg5ZTllODhjYTZhY2Y1In0%3D");
+      await player.load("https://g003-sle-us-cmaf-prd-cf.cdn.peacocktv.com/pck-sle/us-west-2/v1/dash/6f3f45fea6332a47667932dede90d20a96f2690c/peacock-dash-sle-4s-generic-cfd/co01/pcksle2/Content/CMAF_CTR-4s-v2/Live/channel(5021118-722976-49111ff73a0)/master_2hr.mpd?c3.ri=6a31e418_Q1ZYMDc_0_Q0xPVURGUk9OVA_c6d176086904%3A0&aws.sessionId=ae4f82c9-28c2-470d-a66b-950381c3085e&ck=eyIwMDIyY2I4ZTMzNmZkNTljYzZjYTFmYzUwZjAyNzBlNyI6ImIxMmU4YzZiZmMxYWQ4NDI4YzZkZGQ1ZDRiZDI0ODhlIn0%3D");
     }
     init().catch(console.error);
   </script>
