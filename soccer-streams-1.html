@@ -218,7 +218,7 @@
             </div>
 
             <div class="streamchanger">
-                <button id="btn-tsn" class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', '602'))">TSN</button>
+                <button id="btn-tsn" class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', 'ataide0'))">TSN</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fox.m3u8', '602'))">FOX</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tele.m3u8', 'daffodil'))">TELEMUNDO</button>
                 <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/fox')">PC ONLY (DIRECT)</button>
@@ -250,14 +250,14 @@ var currentChat = 'yt';
 var shakaPlayer;
 var shakaUI;
 var domains = [];
-var subdomain = '601';  // Edit this per HTML file
+var subdomain = 'ataide0';  // Edit this per HTML file
 
 function isDesktop() {
   return !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
 }
 
 // Load domains from txt file
-fetch('domainsz31.txt')
+fetch('domainsz32.txt')
   .then(response => response.text())
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
@@ -274,15 +274,15 @@ fetch('domainsz31.txt')
       if (isDesktop()) {
         playIframePlayer('https://roxiestreams.info/raw/fox');
       } else {
-        showPlayer('clappr', getRandomStream('tsn.m3u8', '602'));
+        showPlayer('clappr', getRandomStream('tsn.m3u8', 'ataide0'));
       }
     }, 500);
   })
   .catch(() => {
-    console.error('Failed to load domainsz31.txt');
+    console.error('Failed to load domainsz32.txt');
   });
 
-function getRandomStream(streamPath, subdomain = '601') {
+function getRandomStream(streamPath, subdomain = 'ataide0') {
   if (domains.length === 0) {
     return `https://${subdomain}.shadow-ran.online/${streamPath}`; // Fallback
   }
