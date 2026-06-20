@@ -212,7 +212,7 @@
     <div class="container container-fluid pt-2 text-white">
         <div class="fullplayer">
             <div id="playerContainer">
-                <iframe id="stream1pc-iframe" src="https://roxiestreams.info/raw/peacock2" 
+                <iframe id="stream1pc-iframe" src="https://roxiestreams.info/raw/peacocksupercross" 
                         style="display: none;" 
                         allowfullscreen></iframe>
             </div>
@@ -220,7 +220,7 @@
             <div class="streamchanger">
                 <button id="btn-tsn" class="streambutton" onclick="showPlayer('clappr', getRandomStream('sx.m3u8', 'ataide0'))">Stream 1</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('sx.m3u8', '601'))">Stream 2</button>
-                <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/peacock')">PC ONLY (DIRECT)</button>
+                <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/peacocksupercross')">PC ONLY (DIRECT)</button>
             </div>
             <div class="embedchat">
                 <div class="chat-header">
@@ -269,7 +269,7 @@ fetch('domainsz33.txt')
 
     setTimeout(() => {
       if (isDesktop()) {
-        playIframePlayer('https://roxiestreams.info/raw/peacock2');
+        playIframePlayer('https://roxiestreams.info/raw/peacocksupercross');
       } else {
         showPlayer('clappr', getRandomStream('sx.m3u8', 'ataide0'));
       }
