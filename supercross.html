@@ -171,7 +171,7 @@
 <div class="fullplayer">
 <div id="playerContainer"></div>
 <div class="streamchanger">
-<button class="streambutton" onclick="showPlayer('clappr', getRandomStream('sx.m3u8', '601'))">Stream 1</button>
+<button class="streambutton" onclick="showPlayer('clappr', 'https://602.formaturamaxi.com.br/sx.m3u8')">Stream 1</button>
 </div>
 <div class="embedchat">
 <div class="chat-header">
@@ -190,144 +190,62 @@
 </ul>
 <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2026</p>
 </footer>
-                    <li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
-                </ul>
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center gap-1" href="https://roxiestreams.info/multiview">
-                            <svg fill="currentColor" height="16" viewbox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M0 1.5A1.5 1.5 0 0 1 1.5 0h13A1.5 1.5 0 0 1 16 1.5v13a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13zM1.5 1a.5.5 0 0 0-.5.5V7h6V1H1.5zM7 8H1v6.5a.5.5 0 0 0 .5.5H7V8zm1 0v7h6.5a.5.5 0 0 0 .5-.5V8H8zm0-1h7V1.5a.5.5 0 0 0-.5-.5H8v6z"></path>
-                            </svg>
-                            MultiView (NEW)
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container container-fluid pt-2 text-white">
-        <div class="fullplayer">
-            <div id="playerContainer">
-                <iframe id="stream1pc-iframe" src="https://roxiestreams.info/raw/peacocksupercross" 
-                        style="display: none;" 
-                        allowfullscreen></iframe>
-            </div>
-
-            <div class="streamchanger">
-                <button id="btn-tsn" class="streambutton" onclick="showPlayer('clappr', getRandomStream('sx.m3u8', 'ataide0'))">Stream 1</button>
-                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('sx.m3u8', '601'))">Stream 2</button>
-                <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/peacocksupercross')">PC ONLY (DIRECT)</button>
-            </div>
-            <div class="embedchat">
-                <div class="chat-header">
-                    <span style="font-size: 10px; color: pink; font-weight: bold;">LIVE CHAT</span>
-                    <button class="chat-toggle-btn" id="toggleChat">Switch to Chatango</button>
-                </div>
-                <div id="chatContent">
-                    <iframe src="https://www.youtube.com/live_chat?v=mpwfjhmyEzw&amp;embed_domain=roxiestreams.info"></iframe>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-        <ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
-            <li class="nav-item"><a href="https://discord.gg/JhkVmejRmn" class="nav-link px-2 text-body-secondary">Stream Request (Discord)</a></li>
-        </ul>
-        <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2026</p>
-    </footer>
-
 <script>
-var clapprPlayer;
+        var clapprPlayer;
 var currentChat = 'yt';
-var domains = [];
-var subdomain = '601'  // Edit this per HTML file
 
-// Load domains from txt file
-fetch('domainsz33.txt')
-  .then(response => response.text())
-  .then(data => {
-    domains = data.trim().split('\n').filter(d => d.trim());
-    // Auto-load initial stream after domains load
-    setTimeout(() => showPlayer('clappr', getRandomStream('sx.m3u8')), 500);
-    
-    if (isDesktop()) {
-      const pcBtn = document.getElementById('btn-pconly');
-      if (pcBtn && pcBtn.parentNode) {
-        pcBtn.parentNode.insertBefore(pcBtn, pcBtn.parentNode.firstElementChild);
-        pcBtn.innerText = 'PC ONLY (DIRECT)';
-      }
-    }
+        function playIframePlayer(src) {
+          var container = document.getElementById('playerContainer');
 
-    setTimeout(() => {
-      if (isDesktop()) {
-        playIframePlayer('https://roxiestreams.info/raw/peacocksupercross');
-      } else {
-        showPlayer('clappr', getRandomStream('sx.m3u8', 'ataide0'));
-      }
-    }, 500);
-  })
-  .catch(() => {
-    console.error('Failed to load domainsz33.txt');
-  });
+          if (typeof clapprPlayer !== 'undefined' && clapprPlayer) {
+            clapprPlayer.destroy();
+            clapprPlayer = null;
+          }
+          if (typeof shakaPlayer !== 'undefined' && shakaPlayer) {
+            shakaPlayer.destroy();
+            shakaPlayer = null;
+          }
+          if (typeof shakaUI !== 'undefined' && shakaUI) {
+            shakaUI.destroy();
+            shakaUI = null;
+          }
 
-function getRandomStream(streamPath, subdomain = '601') {
-  if (domains.length === 0) {
-    return `https://${subdomain}.shadow-ran.online/${streamPath}`; // Fallback
-  }
-  const randomDomain = domains[Math.floor(Math.random() * domains.length)];
-  return `https://${subdomain}.${randomDomain}/${streamPath}`;
-}
+          // Rebuild the iframe each call so re-pressing the button reloads the stream
+          container.innerHTML = '';
+          var iframe = document.createElement('iframe');
+          iframe.id = 'stream1pc-iframe';
+          iframe.allowFullscreen = true;
+          iframe.src = src;
+          iframe.style.width = '100%';
+          iframe.style.height = '100%';
+          iframe.style.border = 'none';
+          iframe.style.display = 'block';
+          container.appendChild(iframe);
+        }
 
-function playIframePlayer(src) {
-  var container = document.getElementById('playerContainer');
+        function showPlayer(playerType, stream) {
+            if (playerType === "clappr") {
+              var __pcFrame = document.getElementById('stream1pc-iframe');
+              if (__pcFrame) __pcFrame.remove();
+                if (clapprPlayer) {
+                    clapprPlayer.destroy();
+                }
 
-  if (typeof clapprPlayer !== 'undefined' && clapprPlayer) {
-    clapprPlayer.destroy();
-    clapprPlayer = null;
-  }
-  if (typeof shakaPlayer !== 'undefined' && shakaPlayer) {
-    shakaPlayer.destroy();
-    shakaPlayer = null;
-  }
-  if (typeof shakaUI !== 'undefined' && shakaUI) {
-    shakaUI.destroy();
-    shakaUI = null;
-  }
+                clapprPlayer = new Clappr.Player({
+                    source: stream,
+                    parentId: "#playerContainer",
+                    height: '100%',
+                    width: '100%',
+                    autoPlay: true,
+                    playback: {
+                      playInline: true,
+                      recycleVideo: true
+                    },
+                });
+            }
+        }
 
-  container.innerHTML = '';
-  var iframe = document.createElement('iframe');
-  iframe.id = 'stream1pc-iframe';
-  iframe.allowFullscreen = true;
-  iframe.src = src;
-  iframe.style.width = '100%';
-  iframe.style.height = '100%';
-  iframe.style.border = 'none';
-  iframe.style.display = 'block';
-  container.appendChild(iframe);
-}
-
-function showPlayer(playerType, stream) {
-  if (playerType === "clappr") {
-    var __pcFrame = document.getElementById('stream1pc-iframe');
-    if (__pcFrame) __pcFrame.remove();
-    if (clapprPlayer) {
-      clapprPlayer.destroy();
-    }
-    clapprPlayer = new Clappr.Player({
-      source: stream,
-      parentId: "#playerContainer",
-      height: '100%',
-      width: '100%',
-      autoPlay: true,
-      playback: {
-        playInline: true,
-        recycleVideo: true
-      },
-    });
-  }
-}
+        showPlayer('clappr', 'https://602.formaturamaxi.com.br/sx.m3u8');
 
 window.onload = function() {
         var toggleBtn = document.getElementById('toggleChat');
@@ -381,11 +299,12 @@ window.onload = function() {
             };
         }
     };
-</script>
+    </script>
 <script>
         document.addEventListener('contextmenu', function (e) {
             e.preventDefault();
         });
+
         document.addEventListener('keydown', function (e) {
             if ((e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C'))) ||
                 (e.ctrlKey && e.shiftKey && e.key === 'J')) {
@@ -399,6 +318,4 @@ aclib.runPop({
 zoneId: '10754426',
 });
 </script></body>
-</script>
-</body>
 </html>
