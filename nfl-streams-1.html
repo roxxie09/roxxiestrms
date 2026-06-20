@@ -198,7 +198,7 @@ var domains = [];
 var subdomain = '601'  // Edit this per HTML file
 
 // Load domains from txt file
-fetch('domainsz33.txt')
+fetch('domainsz34.txt')
   .then(response => response.text())
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
@@ -206,7 +206,7 @@ fetch('domainsz33.txt')
     setTimeout(() => showPlayer('clappr', getRandomStream('nfl.m3u8')), 500);
   })
   .catch(() => {
-    console.error('Failed to load domainsz33.txt');
+    console.error('Failed to load domainsz34.txt');
   });
 
 function getRandomStream(streamPath, subdomain = '601') {
