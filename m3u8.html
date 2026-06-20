@@ -194,7 +194,7 @@
         }
 
         // Sniff the domains txt filename directly out of the page's HTML source.
-        // Looks for any reference matching domains*.txt (e.g. domainsz32.txt, domainsd.txt, domains_v3.txt)
+        // Looks for any reference matching domains*.txt (e.g. domainsz33.txt, domainsd.txt, domains_v3.txt)
         // so it auto-adapts whenever you rename the file — no hardcoding needed.
         function sniffDomainsFilename(html) {
             const match = html.match(/domains[^"'\s]*\.txt/i);
