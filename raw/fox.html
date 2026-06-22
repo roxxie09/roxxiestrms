@@ -6,30 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Live Stream</title>
 
-  <script>
-    (function () {
-      function def(name, fn) {
-        if (!Map.prototype[name]) {
-          Object.defineProperty(Map.prototype, name, {
-            value: fn, writable: true, configurable: true, enumerable: false
-          });
-        }
-      }
-      def('getOrInsert', function (key, d) {
-        if (!this.has(key)) this.set(key, d);
-        return this.get(key);
-      });
-      def('getOrInsertComputed', function (key, cb) {
-        if (!this.has(key)) this.set(key, cb(key));
-        return this.get(key);
-      });
-    })();
-  </script>
+  <!-- Pre-warm CDN and stream origin connections -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://otte.cache.aiv-cdn.net">
+  <link rel="dns-prefetch" href="https://otte.cache.aiv-cdn.net">
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css">
-  <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/dash-shaka-playback@latest/dist/dash-shaka-playback.min.js"></script>
+  <!-- Pinned stable versions instead of @latest (avoids redirect overhead) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@4.11.1/dist/controls.css">
+  <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.11.1/dist/shaka-player.ui.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/clappr@0.4.11/dist/clappr.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dash-shaka-playback@3.1.1/dist/dash-shaka-playback.min.js"></script>
 
   <style>
     html, body { margin: 0; width: 100%; height: 100%; background: #000; overflow: hidden; }
@@ -65,6 +51,7 @@
     const MPD = "https://otte.cache.aiv-cdn.net/bom-nitro/live/clients/dash/enc/3gg2jnixjn/out/v1/e1840e01f3f14563b66bbb944d5cc54c/cenc.mpd";
     const CLEAR_KEYS = { "f8b207c10f3f76aeba32a360ec52b9e4": "afad49d20eb39670e93e371c1d669921" };
 
+    // Shaka is now first — faster/more reliable for DASH+ClearKey
     const ENGINES = ['shaka', 'clappr'];
     const LABELS = { shaka: 'Shaka', clappr: 'Clappr' };
     let engineIndex = 0;
@@ -84,41 +71,67 @@
     async function startShaka() {
       const wrap = document.createElement('div');
       wrap.setAttribute('data-shaka-player-container', '');
-      wrap.style.width = '100%';
-      wrap.style.height = '100%';
+      wrap.style.cssText = 'width:100%;height:100%';
 
       const video = document.createElement('video');
       video.setAttribute('data-shaka-player', '');
       video.autoplay = true;
       video.setAttribute('playsinline', '');
-      video.style.width = '100%';
-      video.style.height = '100%';
+      video.setAttribute('preload', 'none'); // prevent double-fetch
+      video.style.cssText = 'width:100%;height:100%';
 
       wrap.appendChild(video);
       container().appendChild(wrap);
 
       const player = new shaka.Player(video);
-      const ui = new shaka.ui.Overlay(player, wrap, video);
-      player.configure({ drm: { clearKeys: CLEAR_KEYS } });
+      new shaka.ui.Overlay(player, wrap, video);
+
+      player.configure({
+        drm: { clearKeys: CLEAR_KEYS },
+        // Start at lower quality for faster initial buffer, then ramp up
+        abr: {
+          enabled: true,
+          defaultBandwidthEstimate: 1000000, // start assuming 1 Mbps
+          switchInterval: 8
+        },
+        streaming: {
+          bufferingGoal: 10,        // only buffer 10s ahead (was default 30s)
+          rebufferingGoal: 1.5,     // resume playback sooner after stall
+          bufferBehind: 15          // keep less behind-buffer to save memory
+        }
+      });
+
       shakaPlayer = player;
-      shakaUI = ui;
+      shakaUI = new shaka.ui.Overlay(player, wrap, video);
+
       await player.load(MPD);
     }
 
     function startClappr() {
       clapprPlayer = new Clappr.Player({
         source: MPD,
-        parentId: "#playerContainer",
+        parentId: '#playerContainer',
         width: '100%',
         height: '100%',
         autoPlay: true,
         playback: {
           playInline: true,
-          recycleVideo: true
+          recycleVideo: true,
+          preload: 'none'  // don't preload before play
         },
         plugins: [window.DashShakaPlayback].filter(Boolean),
         shakaConfiguration: {
-          drm: { clearKeys: CLEAR_KEYS }
+          drm: { clearKeys: CLEAR_KEYS },
+          abr: {
+            enabled: true,
+            defaultBandwidthEstimate: 1000000,
+            switchInterval: 8
+          },
+          streaming: {
+            bufferingGoal: 10,
+            rebufferingGoal: 1.5,
+            bufferBehind: 15
+          }
         }
       });
     }
