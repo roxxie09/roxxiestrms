@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Live Stream</title>
+
   <script>
     (function () {
       function def(name, fn) {
@@ -27,52 +28,116 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css">
   <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dash-shaka-playback@latest/dist/dash-shaka-playback.min.js"></script>
+
   <style>
-    html, body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      background: #000;
-      overflow: hidden;
+    html, body { margin: 0; width: 100%; height: 100%; background: #000; overflow: hidden; }
+    #stage { position: fixed; inset: 0; }
+    #playerContainer { width: 100%; height: 100%; position: relative; }
+    #playerContainer video,
+    [data-shaka-player-container] { width: 100% !important; height: 100% !important; background: #000; }
+
+    #changePlayerBtn {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 99999;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.45);
+      border-radius: 6px;
+      padding: 6px 10px;
+      font: 600 12px/1 system-ui, sans-serif;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
     }
-    #video-container {
-      width: 100%;
-      height: 100%;
-      position: fixed;
-      inset: 0;
-      background: #000;
-    }
-    video {
-      width: 100%;
-      height: 100%;
-    }
-    [data-shaka-player-container] {
-      width: 100% !important;
-      height: 100% !important;
-      background: #000;
-    }
+    #changePlayerBtn:hover { background: rgba(0,0,0,0.8); }
   </style>
 </head>
 <body>
-  <div id="video-container" data-shaka-player-container>
-    <video id="video" data-shaka-player autoplay playsinline></video>
+  <div id="stage">
+    <div id="playerContainer"></div>
+    <button id="changePlayerBtn" type="button">Change Player</button>
   </div>
+
   <script>
-    async function init() {
-      const video = document.getElementById('video');
-      const container = document.getElementById('video-container');
+    const MPD = "https://otte-qw.live.pv-cdn.net/pdx-nitro/live/clients/dash/enc/ajfoeddkbz/out/v1/b78800b9b2304879b15843f455836829/cenc.mpd";
+    const CLEAR_KEYS = { "f6564ec2aee819046328a0e153be574d": "ff46a8a1031eb27ef22576a077c98ab7" };
+
+    const ENGINES = ['shaka', 'clappr'];
+    const LABELS = { shaka: 'Shaka', clappr: 'Clappr' };
+    let engineIndex = 0;
+
+    let shakaPlayer = null, shakaUI = null, clapprPlayer = null;
+
+    function container() { return document.getElementById('playerContainer'); }
+
+    function cleanup() {
+      try { if (shakaUI) shakaUI.destroy(); } catch (e) {}
+      try { if (shakaPlayer) shakaPlayer.destroy(); } catch (e) {}
+      try { if (clapprPlayer) clapprPlayer.destroy(); } catch (e) {}
+      shakaUI = shakaPlayer = clapprPlayer = null;
+      container().innerHTML = '';
+    }
+
+    async function startShaka() {
+      const wrap = document.createElement('div');
+      wrap.setAttribute('data-shaka-player-container', '');
+      wrap.style.width = '100%';
+      wrap.style.height = '100%';
+
+      const video = document.createElement('video');
+      video.setAttribute('data-shaka-player', '');
+      video.autoplay = true;
+      video.setAttribute('playsinline', '');
+      video.style.width = '100%';
+      video.style.height = '100%';
+
+      wrap.appendChild(video);
+      container().appendChild(wrap);
+
       const player = new shaka.Player(video);
-      const ui = new shaka.ui.Overlay(player, container, video);
-      player.configure({
-        drm: {
-          clearKeys: {
-            "f6564ec2aee819046328a0e153be574d": "ff46a8a1031eb27ef22576a077c98ab7"
-          }
+      const ui = new shaka.ui.Overlay(player, wrap, video);
+      player.configure({ drm: { clearKeys: CLEAR_KEYS } });
+      shakaPlayer = player;
+      shakaUI = ui;
+      await player.load(MPD);
+    }
+
+    function startClappr() {
+      clapprPlayer = new Clappr.Player({
+        source: MPD,
+        parentId: "#playerContainer",
+        width: '100%',
+        height: '100%',
+        autoPlay: true,
+        playback: {
+          playInline: true,
+          recycleVideo: true
+        },
+        plugins: [window.DashShakaPlayback].filter(Boolean),
+        shakaConfiguration: {
+          drm: { clearKeys: CLEAR_KEYS }
         }
       });
-      await player.load("https://otte-qw.live.pv-cdn.net/pdx-nitro/live/clients/dash/enc/ajfoeddkbz/out/v1/b78800b9b2304879b15843f455836829/cenc.mpd");
     }
-    init().catch(console.error);
+
+    function startEngine(name) {
+      cleanup();
+      if (name === 'shaka') startShaka().catch(console.error);
+      else if (name === 'clappr') startClappr();
+
+      const btn = document.getElementById('changePlayerBtn');
+      if (btn) btn.textContent = 'Change Player (' + LABELS[name] + ')';
+    }
+
+    document.getElementById('changePlayerBtn').addEventListener('click', function () {
+      engineIndex = (engineIndex + 1) % ENGINES.length;
+      startEngine(ENGINES[engineIndex]);
+    });
+
+    startEngine(ENGINES[engineIndex]);
   </script>
 </body>
 </html>
