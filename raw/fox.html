@@ -5,24 +5,55 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Live Stream</title>
+  <script>
+    (function () {
+      function def(name, fn) {
+        if (!Map.prototype[name]) {
+          Object.defineProperty(Map.prototype, name, {
+            value: fn, writable: true, configurable: true, enumerable: false
+          });
+        }
+      }
+      def('getOrInsert', function (key, d) {
+        if (!this.has(key)) this.set(key, d);
+        return this.get(key);
+      });
+      def('getOrInsertComputed', function (key, cb) {
+        if (!this.has(key)) this.set(key, cb(key));
+        return this.get(key);
+      });
+    })();
+  </script>
 
-  <!-- Pre-warm CDN and stream origin connections -->
-  <link rel="preconnect" href="https://cdn.jsdelivr.net">
-  <link rel="preconnect" href="https://otte.cache.aiv-cdn.net">
-  <link rel="dns-prefetch" href="https://otte.cache.aiv-cdn.net">
+  <!-- Shaka (default engine) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css">
+  <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.js"></script>
 
-  <!-- Pinned stable versions instead of @latest (avoids redirect overhead) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@4.11.1/dist/controls.css">
-  <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.11.1/dist/shaka-player.ui.js"></script>
-  <!-- dash.js replaces Clappr: reference DASH player, native ClearKey support -->
-  <script src="https://cdn.jsdelivr.net/npm/dashjs@4.7.4/dist/dash.all.min.js"></script>
+  <!-- JW Player (second engine) - REPLACE YOUR_LIBRARY_ID with your own JW library/license URL.
+       This won't play until you add your real JW Player library ID. -->
+  <script src="https://content.jwplatform.com/libraries/YOUR_LIBRARY_ID.js"></script>
 
   <style>
-    html, body { margin: 0; width: 100%; height: 100%; background: #000; overflow: hidden; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+    }
     #stage { position: fixed; inset: 0; }
-    #playerContainer { width: 100%; height: 100%; position: relative; }
-    #playerContainer video,
-    [data-shaka-player-container] { width: 100% !important; height: 100% !important; background: #000; }
+    #video-container {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      background: #000;
+    }
+    video { width: 100%; height: 100%; }
+    [data-shaka-player-container] {
+      width: 100% !important;
+      height: 100% !important;
+      background: #000;
+    }
 
     #changePlayerBtn {
       position: absolute;
@@ -43,112 +74,90 @@
 </head>
 <body>
   <div id="stage">
-    <div id="playerContainer"></div>
+    <div id="video-container"></div>
     <button id="changePlayerBtn" type="button">Change Player</button>
   </div>
 
   <script>
-    const MPD = "MPD";
-    const CLEAR_KEYS = { "KEYS": "KEYS" };
+    // Stream + ClearKey credentials (hex). Same values feed both engines.
+    const MPD = "https://otte.cache.aiv-cdn.net/bom-nitro/live/clients/dash/enc/w0rehjjrwe/out/v1/69a2a7041395406b970598f61680e7cf/cenc.mpd";
+    const KEY_ID = "14eeabf30c14b7fbf3008c03099ce011";   // hex key ID
+    const KEY = "17d2ac8dbc5429bd70af3433aa12158d";      // hex key
 
-    // Shaka first, dash.js second (replaces Clappr)
-    const ENGINES = ['shaka', 'dashjs'];
-    const LABELS = { shaka: 'Shaka', dashjs: 'dash.js' };
+    const ENGINES = ['shaka', 'jwplayer'];
+    const LABELS = { shaka: 'Shaka', jwplayer: 'JW Player' };
     let engineIndex = 0;
 
-    let shakaPlayer = null, shakaUI = null, dashPlayer = null;
+    let shakaPlayer = null, shakaUI = null, jwInstance = null;
 
-    function container() { return document.getElementById('playerContainer'); }
+    function container() { return document.getElementById('video-container'); }
 
     function cleanup() {
       try { if (shakaUI) shakaUI.destroy(); } catch (e) {}
       try { if (shakaPlayer) shakaPlayer.destroy(); } catch (e) {}
-      try { if (dashPlayer) dashPlayer.destroy(); } catch (e) {}
-      shakaUI = shakaPlayer = dashPlayer = null;
-      container().innerHTML = '';
+      try { if (jwInstance) jwInstance.remove(); } catch (e) {}
+      shakaUI = shakaPlayer = jwInstance = null;
+      const c = container();
+      c.removeAttribute('data-shaka-player-container');
+      c.innerHTML = '';
     }
 
+    // --- Shaka: identical config to the original file ---
     async function startShaka() {
-      const wrap = document.createElement('div');
-      wrap.setAttribute('data-shaka-player-container', '');
-      wrap.style.cssText = 'width:100%;height:100%';
+      const c = container();
+      c.setAttribute('data-shaka-player-container', '');
 
       const video = document.createElement('video');
+      video.id = 'video';
       video.setAttribute('data-shaka-player', '');
       video.autoplay = true;
       video.setAttribute('playsinline', '');
-      video.setAttribute('preload', 'none'); // prevent double-fetch
       video.style.cssText = 'width:100%;height:100%';
-
-      wrap.appendChild(video);
-      container().appendChild(wrap);
+      c.appendChild(video);
 
       const player = new shaka.Player(video);
-      new shaka.ui.Overlay(player, wrap, video);
-
+      shakaUI = new shaka.ui.Overlay(player, c, video);
       player.configure({
-        drm: { clearKeys: CLEAR_KEYS },
-        // Start at lower quality for faster initial buffer, then ramp up
-        abr: {
-          enabled: true,
-          defaultBandwidthEstimate: 1000000, // start assuming 1 Mbps
-          switchInterval: 8
-        },
-        streaming: {
-          bufferingGoal: 10,        // only buffer 10s ahead (was default 30s)
-          rebufferingGoal: 1.5,     // resume playback sooner after stall
-          bufferBehind: 15          // keep less behind-buffer to save memory
+        drm: {
+          clearKeys: { [KEY_ID]: KEY }
         }
       });
-
       shakaPlayer = player;
-      shakaUI = new shaka.ui.Overlay(player, wrap, video);
-
       await player.load(MPD);
     }
 
-    function startDashjs() {
-      const video = document.createElement('video');
-      video.autoplay = true;
-      video.controls = true;             // dash.js has no built-in UI, use native controls
-      video.setAttribute('playsinline', '');
-      video.setAttribute('preload', 'none');
-      video.style.cssText = 'width:100%;height:100%';
-      container().appendChild(video);
+    // --- JW Player: same MPD + ClearKey, JW's config shape ---
+    function startJW() {
+      if (typeof jwplayer === 'undefined') {
+        console.error('JW Player library not loaded - add your library ID in the <head>.');
+        return;
+      }
+      const c = container();
+      const target = document.createElement('div');
+      target.id = 'jwplayerDiv';
+      target.style.cssText = 'width:100%;height:100%';
+      c.appendChild(target);
 
-      // Same { keyId: key } map Shaka uses, wrapped in dash.js ClearKey format.
-      const protData = {
-        'org.w3.clearkey': {
-          clearkeys: CLEAR_KEYS
-        }
-      };
-
-      const player = dashjs.MediaPlayer().create();
-      player.updateSettings({
-        streaming: {
-          abr: {
-            autoSwitchBitrate: { video: true },
-            initialBitrate: { video: 1000 } // ~1 Mbps start, ramps up via ABR
-          },
-          buffer: {
-            stableBufferTime: 10,        // ~match Shaka's bufferingGoal
-            bufferTimeAtTopQuality: 10,
-            bufferToKeep: 15             // ~match Shaka's bufferBehind
-          }
-        }
+      jwInstance = jwplayer('jwplayerDiv').setup({
+        width: '100%',
+        height: '100%',
+        autostart: true,
+        playlist: [{
+          sources: [{
+            file: MPD,
+            type: 'dash',
+            drm: {
+              clearkey: { keyId: KEY_ID, key: KEY }
+            }
+          }]
+        }]
       });
-
-      // setProtectionData must be called before initialize/attachSource
-      player.setProtectionData(protData);
-      player.initialize(video, MPD, true); // true = autoplay
-
-      dashPlayer = player;
     }
 
     function startEngine(name) {
       cleanup();
       if (name === 'shaka') startShaka().catch(console.error);
-      else if (name === 'dashjs') startDashjs();
+      else if (name === 'jwplayer') startJW();
 
       const btn = document.getElementById('changePlayerBtn');
       if (btn) btn.textContent = 'Change Player (' + LABELS[name] + ')';
@@ -159,6 +168,7 @@
       startEngine(ENGINES[engineIndex]);
     });
 
+    // Shaka loads first, exactly like the original.
     startEngine(ENGINES[engineIndex]);
   </script>
 </body>
