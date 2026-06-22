@@ -14,8 +14,8 @@
   <!-- Pinned stable versions instead of @latest (avoids redirect overhead) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@4.11.1/dist/controls.css">
   <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.11.1/dist/shaka-player.ui.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/clappr@0.4.11/dist/clappr.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/dash-shaka-playback@3.1.1/dist/dash-shaka-playback.min.js"></script>
+  <!-- dash.js replaces Clappr: reference DASH player, native ClearKey support -->
+  <script src="https://cdn.jsdelivr.net/npm/dashjs@4.7.4/dist/dash.all.min.js"></script>
 
   <style>
     html, body { margin: 0; width: 100%; height: 100%; background: #000; overflow: hidden; }
@@ -48,23 +48,23 @@
   </div>
 
   <script>
-    const MPD = "https://otte.cache.aiv-cdn.net/bom-nitro/live/clients/dash/enc/3gg2jnixjn/out/v1/e1840e01f3f14563b66bbb944d5cc54c/cenc.mpd";
-    const CLEAR_KEYS = { "f8b207c10f3f76aeba32a360ec52b9e4": "afad49d20eb39670e93e371c1d669921" };
+    const MPD = "MPD";
+    const CLEAR_KEYS = { "KEYS": "KEYS" };
 
-    // Shaka is now first — faster/more reliable for DASH+ClearKey
-    const ENGINES = ['shaka', 'clappr'];
-    const LABELS = { shaka: 'Shaka', clappr: 'Clappr' };
+    // Shaka first, dash.js second (replaces Clappr)
+    const ENGINES = ['shaka', 'dashjs'];
+    const LABELS = { shaka: 'Shaka', dashjs: 'dash.js' };
     let engineIndex = 0;
 
-    let shakaPlayer = null, shakaUI = null, clapprPlayer = null;
+    let shakaPlayer = null, shakaUI = null, dashPlayer = null;
 
     function container() { return document.getElementById('playerContainer'); }
 
     function cleanup() {
       try { if (shakaUI) shakaUI.destroy(); } catch (e) {}
       try { if (shakaPlayer) shakaPlayer.destroy(); } catch (e) {}
-      try { if (clapprPlayer) clapprPlayer.destroy(); } catch (e) {}
-      shakaUI = shakaPlayer = clapprPlayer = null;
+      try { if (dashPlayer) dashPlayer.destroy(); } catch (e) {}
+      shakaUI = shakaPlayer = dashPlayer = null;
       container().innerHTML = '';
     }
 
@@ -107,39 +107,48 @@
       await player.load(MPD);
     }
 
-    function startClappr() {
-      clapprPlayer = new Clappr.Player({
-        source: MPD,
-        parentId: '#playerContainer',
-        width: '100%',
-        height: '100%',
-        autoPlay: true,
-        playback: {
-          playInline: true,
-          recycleVideo: true,
-          preload: 'none'  // don't preload before play
-        },
-        plugins: [window.DashShakaPlayback].filter(Boolean),
-        shakaConfiguration: {
-          drm: { clearKeys: CLEAR_KEYS },
+    function startDashjs() {
+      const video = document.createElement('video');
+      video.autoplay = true;
+      video.controls = true;             // dash.js has no built-in UI, use native controls
+      video.setAttribute('playsinline', '');
+      video.setAttribute('preload', 'none');
+      video.style.cssText = 'width:100%;height:100%';
+      container().appendChild(video);
+
+      // Same { keyId: key } map Shaka uses, wrapped in dash.js ClearKey format.
+      const protData = {
+        'org.w3.clearkey': {
+          clearkeys: CLEAR_KEYS
+        }
+      };
+
+      const player = dashjs.MediaPlayer().create();
+      player.updateSettings({
+        streaming: {
           abr: {
-            enabled: true,
-            defaultBandwidthEstimate: 1000000,
-            switchInterval: 8
+            autoSwitchBitrate: { video: true },
+            initialBitrate: { video: 1000 } // ~1 Mbps start, ramps up via ABR
           },
-          streaming: {
-            bufferingGoal: 10,
-            rebufferingGoal: 1.5,
-            bufferBehind: 15
+          buffer: {
+            stableBufferTime: 10,        // ~match Shaka's bufferingGoal
+            bufferTimeAtTopQuality: 10,
+            bufferToKeep: 15             // ~match Shaka's bufferBehind
           }
         }
       });
+
+      // setProtectionData must be called before initialize/attachSource
+      player.setProtectionData(protData);
+      player.initialize(video, MPD, true); // true = autoplay
+
+      dashPlayer = player;
     }
 
     function startEngine(name) {
       cleanup();
       if (name === 'shaka') startShaka().catch(console.error);
-      else if (name === 'clappr') startClappr();
+      else if (name === 'dashjs') startDashjs();
 
       const btn = document.getElementById('changePlayerBtn');
       if (btn) btn.textContent = 'Change Player (' + LABELS[name] + ')';
