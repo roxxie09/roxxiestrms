@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Live Stream</title>
 
-  <!-- Polyfill for Shaka on older browsers; must load first -->
   <script>
     (function () {
       function def(name, fn) {
@@ -30,12 +29,11 @@
   <!-- Shaka -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css">
   <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.js"></script>
-  <!-- Clappr + its DASH/ClearKey plugin (required for .mpd in Clappr) -->
+  <!-- Clappr + its DASH/ClearKey plugin -->
   <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/clappr/dash-shaka-playback@latest/dist/dash-shaka-playback.js"></script>
-  <!-- JW Player (only used if you supply your own license key below) -->
+  <!-- JW Player -->
   <script src="https://ssl.p.jwpcdn.com/player/v/8.26.0/jwplayer.js"></script>
-  <script>/* jwplayer.key = 'YOUR_OWN_JW_LICENSE_KEY'; */</script>
 
   <style>
     html, body { margin: 0; width: 100%; height: 100%; background: #000; overflow: hidden; }
@@ -68,25 +66,31 @@
   </div>
 
   <script>
+    /* ============================================================
+       EDIT THIS BLOCK ONLY
+       - STREAM: your .mpd (or .m3u8) URL
+       - KEY_ID / KEY: ClearKey pair in HEX. Leave both ""
+         for a non-DRM stream.
+       ============================================================ */
     const CONFIG = {
-      STREAM: "https://otte-qw.live.pv-cdn.net/pdx-nitro/live/clients/dash/enc/ajfoeddkbz/out/v1/b78800b9b2304879b15843f455836829/cenc.mpd"
-      KEY_ID: "ff46a8a1031eb27ef22576a077c98ab7",   // ClearKey keyId (hex)
-      KEY:    "f6564ec2aee819046328a0e153be574d"    // ClearKey key   (hex)
+      STREAM: "https://otte.cache.aiv-cdn.net/bom-nitro/live/clients/dash/enc/w0rehjjrwe/out/v1/69a2a7041395406b970598f61680e7cf/cenc.mpd",   // e.g. "https://example.com/stream.mpd"
+      KEY_ID: "14eeabf30c14b7fbf3008c03099ce011",   // ClearKey keyId (hex)
+      KEY:    17d2ac8dbc5429bd70af3433aa12158d""    // ClearKey key   (hex)
     };
+    /* ============================================================ */
 
-    // Derived helpers
     const IS_DASH    = /\.mpd(\?|$)/i.test(CONFIG.STREAM);
     const JW_TYPE    = IS_DASH ? "dash" : "hls";
     const HAS_DRM    = !!(CONFIG.KEY_ID && CONFIG.KEY);
-    function clearKeysMap() {           // shaka / clappr format
+    function clearKeysMap() {
       const m = {};
       if (HAS_DRM) m[CONFIG.KEY_ID] = CONFIG.KEY;
       return m;
     }
 
-    // JW is only offered if you've set a license key above.
-    const HAS_JW   = !!(window.jwplayer && jwplayer.key);
-    const ENGINES  = HAS_JW ? ['shaka', 'clappr', 'jw'] : ['shaka', 'clappr'];
+    // JW Player runs in free/unlicensed mode (with watermark) without a key
+    const HAS_JW   = !!(window.jwplayer);
+    const ENGINES  = HAS_JW ? ['shaka', 'jw', 'clappr'] : ['shaka', 'clappr'];
     const LABELS   = { shaka: 'Shaka', clappr: 'Clappr', jw: 'JW' };
     let engineIndex = 0;
 
@@ -139,7 +143,6 @@
         autoPlay: true,
         playback: { playInline: true, recycleVideo: true }
       };
-      // .mpd needs the shaka-based DASH plugin; ClearKey rides along via shakaConfiguration
       if (IS_DASH) {
         opts.plugins = [DashShakaPlayback];
         if (HAS_DRM) {
@@ -183,7 +186,6 @@
       startEngine(ENGINES[engineIndex]);
     });
 
-    // Start with the first engine (Shaka)
     startEngine(ENGINES[engineIndex]);
   </script>
 </body>
