@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Live Stream</title>
 
-  <!-- Map polyfill kept from your original -->
+  <!-- Polyfill for Shaka on older browsers; must load first -->
   <script>
     (function () {
       function def(name, fn) {
@@ -30,179 +30,168 @@
   <!-- Shaka -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css">
   <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.js"></script>
-
-  <!-- JW Player: replace KEY with your cloud-hosted library id.
-       Self-hosting? Use jwplayer.js + set jwplayer.key (see notes at bottom). -->
-  <script src="https://cdn.jwplayer.com/libraries/YOUR_JW_LIBRARY_KEY.js"></script>
+  <!-- Clappr + its DASH/ClearKey plugin (required for .mpd in Clappr) -->
+  <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/clappr/dash-shaka-playback@latest/dist/dash-shaka-playback.js"></script>
+  <!-- JW Player (only used if you supply your own license key below) -->
+  <script src="https://ssl.p.jwpcdn.com/player/v/8.26.0/jwplayer.js"></script>
+  <script>/* jwplayer.key = 'YOUR_OWN_JW_LICENSE_KEY'; */</script>
 
   <style>
-    html, body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      background: #000;
-      overflow: hidden;
-    }
-    .stage {
-      width: 100%;
-      height: 100%;
-      position: fixed;
-      inset: 0;
-      background: #000;
-    }
-    video {
-      width: 100%;
-      height: 100%;
-    }
-    [data-shaka-player-container] {
-      width: 100% !important;
-      height: 100% !important;
-      background: #000;
-    }
-    /* JW fills the stage */
-    #jw-host, #jw-host .jwplayer {
-      width: 100% !important;
-      height: 100% !important;
-    }
+    html, body { margin: 0; width: 100%; height: 100%; background: #000; overflow: hidden; }
+    #stage { position: fixed; inset: 0; }
+    #playerContainer { width: 100%; height: 100%; position: relative; }
+    #playerContainer video,
+    [data-shaka-player-container] { width: 100% !important; height: 100% !important; background: #000; }
 
-    /* Player toggle */
-    #switch-btn {
-      position: fixed;
-      top: 12px;
-      right: 12px;
-      z-index: 9999;
-      padding: 7px 12px;
-      font: 600 12px/1 system-ui, sans-serif;
-      letter-spacing: .02em;
+    #changePlayerBtn {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 99999;
+      background: rgba(0,0,0,0.6);
       color: #fff;
-      background: rgba(20, 20, 20, .72);
-      border: 1px solid rgba(255, 255, 255, .18);
+      border: 1px solid rgba(255,255,255,0.45);
       border-radius: 6px;
+      padding: 6px 10px;
+      font: 600 12px/1 system-ui, sans-serif;
       cursor: pointer;
-      backdrop-filter: blur(6px);
-      transition: background .15s ease, border-color .15s ease;
+      -webkit-tap-highlight-color: transparent;
     }
-    #switch-btn:hover { background: rgba(40, 40, 40, .85); }
-    #switch-btn:focus-visible { outline: 2px solid #4da3ff; outline-offset: 2px; }
-    #switch-btn[disabled] { opacity: .5; cursor: wait; }
+    #changePlayerBtn:hover { background: rgba(0,0,0,0.8); }
   </style>
 </head>
 <body>
-  <!-- Shaka stage -->
-  <div id="shaka-host" class="stage" data-shaka-player-container></div>
-
-  <!-- JW stage (hidden until switched) -->
-  <div id="jw-host" class="stage" style="display:none"></div>
-
-  <button id="switch-btn" type="button">Switch to JW Player</button>
+  <div id="stage">
+    <div id="playerContainer"></div>
+    <button id="changePlayerBtn" type="button">Change Player</button>
+  </div>
 
   <script>
-    /* ---- Fill these in once; both players reuse them ---- */
+    /* ============================================================
+       EDIT THIS BLOCK ONLY
+       - STREAM: your .mpd (or .m3u8) URL
+       - KEY_ID / KEY: ClearKey pair in HEX. Leave both ""
+         for a non-DRM stream.
+       ============================================================ */
     const CONFIG = {
-      mpd:   "https://otte.cache.aiv-cdn.net/bom-nitro/live/clients/dash/enc/w0rehjjrwe/out/v1/69a2a7041395406b970598f61680e7cf/cenc.mpd",   // your .mpd URL
-      keyId: "14eeabf30c14b7fbf3008c03099ce011",   // ClearKey keyId (hex)
-      key:   "17d2ac8dbc5429bd70af3433aa12158d"    // ClearKey key   (hex)
+      STREAM: "https://otte.cache.aiv-cdn.net/bom-nitro/live/clients/dash/enc/w0rehjjrwe/out/v1/69a2a7041395406b970598f61680e7cf/cenc.mpd",   // e.g. "https://example.com/stream.mpd"
+      KEY_ID: "14eeabf30c14b7fbf3008c03099ce011",   // ClearKey keyId (hex)
+      KEY:    "17d2ac8dbc5429bd70af3433aa12158d"    // ClearKey key   (hex)
     };
+    /* ============================================================ */
 
-    const btn        = document.getElementById('switch-btn');
-    const shakaHost  = document.getElementById('shaka-host');
-    const jwHost     = document.getElementById('jw-host');
-
-    let shakaPlayer = null;
-    let jwInstance  = null;
-    let current     = null;   // 'shaka' | 'jw'
-    let busy        = false;
-
-    /* Fully release whichever player is active so they never both
-       decrypt the stream at the same time. */
-    async function teardown() {
-      if (shakaPlayer) {
-        try { await shakaPlayer.destroy(); } catch (e) {}
-        shakaPlayer = null;
-      }
-      if (jwInstance) {
-        try { jwInstance.remove(); } catch (e) {}
-        jwInstance = null;
-      }
-      shakaHost.innerHTML = '';
-      jwHost.innerHTML = '';
+    // Derived helpers
+    const IS_DASH    = /\.mpd(\?|$)/i.test(CONFIG.STREAM);
+    const JW_TYPE    = IS_DASH ? "dash" : "hls";
+    const HAS_DRM    = !!(CONFIG.KEY_ID && CONFIG.KEY);
+    function clearKeysMap() {           // shaka / clappr format
+      const m = {};
+      if (HAS_DRM) m[CONFIG.KEY_ID] = CONFIG.KEY;
+      return m;
     }
 
-    async function loadShaka() {
-      await teardown();
-      jwHost.style.display = 'none';
-      shakaHost.style.display = 'block';
+    // JW is only offered if you've set a license key above.
+    const HAS_JW   = !!(window.jwplayer && jwplayer.key);
+    const ENGINES  = HAS_JW ? ['shaka', 'clappr', 'jw'] : ['shaka', 'clappr'];
+    const LABELS   = { shaka: 'Shaka', clappr: 'Clappr', jw: 'JW' };
+    let engineIndex = 0;
+
+    let shakaPlayer = null, shakaUI = null, clapprPlayer = null, jwInstance = null;
+
+    function container() { return document.getElementById('playerContainer'); }
+
+    function cleanup() {
+      try { if (shakaUI) shakaUI.destroy(); } catch (e) {}
+      try { if (shakaPlayer) shakaPlayer.destroy(); } catch (e) {}
+      try { if (clapprPlayer) clapprPlayer.destroy(); } catch (e) {}
+      try { if (jwInstance) jwInstance.remove(); } catch (e) {}
+      shakaUI = shakaPlayer = clapprPlayer = jwInstance = null;
+      container().innerHTML = '';
+    }
+
+    async function startShaka() {
+      const wrap = document.createElement('div');
+      wrap.setAttribute('data-shaka-player-container', '');
+      wrap.style.width = '100%';
+      wrap.style.height = '100%';
 
       const video = document.createElement('video');
       video.setAttribute('data-shaka-player', '');
       video.autoplay = true;
-      video.playsInline = true;
-      shakaHost.appendChild(video);
+      video.setAttribute('playsinline', '');
+      video.style.width = '100%';
+      video.style.height = '100%';
 
-      shakaPlayer = new shaka.Player(video);
-      new shaka.ui.Overlay(shakaPlayer, shakaHost, video);
+      wrap.appendChild(video);
+      container().appendChild(wrap);
 
-      const clearKeys = {};
-      clearKeys[CONFIG.keyId] = CONFIG.key;
-      shakaPlayer.configure({ drm: { clearKeys } });
+      const player = new shaka.Player(video);
+      const ui = new shaka.ui.Overlay(player, wrap, video);
+      shakaPlayer = player;
+      shakaUI = ui;
 
-      await shakaPlayer.load(CONFIG.mpd);
-      current = 'shaka';
+      if (HAS_DRM) {
+        player.configure({ drm: { clearKeys: clearKeysMap() } });
+      }
+      await player.load(CONFIG.STREAM);
     }
 
-    async function loadJW() {
-      await teardown();
-      shakaHost.style.display = 'none';
-      jwHost.style.display = 'block';
-
-      const mount = document.createElement('div');
-      mount.id = 'jw-player';
-      jwHost.appendChild(mount);
-
-      jwInstance = jwplayer('jw-player').setup({
+    function startClappr() {
+      const opts = {
+        source: CONFIG.STREAM,
+        parentId: "#playerContainer",
         width: '100%',
         height: '100%',
-        autostart: true,
-        playlist: [{
-          sources: [{
-            file: CONFIG.mpd,
-            type: 'dash',
-            drm: {
-              clearkey: {
-                keyId: CONFIG.keyId,
-                key:   CONFIG.key
-              }
-            }
-          }]
-        }]
-      });
-      current = 'jw';
-    }
-
-    function refreshBtn() {
-      btn.textContent = current === 'shaka' ? 'Switch to JW Player' : 'Switch to Shaka';
-    }
-
-    async function switchPlayer() {
-      if (busy) return;
-      busy = true;
-      btn.disabled = true;
-      try {
-        if (current === 'shaka') await loadJW();
-        else await loadShaka();
-        refreshBtn();
-      } catch (e) {
-        console.error('Switch failed:', e);
-      } finally {
-        busy = false;
-        btn.disabled = false;
+        autoPlay: true,
+        playback: { playInline: true, recycleVideo: true }
+      };
+      // .mpd needs the shaka-based DASH plugin; ClearKey rides along via shakaConfiguration
+      if (IS_DASH) {
+        opts.plugins = [DashShakaPlayback];
+        if (HAS_DRM) {
+          opts.shakaConfiguration = { drm: { clearKeys: clearKeysMap() } };
+        }
       }
+      clapprPlayer = new Clappr.Player(opts);
     }
 
-    btn.addEventListener('click', switchPlayer);
+    function startJW() {
+      const target = document.createElement('div');
+      target.id = 'jwTarget';
+      container().appendChild(target);
 
-    // Start on Shaka (matches your original setup)
-    loadShaka().then(refreshBtn).catch(console.error);
+      const source = { file: CONFIG.STREAM, type: JW_TYPE };
+      if (HAS_DRM) {
+        source.drm = { clearkey: { keyId: CONFIG.KEY_ID, key: CONFIG.KEY } };
+      }
+
+      jwInstance = jwplayer('jwTarget');
+      jwInstance.setup({
+        playlist: [{ sources: [source] }],
+        width: '100%',
+        height: '100%',
+        autostart: true
+      });
+    }
+
+    function startEngine(name) {
+      cleanup();
+      if (name === 'shaka') startShaka().catch(console.error);
+      else if (name === 'clappr') startClappr();
+      else if (name === 'jw') startJW();
+
+      const btn = document.getElementById('changePlayerBtn');
+      if (btn) btn.textContent = 'Change Player (' + LABELS[name] + ')';
+    }
+
+    document.getElementById('changePlayerBtn').addEventListener('click', function () {
+      engineIndex = (engineIndex + 1) % ENGINES.length;
+      startEngine(ENGINES[engineIndex]);
+    });
+
+    // Start with the first engine (Shaka)
+    startEngine(ENGINES[engineIndex]);
   </script>
 </body>
 </html>
