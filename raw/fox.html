@@ -66,18 +66,11 @@
   </div>
 
   <script>
-    /* ============================================================
-       EDIT THIS BLOCK ONLY
-       - STREAM: your .mpd (or .m3u8) URL
-       - KEY_ID / KEY: ClearKey pair in HEX. Leave both ""
-         for a non-DRM stream.
-       ============================================================ */
     const CONFIG = {
-      STREAM: "https://otte.cache.aiv-cdn.net/bom-nitro/live/clients/dash/enc/w0rehjjrwe/out/v1/69a2a7041395406b970598f61680e7cf/cenc.mpd",   // e.g. "https://example.com/stream.mpd"
-      KEY_ID: "14eeabf30c14b7fbf3008c03099ce011",   // ClearKey keyId (hex)
-      KEY:    "17d2ac8dbc5429bd70af3433aa12158d"    // ClearKey key   (hex)
+      STREAM: "https://otte-qw.live.pv-cdn.net/pdx-nitro/live/clients/dash/enc/ajfoeddkbz/out/v1/b78800b9b2304879b15843f455836829/cenc.mpd"
+      KEY_ID: "f6564ec2aee819046328a0e153be574d",   // ClearKey keyId (hex)
+      KEY:    "ff46a8a1031eb27ef22576a077c98ab7"    // ClearKey key   (hex)
     };
-    /* ============================================================ */
 
     const IS_DASH    = /\.mpd(\?|$)/i.test(CONFIG.STREAM);
     const JW_TYPE    = IS_DASH ? "dash" : "hls";
