@@ -52,7 +52,7 @@
       width: 100%;
       height: 100%;
     }
-    [data-shaka-player-container] {
+    #video-container, .shaka-video-container {
       width: 100% !important;
       height: 100% !important;
       background: #000;
@@ -102,8 +102,8 @@
     <button id="switch-btn" type="button">Switch</button>
   </div>
 
-  <div id="video-container" data-shaka-player-container>
-    <video id="video" data-shaka-player autoplay playsinline></video>
+  <div id="video-container">
+    <video id="video" autoplay playsinline></video>
   </div>
 
   <script>
@@ -144,7 +144,10 @@
 
     /* ---------------- Shaka ---------------- */
     async function startShaka() {
-      shakaPlayer = new shaka.Player(video);
+      // New init style: construct without the element, then attach.
+      // (Clears the "migrate from initializing Player with a mediaElement" warning.)
+      shakaPlayer = new shaka.Player();
+      await shakaPlayer.attach(video);
       shakaUI = new shaka.ui.Overlay(shakaPlayer, container, video);
       shakaPlayer.configure({ drm: { clearKeys: CONFIG.clearKeys } });
 
@@ -158,7 +161,10 @@
       });
 
       try {
-        await shakaPlayer.load(CONFIG.manifest);
+        // Pass the MIME type explicitly so Shaka never has to guess it from the
+        // URL. This is what fixes error 4000 (UNABLE_TO_GUESS_MANIFEST_TYPE),
+        // which happens whenever the manifest URL doesn't end in ".mpd".
+        await shakaPlayer.load(CONFIG.manifest, null, 'application/dash+xml');
       } catch (err) {
         console.error('Shaka load failed:', err);
         if (!autoFellBack && current === 'shaka') {
