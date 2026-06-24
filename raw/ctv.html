@@ -5,8 +5,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Live Stream</title>
-
-  <!-- Map polyfill (kept from your original) -->
   <script>
     (function () {
       function def(name, fn) {
@@ -27,12 +25,8 @@
     })();
   </script>
 
-  <!-- Player A: Shaka -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css">
   <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.js"></script>
-  <!-- Player B: dash.js (the fallback / switch target) -->
-  <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
-
   <style>
     html, body {
       margin: 0;
@@ -52,260 +46,33 @@
       width: 100%;
       height: 100%;
     }
-    #video-container, .shaka-video-container {
+    [data-shaka-player-container] {
       width: 100% !important;
       height: 100% !important;
       background: #000;
     }
-
-    /* Switch control — quiet, top-center, above the player UI */
-    #switch-bar {
-      position: fixed;
-      top: 12px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font: 13px/1 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      color: #fff;
-      background: rgba(0, 0, 0, 0.55);
-      backdrop-filter: blur(6px);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      border-radius: 999px;
-      padding: 6px 6px 6px 12px;
-      opacity: 0.35;
-      transition: opacity 0.2s ease;
-      user-select: none;
-    }
-    #switch-bar:hover { opacity: 1; }
-    #switch-bar .label { letter-spacing: 0.02em; }
-    #switch-bar .engine { color: #7fd4ff; font-weight: 600; }
-    #switch-btn {
-      cursor: pointer;
-      border: 0;
-      border-radius: 999px;
-      padding: 6px 12px;
-      font: inherit;
-      font-weight: 600;
-      color: #000;
-      background: #fff;
-    }
-    #switch-btn:active { transform: translateY(1px); }
-    #switch-btn:focus-visible { outline: 2px solid #7fd4ff; outline-offset: 2px; }
-
-    #status {
-      position: fixed;
-      top: 56px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 9999;
-      max-width: 90vw;
-      text-align: center;
-      font: 12px/1.4 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      color: #ffd6d6;
-      background: rgba(120, 0, 0, 0.55);
-      backdrop-filter: blur(6px);
-      border: 1px solid rgba(255, 120, 120, 0.3);
-      border-radius: 10px;
-      padding: 8px 12px;
-      display: none;
-    }
-    #status.show { display: block; }
-    #status.ok { color: #d6ffe0; background: rgba(0, 90, 30, 0.5); border-color: rgba(120, 255, 160, 0.3); }
   </style>
 </head>
 <body>
-  <div id="switch-bar">
-    <span class="label">Player: <span class="engine" id="engine-name">Shaka</span></span>
-    <button id="switch-btn" type="button">Switch</button>
+  <div id="video-container" data-shaka-player-container>
+    <video id="video" data-shaka-player autoplay playsinline></video>
   </div>
-  <div id="status"></div>
-
-  <div id="video-container">
-    <video id="video" autoplay playsinline></video>
-  </div>
-
   <script>
-    /* =========================================================
-       ONE place to fill in — both players read from this.
-       clearKeys: hex KeyID -> hex Key (Shaka's native format).
-       The dash.js side is converted automatically below.
-       ========================================================= */
-    const CONFIG = {
-      manifest: "",          // your .mpd URL
-      clearKeys: {
-        "": ""               // "hexKeyId": "hexKey"  (add more pairs if needed)
-      }
-    };
-
-    const video     = document.getElementById('video');
-    const container = document.getElementById('video-container');
-    const engineEl  = document.getElementById('engine-name');
-    const switchBtn = document.getElementById('switch-btn');
-    const statusEl  = document.getElementById('status');
-
-    function setStatus(msg, ok) {
-      if (!msg) { statusEl.className = ''; statusEl.textContent = ''; return; }
-      statusEl.textContent = msg;
-      statusEl.className = 'show' + (ok ? ' ok' : '');
-    }
-
-    /* Preflight: fetch the manifest ourselves and report, in plain language,
-       WHY it can't be played — before either player throws a cryptic XML error.
-       Returns true if it looks like a real DASH manifest. */
-    async function checkManifest() {
-      if (!CONFIG.manifest) {
-        setStatus('No manifest URL set — fill in CONFIG.manifest.');
-        return false;
-      }
-      let res, text;
-      try {
-        res = await fetch(CONFIG.manifest, { cache: 'no-store' });
-      } catch (e) {
-        setStatus('Could not fetch the manifest (network error or CORS-blocked). The stream host must allow your origin.');
-        return false;
-      }
-      if (!res.ok) {
-        setStatus('Manifest returned HTTP ' + res.status + ' ' + res.statusText + ' — bad URL, expired token, or auth required.');
-        return false;
-      }
-      try { text = (await res.text()).trim(); } catch (e) { text = ''; }
-      const head = text.slice(0, 200).toLowerCase();
-
-      if (head.startsWith('<?xml') || head.includes('<mpd')) {
-        setStatus('Manifest looks valid. If it still fails, the issue is keys or segment access.', true);
-        return true;
-      }
-      if (head.includes('<!doctype html') || head.includes('<html')) {
-        setStatus('The manifest URL returned an HTML page, not DASH XML — usually a login wall, redirect, or wrong URL. Open CONFIG.manifest in a browser tab: you should see <MPD> XML.');
-        return false;
-      }
-      setStatus("Manifest fetched but doesn't look like DASH XML. Check that CONFIG.manifest points straight at the .mpd.");
-      return false;
-    }
-
-    let current     = 'shaka';   // 'shaka' | 'dash'
-    let shakaPlayer = null, shakaUI = null;
-    let dashPlayer  = null;
-    let switching   = false;
-    let autoFellBack = false;    // guard so we only auto-fallback once
-
-    /* hex -> base64url (no padding) — the format dash.js ClearKey expects.
-       If dash.js ever fails to decrypt, some builds accept raw hex instead;
-       in that case drop the conversion and pass CONFIG.clearKeys straight through. */
-    function hexToB64Url(hex) {
-      hex = (hex || '').replace(/^0x/, '').trim();
-      if (!hex) return '';
-      const bytes = new Uint8Array(hex.match(/.{1,2}/g).map(h => parseInt(h, 16)));
-      let s = '';
-      for (const b of bytes) s += String.fromCharCode(b);
-      return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-    }
-
-    /* ---------------- Shaka ---------------- */
-    async function startShaka() {
-      // New init style: construct without the element, then attach.
-      // (Clears the "migrate from initializing Player with a mediaElement" warning.)
-      shakaPlayer = new shaka.Player();
-      await shakaPlayer.attach(video);
-      shakaUI = new shaka.ui.Overlay(shakaPlayer, container, video);
-      shakaPlayer.configure({ drm: { clearKeys: CONFIG.clearKeys } });
-
-      // Runtime errors after load -> fall back once
-      shakaPlayer.addEventListener('error', (e) => {
-        console.error('Shaka error:', e && e.detail);
-        if (!autoFellBack && current === 'shaka') {
-          autoFellBack = true;
-          switchTo('dash');
+    async function init() {
+      const video = document.getElementById('video');
+      const container = document.getElementById('video-container');
+      const player = new shaka.Player(video);
+      const ui = new shaka.ui.Overlay(player, container, video);
+      player.configure({
+        drm: {
+          clearKeys: {
+            "014f0116154f5bf0050e03a6b0a23157": "d185684e2330de5bea436daa094a5e86"
+          }
         }
       });
-
-      try {
-        // Pass the MIME type explicitly so Shaka never has to guess it from the
-        // URL. This is what fixes error 4000 (UNABLE_TO_GUESS_MANIFEST_TYPE),
-        // which happens whenever the manifest URL doesn't end in ".mpd".
-        await shakaPlayer.load(CONFIG.manifest, null, 'application/dash+xml');
-        setStatus(null); // loaded fine — hide any diagnostic
-      } catch (err) {
-        console.error('Shaka load failed:', err);
-        if (!autoFellBack && current === 'shaka') {
-          autoFellBack = true;
-          await switchTo('dash');
-        }
-      }
+      await player.load("https://otte.cache.aiv-cdn.net/bom-nitro/live/clients/dash/enc/72sjo8hygl/out/v1/3079be34d72a4985852d299a02406a0c/cenc.mpd");
     }
-
-    async function destroyShaka() {
-      try { if (shakaUI) await shakaUI.destroy(); } catch (e) {}
-      try { if (shakaPlayer) await shakaPlayer.destroy(); } catch (e) {}
-      shakaUI = null;
-      shakaPlayer = null;
-    }
-
-    /* ---------------- dash.js ---------------- */
-    function startDash() {
-      dashPlayer = dashjs.MediaPlayer().create();
-
-      const clearkeys = {};
-      for (const kid in CONFIG.clearKeys) {
-        if (!kid) continue;
-        clearkeys[hexToB64Url(kid)] = hexToB64Url(CONFIG.clearKeys[kid]);
-      }
-      dashPlayer.setProtectionData({ 'org.w3.clearkey': { clearkeys } });
-
-      dashPlayer.on(dashjs.MediaPlayer.events.ERROR, (e) => {
-        console.error('dash.js error:', e);
-      });
-      dashPlayer.on(dashjs.MediaPlayer.events.CAN_PLAY, () => setStatus(null));
-
-      // dash.js has no built-in control bar, so give the element native controls
-      video.controls = true;
-      dashPlayer.initialize(video, CONFIG.manifest, true); // autoplay
-    }
-
-    function destroyDash() {
-      try { if (dashPlayer) dashPlayer.reset(); } catch (e) {}
-      dashPlayer = null;
-      video.controls = false;
-    }
-
-    /* ---------------- Switch ---------------- */
-    async function switchTo(which) {
-      if (switching || which === current) return;
-      switching = true;
-      switchBtn.disabled = true;
-
-      try {
-        if (which === 'dash') {
-          await destroyShaka();
-          startDash();
-          current = 'dash';
-          engineEl.textContent = 'dash.js';
-        } else {
-          destroyDash();
-          await startShaka();
-          current = 'shaka';
-          engineEl.textContent = 'Shaka';
-        }
-      } catch (e) {
-        console.error('Switch failed:', e);
-      } finally {
-        switching = false;
-        switchBtn.disabled = false;
-      }
-    }
-
-    switchBtn.addEventListener('click', () => {
-      switchTo(current === 'shaka' ? 'dash' : 'shaka');
-    });
-
-    /* ---------------- Boot ---------------- */
-    (async () => {
-      await checkManifest();      // prints a plain-language reason if the URL is bad
-      startShaka().catch(console.error);
-    })();
+    init().catch(console.error);
   </script>
 </body>
 </html>
