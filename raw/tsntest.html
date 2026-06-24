@@ -206,6 +206,7 @@
 
     /* ---------------- Shaka ---------------- */
     async function startShaka() {
+      if (!CONFIG.manifest) { setStatus('No manifest URL set — fill in CONFIG.manifest.'); return; }
       // New init style: construct without the element, then attach.
       // (Clears the "migrate from initializing Player with a mediaElement" warning.)
       shakaPlayer = new shaka.Player();
@@ -246,6 +247,7 @@
 
     /* ---------------- dash.js ---------------- */
     function startDash() {
+      if (!CONFIG.manifest) { setStatus('No manifest URL set — fill in CONFIG.manifest.'); return; }
       dashPlayer = dashjs.MediaPlayer().create();
 
       const clearkeys = {};
@@ -304,6 +306,7 @@
     /* ---------------- Boot ---------------- */
     (async () => {
       await checkManifest();      // prints a plain-language reason if the URL is bad
+      if (!CONFIG.manifest) return;   // nothing to load — banner already explains
       startShaka().catch(console.error);
     })();
   </script>
