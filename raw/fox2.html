@@ -35,6 +35,9 @@
   <script src="https://ssl.p.jwpcdn.com/player/v/8.26.0/jwplayer.js"></script>
   <script>/* jwplayer.key = 'YOUR_OWN_JW_LICENSE_KEY'; */</script>
 
+  <!-- DASH provider for JW Player (required for .mpd streams) -->
+  <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
+
   <style>
     html, body { margin: 0; width: 100%; height: 100%; background: #000; overflow: hidden; }
     #stage { position: fixed; inset: 0; }
@@ -140,17 +143,24 @@
       container().appendChild(target);
 
       const source = { file: CONFIG.STREAM, type: JW_TYPE };
-      if (HAS_DRM) {
+
+      // ClearKey DRM via JW only applies to HLS streams.
+      // For encrypted DASH, Shaka is the recommended player.
+      if (HAS_DRM && !IS_DASH) {
         source.drm = { clearkey: { keyId: CONFIG.KEY_ID, key: CONFIG.KEY } };
       }
 
       jwInstance = jwplayer('jwTarget');
       jwInstance.setup({
         playlist: [{ sources: [source] }],
-        width:     '100%',
-        height:    '100%',
-        autostart: true,
+        width:      '100%',
+        height:     '100%',
+        autostart:  true,
         stretching: 'uniform'
+      });
+
+      jwInstance.on('error', function (e) {
+        console.warn('JW Player error:', e.code, e.message);
       });
     }
 
