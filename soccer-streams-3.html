@@ -14,7 +14,6 @@
     <link rel="stylesheet" type="text/css" href="css/main2.css">
     <link href="/css/buttons.css" rel="stylesheet">
 <link href="imgs/iconn.png" rel="shortcut icon" type="x-icon"/>
-<script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool/disable-devtool.min.js'></script>
     <script>
       (function () {
         function def(name, fn) {
@@ -212,17 +211,18 @@
     <div class="container container-fluid pt-2 text-white">
         <div class="fullplayer">
             <div id="playerContainer">
-                <iframe id="stream1pc-iframe" src="https://roxiestreams.info/raw/fox" 
+                <iframe id="stream1pc-iframe" src="https://roxiestreams.info/raw/fox2" 
                         style="display: none;" 
                         allowfullscreen></iframe>
             </div>
 
             <div class="streamchanger">
                 <button id="btn-tsn" class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', 'ataide0'))">TSN</button>
-	  <button class="streambutton" onclick="showPlayer('clappr', 'https://customer-rqx2ncfj15h2he6q.cloudflarestream.com/92f6cbdfdbed488c94405d1c605bc403/manifest/video.m3u8')">FS1 (ALT)</button>                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fox.m3u8', '602'))">FS1 (FHD)</button>
-                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tele.m3u8', 'daffodil'))">TELEMUNDO</button>
-                <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/fox')">PC ONLY (DIRECT)</button>
-                <button class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/peacock')">Tele (Peacock)</button>
+              <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fs1.m3u8', '601'))">FOX (ALT)</button>
+              <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fox.m3u8', '602'))">FS1 (FHD)</button>
+                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tele.m3u8', '601'))">TELEMUNDO</button>
+                <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/fox2')">PC ONLY (DIRECT)</button>
+                <button class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/peacock2')">Tele (Peacock)</button>
                  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('bein.m3u8', 'ataide0'))">العربية</button>
             </div>
             <div class="embedchat">
@@ -272,7 +272,7 @@ fetch('domainsz37.txt')
 
     setTimeout(() => {
       if (isDesktop()) {
-        playIframePlayer('https://roxiestreams.info/raw/fox');
+        playIframePlayer('https://roxiestreams.info/raw/fox2');
       } else {
         showPlayer('clappr', getRandomStream('tsn.m3u8', 'ataide0'));
       }
