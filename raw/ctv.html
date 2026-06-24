@@ -5,6 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Live Stream</title>
+
+  <!-- Map polyfill (kept from your original) -->
   <script>
     (function () {
       function def(name, fn) {
@@ -25,8 +27,12 @@
     })();
   </script>
 
+  <!-- Player A: Shaka -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css">
   <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.js"></script>
+  <!-- Player B: dash.js (the fallback / switch target) -->
+  <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
+
   <style>
     html, body {
       margin: 0;
@@ -51,28 +57,182 @@
       height: 100% !important;
       background: #000;
     }
+
+    /* Switch control — quiet, top-center, above the player UI */
+    #switch-bar {
+      position: fixed;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font: 13px/1 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      padding: 6px 6px 6px 12px;
+      opacity: 0.35;
+      transition: opacity 0.2s ease;
+      user-select: none;
+    }
+    #switch-bar:hover { opacity: 1; }
+    #switch-bar .label { letter-spacing: 0.02em; }
+    #switch-bar .engine { color: #7fd4ff; font-weight: 600; }
+    #switch-btn {
+      cursor: pointer;
+      border: 0;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font: inherit;
+      font-weight: 600;
+      color: #000;
+      background: #fff;
+    }
+    #switch-btn:active { transform: translateY(1px); }
+    #switch-btn:focus-visible { outline: 2px solid #7fd4ff; outline-offset: 2px; }
   </style>
 </head>
 <body>
+  <div id="switch-bar">
+    <span class="label">Player: <span class="engine" id="engine-name">Shaka</span></span>
+    <button id="switch-btn" type="button">Switch</button>
+  </div>
+
   <div id="video-container" data-shaka-player-container>
     <video id="video" data-shaka-player autoplay playsinline></video>
   </div>
+
   <script>
-    async function init() {
-      const video = document.getElementById('video');
-      const container = document.getElementById('video-container');
-      const player = new shaka.Player(video);
-      const ui = new shaka.ui.Overlay(player, container, video);
-      player.configure({
-        drm: {
-          clearKeys: {
-            "d185684e2330de5bea436daa094a5e86": "014f0116154f5bf0050e03a6b0a23157"
-          }
+    /* =========================================================
+       ONE place to fill in — both players read from this.
+       clearKeys: hex KeyID -> hex Key (Shaka's native format).
+       The dash.js side is converted automatically below.
+       ========================================================= */
+    const CONFIG = {
+      manifest: "",          // your .mpd URL
+      clearKeys: {
+        "": ""               // "hexKeyId": "hexKey"  (add more pairs if needed)
+      }
+    };
+
+    const video     = document.getElementById('video');
+    const container = document.getElementById('video-container');
+    const engineEl  = document.getElementById('engine-name');
+    const switchBtn = document.getElementById('switch-btn');
+
+    let current     = 'shaka';   // 'shaka' | 'dash'
+    let shakaPlayer = null, shakaUI = null;
+    let dashPlayer  = null;
+    let switching   = false;
+    let autoFellBack = false;    // guard so we only auto-fallback once
+
+    /* hex -> base64url (no padding) — the format dash.js ClearKey expects.
+       If dash.js ever fails to decrypt, some builds accept raw hex instead;
+       in that case drop the conversion and pass CONFIG.clearKeys straight through. */
+    function hexToB64Url(hex) {
+      hex = (hex || '').replace(/^0x/, '').trim();
+      if (!hex) return '';
+      const bytes = new Uint8Array(hex.match(/.{1,2}/g).map(h => parseInt(h, 16)));
+      let s = '';
+      for (const b of bytes) s += String.fromCharCode(b);
+      return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    }
+
+    /* ---------------- Shaka ---------------- */
+    async function startShaka() {
+      shakaPlayer = new shaka.Player(video);
+      shakaUI = new shaka.ui.Overlay(shakaPlayer, container, video);
+      shakaPlayer.configure({ drm: { clearKeys: CONFIG.clearKeys } });
+
+      // Runtime errors after load -> fall back once
+      shakaPlayer.addEventListener('error', (e) => {
+        console.error('Shaka error:', e && e.detail);
+        if (!autoFellBack && current === 'shaka') {
+          autoFellBack = true;
+          switchTo('dash');
         }
       });
-      await player.load("https://otte.cache.aiv-cdn.net/bom-nitro/live/clients/dash/enc/72sjo8hygl/out/v1/3079be34d72a4985852d299a02406a0c/cenc.mpd");
+
+      try {
+        await shakaPlayer.load(CONFIG.manifest);
+      } catch (err) {
+        console.error('Shaka load failed:', err);
+        if (!autoFellBack && current === 'shaka') {
+          autoFellBack = true;
+          await switchTo('dash');
+        }
+      }
     }
-    init().catch(console.error);
+
+    async function destroyShaka() {
+      try { if (shakaUI) await shakaUI.destroy(); } catch (e) {}
+      try { if (shakaPlayer) await shakaPlayer.destroy(); } catch (e) {}
+      shakaUI = null;
+      shakaPlayer = null;
+    }
+
+    /* ---------------- dash.js ---------------- */
+    function startDash() {
+      dashPlayer = dashjs.MediaPlayer().create();
+
+      const clearkeys = {};
+      for (const kid in CONFIG.clearKeys) {
+        if (!kid) continue;
+        clearkeys[hexToB64Url(kid)] = hexToB64Url(CONFIG.clearKeys[kid]);
+      }
+      dashPlayer.setProtectionData({ 'org.w3.clearkey': { clearkeys } });
+
+      dashPlayer.on(dashjs.MediaPlayer.events.ERROR, (e) => {
+        console.error('dash.js error:', e);
+      });
+
+      // dash.js has no built-in control bar, so give the element native controls
+      video.controls = true;
+      dashPlayer.initialize(video, CONFIG.manifest, true); // autoplay
+    }
+
+    function destroyDash() {
+      try { if (dashPlayer) dashPlayer.reset(); } catch (e) {}
+      dashPlayer = null;
+      video.controls = false;
+    }
+
+    /* ---------------- Switch ---------------- */
+    async function switchTo(which) {
+      if (switching || which === current) return;
+      switching = true;
+      switchBtn.disabled = true;
+
+      try {
+        if (which === 'dash') {
+          await destroyShaka();
+          startDash();
+          current = 'dash';
+          engineEl.textContent = 'dash.js';
+        } else {
+          destroyDash();
+          await startShaka();
+          current = 'shaka';
+          engineEl.textContent = 'Shaka';
+        }
+      } catch (e) {
+        console.error('Switch failed:', e);
+      } finally {
+        switching = false;
+        switchBtn.disabled = false;
+      }
+    }
+
+    switchBtn.addEventListener('click', () => {
+      switchTo(current === 'shaka' ? 'dash' : 'shaka');
+    });
+
+    /* ---------------- Boot ---------------- */
+    startShaka().catch(console.error);
   </script>
 </body>
 </html>
