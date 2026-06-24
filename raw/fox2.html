@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="robots" content="noindex,nofollow">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Live Stream</title>
+
+  <!-- Polyfill for Shaka on older browsers; must load first -->
+  <script>
+    (function () {
+      function def(name, fn) {
+        if (!Map.prototype[name]) {
+          Object.defineProperty(Map.prototype, name, {
+            value: fn, writable: true, configurable: true, enumerable: false
+          });
+        }
+      }
+      def('getOrInsert', function (key, d) {
+        if (!this.has(key)) this.set(key, d);
+        return this.get(key);
+      });
+      def('getOrInsertComputed', function (key, cb) {
+        if (!this.has(key)) this.set(key, cb(key));
+        return this.get(key);
+      });
+    })();
+  </script>
+
+  <!-- Shaka -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css">
+  <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.js"></script>
+
+  <!-- JW Player -->
+  <script src="https://ssl.p.jwpcdn.com/player/v/8.26.0/jwplayer.js"></script>
+  <script>/* jwplayer.key = 'YOUR_OWN_JW_LICENSE_KEY'; */</script>
+
+  <style>
+    html, body { margin: 0; width: 100%; height: 100%; background: #000; overflow: hidden; }
+    #stage { position: fixed; inset: 0; }
+    #playerContainer { width: 100%; height: 100%; position: relative; }
+    #playerContainer video,
+    [data-shaka-player-container] { width: 100% !important; height: 100% !important; background: #000; }
+
+    #changePlayerBtn {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 99999;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.45);
+      border-radius: 6px;
+      padding: 6px 10px;
+      font: 600 12px/1 system-ui, sans-serif;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    #changePlayerBtn:hover { background: rgba(0,0,0,0.8); }
+  </style>
+</head>
+<body>
+  <div id="stage">
+    <div id="playerContainer"></div>
+    <button id="changePlayerBtn" type="button">Change Player</button>
+  </div>
+
+  <script>
+    /* ============================================================
+       EDIT THIS BLOCK ONLY
+       - STREAM: your .mpd (or .m3u8) URL
+       - KEY_ID / KEY: ClearKey pair in HEX. Leave both ""
+         for a non-DRM stream.
+       ============================================================ */
+    const CONFIG = {
+      STREAM: "https://otte.cache.aiv-cdn.net/bom-nitro/live/clients/dash/enc/w0rehjjrwe/out/v1/69a2a7041395406b970598f61680e7cf/cenc.mpd",
+      KEY_ID: "14eeabf30c14b7fbf3008c03099ce011",
+      KEY:    "17d2ac8dbc5429bd70af3433aa12158d"
+    };
+    /* ============================================================ */
+
+    // Derived helpers
+    const IS_DASH = /\.mpd(\?|$)/i.test(CONFIG.STREAM);
+    const JW_TYPE = IS_DASH ? "dash" : "hls";
+    const HAS_DRM = !!(CONFIG.KEY_ID && CONFIG.KEY);
+    function clearKeysMap() {
+      const m = {};
+      if (HAS_DRM) m[CONFIG.KEY_ID] = CONFIG.KEY;
+      return m;
+    }
+
+    const ENGINES = ['shaka', 'jw'];
+    const LABELS  = { shaka: 'Shaka', jw: 'JW' };
+    let engineIndex = 0;
+
+    let shakaPlayer = null, shakaUI = null, jwInstance = null;
+
+    function container() { return document.getElementById('playerContainer'); }
+
+    function cleanup() {
+      try { if (shakaUI)     shakaUI.destroy();     } catch (e) {}
+      try { if (shakaPlayer) shakaPlayer.destroy(); } catch (e) {}
+      try { if (jwInstance)  jwInstance.remove();   } catch (e) {}
+      shakaUI = shakaPlayer = jwInstance = null;
+      container().innerHTML = '';
+    }
+
+    async function startShaka() {
+      const wrap = document.createElement('div');
+      wrap.setAttribute('data-shaka-player-container', '');
+      wrap.style.width  = '100%';
+      wrap.style.height = '100%';
+
+      const video = document.createElement('video');
+      video.setAttribute('data-shaka-player', '');
+      video.autoplay = true;
+      video.setAttribute('playsinline', '');
+      video.style.width  = '100%';
+      video.style.height = '100%';
+
+      wrap.appendChild(video);
+      container().appendChild(wrap);
+
+      const player = new shaka.Player(video);
+      const ui     = new shaka.ui.Overlay(player, wrap, video);
+      shakaPlayer  = player;
+      shakaUI      = ui;
+
+      if (HAS_DRM) {
+        player.configure({ drm: { clearKeys: clearKeysMap() } });
+      }
+      await player.load(CONFIG.STREAM);
+    }
+
+    function startJW() {
+      const target = document.createElement('div');
+      target.id = 'jwTarget';
+      target.style.width  = '100%';
+      target.style.height = '100%';
+      container().appendChild(target);
+
+      const source = { file: CONFIG.STREAM, type: JW_TYPE };
+      if (HAS_DRM) {
+        source.drm = { clearkey: { keyId: CONFIG.KEY_ID, key: CONFIG.KEY } };
+      }
+
+      jwInstance = jwplayer('jwTarget');
+      jwInstance.setup({
+        playlist: [{ sources: [source] }],
+        width:     '100%',
+        height:    '100%',
+        autostart: true,
+        stretching: 'uniform'
+      });
+    }
+
+    function startEngine(name) {
+      cleanup();
+      if (name === 'shaka') startShaka().catch(console.error);
+      else if (name === 'jw') startJW();
+
+      const btn = document.getElementById('changePlayerBtn');
+      if (btn) btn.textContent = 'Change Player (' + LABELS[name] + ')';
+    }
+
+    document.getElementById('changePlayerBtn').addEventListener('click', function () {
+      engineIndex = (engineIndex + 1) % ENGINES.length;
+      startEngine(ENGINES[engineIndex]);
+    });
+
+    // Start with Shaka
+    startEngine(ENGINES[engineIndex]);
+  </script>
+</body>
+</html>
