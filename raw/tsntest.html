@@ -30,8 +30,8 @@
   <!-- Primary engine: Shaka -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css">
   <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.js"></script>
-  <!-- Fallback engine: dash.js -->
-  <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
+  <!-- Fallback engine: Bitmovin (commercial — needs a license key + allowlisted domain) -->
+  <script src="https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js"></script>
 
   <style>
     html, body {
@@ -41,13 +41,14 @@
       background: #000;
       overflow: hidden;
     }
-    #video-container {
+    #video-container, #bm-container {
       width: 100%;
       height: 100%;
       position: fixed;
       inset: 0;
       background: #000;
     }
+    #bm-container { display: none; }
     video {
       width: 100%;
       height: 100%;
@@ -123,45 +124,50 @@
   </div>
   <div id="status"></div>
 
+  <!-- Shaka renders into its own <video>; Bitmovin renders into #bm-container -->
   <div id="video-container">
     <video id="video" autoplay playsinline muted></video>
   </div>
+  <div id="bm-container"></div>
 
   <script>
     /* =========================================================
        Fill these in. clearKeys: hex KeyID -> hex Key.
+       bitmovinKey: your Bitmovin player license key (the fallback
+       engine won't play without it, and the key must be allowlisted
+       for this domain in the Bitmovin dashboard).
        ========================================================= */
     const CONFIG = {
       manifest: "https://otte-qw.live.pv-cdn.net/bom-nitro/live/clients/dash/enc/w0rehjjrwe/out/v1/69a2a7041395406b970598f61680e7cf/cenc.mpd",          // your .mpd URL
       clearKeys: {
         "14eeabf30c14b7fbf3008c03099ce011": "17d2ac8dbc5429bd70af3433aa12158d"               // "hexKeyId": "hexKey"
-      }
+      },
+      bitmovinKey: ""        // your Bitmovin player license key
     };
 
     const RETRY = {
-      baseDelay: 1000,        // first wait, ms
-      backoffFactor: 1.5,     // each retry waits longer
-      maxDelay: 15000,        // cap
-      fallbackAfter: 2,       // Shaka tries this many times, then hands off to dash.js
-      maxNetworkAttempts: null, // null = retry the active engine forever
-      dashWatchdog: 12000     // if dash.js neither plays nor errors in this long, treat as failure
+      baseDelay: 1000,
+      backoffFactor: 1.5,
+      maxDelay: 15000,
+      fallbackAfter: 2,        // Shaka tries this many times, then hands off to Bitmovin
+      maxNetworkAttempts: null // null = retry the active engine forever
     };
 
     const video     = document.getElementById('video');
     const container = document.getElementById('video-container');
+    const bmContainer = document.getElementById('bm-container');
     const statusEl  = document.getElementById('status');
     const reloadBtn = document.getElementById('reload-btn');
     const unmuteBtn = document.getElementById('unmute-btn');
     const engNameEl = document.getElementById('eng-name');
 
-    let engine      = 'shaka';  // 'shaka' | 'dash'
+    let engine      = 'shaka';   // 'shaka' | 'bitmovin'
     let shakaPlayer = null;
     let shakaUI     = null;
-    let dashPlayer  = null;
-    let dashWatch   = null;
-    let loading     = false;    // a Shaka load() is in flight
+    let bmPlayer    = null;
+    let loading     = false;
     let stopped     = false;
-    let attempt     = 0;        // consecutive failures on the active engine
+    let attempt     = 0;
     let retryTimer  = null;
 
     function setStatus(msg) {
@@ -169,33 +175,20 @@
       statusEl.textContent = msg;
       statusEl.className = 'show';
     }
-    function engineLabel() { return engine === 'shaka' ? 'Shaka' : 'dash.js'; }
+    function engineLabel() { return engine === 'shaka' ? 'Shaka' : 'Bitmovin'; }
     function updateBadge()  { engNameEl.textContent = engineLabel(); }
+    // Custom unmute only applies to Shaka's <video>; Bitmovin has its own UI volume.
+    function updateMuteBtn() { unmuteBtn.style.display = (engine === 'shaka' && video.muted) ? '' : 'none'; }
 
-    function updateMuteBtn() { unmuteBtn.style.display = video.muted ? '' : 'none'; }
-
-    // Kick off playback. Autoplay-with-sound is blocked until a user gesture,
-    // so if play() is rejected we mute (muted autoplay is always allowed) and
-    // surface the Unmute button.
     async function tryPlay() {
       try {
         await video.play();
       } catch (e) {
         video.muted = true;
         updateMuteBtn();
-        try { await video.play(); } catch (e2) { /* still blocked; native controls remain */ }
+        try { await video.play(); } catch (e2) {}
       }
       updateMuteBtn();
-    }
-
-    // hex -> base64url (no padding) for dash.js ClearKey
-    function hexToB64Url(hex) {
-      hex = (hex || '').replace(/^0x/, '').trim();
-      if (!hex) return '';
-      const bytes = new Uint8Array(hex.match(/.{1,2}/g).map(h => parseInt(h, 16)));
-      let s = '';
-      for (const b of bytes) s += String.fromCharCode(b);
-      return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
     }
 
     function describe(err) {
@@ -205,10 +198,15 @@
       if (err.category === 6) return 'DRM/key error (' + err.code + ')';
       return 'error ' + err.code;
     }
-    // Retry network (1) and manifest (4); don't loop forever on DRM/media errors.
     function isRetriable(err) {
       if (!err) return true;
       return err.category === 1 || err.category === 4;
+    }
+    // Bitmovin: don't retry license/setup problems forever — those need a real key.
+    function bmRetriable(e) {
+      const n = String((e && (e.name || e.message)) || '').toUpperCase();
+      if (n.includes('LICENSE') || n.includes('SETUP') || n.includes('KEY')) return false;
+      return true;
     }
 
     /* ---------------- Shaka ---------------- */
@@ -246,56 +244,34 @@
       shakaUI = null; shakaPlayer = null;
     }
 
-    /* ---------------- dash.js ---------------- */
-    function startDash() {
-      destroyDash();
-      dashPlayer = dashjs.MediaPlayer().create();
-
-      // Throttle dash.js's own retries: a few polite attempts, well spaced.
-      // Without this it fires a burst of parallel requests that makes the
-      // server's 400s worse (the "more requests = more 400s" effect).
-      dashPlayer.updateSettings({
-        streaming: {
-          retryAttempts:  { MPD: 2, MediaSegment: 2, InitializationSegment: 2 },
-          retryIntervals: { MPD: 2000, MediaSegment: 2000, InitializationSegment: 2000 }
-        }
-      });
-
-      const clearkeys = {};
+    /* ---------------- Bitmovin ---------------- */
+    function buildBitmovinSource() {
+      const clearkey = [];
       for (const kid in CONFIG.clearKeys) {
         if (!kid) continue;
-        clearkeys[hexToB64Url(kid)] = hexToB64Url(CONFIG.clearKeys[kid]);
+        clearkey.push({ kid: kid, key: CONFIG.clearKeys[kid] }); // hex, same as Shaka
       }
-      dashPlayer.setProtectionData({ 'org.w3.clearkey': { clearkeys } });
-
-      dashPlayer.on(dashjs.MediaPlayer.events.ERROR, onDashError);
-      dashPlayer.on(dashjs.MediaPlayer.events.CAN_PLAY, onDashPlaying);
-      dashPlayer.on(dashjs.MediaPlayer.events.PLAYBACK_STARTED, onDashPlaying);
-
-      video.controls = true; // dash.js has no built-in controls
-      dashPlayer.initialize(video, CONFIG.manifest, true);
-
-      clearTimeout(dashWatch);
-      dashWatch = setTimeout(() => {
-        if (engine === 'dash') onDashError({ watchdog: true });
-      }, RETRY.dashWatchdog);
+      return { dash: CONFIG.manifest, drm: { clearkey } };
     }
-    function destroyDash() {
-      clearTimeout(dashWatch);
-      try { if (dashPlayer) dashPlayer.reset(); } catch (e) {}
-      dashPlayer = null;
+    function ensureBitmovin() {
+      if (bmPlayer) return;
+      bmContainer.style.display = 'block';
+      const playerConfig = {
+        key: CONFIG.bitmovinKey,
+        playback: { autoplay: true, muted: true } // muted so autoplay is allowed
+      };
+      bmPlayer = new bitmovin.player.Player(bmContainer, playerConfig);
+      bmPlayer.on(bitmovin.player.PlayerEvent.Error, (e) => {
+        if (engine !== 'bitmovin' || loading) return;
+        console.warn('Bitmovin error:', e);
+        handleFailure('Bitmovin ' + (e.name || e.code || 'error'), bmRetriable(e));
+      });
+      bmPlayer.on(bitmovin.player.PlayerEvent.Playing, () => { if (engine === 'bitmovin') onPlaying(); });
     }
-    function onDashPlaying() {
-      if (engine !== 'dash') return;
-      clearTimeout(dashWatch);
-      onPlaying();
-      tryPlay();   // dash.js has no UI, so make sure it actually starts
-    }
-    function onDashError(e) {
-      if (engine !== 'dash') return;
-      clearTimeout(dashWatch);
-      console.warn('dash.js error:', e);
-      handleFailure(e && e.watchdog ? 'timed out' : 'dash error', true);
+    function destroyBitmovin() {
+      try { if (bmPlayer) bmPlayer.destroy(); } catch (e) {}
+      bmPlayer = null;
+      bmContainer.style.display = 'none';
     }
 
     /* ---------------- Shared flow ---------------- */
@@ -308,11 +284,14 @@
       if (!retriable) { stopped = true; setStatus('Stopped: ' + label + ' — tap Reload.'); return; }
       attempt++;
 
-      // Primary -> fallback handoff
       if (engine === 'shaka' && attempt >= RETRY.fallbackAfter) {
-        setStatus('Shaka failed ' + attempt + '× (' + label + ') — switching to dash.js…');
-        switchEngine('dash');
-        return;
+        if (!CONFIG.bitmovinKey) {
+          setStatus('Shaka failed (' + label + ') and no Bitmovin key is set — staying on Shaka, retrying…');
+        } else {
+          setStatus('Shaka failed ' + attempt + '× (' + label + ') — switching to Bitmovin…');
+          switchEngine('bitmovin');
+          return;
+        }
       }
       if (RETRY.maxNetworkAttempts && attempt > RETRY.maxNetworkAttempts) {
         stopped = true;
@@ -326,12 +305,19 @@
 
     async function switchEngine(target) {
       clearTimeout(retryTimer);
-      if (engine === 'shaka') await destroyShaka(); else destroyDash();
+      if (engine === 'shaka') await destroyShaka(); else destroyBitmovin();
       engine = target;
       attempt = 0;
       stopped = false;
-      if (target === 'shaka') { video.controls = false; await buildShaka(); }
+      if (target === 'shaka') {
+        container.style.display = '';
+        video.muted = true; updateMuteBtn();
+        await buildShaka();
+      } else {
+        container.style.display = 'none'; // hide Shaka's video; Bitmovin uses its own container
+      }
       updateBadge();
+      updateMuteBtn();
       loadStream();
     }
 
@@ -353,11 +339,21 @@
           loading = false;
         }
       } else {
-        startDash(); // event-driven; success/failure come via dash listeners
+        if (!CONFIG.bitmovinKey) { setStatus('Bitmovin needs a license key — set CONFIG.bitmovinKey.'); return; }
+        loading = true;
+        try {
+          ensureBitmovin();
+          await bmPlayer.load(buildBitmovinSource());
+          onPlaying();
+        } catch (reason) {
+          console.warn('Bitmovin load failed:', reason);
+          handleFailure('Bitmovin ' + ((reason && (reason.name || reason.code)) || 'load failed'), bmRetriable(reason));
+        } finally {
+          loading = false;
+        }
       }
     }
 
-    // Reload always resets to the primary engine (Shaka) and clears backoff.
     reloadBtn.addEventListener('click', async () => {
       clearTimeout(retryTimer);
       attempt = 0; stopped = false;
@@ -365,7 +361,6 @@
       else { loadStream(); }
     });
 
-    // Unmute is a user gesture, so sound is allowed after this tap.
     unmuteBtn.addEventListener('click', () => {
       video.muted = false;
       video.play().catch(() => {});
@@ -374,7 +369,7 @@
 
     /* ---------------- Boot ---------------- */
     (async () => {
-      video.muted = true;     // guarantees autoplay can start
+      video.muted = true;
       updateMuteBtn();
       await buildShaka();
       updateBadge();
