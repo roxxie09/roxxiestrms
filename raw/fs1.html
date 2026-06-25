@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Live Stream</title>
 
-  <!-- Polyfill for Shaka on older browsers; must load first -->
   <script>
     (function () {
       function def(name, fn) {
@@ -27,163 +26,226 @@
     })();
   </script>
 
-  <!-- Shaka -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css">
   <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.js"></script>
 
-  <!-- JW Player -->
-  <script src="https://ssl.p.jwpcdn.com/player/v/8.24.0/jwplayer.js"></script>
-  <script>jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';</script>
-
-  <!-- DASH provider for JW Player (required for .mpd streams) -->
-  <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
-
   <style>
-    html, body { margin: 0; width: 100%; height: 100%; background: #000; overflow: hidden; }
-    #stage { position: fixed; inset: 0; }
-    #playerContainer { width: 100%; height: 100%; position: relative; }
-    #playerContainer video,
-    [data-shaka-player-container] { width: 100% !important; height: 100% !important; background: #000; }
-
-    #changePlayerBtn {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      z-index: 99999;
-      background: rgba(0,0,0,0.6);
-      color: #fff;
-      border: 1px solid rgba(255,255,255,0.45);
-      border-radius: 6px;
-      padding: 6px 10px;
-      font: 600 12px/1 system-ui, sans-serif;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
     }
-    #changePlayerBtn:hover { background: rgba(0,0,0,0.8); }
+    #video-container {
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      inset: 0;
+      background: #000;
+    }
+    video {
+      width: 100%;
+      height: 100%;
+    }
+    #video-container, .shaka-video-container {
+      width: 100% !important;
+      height: 100% !important;
+      background: #000;
+    }
+
+    #bar {
+      position: fixed;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font: 13px/1 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      padding: 6px 6px 6px 12px;
+      opacity: 0.3;
+      transition: opacity 0.2s ease;
+      user-select: none;
+    }
+    #bar:hover { opacity: 1; }
+    #bar .label { letter-spacing: 0.02em; }
+    #reload-btn {
+      cursor: pointer;
+      border: 0;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font: inherit;
+      font-weight: 600;
+      color: #000;
+      background: #fff;
+    }
+    #reload-btn:active { transform: translateY(1px); }
+    #reload-btn:focus-visible { outline: 2px solid #7fd4ff; outline-offset: 2px; }
+
+    #status {
+      position: fixed;
+      top: 56px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      max-width: 90vw;
+      text-align: center;
+      font: 12px/1.4 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color: #ffe6c2;
+      background: rgba(120, 60, 0, 0.55);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 180, 100, 0.3);
+      border-radius: 10px;
+      padding: 8px 12px;
+      display: none;
+    }
+    #status.show { display: block; }
   </style>
 </head>
 <body>
-  <div id="stage">
-    <div id="playerContainer"></div>
-    <button id="changePlayerBtn" type="button">Change Player</button>
+  <div id="bar">
+    <span class="label">Live</span>
+    <button id="reload-btn" type="button">Reload</button>
+  </div>
+  <div id="status"></div>
+
+  <div id="video-container">
+    <video id="video" autoplay playsinline></video>
   </div>
 
   <script>
-    /* ============================================================
-       EDIT THIS BLOCK ONLY
-       - STREAM: your .mpd (or .m3u8) URL
-       - KEY_ID / KEY: ClearKey pair in HEX. Leave both ""
-         for a non-DRM stream.
-       ============================================================ */
     const CONFIG = {
-      STREAM: "https://otte.cache.aiv-cdn.net/syd-nitro/live/clients/enc/r9oczkbeok/out/v1/b78800b9b2304879b15843f455836829/cenc.mpd",
-      KEY:    "ff46a8a1031eb27ef22576a077c98ab7"
-    };
-    /* ============================================================ */
-
-    const IS_DASH = /\.mpd(\?|$)/i.test(CONFIG.STREAM);
-    const JW_TYPE = IS_DASH ? "dash" : "hls";
-    const HAS_DRM = !!(CONFIG.KEY_ID && CONFIG.KEY);
-    function clearKeysMap() {
-      const m = {};
-      if (HAS_DRM) m[CONFIG.KEY_ID] = CONFIG.KEY;
-      return m;
-    }
-
-    const ENGINES = ['shaka', 'jw'];
-    const LABELS  = { shaka: 'Shaka', jw: 'JW' };
-    let engineIndex = 0;
-
-    let shakaPlayer = null, shakaUI = null, jwInstance = null;
-
-    function container() { return document.getElementById('playerContainer'); }
-
-    function cleanup() {
-      try { if (shakaUI)     shakaUI.destroy();     } catch (e) {}
-      try { if (shakaPlayer) shakaPlayer.destroy(); } catch (e) {}
-      try { if (jwInstance)  jwInstance.remove();   } catch (e) {}
-      shakaUI = shakaPlayer = jwInstance = null;
-      container().innerHTML = '';
-    }
-
-    async function startShaka() {
-      const wrap = document.createElement('div');
-      wrap.setAttribute('data-shaka-player-container', '');
-      wrap.style.width  = '100%';
-      wrap.style.height = '100%';
-
-      const video = document.createElement('video');
-      video.setAttribute('data-shaka-player', '');
-      video.autoplay = true;
-      video.setAttribute('playsinline', '');
-      video.style.width  = '100%';
-      video.style.height = '100%';
-
-      wrap.appendChild(video);
-      container().appendChild(wrap);
-
-      const player = new shaka.Player(video);
-      const ui     = new shaka.ui.Overlay(player, wrap, video);
-      shakaPlayer  = player;
-      shakaUI      = ui;
-
-      if (HAS_DRM) {
-        player.configure({ drm: { clearKeys: clearKeysMap() } });
+      manifest: "https://abgh3fbaaaaaaaambylpff72g6up6.ta.bia-cf.live.pv-cdn.net/iad-nitro/live/dash/enc/fsu3wl2rwb/out/v1/be61206c04e643349d53fb22301f3b50/cenc.mpd",
+      clearKeys: {
+        "bdd79b72d8e48ed483aa623cc38a8a16": "5466ebd70704bdeb657f0abf3c5ca4ef"
       }
-      await player.load(CONFIG.STREAM);
+    };
+
+    const RETRY = {
+      baseDelay: 1000,
+      backoffFactor: 1.5,
+      maxDelay: 15000,
+      maxNetworkAttempts: null
+    };
+
+    const video     = document.getElementById('video');
+    const container = document.getElementById('video-container');
+    const statusEl  = document.getElementById('status');
+    const reloadBtn = document.getElementById('reload-btn');
+
+    let player      = null;
+    let loading     = false;
+    let stopped     = false;
+    let attempt     = 0;
+    let retryTimer  = null;
+
+    function setStatus(msg) {
+      if (!msg) { statusEl.className = ''; statusEl.textContent = ''; return; }
+      statusEl.textContent = msg;
+      statusEl.className = 'show';
     }
 
-    function startJW() {
-      const target = document.createElement('div');
-      target.id = 'jwTarget';
-      target.style.width  = '100%';
-      target.style.height = '100%';
-      container().appendChild(target);
+    function describe(err) {
+      if (!err) return 'unknown error';
+      if (err.code === 1001 && err.data) return 'HTTP ' + err.data[1];
+      if (err.category === 1) return 'network error (' + err.code + ')';
+      if (err.category === 6) return 'DRM/key error (' + err.code + ')';
+      return 'error ' + err.code;
+    }
+    function isRetriable(err) {
+      if (!err) return true;
+      return err.category === 1 || err.category === 4;
+    }
 
-      jwInstance = jwplayer('jwTarget');
-      jwInstance.setup({
-        file:               CONFIG.STREAM,
-        type:               JW_TYPE,
-        preload:            'auto',
-        autostart:          true,
-        mute:               false,
-        width:              '100%',
-        height:             '100%',
-        stretching:         'uniform',
-        controls:           true,
-        displaytitle:       false,
-        displaydescription: false,
-        abouttext:          '',
-        aboutlink:          '',
-        reconnectTimeout:   1,
-        retryOnFailure:     true,
-        liveTimeout:        60,
-        skin:               { name: 'seven' },
-        logo:               { hide: true },
-        related:            { displayMode: 'none' }
+    async function buildPlayer() {
+      player = new shaka.Player();
+      await player.attach(video);
+      new shaka.ui.Overlay(player, container, video);
+
+      const retryParameters = {
+        maxAttempts: 6,
+        baseDelay: 800,
+        backoffFactor: 1.5,
+        fuzzFactor: 0.5,
+        timeout: 30000,
+        connectionTimeout: 10000,
+        stallTimeout: 5000
+      };
+
+      player.configure({
+        drm: { clearKeys: CONFIG.clearKeys },
+        manifest: { retryParameters },
+        streaming: {
+          retryParameters,
+          failureCallback: (error) => {
+            console.warn('Streaming failure:', describe(error), error);
+            if (isRetriable(error)) {
+              setStatus('Stream hiccup (' + describe(error) + ') — recovering…');
+              player.retryStreaming();
+            }
+          }
+        }
       });
 
-      jwInstance.on('error', function (e) {
-        console.warn('JW Player error:', e.code, e.message);
+      player.addEventListener('error', (event) => {
+        const err = event.detail;
+        console.error('Shaka error:', describe(err), err);
+        if (loading || stopped) return;
+        if (isRetriable(err)) handleFailure(describe(err), true);
+        else setStatus('Stopped: ' + describe(err));
       });
     }
 
-    function startEngine(name) {
-      cleanup();
-      if (name === 'shaka') startShaka().catch(console.error);
-      else if (name === 'jw') startJW();
-
-      const btn = document.getElementById('changePlayerBtn');
-      if (btn) btn.textContent = 'Change Player (' + LABELS[name] + ')';
+    function handleFailure(label, retriable) {
+      loading = false;
+      if (!retriable) { stopped = true; setStatus('Stopped: ' + label + ' — tap Reload.'); return; }
+      attempt++;
+      if (RETRY.maxNetworkAttempts && attempt > RETRY.maxNetworkAttempts) {
+        stopped = true;
+        setStatus('Gave up after ' + (attempt - 1) + ' tries (' + label + '). Tap Reload.');
+        return;
+      }
+      const delay = Math.min(RETRY.baseDelay * Math.pow(RETRY.backoffFactor, attempt - 1), RETRY.maxDelay);
+      setStatus('Stream not ready (' + label + ') — retrying in ' + Math.round(delay / 1000) + 's (try ' + attempt + ')…');
+      retryTimer = setTimeout(loadStream, delay);
     }
 
-    document.getElementById('changePlayerBtn').addEventListener('click', function () {
-      engineIndex = (engineIndex + 1) % ENGINES.length;
-      startEngine(ENGINES[engineIndex]);
+    async function loadStream() {
+      if (loading) return;
+      if (!CONFIG.manifest) { setStatus('No manifest URL set — fill in CONFIG.manifest.'); return; }
+      loading = true;
+      clearTimeout(retryTimer);
+      try {
+        await player.load(CONFIG.manifest, null, 'application/dash+xml');
+        attempt = 0;
+        stopped = false;
+        setStatus(null);   // playing — clear any banner
+      } catch (err) {
+        console.warn('Load failed:', describe(err), err);
+        handleFailure(describe(err), isRetriable(err));
+      } finally {
+        loading = false;
+      }
+    }
+
+    reloadBtn.addEventListener('click', () => {
+      clearTimeout(retryTimer);
+      attempt = 0;
+      stopped = false;
+      loadStream();
     });
 
-    // Start with Shaka
-    startEngine(ENGINES[engineIndex]);
+    (async () => {
+      await buildPlayer();
+      loadStream();
+    })();
   </script>
 </body>
 </html>

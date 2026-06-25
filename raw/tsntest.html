@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Live Stream</title>
 
-  <!-- Map polyfill (kept from your original) -->
   <script>
     (function () {
       function def(name, fn) {
@@ -122,11 +121,6 @@
   </div>
 
   <script>
-    /* =========================================================
-       Fill these in. clearKeys: hex KeyID -> hex Key.
-       (Point manifest at your Cloudflare Worker URL once deployed
-       to stop the CDN 400s — same player, just a calmer source.)
-       ========================================================= */
     const CONFIG = {
       manifest: "https://otte-qw.live.pv-cdn.net/bom-nitro/live/clients/dash/enc/w0rehjjrwe/out/v1/69a2a7041395406b970598f61680e7cf/cenc.mpd",
       clearKeys: {
@@ -134,12 +128,11 @@
       }
     };
 
-    /* How hard to keep retrying when the manifest 400s before it's ready. */
     const RETRY = {
-      baseDelay: 1000,        // first wait, ms
-      backoffFactor: 1.5,     // each retry waits longer
-      maxDelay: 15000,        // ...but never longer than this
-      maxNetworkAttempts: null // null = retry forever; set a number to give up
+      baseDelay: 1000,
+      backoffFactor: 1.5,
+      maxDelay: 15000,
+      maxNetworkAttempts: null
     };
 
     const video     = document.getElementById('video');
@@ -148,9 +141,9 @@
     const reloadBtn = document.getElementById('reload-btn');
 
     let player      = null;
-    let loading     = false;   // a load() is in flight
-    let stopped     = false;   // hit a non-retriable error; stop looping
-    let attempt     = 0;       // consecutive failed attempts
+    let loading     = false;
+    let stopped     = false;
+    let attempt     = 0;
     let retryTimer  = null;
 
     function setStatus(msg) {
@@ -161,13 +154,11 @@
 
     function describe(err) {
       if (!err) return 'unknown error';
-      if (err.code === 1001 && err.data) return 'HTTP ' + err.data[1]; // BAD_HTTP_STATUS
+      if (err.code === 1001 && err.data) return 'HTTP ' + err.data[1];
       if (err.category === 1) return 'network error (' + err.code + ')';
       if (err.category === 6) return 'DRM/key error (' + err.code + ')';
       return 'error ' + err.code;
     }
-    // Retry network (1) and manifest (4) problems — that's what a flaky 400 edge is.
-    // DRM (6), media (3), etc. are not transient, so don't loop forever on them.
     function isRetriable(err) {
       if (!err) return true;
       return err.category === 1 || err.category === 4;
@@ -178,8 +169,6 @@
       await player.attach(video);
       new shaka.ui.Overlay(player, container, video);
 
-      // Generous retry params so a single load() rides out transient 400s,
-      // and live segment hiccups recover instead of killing playback.
       const retryParameters = {
         maxAttempts: 6,
         baseDelay: 800,
@@ -195,8 +184,6 @@
         manifest: { retryParameters },
         streaming: {
           retryParameters,
-          // Live recovery: on a streaming failure, retry in place rather than
-          // tearing the whole player down.
           failureCallback: (error) => {
             console.warn('Streaming failure:', describe(error), error);
             if (isRetriable(error)) {
@@ -207,12 +194,11 @@
         }
       });
 
-      // Runtime errors (after the manifest first loaded).
       player.addEventListener('error', (event) => {
         const err = event.detail;
         console.error('Shaka error:', describe(err), err);
-        if (loading || stopped) return;            // load() path handles its own errors
-        if (isRetriable(err)) handleFailure(describe(err), true); // e.g. live manifest 400s
+        if (loading || stopped) return;
+        if (isRetriable(err)) handleFailure(describe(err), true);
         else setStatus('Stopped: ' + describe(err));
       });
     }
@@ -256,7 +242,6 @@
       loadStream();
     });
 
-    /* ---------------- Boot ---------------- */
     (async () => {
       await buildPlayer();
       loadStream();
