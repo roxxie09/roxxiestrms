@@ -212,16 +212,17 @@
     <div class="container container-fluid pt-2 text-white">
         <div class="fullplayer">
             <div id="playerContainer">
-                <iframe id="stream1pc-iframe" src="https://roxiestreams.info/raw/fs1" 
+                <iframe id="stream1pc-iframe" src="https://roxiestreams.info/raw/fox" 
                         style="display: none;" 
                         allowfullscreen></iframe>
             </div>
 
             <div class="streamchanger">
-                <button id="btn-tsn" class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', '602'))">TSN</button>
-              <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fs1.m3u8', '602'))">FS1</button>
-              <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('universo.m3u8', 'daffodil'))">Universo</button>
-                <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/fs1')">PC ONLY (DIRECT)</button>
+                <button id="btn-tsn" class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', 'ataide0'))">TSN</button>
+              <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fox.m3u8', '602'))">FOX (ALT)</button>
+              <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fox.m3u8', '602'))">FOX (FHD)</button>
+              <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tele.m3u8', 'daffodil'))">Telmundo</button>
+                <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/fox')">PC ONLY (DIRECT)</button>
                 <button class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/peacock3')">Tele (Peacock)</button>
                  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('bein2.m3u8', 'ataide0'))">العربية</button>
             </div>
@@ -244,54 +245,13 @@
         <p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2026</p>
     </footer>
 
-<li class="nav-item"><a class="nav-link" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
-</ul><ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-<li class="nav-item">
-<a class="nav-link d-flex align-items-center gap-1" href="https://roxiestreams.info/multiview">
-<svg fill="currentColor" height="16" viewbox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
-<path d="M0 1.5A1.5 1.5 0 0 1 1.5 0h13A1.5 1.5 0 0 1 16 1.5v13a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13zM1.5 1a.5.5 0 0 0-.5.5V7h6V1H1.5zM7 8H1v6.5a.5.5 0 0 0 .5.5H7V8zm1 0v7h6.5a.5.5 0 0 0 .5-.5V8H8zm0-1h7V1.5a.5.5 0 0 0-.5-.5H8v6z"></path>
-</svg>
-        MultiView (NEW)
-    </a>
-</li>
-</ul>
-</div>
-</div>
-</nav>
-<div class="container container-fluid pt-2 text-white">
-<div class="fullplayer">
-<div id="playerContainer"></div>
-<div class="streamchanger">
-<button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', '602'))">TSN</button>
-<button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fs1.m3u8', '602'))">FS1</button>
-<button class="streambutton" onclick="showPlayer('clappr', getRandomStream('universo.m3u8', 'daffodil'))">Universo</button>
-                <button class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/peacock2')">Tele (Peacock)</button>
-<button class="streambutton" onclick="showPlayer('clappr', getRandomStream('bein2.m3u8', 'ataide0'))">العربية</button>
-</div>
-<div class="embedchat">
-<div class="chat-header">
-<span style="font-size: 10px; color: pink; font-weight: bold;">LIVE CHAT</span>
-<button class="chat-toggle-btn" id="toggleChat">Switch to Chatango</button>
-</div>
-<div id="chatContent">
-<iframe src="https://www.youtube.com/live_chat?v=K5tlSOUSRXY&amp;embed_domain=roxiestreams.info"></iframe>
-</div>
-</div>
-</div>
-</div>
-<footer class="container-fluid d-flex flex-column flex-lg-row justify-content-lg-between align-items-center py-2 border-top mt-5">
-<ul class="nav justify-content-center justify-content-lg-start mb-2 mb-lg-0">
-<li class="nav-item"><a class="nav-link px-2 text-body-secondary" href="https://discord.gg/JhkVmejRmn">Stream Request (Discord)</a></li>
-</ul>
-<p class="mb-0 text-body-secondary text-center text-lg-start">Roxiestreams © 2026</p>
-</footer>
 <script>
 var clapprPlayer;
 var currentChat = 'yt';
 var shakaPlayer;
 var shakaUI;
 var domains = [];
-var subdomain = '602';  // Edit this per HTML file
+var subdomain = 'ataide0';  // Edit this per HTML file
 
 function isDesktop() {
   return !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
@@ -313,9 +273,9 @@ fetch('domainsz37.txt')
 
     setTimeout(() => {
       if (isDesktop()) {
-        playIframePlayer('https://roxiestreams.info/raw/fs1');
+        playIframePlayer('https://roxiestreams.info/raw/fox');
       } else {
-        showPlayer('clappr', getRandomStream('tsn.m3u8', '602'));
+        showPlayer('clappr', getRandomStream('tsn.m3u8', 'ataide0'));
       }
     }, 500);
   })
@@ -323,7 +283,7 @@ fetch('domainsz37.txt')
     console.error('Failed to load domainsz37.txt');
   });
 
-function getRandomStream(streamPath, subdomain = '602') {
+function getRandomStream(streamPath, subdomain = 'ataide0') {
   if (domains.length === 0) {
     return `https://${subdomain}.shadow-ran.online/${streamPath}`; // Fallback
   }
