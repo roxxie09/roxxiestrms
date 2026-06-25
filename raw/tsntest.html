@@ -27,8 +27,11 @@
     })();
   </script>
 
+  <!-- Primary engine: Shaka -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css">
   <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.js"></script>
+  <!-- Fallback engine: dash.js -->
+  <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
 
   <style>
     html, body {
@@ -55,7 +58,6 @@
       background: #000;
     }
 
-    /* Reload control — quiet, top-center, above the player UI */
     #bar {
       position: fixed;
       top: 12px;
@@ -77,6 +79,8 @@
       user-select: none;
     }
     #bar:hover { opacity: 1; }
+    #engine-badge { letter-spacing: 0.02em; }
+    #engine-badge .eng { color: #7fd4ff; font-weight: 600; }
     #reload-btn {
       cursor: pointer;
       border: 0;
@@ -112,7 +116,7 @@
 </head>
 <body>
   <div id="bar">
-    <span class="label">Live</span>
+    <span id="engine-badge">Live · <span class="eng" id="eng-name">Shaka</span></span>
     <button id="reload-btn" type="button">Reload</button>
   </div>
   <div id="status"></div>
@@ -132,25 +136,29 @@
       }
     };
 
-    /* How hard to keep trying when the manifest 400s before it's ready. */
     const RETRY = {
-      baseDelay: 1000,       // first wait, ms
-      backoffFactor: 1.5,    // each retry waits longer
-      maxDelay: 15000,       // ...but never longer than this
-      // null = retry forever (good for a live edge that's just "not up yet").
-      // Set a number if you'd rather give up after N tries.
-      maxNetworkAttempts: null
+      baseDelay: 1000,        // first wait, ms
+      backoffFactor: 1.5,     // each retry waits longer
+      maxDelay: 15000,        // cap
+      fallbackAfter: 2,       // Shaka tries this many times, then hands off to dash.js
+      maxNetworkAttempts: null, // null = retry the active engine forever
+      dashWatchdog: 12000     // if dash.js neither plays nor errors in this long, treat as failure
     };
 
     const video     = document.getElementById('video');
     const container = document.getElementById('video-container');
     const statusEl  = document.getElementById('status');
     const reloadBtn = document.getElementById('reload-btn');
+    const engNameEl = document.getElementById('eng-name');
 
-    let player      = null;
-    let loading     = false;   // a load() is in flight
-    let stopped     = false;   // hit a non-retriable error; stop looping
-    let attempt     = 0;       // consecutive failed attempts
+    let engine      = 'shaka';  // 'shaka' | 'dash'
+    let shakaPlayer = null;
+    let shakaUI     = null;
+    let dashPlayer  = null;
+    let dashWatch   = null;
+    let loading     = false;    // a Shaka load() is in flight
+    let stopped     = false;
+    let attempt     = 0;        // consecutive failures on the active engine
     let retryTimer  = null;
 
     function setStatus(msg) {
@@ -158,114 +166,178 @@
       statusEl.textContent = msg;
       statusEl.className = 'show';
     }
+    function engineLabel() { return engine === 'shaka' ? 'Shaka' : 'dash.js'; }
+    function updateBadge()  { engNameEl.textContent = engineLabel(); }
 
-    // Turn a Shaka error into something readable.
+    // hex -> base64url (no padding) for dash.js ClearKey
+    function hexToB64Url(hex) {
+      hex = (hex || '').replace(/^0x/, '').trim();
+      if (!hex) return '';
+      const bytes = new Uint8Array(hex.match(/.{1,2}/g).map(h => parseInt(h, 16)));
+      let s = '';
+      for (const b of bytes) s += String.fromCharCode(b);
+      return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    }
+
     function describe(err) {
       if (!err) return 'unknown error';
-      if (err.code === 1001 && err.data) return 'HTTP ' + err.data[1]; // BAD_HTTP_STATUS
+      if (err.code === 1001 && err.data) return 'HTTP ' + err.data[1];
       if (err.category === 1) return 'network error (' + err.code + ')';
       if (err.category === 6) return 'DRM/key error (' + err.code + ')';
       return 'error ' + err.code;
     }
-
-    // Retry network (1) and manifest (4) problems — that's what a flaky 400 edge is.
-    // DRM (6), media (3), etc. are not transient, so don't loop forever on them.
+    // Retry network (1) and manifest (4); don't loop forever on DRM/media errors.
     function isRetriable(err) {
       if (!err) return true;
       return err.category === 1 || err.category === 4;
     }
 
-    async function buildPlayer() {
-      player = new shaka.Player();
-      await player.attach(video);
-      new shaka.ui.Overlay(player, container, video);
+    /* ---------------- Shaka ---------------- */
+    async function buildShaka() {
+      shakaPlayer = new shaka.Player();
+      await shakaPlayer.attach(video);
+      shakaUI = new shaka.ui.Overlay(shakaPlayer, container, video);
 
-      // Generous retry params so a single load() rides out transient 400s,
-      // and live segment hiccups recover instead of killing playback.
       const retryParameters = {
-        maxAttempts: 6,
-        baseDelay: 800,
-        backoffFactor: 1.5,
-        fuzzFactor: 0.5,
-        timeout: 30000,
-        connectionTimeout: 10000,
-        stallTimeout: 5000
+        maxAttempts: 4, baseDelay: 800, backoffFactor: 1.5,
+        fuzzFactor: 0.5, timeout: 30000, connectionTimeout: 10000, stallTimeout: 5000
       };
-
-      player.configure({
+      shakaPlayer.configure({
         drm: { clearKeys: CONFIG.clearKeys },
         manifest: { retryParameters },
         streaming: {
           retryParameters,
-          // Live recovery: on a streaming failure, retry in place rather than
-          // tearing the whole player down.
           failureCallback: (error) => {
-            console.warn('Streaming failure:', describe(error), error);
-            if (isRetriable(error)) {
-              setStatus('Stream hiccup (' + describe(error) + ') — recovering…');
-              player.retryStreaming();
-            }
+            console.warn('Shaka streaming failure:', describe(error), error);
+            if (isRetriable(error)) { setStatus('Stream hiccup — recovering…'); shakaPlayer.retryStreaming(); }
           }
         }
       });
 
-      // Runtime errors (after the manifest first loaded).
-      player.addEventListener('error', (event) => {
+      shakaPlayer.addEventListener('error', (event) => {
         const err = event.detail;
         console.error('Shaka error:', describe(err), err);
-        if (loading || stopped) return;          // load() path handles its own errors
-        if (isRetriable(err)) scheduleReload(err); // e.g. live manifest update 400s
-        else setStatus('Stopped: ' + describe(err));
+        if (loading || stopped || engine !== 'shaka') return;
+        handleFailure(describe(err), isRetriable(err));
       });
     }
+    async function destroyShaka() {
+      try { if (shakaUI) await shakaUI.destroy(); } catch (e) {}
+      try { if (shakaPlayer) await shakaPlayer.destroy(); } catch (e) {}
+      shakaUI = null; shakaPlayer = null;
+    }
 
-    function scheduleReload(err) {
-      clearTimeout(retryTimer);
+    /* ---------------- dash.js ---------------- */
+    function startDash() {
+      destroyDash();
+      dashPlayer = dashjs.MediaPlayer().create();
+
+      const clearkeys = {};
+      for (const kid in CONFIG.clearKeys) {
+        if (!kid) continue;
+        clearkeys[hexToB64Url(kid)] = hexToB64Url(CONFIG.clearKeys[kid]);
+      }
+      dashPlayer.setProtectionData({ 'org.w3.clearkey': { clearkeys } });
+
+      dashPlayer.on(dashjs.MediaPlayer.events.ERROR, onDashError);
+      dashPlayer.on(dashjs.MediaPlayer.events.CAN_PLAY, onDashPlaying);
+      dashPlayer.on(dashjs.MediaPlayer.events.PLAYBACK_STARTED, onDashPlaying);
+
+      video.controls = true; // dash.js has no built-in controls
+      dashPlayer.initialize(video, CONFIG.manifest, true);
+
+      clearTimeout(dashWatch);
+      dashWatch = setTimeout(() => {
+        if (engine === 'dash') onDashError({ watchdog: true });
+      }, RETRY.dashWatchdog);
+    }
+    function destroyDash() {
+      clearTimeout(dashWatch);
+      try { if (dashPlayer) dashPlayer.reset(); } catch (e) {}
+      dashPlayer = null;
+    }
+    function onDashPlaying() {
+      if (engine !== 'dash') return;
+      clearTimeout(dashWatch);
+      onPlaying();
+    }
+    function onDashError(e) {
+      if (engine !== 'dash') return;
+      clearTimeout(dashWatch);
+      console.warn('dash.js error:', e);
+      handleFailure(e && e.watchdog ? 'timed out' : 'dash error', true);
+    }
+
+    /* ---------------- Shared flow ---------------- */
+    function onPlaying() {
+      attempt = 0; stopped = false; setStatus(null); updateBadge();
+    }
+
+    function handleFailure(label, retriable) {
+      loading = false;
+      if (!retriable) { stopped = true; setStatus('Stopped: ' + label + ' — tap Reload.'); return; }
       attempt++;
+
+      // Primary -> fallback handoff
+      if (engine === 'shaka' && attempt >= RETRY.fallbackAfter) {
+        setStatus('Shaka failed ' + attempt + '× (' + label + ') — switching to dash.js…');
+        switchEngine('dash');
+        return;
+      }
       if (RETRY.maxNetworkAttempts && attempt > RETRY.maxNetworkAttempts) {
-        setStatus('Gave up after ' + (attempt - 1) + ' tries (' + describe(err) + '). Tap Reload to try again.');
         stopped = true;
+        setStatus('Gave up after ' + (attempt - 1) + ' tries (' + label + '). Tap Reload.');
         return;
       }
       const delay = Math.min(RETRY.baseDelay * Math.pow(RETRY.backoffFactor, attempt - 1), RETRY.maxDelay);
-      setStatus('Stream not ready (' + describe(err) + ') — retrying in ' + Math.round(delay / 1000) + 's (try ' + attempt + ')…');
+      setStatus(engineLabel() + ' not ready (' + label + ') — retrying in ' + Math.round(delay / 1000) + 's (try ' + attempt + ')…');
       retryTimer = setTimeout(loadStream, delay);
+    }
+
+    async function switchEngine(target) {
+      clearTimeout(retryTimer);
+      if (engine === 'shaka') await destroyShaka(); else destroyDash();
+      engine = target;
+      attempt = 0;
+      stopped = false;
+      if (target === 'shaka') { video.controls = false; await buildShaka(); }
+      updateBadge();
+      loadStream();
     }
 
     async function loadStream() {
       if (loading) return;
       if (!CONFIG.manifest) { setStatus('No manifest URL set — fill in CONFIG.manifest.'); return; }
-      loading = true;
       clearTimeout(retryTimer);
-      try {
-        await player.load(CONFIG.manifest, null, 'application/dash+xml');
-        attempt = 0;
-        stopped = false;
-        setStatus(null); // playing — clear any banner
-      } catch (err) {
-        console.warn('Load failed:', describe(err), err);
-        if (isRetriable(err)) {
+
+      if (engine === 'shaka') {
+        loading = true;
+        try {
+          await shakaPlayer.load(CONFIG.manifest, null, 'application/dash+xml');
+          onPlaying();
+        } catch (err) {
+          console.warn('Shaka load failed:', describe(err), err);
+          handleFailure(describe(err), isRetriable(err));
+        } finally {
           loading = false;
-          scheduleReload(err);
-          return;
         }
-        stopped = true;
-        setStatus('Stopped: ' + describe(err) + ' (not retriable — check keys/URL). Tap Reload to retry.');
-      } finally {
-        loading = false;
+      } else {
+        startDash(); // event-driven; success/failure come via dash listeners
       }
     }
 
-    reloadBtn.addEventListener('click', () => {
+    // Reload always resets to the primary engine (Shaka) and clears backoff.
+    reloadBtn.addEventListener('click', async () => {
       clearTimeout(retryTimer);
-      attempt = 0;
-      stopped = false;
-      loadStream();
+      attempt = 0; stopped = false;
+      if (engine !== 'shaka') { await switchEngine('shaka'); }
+      else { loadStream(); }
     });
 
     /* ---------------- Boot ---------------- */
     (async () => {
-      await buildPlayer();
+      await buildShaka();
+      updateBadge();
       loadStream();
     })();
   </script>
