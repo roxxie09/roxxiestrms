@@ -81,7 +81,7 @@
     #bar:hover { opacity: 1; }
     #engine-badge { letter-spacing: 0.02em; }
     #engine-badge .eng { color: #7fd4ff; font-weight: 600; }
-    #reload-btn {
+    #reload-btn, #unmute-btn {
       cursor: pointer;
       border: 0;
       border-radius: 999px;
@@ -91,8 +91,9 @@
       color: #000;
       background: #fff;
     }
-    #reload-btn:active { transform: translateY(1px); }
-    #reload-btn:focus-visible { outline: 2px solid #7fd4ff; outline-offset: 2px; }
+    #unmute-btn { background: #7fd4ff; }
+    #reload-btn:active, #unmute-btn:active { transform: translateY(1px); }
+    #reload-btn:focus-visible, #unmute-btn:focus-visible { outline: 2px solid #7fd4ff; outline-offset: 2px; }
 
     #status {
       position: fixed;
@@ -117,12 +118,13 @@
 <body>
   <div id="bar">
     <span id="engine-badge">Live · <span class="eng" id="eng-name">Shaka</span></span>
+    <button id="unmute-btn" type="button">🔊 Unmute</button>
     <button id="reload-btn" type="button">Reload</button>
   </div>
   <div id="status"></div>
 
   <div id="video-container">
-    <video id="video" autoplay playsinline></video>
+    <video id="video" autoplay playsinline muted></video>
   </div>
 
   <script>
@@ -149,6 +151,7 @@
     const container = document.getElementById('video-container');
     const statusEl  = document.getElementById('status');
     const reloadBtn = document.getElementById('reload-btn');
+    const unmuteBtn = document.getElementById('unmute-btn');
     const engNameEl = document.getElementById('eng-name');
 
     let engine      = 'shaka';  // 'shaka' | 'dash'
@@ -168,6 +171,22 @@
     }
     function engineLabel() { return engine === 'shaka' ? 'Shaka' : 'dash.js'; }
     function updateBadge()  { engNameEl.textContent = engineLabel(); }
+
+    function updateMuteBtn() { unmuteBtn.style.display = video.muted ? '' : 'none'; }
+
+    // Kick off playback. Autoplay-with-sound is blocked until a user gesture,
+    // so if play() is rejected we mute (muted autoplay is always allowed) and
+    // surface the Unmute button.
+    async function tryPlay() {
+      try {
+        await video.play();
+      } catch (e) {
+        video.muted = true;
+        updateMuteBtn();
+        try { await video.play(); } catch (e2) { /* still blocked; native controls remain */ }
+      }
+      updateMuteBtn();
+    }
 
     // hex -> base64url (no padding) for dash.js ClearKey
     function hexToB64Url(hex) {
@@ -232,6 +251,16 @@
       destroyDash();
       dashPlayer = dashjs.MediaPlayer().create();
 
+      // Throttle dash.js's own retries: a few polite attempts, well spaced.
+      // Without this it fires a burst of parallel requests that makes the
+      // server's 400s worse (the "more requests = more 400s" effect).
+      dashPlayer.updateSettings({
+        streaming: {
+          retryAttempts:  { MPD: 2, MediaSegment: 2, InitializationSegment: 2 },
+          retryIntervals: { MPD: 2000, MediaSegment: 2000, InitializationSegment: 2000 }
+        }
+      });
+
       const clearkeys = {};
       for (const kid in CONFIG.clearKeys) {
         if (!kid) continue;
@@ -260,6 +289,7 @@
       if (engine !== 'dash') return;
       clearTimeout(dashWatch);
       onPlaying();
+      tryPlay();   // dash.js has no UI, so make sure it actually starts
     }
     function onDashError(e) {
       if (engine !== 'dash') return;
@@ -315,6 +345,7 @@
         try {
           await shakaPlayer.load(CONFIG.manifest, null, 'application/dash+xml');
           onPlaying();
+          tryPlay();
         } catch (err) {
           console.warn('Shaka load failed:', describe(err), err);
           handleFailure(describe(err), isRetriable(err));
@@ -334,8 +365,17 @@
       else { loadStream(); }
     });
 
+    // Unmute is a user gesture, so sound is allowed after this tap.
+    unmuteBtn.addEventListener('click', () => {
+      video.muted = false;
+      video.play().catch(() => {});
+      updateMuteBtn();
+    });
+
     /* ---------------- Boot ---------------- */
     (async () => {
+      video.muted = true;     // guarantees autoplay can start
+      updateMuteBtn();
       await buildShaka();
       updateBadge();
       loadStream();
