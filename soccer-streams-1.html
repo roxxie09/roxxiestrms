@@ -212,16 +212,17 @@
     <div class="container container-fluid pt-2 text-white">
         <div class="fullplayer">
             <div id="playerContainer">
-                <iframe id="stream1pc-iframe" src="https://roxiestreams.info/raw/fs1" 
+                <iframe id="stream1pc-iframe" src="https://roxiestreams.info/raw/fox" 
                         style="display: none;" 
                         allowfullscreen></iframe>
             </div>
 
             <div class="streamchanger">
                 <button id="btn-tsn" class="streambutton" onclick="showPlayer('clappr', getRandomStream('tsn.m3u8', 'ataide0'))">TSN</button>
-              <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fs1.m3u8', '602'))">FS1</button>
-              <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('universo.m3u8', 'daffodil'))">Universo</button>
-                <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/fs1')">PC ONLY (DIRECT)</button>
+              <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fox.m3u8', '601'))">FOX (ALT)</button>
+              <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('fox.m3u8', '602'))">FOX (FHD)</button>
+                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tele.m3u8', 'daffodil'))">TELEMUNDO</button>
+                <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/fox')">PC ONLY (DIRECT)</button>
                 <button class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/peacock')">Tele (Peacock)</button>
                  <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('bein.m3u8', 'ataide0'))">العربية</button>
             </div>
@@ -272,7 +273,7 @@ fetch('domainsz37.txt')
 
     setTimeout(() => {
       if (isDesktop()) {
-        playIframePlayer('https://roxiestreams.info/raw/fs1');
+        playIframePlayer('https://roxiestreams.info/raw/fox');
       } else {
         showPlayer('clappr', getRandomStream('tsn.m3u8', 'ataide0'));
       }
