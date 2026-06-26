@@ -253,17 +253,22 @@
       host.style.height = '100%';
       container.appendChild(host);
 
+      // NOTE: do NOT pass `ui: true` — the bundled bitmovinplayer.js auto-builds
+      // the default UI. Passing a boolean here crashes the UI manager.
       player = new bitmovin.player.Player(host, {
         key: CONFIG.bitmovinKey,
-        playback: { autoplay: true },
-        ui: true
+        playback: { autoplay: true }
       });
 
       player.on(bitmovin.player.PlayerEvent.Error, (e) => {
         console.error('Bitmovin error:', e);
         if (loading || stopped) return;
-        // Bitmovin codes 1xxx/2xxx are setup/network related — treat as retriable.
-        handleFailure('bitmovin error ' + e.code, true);
+        // 1100–1199 are setup/license errors — these won't fix themselves on
+        // retry (wrong key, domain not allowlisted, file:// origin, etc.),
+        // so stop and tell the user instead of looping forever.
+        const fatal = e.code >= 1100 && e.code < 1200;
+        const label = 'bitmovin error ' + e.code + (e.name ? ' (' + e.name + ')' : '');
+        handleFailure(label, !fatal);
       });
     }
 
