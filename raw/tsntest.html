@@ -26,10 +26,12 @@
     })();
   </script>
 
+  <!-- Shaka -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css">
   <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.js"></script>
 
-  <script src="https://content.jwplatform.com/libraries/cdpMEW0v.js"></script>
+  <!-- Bitmovin -->
+  <script src="https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js"></script>
 
   <style>
     html, body {
@@ -39,32 +41,21 @@
       background: #000;
       overflow: hidden;
     }
-
-    #shaka-container {
+    #video-container {
       width: 100%;
       height: 100%;
       position: fixed;
       inset: 0;
       background: #000;
     }
-    #shaka-container video,
-    #shaka-container, .shaka-video-container {
-      width: 100% !important;
-      height: 100% !important;
-      background: #000;
-    }
-
-    #jw-container {
+    video {
       width: 100%;
       height: 100%;
-      position: fixed;
-      inset: 0;
-      background: #000;
-      display: none;
     }
-    #jw-container #jwplayer-div {
+    #video-container, .shaka-video-container, .bitmovinplayer-container {
       width: 100% !important;
       height: 100% !important;
+      background: #000;
     }
 
     #bar {
@@ -78,9 +69,9 @@
       gap: 8px;
       font: 13px/1 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
       color: #fff;
-      background: rgba(0,0,0,0.55);
+      background: rgba(0, 0, 0, 0.55);
       backdrop-filter: blur(6px);
-      border: 1px solid rgba(255,255,255,0.14);
+      border: 1px solid rgba(255, 255, 255, 0.14);
       border-radius: 999px;
       padding: 6px 6px 6px 12px;
       opacity: 0.3;
@@ -90,7 +81,7 @@
     #bar:hover { opacity: 1; }
     #bar .label { letter-spacing: 0.02em; }
 
-    .bar-btn {
+    .pill-btn {
       cursor: pointer;
       border: 0;
       border-radius: 999px;
@@ -99,16 +90,17 @@
       font-weight: 600;
       color: #000;
       background: #fff;
-      transition: background 0.15s, color 0.15s;
     }
-    .bar-btn:active { transform: translateY(1px); }
-    .bar-btn:focus-visible { outline: 2px solid #7fd4ff; outline-offset: 2px; }
+    .pill-btn:active { transform: translateY(1px); }
+    .pill-btn:focus-visible { outline: 2px solid #7fd4ff; outline-offset: 2px; }
 
-    #switch-btn {
-      background: #ffe033;
-      color: #000;
+    /* Engine toggle uses an outlined look so it's distinct from Reload */
+    #engine-btn {
+      color: #fff;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.45);
     }
-    #switch-btn:hover { background: #ffd000; }
+    #engine-btn .engine-name { font-weight: 700; }
 
     #status {
       position: fixed;
@@ -120,9 +112,9 @@
       text-align: center;
       font: 12px/1.4 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
       color: #ffe6c2;
-      background: rgba(120,60,0,0.55);
+      background: rgba(120, 60, 0, 0.55);
       backdrop-filter: blur(6px);
-      border: 1px solid rgba(255,180,100,0.3);
+      border: 1px solid rgba(255, 180, 100, 0.3);
       border-radius: 10px;
       padding: 8px 12px;
       display: none;
@@ -132,27 +124,23 @@
 </head>
 <body>
   <div id="bar">
-    <span class="label" id="player-label">Shaka</span>
-    <button id="reload-btn" class="bar-btn" type="button">Reload</button>
-    <button id="switch-btn" class="bar-btn" type="button">⇄ JW Player</button>
+    <span class="label">Live</span>
+    <button id="engine-btn" class="pill-btn" type="button" title="Switch player engine">
+      <span class="engine-name">Shaka</span>
+    </button>
+    <button id="reload-btn" class="pill-btn" type="button">Reload</button>
   </div>
-
   <div id="status"></div>
 
-  <div id="shaka-container">
-    <video id="video" autoplay playsinline></video>
-  </div>
-
-  <div id="jw-container">
-    <div id="jwplayer-div"></div>
-  </div>
+  <div id="video-container"></div>
 
   <script>
     const CONFIG = {
       manifest: "https://otte-qw.live.pv-cdn.net/bom-nitro/live/clients/dash/enc/w0rehjjrwe/out/v1/69a2a7041395406b970598f61680e7cf/cenc.mpd",
       clearKeys: {
         "14eeabf30c14b7fbf3008c03099ce011": "17d2ac8dbc5429bd70af3433aa12158d"
-      }
+      },
+      bitmovinKey: "c36b7b72-baa6-408f-95a9-37f5bdd8e041"
     };
 
     const RETRY = {
@@ -162,32 +150,33 @@
       maxNetworkAttempts: null
     };
 
-    const videoEl        = document.getElementById('video');
-    const shakaContainer = document.getElementById('shaka-container');
-    const jwContainer    = document.getElementById('jw-container');
-    const statusEl       = document.getElementById('status');
-    const reloadBtn      = document.getElementById('reload-btn');
-    const switchBtn      = document.getElementById('switch-btn');
-    const playerLabel    = document.getElementById('player-label');
+    const container = document.getElementById('video-container');
+    const statusEl  = document.getElementById('status');
+    const reloadBtn = document.getElementById('reload-btn');
+    const engineBtn = document.getElementById('engine-btn');
+    const engineName = engineBtn.querySelector('.engine-name');
 
-    let activePlayer = 'shaka';
-    let shakaPlayer = null;
-    let jwInstance = null;
-
-    let loading = false;
-    let stopped = false;
-    let attempt = 0;
-    let retryTimer = null;
+    // 'shaka' | 'bitmovin'
+    let engine      = 'shaka';
+    let player      = null;   // shaka.Player or bitmovin player, depending on engine
+    let video       = null;   // only used by Shaka
+    let loading     = false;
+    let stopped     = false;
+    let attempt     = 0;
+    let retryTimer  = null;
 
     function setStatus(msg) {
-      if (!msg) {
-        statusEl.className = '';
-        statusEl.textContent = '';
-        return;
-      }
+      if (!msg) { statusEl.className = ''; statusEl.textContent = ''; return; }
       statusEl.textContent = msg;
       statusEl.className = 'show';
     }
+
+    function updateEngineButton() {
+      // Button shows the engine you'll switch TO.
+      engineName.textContent = engine === 'shaka' ? 'Bitmovin' : 'Shaka';
+    }
+
+    /* ---------------- Shaka ---------------- */
 
     function describe(err) {
       if (!err) return 'unknown error';
@@ -196,16 +185,21 @@
       if (err.category === 6) return 'DRM/key error (' + err.code + ')';
       return 'error ' + err.code;
     }
-
     function isRetriable(err) {
       if (!err) return true;
       return err.category === 1 || err.category === 4;
     }
 
-    async function buildShakaPlayer() {
-      shakaPlayer = new shaka.Player();
-      await shakaPlayer.attach(videoEl);
-      new shaka.ui.Overlay(shakaPlayer, shakaContainer, videoEl);
+    async function buildShaka() {
+      video = document.createElement('video');
+      video.id = 'video';
+      video.autoplay = true;
+      video.setAttribute('playsinline', '');
+      container.appendChild(video);
+
+      player = new shaka.Player();
+      await player.attach(video);
+      new shaka.ui.Overlay(player, container, video);
 
       const retryParameters = {
         maxAttempts: 6,
@@ -217,211 +211,167 @@
         stallTimeout: 5000
       };
 
-      shakaPlayer.configure({
+      player.configure({
         drm: { clearKeys: CONFIG.clearKeys },
         manifest: { retryParameters },
         streaming: {
           retryParameters,
           failureCallback: (error) => {
-            if (activePlayer !== 'shaka') return;
-            console.warn('Shaka streaming failure:', describe(error), error);
+            console.warn('Streaming failure:', describe(error), error);
             if (isRetriable(error)) {
               setStatus('Stream hiccup (' + describe(error) + ') — recovering…');
-              shakaPlayer.retryStreaming();
+              player.retryStreaming();
             }
           }
         }
       });
 
-      shakaPlayer.addEventListener('error', (event) => {
+      player.addEventListener('error', (event) => {
         const err = event.detail;
         console.error('Shaka error:', describe(err), err);
-        if (activePlayer !== 'shaka' || loading || stopped) return;
-        if (isRetriable(err)) handleShakaFailure(describe(err), true);
+        if (loading || stopped) return;
+        if (isRetriable(err)) handleFailure(describe(err), true);
         else setStatus('Stopped: ' + describe(err));
       });
     }
 
-    function handleShakaFailure(label, retriable) {
-      loading = false;
+    async function loadShaka() {
+      await player.load(CONFIG.manifest, null, 'application/dash+xml');
+    }
 
-      if (!retriable) {
-        stopped = true;
-        setStatus('Stopped: ' + label + ' — tap Reload.');
-        return;
+    /* ---------------- Bitmovin ---------------- */
+
+    function clearKeysAsArray() {
+      // Bitmovin wants an array of { kid, key } in hex string format.
+      return Object.entries(CONFIG.clearKeys).map(([kid, key]) => ({ kid, key }));
+    }
+
+    async function buildBitmovin() {
+      const host = document.createElement('div');
+      host.id = 'bitmovin-player';
+      host.style.width = '100%';
+      host.style.height = '100%';
+      container.appendChild(host);
+
+      player = new bitmovin.player.Player(host, {
+        key: CONFIG.bitmovinKey,
+        playback: { autoplay: true },
+        ui: true
+      });
+
+      player.on(bitmovin.player.PlayerEvent.Error, (e) => {
+        console.error('Bitmovin error:', e);
+        if (loading || stopped) return;
+        // Bitmovin codes 1xxx/2xxx are setup/network related — treat as retriable.
+        handleFailure('bitmovin error ' + e.code, true);
+      });
+    }
+
+    async function loadBitmovin() {
+      await player.load({
+        dash: CONFIG.manifest,
+        drm: {
+          clearkey: clearKeysAsArray()
+        }
+      });
+    }
+
+    /* ---------------- Shared lifecycle ---------------- */
+
+    async function destroyCurrent() {
+      clearTimeout(retryTimer);
+      if (player) {
+        try {
+          if (engine === 'shaka') {
+            await player.destroy();
+          } else {
+            player.destroy();
+          }
+        } catch (e) {
+          console.warn('Destroy failed:', e);
+        }
       }
+      player = null;
+      video = null;
+      container.innerHTML = '';
+    }
 
+    async function buildPlayer() {
+      if (engine === 'shaka') await buildShaka();
+      else await buildBitmovin();
+    }
+
+    function handleFailure(label, retriable) {
+      loading = false;
+      if (!retriable) { stopped = true; setStatus('Stopped: ' + label + ' — tap Reload.'); return; }
       attempt++;
       if (RETRY.maxNetworkAttempts && attempt > RETRY.maxNetworkAttempts) {
         stopped = true;
         setStatus('Gave up after ' + (attempt - 1) + ' tries (' + label + '). Tap Reload.');
         return;
       }
-
-      const delay = Math.min(
-        RETRY.baseDelay * Math.pow(RETRY.backoffFactor, attempt - 1),
-        RETRY.maxDelay
-      );
-
+      const delay = Math.min(RETRY.baseDelay * Math.pow(RETRY.backoffFactor, attempt - 1), RETRY.maxDelay);
       setStatus('Stream not ready (' + label + ') — retrying in ' + Math.round(delay / 1000) + 's (try ' + attempt + ')…');
-      retryTimer = setTimeout(loadShaka, delay);
+      retryTimer = setTimeout(loadStream, delay);
     }
 
-    async function loadShaka() {
-      if (loading || activePlayer !== 'shaka') return;
+    async function loadStream() {
+      if (loading) return;
+      if (!CONFIG.manifest) { setStatus('No manifest URL set — fill in CONFIG.manifest.'); return; }
+      if (!player) { setStatus('Player not ready.'); return; }
       loading = true;
       clearTimeout(retryTimer);
-
       try {
-        await shakaPlayer.load(CONFIG.manifest, null, 'application/dash+xml');
+        if (engine === 'shaka') await loadShaka();
+        else await loadBitmovin();
         attempt = 0;
         stopped = false;
-        setStatus(null);
+        setStatus(null);   // playing — clear any banner
       } catch (err) {
-        console.warn('Shaka load failed:', describe(err), err);
-        handleFailure(describe(err), isRetriable(err));
+        console.warn('Load failed:', err);
+        const label = engine === 'shaka' ? describe(err) : ('bitmovin load error');
+        const retriable = engine === 'shaka' ? isRetriable(err) : true;
+        handleFailure(label, retriable);
       } finally {
         loading = false;
       }
     }
 
-    function loadJW() {
-      if (activePlayer !== 'jw') return;
-      setStatus(null);
-
-      const drmKeys = Object.entries(CONFIG.clearKeys).map(([keyId, key]) => ({ keyId, key }));
-
+    async function switchEngine() {
+      const target = engine === 'shaka' ? 'bitmovin' : 'shaka';
+      setStatus('Switching to ' + target + '…');
+      engineBtn.disabled = true;
+      reloadBtn.disabled = true;
       try {
-        if (jwInstance) {
-          jwInstance.load([{
-            file: CONFIG.manifest,
-            type: 'application/dash+xml',
-            drm: {
-              clearkey: {
-                decryptionKeys: drmKeys
-              }
-            }
-          }]);
-          jwInstance.play();
-          return;
-        }
-
-        jwInstance = jwplayer('jwplayer-div').setup({
-          autostart: true,
-          controls: true,
-          width: '100%',
-          height: '100%',
-          sources: [{
-            file: CONFIG.manifest,
-            type: 'application/dash+xml',
-            drm: {
-              clearkey: {
-                decryptionKeys: drmKeys
-              }
-            }
-          }]
-        });
-
-        jwInstance.on('setupError', function(e) {
-          console.error('JW setupError:', e.message, e);
-          setStatus('JW setup error: ' + (e.message || 'unknown') + ' — tap Reload.');
-        });
-
-        jwInstance.on('error', function(e) {
-          console.error('JW error:', e.message, e.code, e);
-          if (activePlayer === 'jw') {
-            setStatus('JW error: ' + (e.message || 'unknown') + ' — tap Reload.');
-          }
-        });
-
-        jwInstance.on('warning', function(e) {
-          console.warn('JW warning:', e.message, e);
-        });
-
-        jwInstance.on('providerChanged', function(e) {
-          console.log('JW provider loaded:', e.provider);
-        });
-
-        jwInstance.on('levels', function(e) {
-          console.log('JW quality levels received:', e.levels);
-        });
-
-        jwInstance.on('bufferChange', function(e) {
-          console.log('JW buffer:', e.bufferPercent + '%');
-        });
-
-        jwInstance.on('firstFrame', function() {
-          console.log('JW first frame rendered ✓');
-          setStatus(null);
-        });
-
-        jwInstance.on('ready', function() {
-          console.log('JW ready ✓');
-        });
+        await destroyCurrent();
+        engine = target;
+        attempt = 0;
+        stopped = false;
+        updateEngineButton();
+        await buildPlayer();
+        await loadStream();
       } catch (e) {
-        console.error('JW setup exception:', e);
-        setStatus('JW Player failed to initialise: ' + e.message);
+        console.error('Switch failed:', e);
+        setStatus('Failed to switch to ' + target + '.');
+      } finally {
+        engineBtn.disabled = false;
+        reloadBtn.disabled = false;
       }
     }
 
-    function switchToJW() {
-      if (activePlayer === 'jw') return;
-
-      activePlayer = 'jw';
-      clearTimeout(retryTimer);
-      loading = false;
-
-      if (shakaPlayer) shakaPlayer.unload();
-      videoEl.pause();
-
-      shakaContainer.style.display = 'none';
-      jwContainer.style.display = 'block';
-
-      playerLabel.textContent = 'JW Player';
-      switchBtn.textContent = '⇄ Shaka';
-
-      setStatus(null);
-      loadJW();
-    }
-
-    function switchToShaka() {
-      if (activePlayer === 'shaka') return;
-
-      activePlayer = 'shaka';
-
-      if (jwInstance) {
-        try { jwInstance.stop(); } catch (e) {}
-      }
-
-      jwContainer.style.display = 'none';
-      shakaContainer.style.display = 'block';
-
-      playerLabel.textContent = 'Shaka';
-      switchBtn.textContent = '⇄ JW Player';
-
-      attempt = 0;
-      stopped = false;
-      setStatus(null);
-      loadShaka();
-    }
+    engineBtn.addEventListener('click', switchEngine);
 
     reloadBtn.addEventListener('click', () => {
       clearTimeout(retryTimer);
       attempt = 0;
       stopped = false;
-
-      if (activePlayer === 'shaka') loadShaka();
-      else loadJW();
-    });
-
-    switchBtn.addEventListener('click', () => {
-      if (activePlayer === 'shaka') switchToJW();
-      else switchToShaka();
+      loadStream();
     });
 
     (async () => {
-      await buildShakaPlayer();
-      loadShaka();
+      updateEngineButton();
+      await buildPlayer();
+      loadStream();
     })();
   </script>
 </body>
