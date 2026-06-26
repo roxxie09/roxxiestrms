@@ -218,7 +218,7 @@
             </div>
 
             <div class="streamchanger">
-                <button id="btn-tsn" class="streambutton" onclick="showPlayer('clappr', getRandomStream('tnt3.m3u8', '601'))">TNT 3</button>
+                <button id="btn-tsn" class="streambutton" onclick="showPlayer('clappr', getRandomStream('tnt3.m3u8', '602'))">TNT 3</button>
                 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('trutv.m3u8', 'daffodil'))">TRUTV</button>
                 <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/tnt3')">PC ONLY (DIRECT)</button>
             </div>
@@ -247,7 +247,7 @@ var currentChat = 'yt';
 var shakaPlayer;
 var shakaUI;
 var domains = [];
-var subdomain = '601';  // Edit this per HTML file
+var subdomain = '602';  // Edit this per HTML file
 
 function isDesktop() {
   return !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
@@ -271,7 +271,7 @@ fetch('domainsz37.txt')
       if (isDesktop()) {
         playIframePlayer('https://roxiestreams.info/raw/tnt3');
       } else {
-        showPlayer('clappr', getRandomStream('tnt3.m3u8', '601'));
+        showPlayer('clappr', getRandomStream('tnt3.m3u8', '602'));
       }
     }, 500);
   })
@@ -279,7 +279,7 @@ fetch('domainsz37.txt')
     console.error('Failed to load domainsz37.txt');
   });
 
-function getRandomStream(streamPath, subdomain = '601') {
+function getRandomStream(streamPath, subdomain = '602') {
   if (domains.length === 0) {
     return `https://${subdomain}.shadow-ran.online/${streamPath}`; // Fallback
   }
