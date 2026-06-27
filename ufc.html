@@ -218,9 +218,8 @@
             </div>
 
             <div class="streamchanger">
-                <button id="btn-tsn" class="streambutton" onclick="showPlayer('clappr', getRandomStream('happybirthdayabb.m3u8', '602'))">Stream 1 (PARA)</button>
-                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('sn.m3u8', '602'))">Stream 2 (SN)</button>
-                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tnt.m3u8', '602'))">Stream 3 (TNT)</button>
+                <button id="btn-tsn" class="streambutton" onclick="showPlayer('clappr', getRandomStream('happybirthdayabb.m3u8', 'ataide0'))">Stream 1 (PARA)</button>
+                <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tnt.m3u8', '602'))">Stream 2 (TNT)</button>
                 <button id="btn-pconly" class="streambutton" onclick="playIframePlayer('https://roxiestreams.info/raw/tnt')">PC ONLY (DIRECT)</button>
             </div>
             <div class="embedchat">
@@ -248,7 +247,7 @@ var currentChat = 'yt';
 var shakaPlayer;
 var shakaUI;
 var domains = [];
-var subdomain = '602';  // Edit this per HTML file
+var subdomain = 'ataide0';  // Edit this per HTML file
 
 function isDesktop() {
   return !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
@@ -272,7 +271,7 @@ fetch('domainsz37.txt')
       if (isDesktop()) {
         playIframePlayer('https://roxiestreams.info/raw/tnt');
       } else {
-        showPlayer('clappr', getRandomStream('happybirthdayabb.m3u8', '602'));
+        showPlayer('clappr', getRandomStream('happybirthdayabb.m3u8', 'ataide0'));
       }
     }, 500);
   })
@@ -280,7 +279,7 @@ fetch('domainsz37.txt')
     console.error('Failed to load domainsz37.txt');
   });
 
-function getRandomStream(streamPath, subdomain = '602') {
+function getRandomStream(streamPath, subdomain = 'ataide0') {
   if (domains.length === 0) {
     return `https://${subdomain}.shadow-ran.online/${streamPath}`; // Fallback
   }
