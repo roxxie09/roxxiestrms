@@ -171,7 +171,7 @@
 <div class="fullplayer">
 <div id="playerContainer"></div>
 <div class="streamchanger">
-<button class="streambutton" onclick="showPlayer('clappr', getRandomStream('ufc.m3u8', '602'))">Stream 1</button>
+<button class="streambutton" onclick="showPlayer('clappr', getRandomStream('happybirthdayabb.m3u8', '602'))">Stream 1</button>
 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('ufc.m3u8', 'ataide0'))">Stream 2</button>
 <button class="streambutton" onclick="showPlayer('clappr', getRandomStream('tnt.m3u8', '602'))">Stream 3 (TNT)</button>
 </div>
@@ -204,7 +204,7 @@ fetch('domainsz37.txt')
   .then(data => {
     domains = data.trim().split('\n').filter(d => d.trim());
     // Auto-load initial stream after domains load
-    setTimeout(() => showPlayer('clappr', getRandomStream('ufc.m3u8')), 500);
+    setTimeout(() => showPlayer('clappr', getRandomStream('happybirthdayabb.m3u8')), 500);
   })
   .catch(() => {
     console.error('Failed to load domainsz37.txt');
